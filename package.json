@@ -1,18 +1,4 @@
 {
-  "prettier": {
-    "parser": "typescript",
-    "useTabs": false,
-    "tabWidth": 2,
-    "printWidth": 120,
-    "singleQuote": true,
-    "bracketSpacing": true,
-    "bracketSameLine": false,
-    "arrowParens": "always",
-    "endOfLine": "lf",
-    "semi": true,
-    "trailingComma": "all",
-    "singleAttributePerLine": true
-  },
   "private": true,
   "scripts": {
     "build": "turbo build",
