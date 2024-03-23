@@ -49,7 +49,8 @@ module.exports = {
     "arrow-parens": "error",
     "no-useless-escape": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "react/no-unknown-property": "off",
   },
   overrides: [
     {
