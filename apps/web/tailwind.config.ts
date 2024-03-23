@@ -1,10 +1,10 @@
 // tailwind config is required for editor support
 
-import type { Config } from "tailwindcss";
-import sharedConfig from "@review-canvas/tailwind-config";
+import type { Config } from 'tailwindcss';
+import sharedConfig from '@review-canvas/tailwind-config';
 
-const config: Pick<Config, "content" | "presets"> = {
-  content: ["./src/app/**/*.tsx", "./src/components/**/*.tsx"],
+const config: Pick<Config, 'content' | 'presets'> = {
+  content: ['./src/app/**/*.tsx', './src/components/**/*.tsx'],
   presets: [sharedConfig],
 };
 
