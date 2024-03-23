@@ -1,3 +1,4 @@
 module.exports = {
-  extends: ["@review-canvas/eslint-config/next.js"],
+  root: true,
+  extends: ['@review-canvas/eslint-config/next.js'],
 };
