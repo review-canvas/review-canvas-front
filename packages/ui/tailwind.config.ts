@@ -3,7 +3,6 @@ import sharedConfig from "@review-canvas/tailwind-config";
 
 const config: Pick<Config, "prefix" | "presets" | "content"> = {
   content: ["./src/**/*.tsx"],
-  prefix: "ui-",
   presets: [sharedConfig],
 };
 
