@@ -48,7 +48,8 @@ module.exports = {
     "lines-between-class-members": "error",
     "arrow-parens": "error",
     "no-useless-escape": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   overrides: [
     {
