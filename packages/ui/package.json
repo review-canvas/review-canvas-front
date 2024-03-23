@@ -5,7 +5,8 @@
     "**/*.css"
   ],
   "exports": {
-    "./styles.css": "./dist/index.css"
+    "./styles.css": "./dist/index.css",
+    "./button": "./src/components/button.tsx"
   },
   "license": "MIT",
   "scripts": {
