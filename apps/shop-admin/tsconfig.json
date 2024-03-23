@@ -2,9 +2,8 @@
   "extends": "@review-canvas/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["src/*"]
-    },
-    "plugins": [{ "name": "next" }]
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
