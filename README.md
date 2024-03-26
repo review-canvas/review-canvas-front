@@ -26,7 +26,7 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Building packages/ui
 
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.js`. This was chosen for several reasons:
+This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.mjs`. This was chosen for several reasons:
 
 - Make sharing one `tailwind.config.js` to apps and packages as easy as possible.
 - Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.

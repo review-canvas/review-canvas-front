@@ -1,20 +1,13 @@
 'use client';
 
-import styled from '@emotion/styled';
-
-export default function Button({ children, onClick }: { children: React.ReactNode; onClick: () => void }): JSX.Element {
+export default function Button({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
   return (
-    <Styled
+    <button
       onClick={onClick}
+      tw="bg-black text-white"
       type="button"
     >
       {children}
-    </Styled>
+    </button>
   );
 }
-
-const Styled = styled.button`
-  background: black;
-  color: white;
-  font-size: 24px;
-`
