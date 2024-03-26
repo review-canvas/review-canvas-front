@@ -9,7 +9,6 @@ const uiModulePath = url.fileURLToPath(new URL('../../packages/ui', import.meta.
 
 // The folders containing files importing twin.macro
 const includedDirs = [path.resolve(__dirname, 'src'), path.resolve(__dirname, uiModulePath.replace('file://', ''))];
-console.log(uiModulePath, includedDirs);
 
 /** @returns {import('next').NextConfig} */
 export default function withTwin(
