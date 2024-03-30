@@ -5,6 +5,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "dev:web": "turbo dev --filter web --filter @review-canvas/ui",
+    "dev:shop-admin": "turbo dev --filter shop-admin --filter @review-canvas/ui",
+    "dev:super-admin": "turbo dev --filter super-admin --filter @review-canvas/ui",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
