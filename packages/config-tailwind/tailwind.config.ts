@@ -8,6 +8,13 @@ const config: Omit<Config, 'content'> = {
   theme: {
     extend: {},
   },
-  plugins: [typographyPlugin, animationPlugin, scrollbarPlugin, daisyuiPlugin],
+  plugins: [
+    typographyPlugin({
+      className: 'typo',
+    }),
+    animationPlugin,
+    scrollbarPlugin,
+    daisyuiPlugin,
+  ],
 };
 export default config;
