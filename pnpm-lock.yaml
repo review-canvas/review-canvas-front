@@ -35,9 +35,9 @@ importers:
       '@react-hookz/web':
         specifier: ^24.0.4
         version: 24.0.4(react-dom@18.2.0)(react@18.2.0)
-      '@review-canvas/ui':
+      '@review-canvas/admin-ui':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/admin-ui
       '@tanstack/react-query':
         specifier: ^5.28.8
         version: 5.28.8(react@18.2.0)
@@ -129,9 +129,9 @@ importers:
       '@react-hookz/web':
         specifier: ^24.0.4
         version: 24.0.4(react-dom@18.2.0)(react@18.2.0)
-      '@review-canvas/ui':
+      '@review-canvas/admin-ui':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/admin-ui
       '@tanstack/react-query':
         specifier: ^5.28.8
         version: 5.28.8(react@18.2.0)
@@ -303,42 +303,7 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
-  packages/config-eslint:
-    devDependencies:
-      '@vercel/style-guide':
-        specifier: ^5.2.0
-        version: 5.2.0(eslint@8.57.0)(prettier@3.2.5)(typescript@5.3.3)
-      eslint-config-turbo:
-        specifier: ^1.12.4
-        version: 1.13.0(eslint@8.57.0)
-
-  packages/config-tailwind:
-    devDependencies:
-      '@review-canvas/typescript-config':
-        specifier: workspace:*
-        version: link:../config-typescript
-      '@tailwindcss/typography':
-        specifier: ^0.5.10
-        version: 0.5.10(tailwindcss@3.4.1)
-      daisyui:
-        specifier: ^4.9.0
-        version: 4.9.0(postcss@8.4.38)
-      tailwind-scrollbar:
-        specifier: ^3.1.0
-        version: 3.1.0(tailwindcss@3.4.1)
-      tailwind-scrollbar-hide:
-        specifier: ^1.1.7
-        version: 1.1.7
-      tailwindcss:
-        specifier: ^3.4.1
-        version: 3.4.1
-      tailwindcss-animate:
-        specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@3.4.1)
-
-  packages/config-typescript: {}
-
-  packages/ui:
+  packages/admin-ui:
     dependencies:
       '@emotion/react':
         specifier: ^11.11.4
@@ -377,6 +342,41 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
+
+  packages/config-eslint:
+    devDependencies:
+      '@vercel/style-guide':
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@8.57.0)(prettier@3.2.5)(typescript@5.3.3)
+      eslint-config-turbo:
+        specifier: ^1.12.4
+        version: 1.13.0(eslint@8.57.0)
+
+  packages/config-tailwind:
+    devDependencies:
+      '@review-canvas/typescript-config':
+        specifier: workspace:*
+        version: link:../config-typescript
+      '@tailwindcss/typography':
+        specifier: ^0.5.10
+        version: 0.5.10(tailwindcss@3.4.1)
+      daisyui:
+        specifier: ^4.9.0
+        version: 4.9.0(postcss@8.4.38)
+      tailwind-scrollbar:
+        specifier: ^3.1.0
+        version: 3.1.0(tailwindcss@3.4.1)
+      tailwind-scrollbar-hide:
+        specifier: ^1.1.7
+        version: 1.1.7
+      tailwindcss:
+        specifier: ^3.4.1
+        version: 3.4.1
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.4.1)
+
+  packages/config-typescript: {}
 
 packages:
 
