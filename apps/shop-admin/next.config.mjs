@@ -4,6 +4,7 @@ import withTwin from './with-twin.mjs';
 const config = {
   reactStrictMode: true,
   transpilePackages: ['@review-canvas/ui'],
+  output: 'standalone',
 };
 
 export default withTwin(config);
