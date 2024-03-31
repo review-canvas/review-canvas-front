@@ -1,5 +1,5 @@
 {
-  "name": "@review-canvas/ui",
+  "name": "@review-canvas/admin-ui",
   "version": "0.0.0",
   "sideEffects": [
     "**/*.css"

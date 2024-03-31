@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@review-canvas/ui/button';
+import Button from '@review-canvas/admin-ui/button';
 
 export default function Page(): React.ReactNode {
   return (
