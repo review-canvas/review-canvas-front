@@ -1,6 +1,5 @@
 'use client';
 
-import '@review-canvas/ui/styles.css';
 import './globals.css';
 
 import React from 'react';
