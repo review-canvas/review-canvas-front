@@ -6,6 +6,13 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
+    "web#build": {},
+    "shop-admin#build": {
+      "dependsOn": ["@review-canvas/admin-ui#build"]
+    },
+    "super-admin#build": {
+      "dependsOn": ["@review-canvas/admin-ui#build"]
+    },
     "lint": {},
     "type-check": {},
     "dev": {
