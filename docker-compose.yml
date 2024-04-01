@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+  shop-admin:
+    build:
+      context: .
+      dockerfile: ./apps/shop-admin/Dockerfile
+    ports:
+      - "3001:3001"
+  super-admin:
+    build:
+      context: .
+      dockerfile: ./apps/super-admin/Dockerfile
+    ports:
+      - "3002:3002"
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
+      - shop-admin
+      - super-admin
