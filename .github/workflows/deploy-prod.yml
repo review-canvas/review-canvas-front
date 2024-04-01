@@ -1,0 +1,63 @@
+name: Deploy to Production on Change
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'apps/web/**'
+      - 'apps/shop-admin/**'
+      - 'apps/super-admin/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: latest
+        AWS_ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
+      run: |
+        PROJECTS_CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'apps/web/|apps/shop-admin/|apps/super-admin/' | awk -F'/' '{print $2}' | uniq)
+        for PROJECT in $PROJECTS_CHANGED; do
+          IMAGE_URI="${ECR_REGISTRY}/${AWS_ECR_REPOSITORY}:${IMAGE_TAG}"
+          
+          echo "Building $PROJECT"
+          docker build -t $IMAGE_URI ./apps/$PROJECT
+          
+          echo "Pushing $IMAGE_URI"
+          docker push $IMAGE_URI
+          
+          echo "::set-output name=${PROJECT}_image_uri::$IMAGE_URI"
+        done
+
+    - name: Update EC2 service
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.AWS_EC2_HOST }}
+        username: ${{ secrets.AWS_EC2_USERNAME }}
+        key: ${{ secrets.AWS_EC2_SSH_KEY }}
+        script: |
+          PROJECTS_CHANGED=$(echo "${{ steps.build.outputs.projects_changed }}" | tr ' ' '\n')
+          for PROJECT in $PROJECTS_CHANGED; do
+            IMAGE_URI=$(echo "${{ steps.build.outputs.${PROJECT}_image_uri }}")
+            docker pull $IMAGE_URI
+            docker tag $IMAGE_URI myproject/${PROJECT}:latest
+            docker-compose -f docker-compose.yml up -d ${PROJECT}
+          done
