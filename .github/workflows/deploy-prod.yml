@@ -34,12 +34,14 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
 
     - name: Build, tag, and push image to Amazon ECR
+      id: build
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: latest
         AWS_ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
       run: |
         PROJECTS_CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E 'apps/web/|apps/shop-admin/|apps/super-admin/' | awk -F'/' '{print $2}' | uniq)
+        IMAGE_URIS=""
         for PROJECT in $PROJECTS_CHANGED; do
           IMAGE_URI="${ECR_REGISTRY}/${AWS_ECR_REPOSITORY}:${IMAGE_TAG}"
           
@@ -49,8 +51,11 @@ jobs:
           echo "Pushing $IMAGE_URI"
           docker push $IMAGE_URI
           
-          echo "::set-output name=${PROJECT}_image_uri::$IMAGE_URI"
+          # 모든 이미지 URI를 하나의 문자열에 추가
+          IMAGE_URIS+="$PROJECT=$IMAGE_URI;"
         done
+        
+        echo "::set-output name=image_uris::$IMAGE_URIS"
 
     - name: Update EC2 service
       uses: appleboy/ssh-action@master
@@ -59,10 +64,15 @@ jobs:
         username: ${{ secrets.AWS_EC2_USERNAME }}
         key: ${{ secrets.AWS_EC2_SSH_KEY }}
         script: |
-          PROJECTS_CHANGED=$(echo "${{ steps.build.outputs.projects_changed }}" | tr ' ' '\n')
-          for PROJECT in $PROJECTS_CHANGED; do
-            IMAGE_URI=$(echo "${{ steps.build.outputs.${PROJECT}_image_uri }}")
-            docker pull $IMAGE_URI
-            docker tag $IMAGE_URI myproject/${PROJECT}:latest
-            docker-compose -f docker-compose.yml up -d ${PROJECT}
+          IMAGE_URIS="${{ steps.build.outputs.image_uris }}"
+          IFS=';' read -ra ADDR <<< "$IMAGE_URIS"
+          for i in "${ADDR[@]}"; do
+            IFS='=' read -ra PROJECT_AND_URI <<< "$i"
+            PROJECT="${PROJECT_AND_URI[0]}"
+            IMAGE_URI="${PROJECT_AND_URI[1]}"
+            if [ -n "$PROJECT" ] && [ -n "$IMAGE_URI" ]; then
+              docker pull $IMAGE_URI
+              docker tag $IMAGE_URI myproject/${PROJECT}:latest
+              docker-compose -f docker-compose.yml up -d ${PROJECT}
+            fi
           done
