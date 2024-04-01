@@ -25,9 +25,6 @@ FROM base AS builder
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
-# node_modules가 없으면 설치하는 로직 추가
-RUN if [ ! -d "node_modules" ]; then pnpm install --frozen-lockfile; fi
-
 # 빌드할 프로젝트를 동적으로 선택하여 빌드합니다.
 RUN pnpm build:shop-admin
 
