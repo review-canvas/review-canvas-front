@@ -25,6 +25,8 @@ FROM base AS builder
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
+WORKDIR /app
+
 # 빌드할 프로젝트를 동적으로 선택하여 빌드합니다.
 RUN pnpm build:web
 
