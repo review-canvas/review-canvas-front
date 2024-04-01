@@ -9,6 +9,11 @@ on:
       - 'apps/web/**'
       - 'apps/shop-admin/**'
       - 'apps/super-admin/**'
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: 'Deploy to Production Manually'
+        required: false
 
 jobs:
   deploy:
