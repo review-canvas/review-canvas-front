@@ -23,6 +23,7 @@ RUN pnpm install --frozen-lockfile
 # 나머지 프로젝트 파일들을 복사합니다.
 FROM base AS builder
 COPY . .
+COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=deps /app/packages/config-eslint/node_modules ./packages/config-eslint/node_modules
 COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
@@ -30,7 +31,7 @@ COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-ta
 WORKDIR /app
 
 # 빌드할 프로젝트를 동적으로 선택하여 빌드합니다.
-RUN pnpm build:web
+RUN pnpm run build:web
 
 # 실행 단계
 FROM base AS runner
