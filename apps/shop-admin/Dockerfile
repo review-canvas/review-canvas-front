@@ -16,6 +16,7 @@ COPY package.json pnpm-lock.yaml ./
 
 # 프로젝트의 package.json 파일을 복사합니다. 예: apps/web/package.json
 COPY ./apps/shop-admin/package.json ./apps/shop-admin/
+COPY ./packages/**/package.json ./packages/**/
 
 # 모노레포 구조에서 필요한 패키지를 설치합니다.
 RUN pnpm install --frozen-lockfile
@@ -23,10 +24,7 @@ RUN pnpm install --frozen-lockfile
 # 나머지 프로젝트 파일들을 복사합니다.
 FROM base AS builder
 COPY . .
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/shop-admin/node_modules ./apps/shop-admin/node_modules
-COPY --from=deps /app/packages/admin-ui/node_modules ./packages/admin-ui/node_modules
-COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
+COPY --from=deps /app/**/node_modules ./**/node_modules
 
 WORKDIR /app
 
@@ -47,9 +45,9 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/apps/shop-admin ./apps/shop-admin
 COPY --from=builder --chown=nextjs:nodejs /app/packages ./packages
-COPY --from=builder --chown=nextjs:nodejs /app/turbo.json ./turbo.json
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
-COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
+COPY --from=builder --chown=nextjs:nodejs /app/turbo.json ./
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
+COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./
 
 USER nextjs
 EXPOSE 3001
