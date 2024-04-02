@@ -22,8 +22,10 @@ services:
     ports:
       - "3002:3002"
   nginx:
-    container_name: nginx
-    image: nginx:latest
+    image: nginx-custom:latest
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     restart: always
     ports:
       - '80:80'
