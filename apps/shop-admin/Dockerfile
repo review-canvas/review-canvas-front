@@ -12,9 +12,7 @@ WORKDIR /app
 
 # 프로젝트의 루트에서 package.json과 pnpm-lock.yaml 파일을 복사합니다.
 FROM base AS deps
-COPY package.json pnpm-lock.yaml ./
-
-# 프로젝트의 package.json 파일을 복사합니다. 예: apps/web/package.json
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY ./apps/shop-admin/package.json ./apps/shop-admin/
 COPY ./packages/**/package.json ./packages/**/
 
