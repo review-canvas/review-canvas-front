@@ -51,7 +51,6 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: latest
         AWS_ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
-        AWS_IAM_USERNAME: ${{ secrets.AWS_IAM_USERNAME }}
       run: |
           docker-compose build
           services=$(docker-compose config --services)
@@ -59,9 +58,9 @@ jobs:
           for service in $services; do
             ecr_image_name="$ECR_REGISTRY/$AWS_ECR_REPOSITORY:$service-latest"
 
-            docker tag $service $AWS_IAM_USERNAME/$ecr_image_name
+            docker tag $service front-$ecr_image_name
       
-            docker push $AWS_IAM_USERNAME/$ecr_image_name
+            docker push front-$ecr_image_name
           done
 
     - name: Update EC2 service
