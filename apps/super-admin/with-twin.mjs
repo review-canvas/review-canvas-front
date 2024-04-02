@@ -5,10 +5,9 @@ import * as path from 'path';
 import * as url from 'url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-const uiModulePath = url.fileURLToPath(new URL('../../packages/admin-ui', import.meta.url));
 
 // The folders containing files importing twin.macro
-const includedDirs = [path.resolve(__dirname, 'src'), path.resolve(__dirname, uiModulePath.replace('file://', ''))];
+const includedDirs = [path.resolve(__dirname, 'src'), path.resolve(__dirname, '../../packages/admin-ui')];
 
 /** @returns {import('next').NextConfig} */
 export default function withTwin(
