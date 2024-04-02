@@ -48,9 +48,9 @@ jobs:
         AWS_ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
       run: |
           docker-compose build
-          docker tag review-canvas-front:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:latest"
+          docker tag review-canvas-front:latest $ECR_REGISTRY/$AWS_ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$AWS_ECR_REPOSITORY:latest
+          echo "image=$ECR_REGISTRY/$AWS_ECR_REPOSITORY:latest"
 
     - name: Update EC2 service
       uses: appleboy/ssh-action@master
