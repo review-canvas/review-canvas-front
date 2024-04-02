@@ -22,7 +22,7 @@ services:
     ports:
       - "3002:3002"
   nginx:
-    image: nginx-custom:latest
+    image: nginx:latest
     build:
       context: .
       dockerfile: ./nginx/Dockerfile

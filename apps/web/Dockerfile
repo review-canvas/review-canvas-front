@@ -55,6 +55,6 @@ USER nextjs
 EXPOSE 3000
 ENV PORT 3000
 
-WORKDIR /app/apps/web
+WORKDIR /app
 
 CMD ["pnpm", "run", "start", "--filter", "web"]
