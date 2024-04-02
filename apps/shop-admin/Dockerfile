@@ -24,6 +24,10 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/shop-admin/node_modules ./apps/shop-admin/node_modules
+COPY --from=deps /app/packages/admin-ui/node_modules ./packages/admin-ui/node_modules
+COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
+COPY --from=deps /app/packages/config-typescript/node_modules ./packages/config-typescript/node_modules
 
 WORKDIR /app
 
@@ -41,14 +45,17 @@ RUN addgroup --system --gid 1001 nodejs \
 # 빌드된 아티팩트 복사
 # Turborepo를 사용하는 경우, 필요한 아티팩트만 선택해서 복사합니다.
 # 예시에서는 next.js 앱을 위한 파일을 복사합니다.
-COPY --from=builder --chown=nextjs:nodejs /app/apps/shop-admin/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/apps/shop-admin/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/apps/shop-admin/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/apps/shop-admin ./apps/shop-admin
+COPY --from=builder --chown=nextjs:nodejs /app/packages ./packages
+COPY --from=builder --chown=nextjs:nodejs /app/turbo.json ./turbo.json
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 
 USER nextjs
 EXPOSE 3001
 ENV PORT 3001
 
-WORKDIR /app/apps/shop-admin
+WORKDIR /app
 
-CMD ["node", "server.js"]
+CMD ["pnpm", "run", "start", "--filter", "shop-admin"]
