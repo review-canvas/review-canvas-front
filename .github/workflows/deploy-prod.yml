@@ -53,7 +53,7 @@ jobs:
           for service in $services; do
             ecr_image_name="$ECR_REGISTRY/$AWS_ECR_REPOSITORY:$service-latest"
 
-            docker tag $service:latest $ecr_image_name
+            docker tag $service $ecr_image_name
       
             docker push $ecr_image_name
           done
