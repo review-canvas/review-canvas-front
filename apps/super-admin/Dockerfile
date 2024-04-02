@@ -27,7 +27,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/super-admin/node_modules ./apps/super-admin/node_modules
 COPY --from=deps /app/packages/admin-ui/node_modules ./packages/admin-ui/node_modules
 COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
-COPY --from=deps /app/packages/config-typescript/node_modules ./packages/config-typescript/node_modules
 
 WORKDIR /app
 

@@ -26,7 +26,6 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
-COPY --from=deps /app/packages/config-typescript/node_modules ./packages/config-typescript/node_modules
 
 WORKDIR /app
 
