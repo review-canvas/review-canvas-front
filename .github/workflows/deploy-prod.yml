@@ -56,11 +56,11 @@ jobs:
           services=$(docker-compose config --services)
     
           for service in $services; do
-            ecr_image_name="$ECR_REGISTRY/$AWS_ECR_REPOSITORY:$service-latest"
+            ecr_image_name="$ECR_REGISTRY/$AWS_ECR_REPOSITORY:front-$service-latest"
 
-            docker tag $service front-$ecr_image_name
+            docker tag $service $ecr_image_name
       
-            docker push front-$ecr_image_name
+            docker push $ecr_image_name
           done
 
     - name: Update EC2 service
