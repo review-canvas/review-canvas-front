@@ -13,7 +13,9 @@ WORKDIR /app
 FROM base AS deps
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY ./apps/web/package.json ./apps/web/
-COPY ./packages/**/package.json ./packages/**/
+COPY ./packages/config-eslint/package.json ./packages/config-eslint/
+COPY ./packages/config-tailwind/package.json ./packages/config-tailwind/
+COPY ./packages/config-typescript/package.json ./packages/config-typescript/
 
 # 모노레포 구조에서 필요한 패키지를 설치합니다.
 RUN pnpm install --frozen-lockfile
@@ -21,7 +23,9 @@ RUN pnpm install --frozen-lockfile
 # 나머지 프로젝트 파일들을 복사합니다.
 FROM base AS builder
 COPY . .
-COPY --from=deps /app/**/node_modules ./**/node_modules
+COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY --from=deps /app/packages/config-eslint/node_modules ./packages/config-eslint/node_modules
+COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
 
 WORKDIR /app
 
