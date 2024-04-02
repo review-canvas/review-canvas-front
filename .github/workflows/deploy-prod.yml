@@ -60,7 +60,7 @@ jobs:
 
             docker tag $service review-canvas-front/$ecr_image_name
       
-            docker push $ecr_image_name
+            docker push review-canvas-front/$ecr_image_name
           done
 
     - name: Update EC2 service
