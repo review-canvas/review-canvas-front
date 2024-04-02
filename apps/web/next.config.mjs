@@ -7,4 +7,3 @@ const config = {
 };
 
 export default withTwin(config);
-// export default config;
