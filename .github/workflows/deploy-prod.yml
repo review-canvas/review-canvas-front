@@ -84,9 +84,10 @@ jobs:
           aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
           IMAGE_URIS="${{ steps.build-image.outputs.image_uris }}"
           
-          # Nginx 컨테이너 먼저 실행
-          docker pull nginx:latest
-          docker run -d --name nginx -p 80:80 nginx:latest
+          # Nginx 이미지 먼저 pull 및 실행
+          NGINX_IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY }}:front-nginx-latest"
+          docker pull $NGINX_IMAGE_URI
+          docker run -d --name nginx -p 80:80 $NGINX_IMAGE_URI
           
           IFS=';' read -ra ADDR <<< "$IMAGE_URIS"
           for i in "${ADDR[@]}"; do
@@ -94,17 +95,17 @@ jobs:
             PROJECT="${PROJECT_AND_URI[0]}"
             IMAGE_URI="${PROJECT_AND_URI[1]}"
             
-            # Nginx는 이미 실행했으므로 건너뜀
+            # Nginx 이미 실행했으므로 건너뜀
             if [ "$PROJECT" == "front-nginx-latest" ]; then
               continue
             fi
-
+    
             LOCAL_IMAGE="${PROJECT#front-}"
-            LOCAL_IMAGE="${LOCAL_IMAGE%-latest}:latest"
-
+            LOCAL_IMAGE="${LOCAL_IMAGE%-latest}"
+    
             if [ -n "$PROJECT" ] && [ -n "$IMAGE_URI" ]; then
               docker pull $IMAGE_URI
-              docker tag $IMAGE_URI $PROJECT:latest
+              docker tag $IMAGE_URI $PROJECT
               docker run -d --name $LOCAL_IMAGE $PROJECT:latest
             fi
           done
