@@ -74,9 +74,9 @@ jobs:
         host: ${{ secrets.AWS_EC2_HOST }}
         username: ${{ secrets.AWS_EC2_USERNAME }}
         key: ${{ secrets.AWS_EC2_SSH_KEY }}
-        envs: AWS_EC2_USERNAME
         script: |
-          scp -o StrictHostKeyChecking=no ./docker-compose.yml ${AWS_EC2_USERNAME}@${{ secrets.AWS_EC2_HOST }}:/home/${AWS_EC2_USERNAME}
+          cd /home/${{ secrets.AWS_EC2_USERNAME }}
+          scp docker-compose.yml ${{ secrets.AWS_EC2_USERNAME }}@${{ secrets.AWS_EC2_HOST }}:/home/${{ secrets.AWS_EC2_USERNAME }}
     
     - name: Update EC2 service
       uses: appleboy/ssh-action@master
