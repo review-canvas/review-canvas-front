@@ -1,4 +1,4 @@
-name: Deploy to Production on Change
+name: Deploy to Production Only EC2 With Manual Trigger
 
 on:
   workflow_dispatch:
