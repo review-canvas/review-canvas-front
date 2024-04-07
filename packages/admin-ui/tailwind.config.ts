@@ -14,6 +14,9 @@ const config: Pick<Config, 'prefix' | 'presets' | 'content' | 'theme'> = {
       xl: [rem(22), { lineHeight: rem(32), fontWeight: 500 }],
       '2xl': [rem(26), { lineHeight: rem(38), fontWeight: 500 }],
     },
+    borderRadius: {
+      '5': rem(5),
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
