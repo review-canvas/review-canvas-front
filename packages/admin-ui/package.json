@@ -9,7 +9,8 @@
       "import": "./src"
     },
     "./styles.css": "./dist/index.css",
-    "./button": "./src/components/button.tsx"
+    "./components": "./src/components/index.ts",
+    "./tailwind.config.ts": "./tailwind.config.ts"
   },
   "license": "MIT",
   "scripts": {
