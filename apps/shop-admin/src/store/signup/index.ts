@@ -1,17 +1,30 @@
+import type { SignupStore } from '@/types/signup';
+
 import { create } from 'zustand';
-
-interface SignupStore {
-  currentStep: string;
-  steps: string[];
-
-  setCurrentStep: (step: string) => void;
-  goToNextStep: () => void;
-  goToPrevStep: () => void;
-}
 
 const useSignupStore = create<SignupStore>((set) => ({
   currentStep: 'step1',
   steps: ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7'],
+  formData: {
+    setting: {
+      title: false,
+      author: false,
+      point: false,
+      media: false,
+      content: false,
+      createdAt: false,
+      updatedAt: false,
+      themeId: 0
+    },
+    info: {
+      email: '',
+      password: '',
+      name: '',
+      logoImageUrl: '',
+      mallNumber: '',
+      phoneNumber: ''
+    }
+  },
   setCurrentStep: (step) => {
     set({ currentStep: step });
   },
@@ -34,6 +47,14 @@ const useSignupStore = create<SignupStore>((set) => ({
       }
       return {};
     });
+  },
+  updateFormData: (newData) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        ...newData,
+      },
+    }));
   },
 }));
 
