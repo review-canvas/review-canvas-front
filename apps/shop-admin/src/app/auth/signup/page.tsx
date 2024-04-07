@@ -23,7 +23,7 @@ const StepComponentsMap = new Map<string, () => React.ReactElement>([
   ['step7', () => <Step7 />],
 ])
 
-function Signup() {
+function SignUpPage() {
   const { currentStep } = useSignupStore();
   const router = useRouter();
 
@@ -43,4 +43,4 @@ function Signup() {
   );
 }
 
-export default Signup
+export default SignUpPage
