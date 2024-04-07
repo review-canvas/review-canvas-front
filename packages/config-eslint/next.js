@@ -62,7 +62,7 @@ module.exports = {
             position: 'after',
           },
           {
-            pattern: '@/*',
+            pattern: '@/**/*',
             group: 'index',
             position: 'after',
           },
