@@ -10,7 +10,9 @@
     },
     "./styles.css": "./dist/index.css",
     "./components": "./src/components/index.ts",
-    "./tailwind.config.ts": "./tailwind.config.ts"
+    "./tailwind.config.ts": "./tailwind.config.ts",
+    "./theme": "./src/theme/index.ts",
+    "./types/emotion": "./src/@types/emotion.d.ts"
   },
   "license": "MIT",
   "scripts": {
