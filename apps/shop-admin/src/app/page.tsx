@@ -1,11 +1,17 @@
 'use client';
 
-import Button from '@review-canvas/admin-ui/button';
+import { Checkbox, ToggleButton } from '@review-canvas/admin-ui/components';
+import styled from '@emotion/styled';
 
 export default function Page(): React.ReactNode {
   return (
     <main>
-      <Button onClick={() => {}}>test</Button>
+      <Checkbox>check</Checkbox>
+      <ToggleButton className="w-52 h-8">toggle</ToggleButton>
     </main>
   );
 }
+
+const A = styled.a`
+  color: ${({ theme }) => theme.colors.main.primary};
+`;
