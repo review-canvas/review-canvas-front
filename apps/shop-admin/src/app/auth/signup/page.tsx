@@ -1,48 +1,43 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/navigation';
 
 import Step1 from '@/components/signup/step1';
 import Step2 from '@/components/signup/step2';
+import Step3 from '@/components/signup/step3';
+import Step4 from '@/components/signup/step4';
+import Step5 from '@/components/signup/step5';
+import Step6 from '@/components/signup/step6';
+import Step7 from '@/components/signup/step7';
+import useSignupStore from '@/store/signup';
 
-const steps = ['step1', 'step2'];
+const StepComponentsMap = new Map<string, () => React.ReactElement>([
+  ['step1', () => <Step1 />],
+  ['step2', () => <Step2 />],
+  ['step3', () => <Step3 />],
+  ['step4', () => <Step4 />],
+  ['step5', () => <Step5 />],
+  ['step6', () => <Step6 />],
+  ['step7', () => <Step7 />],
+])
 
 function Signup() {
+  const { currentStep } = useSignupStore();
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(steps[0]);
 
-  const handleNextStep = () => {
-    const nextStepIndex = steps.indexOf(currentStep) + 1;
-    if (nextStepIndex < steps.length) {
-      setCurrentStep(steps[nextStepIndex]);
-      router.push(`/auth/signup#${steps[nextStepIndex]}`)
-    }
-  };
+  useEffect(() => {
+    router.push(`/auth/signup#${currentStep}`, undefined);
+  }, [currentStep, router]);
 
-  const handlePrevStep = () => {
-    const prevStepIndex = steps.indexOf(currentStep) - 1;
-    if (prevStepIndex >= 0) {
-      setCurrentStep(steps[prevStepIndex]);
-      router.push(`/auth/signup#${steps[prevStepIndex]}`)
-    }
-  };
+  const CurrentStepComponent = StepComponentsMap.get(currentStep);
 
   return (
     <div>
       <h1>회원가입</h1>
       <div>
-        {currentStep === 'step1' && <Step1 />}
-        {currentStep === 'step2' && <Step2 />}
-      </div>
-      <div>
-        {currentStep !== 'step1' && (
-          <button onClick={handlePrevStep}>이전 단계</button>
-        )}
-        {currentStep !== 'step3' && (
-          <button onClick={handleNextStep}>다음 단계</button>
-        )}
+        {CurrentStepComponent ? <CurrentStepComponent /> : <p>No Step</p>} 
       </div>
     </div>
   );

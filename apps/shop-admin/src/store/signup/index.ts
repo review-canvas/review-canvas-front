@@ -11,7 +11,7 @@ interface SignupStore {
 
 const useSignupStore = create<SignupStore>((set) => ({
   currentStep: 'step1',
-  steps: ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'],
+  steps: ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7'],
   setCurrentStep: (step) => {
     set({ currentStep: step });
   },
