@@ -37,4 +37,5 @@ export interface SignupStore {
   goToNextStep: () => void;
   goToPrevStep: () => void;
   updateFormData: (newData: Partial<SignupData>) => void;
+  updateSettingThemeId: (newThemeId: SignupUserSettingData['themeId']) => void;
 }

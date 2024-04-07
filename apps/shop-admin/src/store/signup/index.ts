@@ -56,6 +56,17 @@ const useSignupStore = create<SignupStore>((set) => ({
       },
     }));
   },
+  updateSettingThemeId: (newThemeId) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        setting: {
+          ...state.formData.setting,
+          themeId: newThemeId,
+        },
+      },
+    }));
+  },
 }));
 
 export default useSignupStore;
