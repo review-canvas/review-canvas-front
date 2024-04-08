@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import type { CheckboxGroupProps, CheckboxProps } from '@/types/components/checkboxgroup';
 
-function CheckboxGroup({ label, children, isRequired, necessityIndicator, onCheckedValuesChange }: CheckboxGroupProps) {
-  const [checkedValues, setCheckedValues] = useState<string[]>([]);
+function CheckboxGroup({ label, children, isRequired, necessityIndicator, onCheckedValuesChange, initialCheckedValues = [] }: CheckboxGroupProps) {
+  const [checkedValues, setCheckedValues] = useState<string[]>(initialCheckedValues);
 
   useEffect(() => {
     if (onCheckedValuesChange) {

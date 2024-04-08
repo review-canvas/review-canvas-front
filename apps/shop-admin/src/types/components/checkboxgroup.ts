@@ -20,4 +20,5 @@ export interface CheckboxGroupProps {
   isRequired?: boolean;
   necessityIndicator?: 'icon' | 'label';
   onCheckedValuesChange?: (checkedValues: string[]) => void;
+  initialCheckedValues: string[];
 }
