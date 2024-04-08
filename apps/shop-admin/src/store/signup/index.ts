@@ -25,6 +25,9 @@ const useSignupStore = create<SignupStore>((set) => ({
       mallNumber: '',
       phoneNumber: '',
     },
+    install: {
+      type: 'ASK',
+    }
   },
   setCurrentStep: (step) => {
     set({ currentStep: step });

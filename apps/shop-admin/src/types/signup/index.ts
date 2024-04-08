@@ -24,9 +24,16 @@ export interface SignupUserInfoData {
   phoneNumber: string;
 }
 
+export interface SignupUserInstallData {
+  type: 'MANUAL' | 'ASK';
+  uuid?: string;
+  askDetail?: string;
+}
+
 export interface SignupData {
   setting: SignupUserSettingData;
   info: SignupUserInfoData;
+  install: SignupUserInstallData;
 }
 
 export interface SignupStore {
