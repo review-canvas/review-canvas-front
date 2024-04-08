@@ -48,4 +48,5 @@ export interface SignupStore {
   updateSettingListThemeId: (newThemeId: SignupUserSettingData['listThemeId']) => void;
   updateSettingDetailThemeId: (newThemeId: SignupUserSettingData['detailThemeId']) => void;
   updateReviewActiveSetting: (settings: SignupReviewItemActiveData) => void;
+  updateReviewInstallData: (data: SignupUserInstallData) => void;
 }

@@ -27,7 +27,7 @@ const useSignupStore = create<SignupStore>((set) => ({
     },
     install: {
       type: 'ASK',
-    }
+    },
   },
   setCurrentStep: (step) => {
     set({ currentStep: step });
@@ -89,6 +89,17 @@ const useSignupStore = create<SignupStore>((set) => ({
         setting: {
           ...state.formData.setting,
           ...settings,
+        },
+      },
+    }));
+  },
+  updateReviewInstallData: (data) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        install: {
+          ...state.formData.install,
+          ...data,
         },
       },
     }));
