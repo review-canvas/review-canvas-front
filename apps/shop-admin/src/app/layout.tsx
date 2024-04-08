@@ -5,14 +5,24 @@ import './globals.css';
 
 import React from 'react';
 
+import { ThemeProvider } from '@emotion/react';
+
+import theme from '@review-canvas/admin-ui/theme';
+
 import GlobalStyles from '@/components/global-styles.tsx';
+import { notoSansKR, roboto } from '@/theme/font.ts';
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko">
+    <html
+      className={`${roboto.className} ${notoSansKR.className}`}
+      lang="ko"
+    >
       <body>
-        <GlobalStyles />
-        {children}
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

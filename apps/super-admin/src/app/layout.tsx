@@ -6,10 +6,11 @@ import './globals.css';
 import React from 'react';
 
 import GlobalStyles from '@/components/global-styles.tsx';
+import { notoSansKR, roboto } from '@/theme/font.ts';
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko">
+    <html className={`${roboto.className} ${notoSansKR.className}`} lang="ko">
       <body>
         <GlobalStyles />
         {children}
