@@ -14,7 +14,7 @@ const useSignupStore = create<SignupStore>((set) => ({
       content: false,
       createdAt: false,
       updatedAt: false,
-      themeId: 0
+      themeId: 0,
     },
     info: {
       email: '',
@@ -22,8 +22,8 @@ const useSignupStore = create<SignupStore>((set) => ({
       name: '',
       logoImageUrl: '',
       mallNumber: '',
-      phoneNumber: ''
-    }
+      phoneNumber: '',
+    },
   },
   setCurrentStep: (step) => {
     set({ currentStep: step });
@@ -63,6 +63,17 @@ const useSignupStore = create<SignupStore>((set) => ({
         setting: {
           ...state.formData.setting,
           themeId: newThemeId,
+        },
+      },
+    }));
+  },
+  updateReviewActiveSetting: (settings) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        setting: {
+          ...state.formData.setting,
+          ...settings,
         },
       },
     }));
