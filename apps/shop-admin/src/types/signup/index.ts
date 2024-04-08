@@ -9,7 +9,8 @@ export interface SignupReviewItemActiveData {
 }
 
 export interface SignupReviewThemeData {
-  themeId: number;
+  listThemeId: number;
+  detailThemeId: number;
 }
 
 export interface SignupUserSettingData extends SignupReviewItemActiveData, SignupReviewThemeData {}
@@ -37,6 +38,7 @@ export interface SignupStore {
   goToNextStep: () => void;
   goToPrevStep: () => void;
   updateFormData: (newData: Partial<SignupData>) => void;
-  updateSettingThemeId: (newThemeId: SignupUserSettingData['themeId']) => void;
+  updateSettingListThemeId: (newThemeId: SignupUserSettingData['listThemeId']) => void;
+  updateSettingDetailThemeId: (newThemeId: SignupUserSettingData['detailThemeId']) => void;
   updateReviewActiveSetting: (settings: SignupReviewItemActiveData) => void;
 }

@@ -14,7 +14,8 @@ const useSignupStore = create<SignupStore>((set) => ({
       content: false,
       createdAt: false,
       updatedAt: false,
-      themeId: 0,
+      listThemeId: 0,
+      detailThemeId: 0,
     },
     info: {
       email: '',
@@ -56,13 +57,24 @@ const useSignupStore = create<SignupStore>((set) => ({
       },
     }));
   },
-  updateSettingThemeId: (newThemeId) => {
+  updateSettingListThemeId: (newThemeId) => {
     set((state) => ({
       formData: {
         ...state.formData,
         setting: {
           ...state.formData.setting,
-          themeId: newThemeId,
+          listThemeId: newThemeId,
+        },
+      },
+    }));
+  },
+  updateSettingDetailThemeId: (newThemeId) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        setting: {
+          ...state.formData.setting,
+          detailThemeId: newThemeId,
         },
       },
     }));

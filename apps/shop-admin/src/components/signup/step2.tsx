@@ -1,9 +1,11 @@
 'use client';
 
-import useSignupStore from '@/store/signup';
-import { RadioGroupItem } from '@/types/components/radiogroup';
-import RadioGroup from '../common/radiogroup';
+import type { RadioGroupItem } from '@/types/components/radiogroup';
+
 import { useState } from 'react';
+
+import RadioGroup from '@/components/common/radiogroup';
+import useSignupStore from '@/store/signup';
 
 function Step2() {
   const themeArr: RadioGroupItem[] = [
@@ -18,12 +20,12 @@ function Step2() {
   ];
 
   const [themeId, setThemeId] = useState(themeArr[0].id);
-  const { goToNextStep, updateSettingThemeId } = useSignupStore();
+  const { goToNextStep, updateSettingListThemeId } = useSignupStore();
 
   const onClickNextStepButton = () => {
-    updateSettingThemeId(Number(themeId))
-    goToNextStep()
-  }
+    updateSettingListThemeId(Number(themeId));
+    goToNextStep();
+  };
 
   return (
     <div>
