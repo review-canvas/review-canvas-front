@@ -58,8 +58,8 @@ const RadioGroup = createCompositeComponent(
                   {isSelected ? (
                     <motion.rect
                       animate={{ opacity: 1 }}
+                      className="fill-main-primary"
                       exit={{ opacity: 0 }}
-                      fill="#3F21BD"
                       height="12"
                       initial={{ opacity: 0 }}
                       rx="3"
