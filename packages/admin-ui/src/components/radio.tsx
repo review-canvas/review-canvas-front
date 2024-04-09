@@ -36,46 +36,44 @@ const RadioGroup = createCompositeComponent(
           tw="inline-flex items-center gap-[7px] w-fit"
           {...props}
         >
-          {({ isSelected }) => {
-            return (
-              <>
-                <svg
-                  fill="none"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  width="18"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <motion.rect
-                    animate={{ stroke: isSelected ? '#3F21BD' : '#8B7FC0' }}
-                    height="17"
-                    rx="5"
-                    transition={{ duration: 0.125 }}
-                    width="17"
-                    x="0.5"
-                    y="0.5"
-                  />
-                  <AnimatePresence>
-                    {isSelected ? (
-                      <motion.rect
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        fill="#3F21BD"
-                        height="12"
-                        initial={{ opacity: 0 }}
-                        rx="3"
-                        transition={{ duration: 0.125 }}
-                        width="12"
-                        x="3"
-                        y="3"
-                      />
-                    ) : null}
-                  </AnimatePresence>
-                </svg>
-                <span tw="text-sm -translate-y-px">{children}</span>
-              </>
-            );
-          }}
+          {({ isSelected }) => (
+            <>
+              <svg
+                fill="none"
+                height="18"
+                viewBox="0 0 18 18"
+                width="18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <motion.rect
+                  animate={{ stroke: isSelected ? '#3F21BD' : '#8B7FC0' }}
+                  height="17"
+                  rx="5"
+                  transition={{ duration: 0.125 }}
+                  width="17"
+                  x="0.5"
+                  y="0.5"
+                />
+                <AnimatePresence>
+                  {isSelected ? (
+                    <motion.rect
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      fill="#3F21BD"
+                      height="12"
+                      initial={{ opacity: 0 }}
+                      rx="3"
+                      transition={{ duration: 0.125 }}
+                      width="12"
+                      x="3"
+                      y="3"
+                    />
+                  ) : null}
+                </AnimatePresence>
+              </svg>
+              <span tw="text-sm -translate-y-px">{children}</span>
+            </>
+          )}
         </AriaRadio>
       );
     },
