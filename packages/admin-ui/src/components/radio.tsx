@@ -6,6 +6,7 @@ import {
   type RadioProps as AriaRadioProps,
 } from 'react-aria-components';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import { styled } from 'twin.macro';
 
 import createCompositeComponent from './composite-component.tsx';
@@ -45,25 +46,31 @@ const RadioGroup = createCompositeComponent(
                   width="18"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <rect
-                    className="transition-all"
+                  <motion.rect
+                    animate={{ stroke: isSelected ? '#3F21BD' : '#8B7FC0' }}
                     height="17"
-                    rx="4.5"
-                    stroke={isSelected ? '#3F21BD' : '#8B7FC0'}
+                    rx="5"
+                    transition={{ duration: 0.125 }}
                     width="17"
                     x="0.5"
                     y="0.5"
                   />
-                  {isSelected ? (
-                    <rect
-                      fill="#3F21BD"
-                      height="12"
-                      rx="3"
-                      width="12"
-                      x="3"
-                      y="3"
-                    />
-                  ) : null}
+                  <AnimatePresence>
+                    {isSelected ? (
+                      <motion.rect
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        fill="#3F21BD"
+                        height="12"
+                        initial={{ opacity: 0 }}
+                        rx="3"
+                        transition={{ duration: 0.125 }}
+                        width="12"
+                        x="3"
+                        y="3"
+                      />
+                    ) : null}
+                  </AnimatePresence>
                 </svg>
                 <span tw="text-sm -translate-y-px">{children}</span>
               </>
