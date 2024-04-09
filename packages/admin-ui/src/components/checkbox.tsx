@@ -30,10 +30,12 @@ export default function Checkbox({ children, ...props }: CheckboxProps) {
                 </>
               ) : (
                 <rect
-                  height="18"
+                  height="17"
                   rx="5"
                   stroke="#8B7FC0"
-                  width="18"
+                  width="17"
+                  x="0.5"
+                  y="0.5"
                 />
               )}
             </svg>
