@@ -1,10 +1,12 @@
 import {
+  Label,
   Radio as AriaRadio,
-  type RadioProps,
   RadioGroup as AriaRadioGroup,
   type RadioGroupProps as AriaRadioGroupProps,
-  Label,
+  type RadioProps as AriaRadioProps,
 } from 'react-aria-components';
+
+import { styled } from 'twin.macro';
 
 import createCompositeComponent from './composite-component.tsx';
 
@@ -13,20 +15,24 @@ interface RadioGroupProps extends Omit<AriaRadioGroupProps, 'children'> {
   children: React.ReactNode;
 }
 
+interface RadioProps extends Omit<AriaRadioProps, 'children'> {
+  children?: React.ReactNode;
+}
+
 const RadioGroup = createCompositeComponent(
   ({ label, children, ...props }: RadioGroupProps) => {
     return (
-      <AriaRadioGroup {...props}>
+      <StyledAriaRadioGroup {...props}>
         <Label>{label}</Label>
         {children}
-      </AriaRadioGroup>
+      </StyledAriaRadioGroup>
     );
   },
   {
     Item: ({ children, ...props }: RadioProps) => {
       return (
         <AriaRadio
-          tw="flex items-center gap-[7px] w-fit"
+          tw="inline-flex items-center gap-[7px] w-fit"
           {...props}
         >
           {({ isSelected }) => {
@@ -59,7 +65,7 @@ const RadioGroup = createCompositeComponent(
                     />
                   ) : null}
                 </svg>
-                {children}
+                <span tw="text-sm -translate-y-px">{children}</span>
               </>
             );
           }}
@@ -70,3 +76,11 @@ const RadioGroup = createCompositeComponent(
 );
 
 export default RadioGroup;
+
+const StyledAriaRadioGroup = styled(AriaRadioGroup)`
+  display: flex;
+  &[data-orientation='horizontal'] {
+    flex-direction: row;
+    align-items: center;
+  }
+`;
