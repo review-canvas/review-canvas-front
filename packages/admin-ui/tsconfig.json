@@ -2,7 +2,8 @@
   "extends": "@review-canvas/typescript-config/react-library.json",
   "compilerOptions": {
     "jsxImportSource": "@emotion/react",
-    "types": ["./src/@types/twin.d.ts", "./src/@types/emotion.d.ts"]
+    "baseUrl": "./src",
+    "types": ["@types/twin.d.ts", "@types/emotion.d.ts"]
   },
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
