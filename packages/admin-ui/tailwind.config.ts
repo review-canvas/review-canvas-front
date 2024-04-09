@@ -1,8 +1,9 @@
 import type { Config } from 'tailwindcss';
 
-import theme from 'theme';
-
 import sharedConfig from '@review-canvas/tailwind-config';
+
+// twin.macro 에서 모듈을 찾지 못해 상대경로로 지정
+import theme from './src/theme';
 
 const rem = (px: number) => `${px / 16}rem`;
 
