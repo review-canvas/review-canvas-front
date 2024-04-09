@@ -4,15 +4,15 @@ type ComponentMap<T> = {
 type CompositeComponent<P, T> = React.FC<P> & ComponentMap<T>;
 
 const createCompositeComponent = <P, T>(
-  component: React.FC<P>,
-  components: ComponentMap<T>,
+  baseComponent: React.FC<P>,
+  additionalComponents: ComponentMap<T>,
   baseName?: string,
 ): CompositeComponent<P, T> => {
-  component.displayName ??= baseName;
-  Object.entries(components).forEach(([k, v]) => {
+  baseComponent.displayName ??= baseName;
+  Object.entries(additionalComponents).forEach(([k, v]) => {
     (v as React.FC).displayName ??= `${baseName}.${k}`;
   });
-  return Object.assign(component, components);
+  return Object.assign(baseComponent, additionalComponents);
 };
 
 export default createCompositeComponent;
