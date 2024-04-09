@@ -1,4 +1,8 @@
-import { Checkbox as AriaCheckbox, type CheckboxProps } from 'react-aria-components';
+import { Checkbox as AriaCheckbox, type CheckboxProps as AriaCheckboxProps } from 'react-aria-components';
+
+interface CheckboxProps extends Omit<AriaCheckboxProps, 'children'> {
+  children?: React.ReactNode;
+}
 
 export default function Checkbox({ children, ...props }: CheckboxProps) {
   return (
@@ -39,7 +43,7 @@ export default function Checkbox({ children, ...props }: CheckboxProps) {
                 />
               )}
             </svg>
-            {children}
+            <span tw="text-sm -translate-y-px">{children}</span>
           </>
         );
       }}
