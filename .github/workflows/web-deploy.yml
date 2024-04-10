@@ -10,7 +10,7 @@ jobs:
     environment: production
     runs-on: ubuntu-latest
     outputs:
-      image: ${{ steps.encrypt-image-uri.outputs.ENCRYPTED_IMAGE_URI }}
+      image_uri: ${{ steps.encrypt-image-uri.outputs.ENCRYPTED_IMAGE_URI }}
 
     steps:
       - uses: actions/checkout@v2
@@ -58,8 +58,8 @@ jobs:
       - name: Decrypt ECR image URI
         id: decrypt-image-uri
         run: |
-          echo "${{ needs.Build.outputs.image }}"
-          ENCRYPTED_IMAGE_URI=$(echo ${{ needs.Build.outputs.image }})
+          echo "${{ needs.Build.outputs.image_uri }}"
+          ENCRYPTED_IMAGE_URI=$(echo ${{ needs.Build.outputs.image_uri }})
           IMAGE_URI=$(echo $ENCRYPTED_IMAGE_URI | base64 -d)
           echo $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
