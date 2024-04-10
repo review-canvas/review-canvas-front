@@ -34,12 +34,11 @@ jobs:
 
       - name: Encrypt ECR URI
         id: encrypt-image-uri
-        shell: bash
         run: |
           echo "${{ steps.build-image-result.outputs.image }}"
           IMAGE_URI=$(echo ${{ steps.build-image-result.outputs.image }} | base64 -w 0)
           echo "$IMAGE_URI"
-          echo ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
+          echo "ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
 
   Deploy:
     runs-on: ubuntu-latest
