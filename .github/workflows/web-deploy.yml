@@ -1,0 +1,61 @@
+name: web build
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  Build:
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Build and push docker image
+        uses: review-canvas/gh-actions/common/build/docker@main
+        id: build-image
+        with:
+          repository: ${{ secrets.AWS_ECR_REPOSITORY }}
+          dockerfile: ./apps/web/Dockerfile
+#          추후 환경변수 아래 처럼 추가
+#          extra_build_args: |
+#            --build-arg NODE_ENV=production
+#            --build-arg NODE_ENV=production
+
+      - name: Encrypt ECR URI
+        id: encrypt-ecr-uri
+        run: |
+          IMAGE_URI=$(echo ${{ steps.build-image.outputs.image_uri }} | base64 -w 0)
+          echo $IMAGE_URI
+          echo "ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
+          echo $GITHUB_OUTPUT
+
+    Deploy:
+      steps:
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+
+        - name: Decrypt ECR image URI
+          id: decrypt-image-uri
+          run: |
+            echo "${{ needs.Build.outputs.image }}"
+            ENCRYPTED_IMAGE_URI=$(echo ${{ needs.Build.outputs.image }})
+            IMAGE_URI=$(echo $ENCRYPTED_IMAGE_URI | base64 -d)
+            echo $IMAGE_URI
+            echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
+
+        - uses: review-canvas/deploy/ecs@main
+          with:
+            ecs-cluster: ${{ vars.AWS_ECS_CLUSTER }}
+            image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
+            service: ${{ vars.AWS_ECS_SERVICE_WEB }}
