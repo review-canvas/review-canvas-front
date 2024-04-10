@@ -35,6 +35,7 @@ jobs:
       - name: Encrypt ECR URI
         id: encrypt-ecr-uri
         run: |
+          echo ${{ steps.build-image.outputs.image }}
           IMAGE_URI=$(echo ${{ steps.build-image.outputs.image }} | base64 -w 0)
           echo $IMAGE_URI
           echo "ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
