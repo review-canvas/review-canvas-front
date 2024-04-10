@@ -9,7 +9,7 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     outputs:
-        image: ${{ steps.encrypt-image-uri.outputs.ENCRYPTED_IMAGE_URI }}
+      image: ${{ steps.encrypt-image-uri.outputs.ENCRYPTED_IMAGE_URI }}
 
     steps:
       - uses: actions/checkout@v2
@@ -27,10 +27,10 @@ jobs:
         with:
           repository: ${{ secrets.AWS_ECR_REPOSITORY }}
           dockerfile: ./apps/web/Dockerfile
-#          추후 환경변수 아래 처럼 추가
-#          extra_build_args: |
-#            --build-arg NODE_ENV=production
-#            --build-arg NODE_ENV=production
+      #          추후 환경변수 아래 처럼 추가
+      #          extra_build_args: |
+      #            --build-arg NODE_ENV=production
+      #            --build-arg NODE_ENV=production
 
       - name: Encrypt ECR URI
         id: encrypt-image-uri
@@ -41,8 +41,8 @@ jobs:
           echo "ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
 
   Deploy:
-    runs-on: ubuntu-latest
     needs: Build
+    runs-on: ubuntu-latest
 
     steps:
       - name: Configure AWS credentials
