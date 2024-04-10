@@ -9,7 +9,7 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     outputs:
-        image: ${{ steps.encrypt-ecr-uri.outputs.ENCRYPTED_IMAGE_URI }}
+        image: ${{ steps.encrypt-image-uri.outputs.ENCRYPTED_IMAGE_URI }}
 
     steps:
       - uses: actions/checkout@v2
@@ -33,9 +33,9 @@ jobs:
 #            --build-arg NODE_ENV=production
 
       - name: Encrypt ECR URI
-        id: encrypt-ecr-uri
+        id: encrypt-image-uri
         run: |
-          echo ${{ steps.build-image.outputs.image }}
+          echo "${{ steps.build-image.outputs.image }}"
           IMAGE_URI=$(echo ${{ steps.build-image.outputs.image }} | base64 -w 0)
           echo $IMAGE_URI
           echo "ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
