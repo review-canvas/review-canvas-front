@@ -58,8 +58,8 @@ jobs:
 
       - uses: review-canvas/gh-actions/deploy/ecs@main
         with:
-          ecs_cluster: ${{ vars.AWS_ECS_CLUSTER }}
-          service: ${{ vars.AWS_ECS_SERVICE_WEB }}
+          ecs_cluster: ${{ vars.ECS_CLUSTER }}
+          service: ${{ vars.ECS_SERVICE_WEB }}
           image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
 
 #  Deploy:
