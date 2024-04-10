@@ -3,8 +3,8 @@ name: Deploy to Production on Change
 on:
   push:
     branches:
-      - main
-      - develop
+#      - main
+#      - develop
     paths:
       - 'apps/web/**'
       - 'apps/shop-admin/**'

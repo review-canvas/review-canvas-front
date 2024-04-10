@@ -1,0 +1,40 @@
+name: web build
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'develop'
+
+jobs:
+  build_and_deploy:
+    environment: production
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Build and push docker image
+        uses: review-canvas/gh-actions/common/build/docker@main
+        id: build-image-result
+        with:
+          repository: ${{ secrets.AWS_ECR_REPOSITORY }}
+          dockerfile: ./apps/super-admin/Dockerfile
+      #          추후 환경변수 아래 처럼 추가
+      #          extra_build_args: |
+      #            --build-arg NODE_ENV=production
+      #            --build-arg NODE_ENV=production
+
+      - uses: review-canvas/gh-actions/deploy/ecs@main
+        with:
+          ecs_cluster: ${{ vars.ECS_CLUSTER }}
+          service: ${{ vars.ECS_SERVICE_SUPER_ADMIN }}
+          image: ${{ steps.build-image-result.outputs.image }}
+          wait-for-service-stability: true
