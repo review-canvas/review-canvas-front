@@ -36,3 +36,4 @@ jobs:
           ecs_cluster: ${{ vars.ECS_CLUSTER }}
           service: ${{ vars.ECS_SERVICE_WEB }}
           image: ${{ steps.build-image-result.outputs.image }}
+          wait-for-service-stability: true
