@@ -40,6 +40,7 @@ jobs:
 
   Deploy:
     runs-on: ubuntu-latest
+    needs: Build
 
     steps:
       - name: Configure AWS credentials
@@ -58,7 +59,7 @@ jobs:
           echo $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
 
-      - uses: review-canvas/deploy/ecs@main
+      - uses: review-canvas/gh-actions/deploy/ecs@main
         with:
           ecs-cluster: ${{ vars.AWS_ECS_CLUSTER }}
           image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
