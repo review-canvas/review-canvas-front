@@ -56,7 +56,7 @@ jobs:
       - name: Decrypt ECR image URI
         id: decrypt-image-uri
         run: |
-          echo "${{ needs.Build.outputs.image }}"
+          echo ${{ needs.Build.outputs.image }}
           ENCRYPTED_IMAGE_URI=$(echo ${{ needs.Build.outputs.image }})
           IMAGE_URI=$(echo $ENCRYPTED_IMAGE_URI | base64 -d)
           echo $IMAGE_URI
@@ -66,4 +66,4 @@ jobs:
         with:
           ecs-cluster: ${{ vars.AWS_ECS_CLUSTER }}
           image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
-          service: ${{ vars.AWS_ECS_SERVICE_WEB }}
+          services: ${{ vars.AWS_ECS_SERVICE_WEB }}
