@@ -1,4 +1,4 @@
-name: web build
+name: shop admin build and deploy
 
 on:
   push:
@@ -37,4 +37,3 @@ jobs:
           ecs_cluster: ${{ vars.ECS_CLUSTER }}
           service: ${{ vars.ECS_SERVICE_SHOP_ADMIN }}
           image: ${{ steps.build-image-result.outputs.image }}
-          wait-for-service-stability: true
