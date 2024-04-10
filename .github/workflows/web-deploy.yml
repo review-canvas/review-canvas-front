@@ -38,28 +38,28 @@ jobs:
           echo "ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
           echo $GITHUB_OUTPUT
 
-    Deploy:
-      runs-on: ubuntu-latest
+  Deploy:
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Configure AWS credentials
-          uses: aws-actions/configure-aws-credentials@v1
-          with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: ${{ secrets.AWS_REGION }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-        - name: Decrypt ECR image URI
-          id: decrypt-image-uri
-          run: |
-            echo "${{ needs.Build.outputs.image }}"
-            ENCRYPTED_IMAGE_URI=$(echo ${{ needs.Build.outputs.image }})
-            IMAGE_URI=$(echo $ENCRYPTED_IMAGE_URI | base64 -d)
-            echo $IMAGE_URI
-            echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
+      - name: Decrypt ECR image URI
+        id: decrypt-image-uri
+        run: |
+          echo "${{ needs.Build.outputs.image }}"
+          ENCRYPTED_IMAGE_URI=$(echo ${{ needs.Build.outputs.image }})
+          IMAGE_URI=$(echo $ENCRYPTED_IMAGE_URI | base64 -d)
+          echo $IMAGE_URI
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
 
-        - uses: review-canvas/deploy/ecs@main
-          with:
-            ecs-cluster: ${{ vars.AWS_ECS_CLUSTER }}
-            image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
-            service: ${{ vars.AWS_ECS_SERVICE_WEB }}
+      - uses: review-canvas/deploy/ecs@main
+        with:
+          ecs-cluster: ${{ vars.AWS_ECS_CLUSTER }}
+          image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
+          service: ${{ vars.AWS_ECS_SERVICE_WEB }}
