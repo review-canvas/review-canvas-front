@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and push docker image
         uses: review-canvas/gh-actions/common/build/docker@main
-        id: build-image
+        id: build-image-result
         with:
           repository: ${{ secrets.AWS_ECR_REPOSITORY }}
           dockerfile: ./apps/web/Dockerfile
@@ -35,8 +35,8 @@ jobs:
       - name: Encrypt ECR URI
         id: encrypt-image-uri
         run: |
-          echo "${{ steps.build-image.outputs.image }}"
-          IMAGE_URI=$(echo ${{ steps.build-image.outputs.image }} | base64 -w 0)
+          echo "${{ steps.build-image-result.outputs.image }}"
+          IMAGE_URI=$(echo ${{ steps.build-image-result.outputs.image }} | base64 -w 0)
           echo $IMAGE_URI
           echo "ENCRYPTED_IMAGE_URI=$IMAGE_URI" >> $GITHUB_OUTPUT
           echo $GITHUB_OUTPUT
