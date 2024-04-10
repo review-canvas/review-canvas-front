@@ -45,6 +45,7 @@ jobs:
       - name: check ENCRYPTED_IMAGE_URI
         run: |
           echo ${{ steps.encrypt-image-uri.outputs.ENCRYPTED_IMAGE_URI }}
+          echo ${{ vars.AWS_ECS_CLUSTER }}
 
       - name: Decrypt ECR image URI
         id: decrypt-image-uri
@@ -57,9 +58,9 @@ jobs:
 
       - uses: review-canvas/gh-actions/deploy/ecs@main
         with:
-          ecs-cluster: ${{ vars.AWS_ECS_CLUSTER }}
-          image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
+          ecs_cluster: ${{ vars.AWS_ECS_CLUSTER }}
           services: ${{ vars.AWS_ECS_SERVICE_WEB }}
+          image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
 
 #  Deploy:
 #    environment: production
