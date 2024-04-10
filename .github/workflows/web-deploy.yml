@@ -8,6 +8,8 @@ on:
 jobs:
   Build:
     runs-on: ubuntu-latest
+    outputs:
+        image: ${{ steps.encrypt-ecr-uri.outputs.ENCRYPTED_IMAGE_URI }}
 
     steps:
       - uses: actions/checkout@v2
