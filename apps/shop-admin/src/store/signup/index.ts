@@ -21,7 +21,7 @@ const useSignupStore = create<SignupStore>((set) => ({
       email: '',
       password: '',
       name: '',
-      logoImageUrl: '',
+      logoImage: null,
       mallNumber: '',
       phoneNumber: '',
     },
@@ -100,6 +100,17 @@ const useSignupStore = create<SignupStore>((set) => ({
         install: {
           ...state.formData.install,
           ...data,
+        },
+      },
+    }));
+  },
+  updateSignupUserInfo: (info) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        info: {
+          ...state.formData.info,
+          ...info,
         },
       },
     }));

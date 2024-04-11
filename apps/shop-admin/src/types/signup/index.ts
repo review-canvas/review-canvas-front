@@ -19,7 +19,7 @@ export interface SignupUserInfoData {
   email: string;
   password: string;
   name: string;
-  logoImageUrl: string;
+  logoImage: File | null;
   mallNumber: string;
   phoneNumber: string;
 }
@@ -49,4 +49,5 @@ export interface SignupStore {
   updateSettingDetailThemeId: (newThemeId: SignupUserSettingData['detailThemeId']) => void;
   updateReviewActiveSetting: (settings: SignupReviewItemActiveData) => void;
   updateReviewInstallData: (data: SignupUserInstallData) => void;
+  updateSignupUserInfo: (info: SignupUserInfoData) => void;
 }

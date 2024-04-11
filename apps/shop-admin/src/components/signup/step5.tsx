@@ -38,7 +38,7 @@ function Step5() {
     }
 
     updateReviewInstallData(data);
-    goToNextStep()
+    goToNextStep();
   };
 
   return (
