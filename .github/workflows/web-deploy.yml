@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - 'main'
-      - 'develop'
 
 jobs:
-  build_and_deploy:
+  Build:
     environment: production
     runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.encrypt-image-uri.outputs.image }}
 
     steps:
       - uses: actions/checkout@v2
@@ -33,8 +34,41 @@ jobs:
       #            --build-arg NODE_ENV=production
       #            --build-arg NODE_ENV=production
 
+      - name: Encrypt ECR image URI
+        shell: bash
+        id: encrypt-image-uri
+        run: |
+          IMAGE_URI=$(echo ${{ steps.build-image-result.outputs.image }} | base64 -w 0)
+          echo $IMAGE_URI
+          echo "image=$IMAGE_URI" >> $GITHUB_OUTPUT
+
+  Deploy:
+    needs: Build
+    environment: production
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Decrypt ECR image URI
+        id: decrypt-image-uri
+        shell: bash
+        run: |
+          echo "${{ needs.Build.outputs.image }}"
+          IMAGE_URI=$(echo "${{ needs.Build.outputs.image }}" | base64 -d)
+          echo $IMAGE_URI
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+      
+
       - uses: review-canvas/gh-actions/deploy/ecs@main
         with:
           ecs_cluster: ${{ vars.ECS_CLUSTER }}
           service: ${{ vars.ECS_SERVICE_WEB }}
-          image: ${{ steps.build-image-result.outputs.image }}
+          image: ${{ steps.decrypt-image-uri.outputs.IMAGE_URI }}
