@@ -4,9 +4,8 @@
     "jsxImportSource": "@emotion/react",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     },
-    "types": ["src/@types/twin.d.ts", "src/@types/emotion.d.ts"]
   },
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]

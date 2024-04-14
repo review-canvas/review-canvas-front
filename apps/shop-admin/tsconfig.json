@@ -4,13 +4,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "src/*"
+        "src/*",
+        "../../packages/admin-ui/src/*"
       ]
     },
     "jsxImportSource": "@emotion/react",
     "types": [
-      "src/@types/twin.d.ts",
-      "src/@types/emotion.d.ts",
+      "@review-canvas/admin-ui/declared-types"
     ],
     "strictNullChecks": true
   },

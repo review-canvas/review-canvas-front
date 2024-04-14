@@ -54,7 +54,7 @@ module.exports = {
             position: 'before',
           },
           {
-            pattern: '@review-canvas/**',
+            pattern: '@review-canvas/**/*',
             group: 'internal',
             position: 'after',
           },
