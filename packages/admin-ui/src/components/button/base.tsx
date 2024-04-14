@@ -15,6 +15,9 @@ const width = {
   lg: 285,
 } satisfies Record<SizeLevel, number>;
 
+/**
+ * @param size - default value is 'lg'
+ */
 export const buttonStyle = ({ size = 'lg' }: ButtonProps) => css`
   height: ${size === 'sm' ? 35 : 40}px;
   width: ${width[size]}px;
