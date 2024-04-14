@@ -2,7 +2,7 @@ import { Button as AriaButton, type ButtonProps as AriaButtonProps } from 'react
 
 import tw, { styled, css } from 'twin.macro';
 
-import type { SizeLevel } from '@/types/theme';
+import type { SizeLevel } from '@ui/types/theme';
 
 export interface ButtonProps extends AriaButtonProps {
   size?: SizeLevel;

@@ -3,10 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*",
-        "../../packages/admin-ui/src/*"
-      ]
+      "@/*": ["src/*"],
+      "@ui/*": ["../../packages/admin-ui/src/*"],
     },
     "jsxImportSource": "@emotion/react",
     "types": [

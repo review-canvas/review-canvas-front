@@ -1,7 +1,6 @@
 import { styled } from 'twin.macro';
 
-import type { VariantLevel } from '@/types/theme';
-
+import type { VariantLevel } from '@ui/types/theme';
 import Button, { type ButtonProps } from './base';
 
 export interface OutlineButtonProps extends ButtonProps {
