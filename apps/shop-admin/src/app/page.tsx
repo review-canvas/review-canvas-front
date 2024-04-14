@@ -15,7 +15,12 @@ export default function Page(): React.ReactNode {
         <RadioGroup.Item value="b">b</RadioGroup.Item>
         <RadioGroup.Item value="c">c</RadioGroup.Item>
       </RadioGroup>
-      <ToggleButton className="font-sans-kr font-medium w-52 h-8">한글</ToggleButton>
+      <ToggleButton
+        className="font-sans-kr font-medium w-52 h-8"
+        size="md"
+      >
+        한글
+      </ToggleButton>
       <Switch>switch</Switch>
       <Button>버튼</Button>
     </main>

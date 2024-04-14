@@ -1,5 +1,6 @@
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from 'react-aria-components';
 
+import { css } from '@emotion/react';
 import { styled } from 'twin.macro';
 
 import type { SizeLevel } from '@/types/theme';
@@ -14,12 +15,16 @@ const width = {
   lg: 285,
 } satisfies Record<SizeLevel, number>;
 
+export const buttonStyle = ({ size = 'lg' }: ButtonProps) => css`
+  height: ${size === 'sm' ? 35 : 40}px;
+  width: ${width[size]}px;
+`;
+
 /**
  * @param width - default value is 'lg'
  */
 const Button = styled(AriaButton)<ButtonProps>`
-  height: ${({ size = 'lg' }) => (size === 'sm' ? 35 : 40)}px;
-  width: ${({ size = 'lg' }) => width[size]}px;
+  ${buttonStyle}
 `;
 
 export default Button;

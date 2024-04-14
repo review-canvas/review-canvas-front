@@ -2,7 +2,10 @@ import { ToggleButton as AriaToggleButton } from 'react-aria-components';
 
 import tw, { styled } from 'twin.macro';
 
-const ToggleButton = styled(AriaToggleButton)`
+import { buttonStyle, type ButtonProps } from './base';
+
+const ToggleButton = styled(AriaToggleButton)<ButtonProps>`
+  ${buttonStyle}
   ${tw`rounded-5 flex justify-center items-center`};
   border: 1px solid ${({ theme }) => theme.colors.sub.primary};
   color: #838383;
