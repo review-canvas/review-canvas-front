@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Checkbox, RadioGroup, Switch, ToggleButton } from '@review-canvas/admin-ui/components';
+import { Checkbox, RadioGroup, SolidButton, Switch, ToggleButton } from '@review-canvas/admin-ui/components';
 
 export default function Page(): React.ReactNode {
   return (
@@ -22,7 +22,7 @@ export default function Page(): React.ReactNode {
         한글
       </ToggleButton>
       <Switch>switch</Switch>
-      <Button>버튼</Button>
+      <SolidButton>버튼</SolidButton>
     </main>
   );
 }

@@ -1,7 +1,6 @@
 import { Button as AriaButton, type ButtonProps as AriaButtonProps } from 'react-aria-components';
 
-import { css } from '@emotion/react';
-import { styled } from 'twin.macro';
+import tw, { styled, css } from 'twin.macro';
 
 import type { SizeLevel } from '@/types/theme';
 
@@ -21,6 +20,7 @@ const width = {
 export const buttonStyle = ({ size = 'lg' }: ButtonProps) => css`
   height: ${size === 'sm' ? 35 : 40}px;
   width: ${width[size]}px;
+  ${tw`rounded-5 flex justify-center items-center`};
 `;
 
 /**
