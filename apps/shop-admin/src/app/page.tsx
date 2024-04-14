@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox, RadioGroup, SolidButton, Switch, ToggleButton } from '@review-canvas/admin-ui/components';
+import { Checkbox, RadioGroup, Select, SolidButton, Switch, ToggleButton } from '@review-canvas/admin-ui/components';
 
 export default function Page(): React.ReactNode {
   return (
@@ -23,6 +23,20 @@ export default function Page(): React.ReactNode {
       </ToggleButton>
       <Switch>switch</Switch>
       <SolidButton>버튼</SolidButton>
+      <Select
+        className="w-[300px]"
+        placeholder="선택"
+      >
+        <Select.Item>설정1</Select.Item>
+        <Select.Item>설정2</Select.Item>
+        <Select.Item>설정3</Select.Item>
+      </Select>
     </main>
   );
 }
+
+const exampleItems = [
+  { id: 1, value: '설정1' },
+  { id: 2, value: '설정2' },
+  { id: 3, value: '설정3' },
+];
