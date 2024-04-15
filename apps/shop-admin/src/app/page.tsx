@@ -35,8 +35,8 @@ export default function Page(): React.ReactNode {
   );
 }
 
-const exampleItems = [
-  { id: 1, value: '설정1' },
-  { id: 2, value: '설정2' },
-  { id: 3, value: '설정3' },
-];
+// const exampleItems = [
+//   { id: 1, value: '설정1' },
+//   { id: 2, value: '설정2' },
+//   { id: 3, value: '설정3' },
+// ];
