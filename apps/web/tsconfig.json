@@ -7,12 +7,11 @@
       ]
     },
     "jsxImportSource": "@emotion/react",
-    "types": [
-      "./src/@types/twin.d.ts"
-    ],
+    "types": [],
     "strictNullChecks": true
   },
   "include": [
+    "./src/@types/twin.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
