@@ -22,7 +22,7 @@ interface AdminMenuItem {
 export const ADMIN_MENU_MAP: AdminMenuItem[] = [
   {
     name: '대시보드',
-    pathname: '/',
+    pathname: '/dashboard',
     icon: DashboardIcon as SVGIcon,
   },
   {
