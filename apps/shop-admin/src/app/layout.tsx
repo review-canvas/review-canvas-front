@@ -39,7 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               aria-label="Sidebar"
             >
               <div tw="px-3 bg-white">
-                <div tw="flex justify-center items-end h-24 ml-3 mb-3 border-b-[1px] border-b-main-quaternary">
+                <div tw="flex justify-center items-end h-24 mb-3 border-b-[1px] border-b-main-quaternary">
                   {/* <Image
                     src={''}
                     alt={''}
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                     height={20}
                     layout="fill"
                   /> */}
-                  <div tw="flex w-full gap-[11px] items-center mb-7">
+                  <div tw="flex w-full gap-[11px] items-center mb-7 ml-3">
                     <div tw="bg-main-secondary rounded-lg w-8 h-8" />
                     <span tw="text-ml">Shop Name</span>
                   </div>
