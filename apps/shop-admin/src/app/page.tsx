@@ -42,9 +42,9 @@ export default function Page(): React.ReactNode {
       <form>
         <TextField
           label="필드"
-          variant="underline"
-          placeholder="이름"
           leftIcon={<span>asd</span>}
+          placeholder="이름"
+          variant="underline"
         />
       </form>
     </main>

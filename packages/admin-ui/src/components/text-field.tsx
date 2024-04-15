@@ -6,6 +6,7 @@ import {
   type TextFieldProps as AriaTextFieldProps,
   type ValidationResult,
 } from 'react-aria-components';
+import { forwardRef } from 'react';
 import tw, { styled } from 'twin.macro';
 
 interface StyledProps {
@@ -19,14 +20,10 @@ interface TextFieldProps extends Omit<AriaTextFieldProps, 'children'>, Partial<S
   leftIcon?: React.ReactNode;
 }
 
-export default function TextField({
-  label,
-  errorMessage,
-  placeholder,
-  variant = 'box',
-  leftIcon,
-  ...props
-}: TextFieldProps) {
+export default forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
+  { label, errorMessage, placeholder, variant = 'box', leftIcon, ...props },
+  ref,
+) {
   return (
     <AriaTextField
       tw="flex flex-col gap-2"
@@ -37,13 +34,14 @@ export default function TextField({
         {leftIcon}
         <AriaInput
           placeholder={placeholder}
+          ref={ref}
           tw="text-base placeholder:text-sub-primary flex-1"
         />
       </InputContainer>
       <FieldError>{errorMessage}</FieldError>
     </AriaTextField>
   );
-}
+});
 
 // noinspection CssUnusedSymbol
 const InputContainer = styled.span<StyledProps>`
