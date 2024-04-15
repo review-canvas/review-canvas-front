@@ -12,6 +12,7 @@ const config: Pick<Config, 'prefix' | 'presets' | 'content' | 'theme'> = {
         sm: [rem(12.5), { lineHeight: rem(18), fontWeight: 400 }],
         base: [rem(14), { lineHeight: rem(20) }],
         lg: [rem(15), { lineHeight: rem(22), fontWeight: 500 }],
+        ml: [rem(18), { lineHeight: rem(22), fontWeight: 500 }],
         xl: [rem(22), { lineHeight: rem(32), fontWeight: 500 }],
         '2xl': [rem(26), { lineHeight: rem(38), fontWeight: 500 }],
       },
