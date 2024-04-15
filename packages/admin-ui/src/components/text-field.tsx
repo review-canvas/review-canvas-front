@@ -16,6 +16,7 @@ interface TextFieldProps extends Omit<AriaTextFieldProps, 'children'>, Partial<S
   label?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
   placeholder?: string;
+  leftIcon?: React.ReactNode;
 }
 
 export default function TextField({ label, errorMessage, placeholder, variant = 'box', ...props }: TextFieldProps) {
@@ -42,8 +43,7 @@ const StyledAriaInput = styled(AriaInput)<StyledAriaInputProps>`
   border-style: solid;
   border-width: ${({ variant }) => (variant === 'box' ? '1px' : '0 0 1px 0')};
 
-  padding-top: ${({ variant }) => (variant === 'box' ? '8px' : 0)};
-  padding-bottom: 8px;
+  padding: ${({ variant }) => (variant === 'box' ? '0 10px 8px' : '0 0 8px 0')};
   &[data-focused] {
     border-color: ${({ theme }) => theme.colors.main.primary};
   }
