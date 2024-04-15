@@ -1,14 +1,16 @@
 {
   "extends": "@review-canvas/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./src/*"
+        "src/*"
       ]
     },
     "jsxImportSource": "@emotion/react",
     "types": [
-      "./src/@types/twin.d.ts"
+      "src/@types/twin.d.ts",
+      "src/@types/emotion.d.ts"
     ],
     "strictNullChecks": true
   },

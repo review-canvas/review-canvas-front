@@ -2,11 +2,19 @@
 
 import type { Config } from 'tailwindcss';
 
-import sharedConfig from '@review-canvas/tailwind-config';
+import adminUIConfig from '@review-canvas/admin-ui/tailwind.config.ts';
 
-const config: Pick<Config, 'content' | 'presets'> = {
+const config: Pick<Config, 'content' | 'presets' | 'theme'> = {
   content: ['./src/app/**/*.tsx', './src/components/**/*.tsx'],
-  presets: [sharedConfig],
+  theme: {
+    extend: {
+      fontFamily: {
+        roboto: ['var(--roboto)'],
+        'sans-kr': ['var(--noto-sans-kr)'],
+      },
+    },
+  },
+  presets: [adminUIConfig],
 };
 
 export default config;
