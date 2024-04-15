@@ -8,10 +8,7 @@
       ]
     },
     "jsxImportSource": "@emotion/react",
-    "types": [
-      "src/@types/twin.d.ts",
-      "src/@types/emotion.d.ts"
-    ],
+    "types": ["@review-canvas/admin-ui/declared-types"],
     "strictNullChecks": true
   },
   "include": [

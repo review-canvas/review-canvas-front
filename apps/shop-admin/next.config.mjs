@@ -3,7 +3,10 @@ import withTwin from './with-twin.mjs';
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  transpilePackages: ['@review-canvas/admin-ui']
+  transpilePackages: ['@review-canvas/admin-ui'],
+  experimental: {
+    optimizePackageImports: ['@review-canvas/admin-ui'],
+  },
 };
 
 export default withTwin(config);

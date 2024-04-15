@@ -11,7 +11,8 @@
     "./styles.css": "./dist/index.css",
     "./components": "./src/components/index.ts",
     "./tailwind.config.ts": "./tailwind.config.ts",
-    "./theme": "./src/theme/index.ts"
+    "./theme": "./src/theme/index.ts",
+    "./declared-types": "./src/@types/index.d.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -38,6 +39,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
+    "framer-motion": "^11.0.25",
     "react-aria-components": "^1.1.1"
   }
 }

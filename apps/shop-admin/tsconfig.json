@@ -3,17 +3,16 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"],
+      "@ui/*": ["../../packages/admin-ui/src/*"],
     },
     "jsxImportSource": "@emotion/react",
-    "types": [],
+    "types": [
+      "@review-canvas/admin-ui/declared-types"
+    ],
     "strictNullChecks": true
   },
   "include": [
-    "src/@types/twin.d.ts",
-    "src/@types/emotion.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
