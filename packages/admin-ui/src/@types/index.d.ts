@@ -4,7 +4,7 @@ import type { css as cssImport } from '@emotion/react';
 import type { Interpolation } from '@emotion/styled';
 import type styledImport from '@emotion/styled';
 
-import type { VariantLevel } from '@/types/theme.ts';
+import type { VariantLevel } from '@ui/types/theme.ts';
 
 declare module 'twin.macro' {
   const styled: typeof styledImport;
