@@ -39,11 +39,14 @@ export default function Page(): React.ReactNode {
         <Select.Item>설정2</Select.Item>
         <Select.Item>설정3</Select.Item>
       </Select>
-      <TextField
-        label="필드"
-        variant="underline"
-        placeholder="이름"
-      />
+      <form>
+        <TextField
+          label="필드"
+          leftIcon={<span>asd</span>}
+          placeholder="이름"
+          variant="underline"
+        />
+      </form>
     </main>
   );
 }

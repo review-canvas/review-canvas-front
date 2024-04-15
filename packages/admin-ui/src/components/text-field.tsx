@@ -6,49 +6,54 @@ import {
   type TextFieldProps as AriaTextFieldProps,
   type ValidationResult,
 } from 'react-aria-components';
+import { forwardRef } from 'react';
 import tw, { styled } from 'twin.macro';
 
-interface StyledAriaInputProps {
+interface StyledProps {
   variant: 'underline' | 'box';
 }
 
-interface TextFieldProps extends Omit<AriaTextFieldProps, 'children'>, Partial<StyledAriaInputProps> {
+interface TextFieldProps extends Omit<AriaTextFieldProps, 'children'>, Partial<StyledProps> {
   label?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
   placeholder?: string;
+  leftIcon?: React.ReactNode;
 }
 
-export default function TextField({ label, errorMessage, placeholder, variant = 'box', ...props }: TextFieldProps) {
+export default forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
+  { label, errorMessage, placeholder, variant = 'box', leftIcon, ...props },
+  ref,
+) {
   return (
-    <StyledAriaTextField {...props}>
+    <AriaTextField
+      tw="flex flex-col gap-2"
+      {...props}
+    >
       <AriaLabel tw="text-[#9692A7] text-sm">{label}</AriaLabel>
-      <StyledAriaInput
-        placeholder={placeholder}
-        variant={variant}
-      />
+      <InputContainer variant={variant}>
+        {leftIcon}
+        <AriaInput
+          placeholder={placeholder}
+          ref={ref}
+          tw="text-base placeholder:text-sub-primary flex-1"
+        />
+      </InputContainer>
       <FieldError>{errorMessage}</FieldError>
-    </StyledAriaTextField>
+    </AriaTextField>
   );
-}
+});
 
-const StyledAriaTextField = styled(AriaTextField)`
-  ${tw`flex flex-col gap-2`};
-`;
-
-const StyledAriaInput = styled(AriaInput)<StyledAriaInputProps>`
-  ${tw`text-base`};
-  border-radius: ${({ variant }) => (variant === 'box' ? '5px' : 0)};
+// noinspection CssUnusedSymbol
+const InputContainer = styled.span<StyledProps>`
+  ${tw`inline-flex gap-2.5 w-full`};
   border-color: ${({ theme }) => theme.colors.main.tertiary};
   border-style: solid;
+  border-radius: ${({ variant }) => (variant === 'box' ? '5px' : 0)};
   border-width: ${({ variant }) => (variant === 'box' ? '1px' : '0 0 1px 0')};
 
-  padding-top: ${({ variant }) => (variant === 'box' ? '8px' : 0)};
-  padding-bottom: 8px;
-  &[data-focused] {
-    border-color: ${({ theme }) => theme.colors.main.primary};
-  }
+  padding: ${({ variant }) => (variant === 'box' ? '0 10px 8px' : '0 0 8px 0')};
   transition: border-color 125ms linear;
-  &::placeholder {
-    ${tw`text-sub-primary`};
+  &:has(input[data-focused]) {
+    border-color: ${({ theme }) => theme.colors.main.primary};
   }
 `;
