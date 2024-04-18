@@ -1,0 +1,27 @@
+{
+  "name": "homepage",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "tsc": "tsc"
+  },
+  "devDependencies": {
+    "@review-canvas/eslint-config": "workspace:*",
+    "@review-canvas/tailwind-config": "workspace:*",
+    "@review-canvas/typescript-config": "workspace:*",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
