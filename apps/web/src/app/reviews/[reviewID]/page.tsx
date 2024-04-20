@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 
 import useShopConnected from '@/hooks/use-shop-connected.ts';
 import useShop from '@/state/shop.ts';
+import { sendMessageToShop } from '@/utils/message.tsx';
 
 type PageParams = {
   reviewID: string;
@@ -17,7 +18,7 @@ export default function ReviewDetailPage() {
   if (!shop.connected) return null;
 
   const close = () => {
-    window.parent.postMessage({ type: 'close-review-detail' }, shop.domain);
+    sendMessageToShop(shop.domain, 'close-review-detail');
   };
 
   return (

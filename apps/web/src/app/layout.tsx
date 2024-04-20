@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import GlobalStyles from '@/components/global-styles.tsx';
 import useShop from '@/state/shop.ts';
+import { sendMessageToShop } from '@/utils/message.tsx';
 
 import './globals.css';
 
@@ -22,7 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     };
     window.addEventListener('message', handleMessage);
 
-    window.parent.postMessage({ type: 'review-canvas-ready' }, '*');
+    sendMessageToShop('*', 'review-canvas-ready');
     return () => {
       window.removeEventListener('message', handleMessage);
     };

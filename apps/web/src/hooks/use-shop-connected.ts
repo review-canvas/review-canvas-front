@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 
-import useShop from '@/state/shop.ts';
+import useMessage from './use-message';
 
 const useShopConnected = (type: 'list' | 'detail') => {
-  const shop = useShop();
+  const sendMessage = useMessage();
+
   useEffect(() => {
-    if (!shop.connected) return;
-    window.parent.postMessage({ type: 'review-canvas-connected', payload: type }, shop.domain);
-  }, [shop.connected, shop.domain, type]);
+    sendMessage('review-canvas-connected', type);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
+  }, [type]);
 };
 
 export default useShopConnected;

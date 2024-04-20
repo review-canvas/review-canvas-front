@@ -5,6 +5,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import type { Review } from '@/models/review.ts';
 import { useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
+import useMessage from '@/hooks/use-message.ts';
 
 interface ConnectedPageProps {
   productId: string;
@@ -12,6 +13,7 @@ interface ConnectedPageProps {
 
 export default function ConnectedPage({ productId }: ConnectedPageProps) {
   const { accessToken, id, domain } = useConnectedShop();
+  const sendMessage = useMessage();
   const reviewService = useReviewService();
 
   const reviewListQuery = useSuspenseInfiniteQuery({
@@ -24,10 +26,7 @@ export default function ConnectedPage({ productId }: ConnectedPageProps) {
   const reviews = reviewListQuery.data.pages.flatMap((it) => it.content);
 
   const openReviewDetail = (review: Review) => {
-    window.parent.postMessage(
-      { type: 'open-review-detail', payload: `${location.origin}/reviews/${review.id}` },
-      domain,
-    );
+    sendMessage('open-review-detail', `${location.origin}/reviews/${review.id}`);
   };
 
   return (
