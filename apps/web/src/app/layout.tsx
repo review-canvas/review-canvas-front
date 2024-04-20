@@ -2,24 +2,27 @@
 
 import { useEffect } from 'react';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import GlobalStyles from '@/components/global-styles.tsx';
 import useShopConnection from '@/state/connection.ts';
 
 import './globals.css';
 
+const queryClient = new QueryClient();
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const shopConnection = useShopConnection();
 
-  console.log(shopConnection.connected ? shopConnection.id : 'disconnected');
-
   useEffect(() => {
-    window.parent.postMessage({ type: 'review-canvas-ready' }, '*');
     const handleMessage = (evt: MessageEvent<{ type: string; payload: string }>) => {
       const { type, payload } = evt.data;
-      console.log(`Received message from ${evt.origin}:`, type, payload);
+      if (type !== 'connect') return;
       shopConnection.connect(payload, evt.origin);
     };
     window.addEventListener('message', handleMessage);
+
+    window.parent.postMessage({ type: 'review-canvas-ready' }, '*');
     return () => {
       window.removeEventListener('message', handleMessage);
     };
@@ -29,7 +32,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="ko">
       <body>
         <GlobalStyles />
-        {children}
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
       </body>
     </html>
   );
