@@ -1,23 +1,27 @@
 'use client';
 
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import type { Review } from '@/models/review.ts';
 import { useReviewService } from '@/services/review.tsx';
+import { useConnectedShop } from '@/state/shop.ts';
 
 interface ConnectedPageProps {
   productId: string;
-  shopId: string;
-  domain: string;
 }
 
-export default function ConnectedPage({ shopId, domain, productId }: ConnectedPageProps) {
+export default function ConnectedPage({ productId }: ConnectedPageProps) {
+  const { accessToken, id, domain } = useConnectedShop();
   const reviewService = useReviewService();
 
-  const reviewListQuery = useSuspenseQuery({
-    queryKey: ['review', { shopId, domain, productId }],
-    queryFn: () => reviewService.list({ shopId, domain, productId, page: 0, limit: 10 }),
+  const reviewListQuery = useSuspenseInfiniteQuery({
+    queryKey: ['review', { accessToken, productId }],
+    queryFn: () => reviewService.list({ accessToken, productId }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => (lastPage.last ? undefined : lastPage.number + 1),
   });
+
+  const reviews = reviewListQuery.data.pages.flatMap((it) => it.content);
 
   const openReviewDetail = (review: Review) => {
     window.parent.postMessage(
@@ -29,10 +33,10 @@ export default function ConnectedPage({ shopId, domain, productId }: ConnectedPa
   return (
     <main>
       <h1>
-        Reviews for product {productId} from shop {shopId} at {domain}
+        Reviews for product {productId} from shop {id} at {domain}
       </h1>
       <ul>
-        {reviewListQuery.data.map((it) => (
+        {reviews.map((it) => (
           <li key={it.id}>
             <button
               className="flex flex-col justify-start"

@@ -4,23 +4,22 @@ import { Suspense } from 'react';
 
 import useShopConnected from '@/hooks/use-shop-connected.ts';
 import { ReviewServiceProvider } from '@/services/review.tsx';
-import useShopConnection from '@/state/connection';
+import useShop from '@/state/shop.ts';
 
 import ConnectedPage from './connected-page.tsx';
 import DisconnectedPage from './disconnected-page';
 
 export default function Page() {
-  const shopConnection = useShopConnection();
+  const shop = useShop();
   useShopConnected('list');
-  if (!shopConnection.connected) return <DisconnectedPage />;
+  if (!shop.connected) return <DisconnectedPage />;
 
   return (
     <ReviewServiceProvider>
       <Suspense fallback={<p>loading...</p>}>
         <ConnectedPage
-          domain={shopConnection.domain}
+          shop={shop}
           productId="1"
-          shopId={shopConnection.id}
         />
       </Suspense>
     </ReviewServiceProvider>

@@ -1,9 +1,11 @@
 import { toBase64 } from '@/utils/base64.ts';
 
-const createAuthHeader = (shopId: string, domain: string) => {
-  return {
-    Authorization: `Basic ${toBase64(`${shopId}:${domain}`)}`,
-  };
+export const createAccessToken = (shopId: string, domain: string) => {
+  return toBase64(`${shopId}:${domain}`);
 };
 
-export default createAuthHeader;
+export const createBasicAuthHeader = (token: string) => {
+  return {
+    Authorization: `Basic ${token}`,
+  };
+};

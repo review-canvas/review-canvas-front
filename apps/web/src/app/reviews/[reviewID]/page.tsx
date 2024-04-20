@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 
 import useShopConnected from '@/hooks/use-shop-connected.ts';
-import useShopConnection from '@/state/connection.ts';
+import useShop from '@/state/shop.ts';
 
 type PageParams = {
   reviewID: string;
@@ -11,13 +11,13 @@ type PageParams = {
 
 export default function ReviewDetailPage() {
   const params = useParams<PageParams>();
-  const shopConnection = useShopConnection();
+  const shop = useShop();
   useShopConnected('detail');
 
-  if (!shopConnection.connected) return null;
+  if (!shop.connected) return null;
 
   const close = () => {
-    window.parent.postMessage({ type: 'close-review-detail' }, shopConnection.domain);
+    window.parent.postMessage({ type: 'close-review-detail' }, shop.domain);
   };
 
   return (

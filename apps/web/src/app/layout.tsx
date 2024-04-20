@@ -5,20 +5,20 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import GlobalStyles from '@/components/global-styles.tsx';
-import useShopConnection from '@/state/connection.ts';
+import useShop from '@/state/shop.ts';
 
 import './globals.css';
 
 const queryClient = new QueryClient();
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const shopConnection = useShopConnection();
+  const shop = useShop();
 
   useEffect(() => {
     const handleMessage = (evt: MessageEvent<{ type: string; payload: string }>) => {
       const { type, payload } = evt.data;
       if (type !== 'review-canvas-connect') return;
-      shopConnection.connect(payload, evt.origin);
+      shop.connect(payload, evt.origin);
     };
     window.addEventListener('message', handleMessage);
 
