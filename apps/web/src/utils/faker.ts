@@ -74,7 +74,7 @@ export const loremIpsum = () => {
     'est',
   ];
 
-  const randomLength = Math.floor(Math.random() * 20) + 5;
+  const randomLength = Math.floor(Math.random() * 10) + 5;
   const randomWords = Array.from({ length: randomLength }, () => {
     const randomIndex = Math.floor(Math.random() * words.length);
     return words[randomIndex];

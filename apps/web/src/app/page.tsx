@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 
+import useShopConnected from '@/hooks/use-shop-connected.ts';
 import { ReviewServiceProvider } from '@/services/review.tsx';
 import useShopConnection from '@/state/connection';
 
@@ -10,6 +11,7 @@ import DisconnectedPage from './disconnected-page';
 
 export default function Page() {
   const shopConnection = useShopConnection();
+  useShopConnected('list');
   if (!shopConnection.connected) return <DisconnectedPage />;
 
   return (

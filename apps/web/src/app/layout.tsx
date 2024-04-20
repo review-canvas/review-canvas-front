@@ -17,7 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   useEffect(() => {
     const handleMessage = (evt: MessageEvent<{ type: string; payload: string }>) => {
       const { type, payload } = evt.data;
-      if (type !== 'connect') return;
+      if (type !== 'review-canvas-connect') return;
       shopConnection.connect(payload, evt.origin);
     };
     window.addEventListener('message', handleMessage);
@@ -26,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return () => {
       window.removeEventListener('message', handleMessage);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- This effect should only run once
   }, []);
 
   return (

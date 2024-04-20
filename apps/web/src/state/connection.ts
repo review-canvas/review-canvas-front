@@ -7,6 +7,8 @@ interface ConnectedShop {
 }
 interface DisconnectedShop {
   connected: false;
+  id?: never;
+  domain?: never;
 }
 
 export type ShopConnectionState = ConnectedShop | DisconnectedShop;
