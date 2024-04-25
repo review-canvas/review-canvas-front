@@ -14,12 +14,36 @@ interface HttpClientConfig {
   onResponse?: (response: Response) => void;
 }
 
-class HttpClient {
+export class HttpClient {
   private config: HttpClientConfig;
 
   constructor(config: HttpClientConfig) {
-    this.config = config;
-    this.config.onRequest = this.handleRequestInterceptor
+    const defaultConfig: HttpClientConfig = {
+      baseUrl: process.env.NEXT_PUBLIC_API_DOMAIN || '',
+      onRequest: this.handleRequestInterceptor.bind(this),
+      onResponse: this.handleResponseInterceptor.bind(this),
+    };
+
+    this.config = { ...defaultConfig, ...config };
+  }
+
+  private handleRequestInterceptor(url: string, options: FetchOptions): void {
+    const { accessToken } = this.config;
+    const headers = new Headers(options.headers || {});
+
+    if (accessToken) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
+    } else {
+      window.location.href = '/auth/login';
+    }
+
+    options.headers = headers;
+  }
+
+  private handleResponseInterceptor(response: Response): void {
+    if (response.status === 401) {
+      window.location.href = '/auth/login';
+    }
   }
 
   private setAccessToken(token: string): void {
@@ -27,21 +51,20 @@ class HttpClient {
   }
 
   private async fetch(url: string, options: FetchOptions): Promise<Response> {
-    const { baseUrl, accessToken, onRequest, onResponse } = this.config;
+    const { baseUrl, onRequest, onResponse } = this.config;
 
     const finalUrl = `${baseUrl}${url}`;
     const headers = new Headers(options.headers || {});
 
+    const accessToken = this.config.accessToken;
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
+    options.headers = headers;
 
-    const finalOptions = { ...options, headers };
+    onRequest && onRequest(finalUrl, options);
 
-    onRequest && onRequest(finalUrl, finalOptions);
-
-    const response = await fetch(finalUrl, finalOptions);
-
+    const response = await fetch(finalUrl, options);
     onResponse && onResponse(response);
 
     return response;
