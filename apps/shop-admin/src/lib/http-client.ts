@@ -17,7 +17,7 @@ interface HttpClientConfig {
 export class HttpClient {
   private config: HttpClientConfig;
 
-  constructor(config: HttpClientConfig) {
+  constructor(config?: HttpClientConfig) {
     const defaultConfig: HttpClientConfig = {
       baseUrl: process.env.NEXT_PUBLIC_API_DOMAIN || '',
       onRequest: this.handleRequestInterceptor.bind(this),
