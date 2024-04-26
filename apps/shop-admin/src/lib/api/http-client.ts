@@ -1,3 +1,7 @@
+import type { CommonResponse } from './api-common';
+
+import useTokenStore from '@/store/auth/token';
+
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 interface FetchOptions {
@@ -19,7 +23,7 @@ export class HttpClient {
 
   constructor(config?: HttpClientConfig) {
     const defaultConfig: HttpClientConfig = {
-      baseUrl: process.env.NEXT_PUBLIC_API_DOMAIN || '',
+      baseUrl: config?.baseUrl || process.env.NEXT_PUBLIC_API_DOMAIN || '',
       onRequest: this.handleRequestInterceptor.bind(this),
       onResponse: this.handleResponseInterceptor.bind(this),
     };
@@ -33,8 +37,6 @@ export class HttpClient {
 
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
-    } else {
-      window.location.href = '/auth/login';
     }
 
     options.headers = headers;
@@ -46,20 +48,21 @@ export class HttpClient {
     }
   }
 
-  private setAccessToken(token: string): void {
+  public setAccessToken(token: string): void {
     this.config.accessToken = token;
   }
 
-  private async fetch(url: string, options: FetchOptions): Promise<Response> {
+  private async fetch<T>(url: string, options: FetchOptions): Promise<CommonResponse<T>> {
     const { baseUrl, onRequest, onResponse } = this.config;
 
     const finalUrl = `${baseUrl}${url}`;
     const headers = new Headers(options.headers || {});
 
-    const accessToken = this.config.accessToken;
+    const accessToken = useTokenStore.getState().accessToken;
     if (accessToken) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
+
     options.headers = headers;
 
     onRequest && onRequest(finalUrl, options);
@@ -67,34 +70,22 @@ export class HttpClient {
     const response = await fetch(finalUrl, options);
     onResponse && onResponse(response);
 
-    return response;
-  }
-
-  private async fetchWithRetry(url: string, options: FetchOptions, retries = 3, delay = 1000): Promise<Response> {
-    try {
-      const response = await this.fetch(url, options);
-      if (!response.ok && retries > 0) {
-        throw new Error('Request failed');
-      }
-      return response;
-    } catch (error) {
-      if (retries > 0) {
-        await new Promise((resolve) => {
-          setTimeout(resolve, delay);
-        });
-        return this.fetchWithRetry(url, options, retries - 1, delay);
-      }
-
-      throw error;
+    const jsonResponse = (await response.json()) as CommonResponse<T>;
+    if (!jsonResponse.success) {
+      // eslint-disable-next-line no-console -- check error response
+      console.error(jsonResponse);
+      throw new Error('API Fail');
     }
+
+    return jsonResponse;
   }
 
-  public async get(url: string, params?: URLSearchParams, cache?: RequestCache): Promise<Response> {
+  public async get<T>(url: string, params?: URLSearchParams, cache?: RequestCache): Promise<CommonResponse<T>> {
     const queryString = params ? `?${params.toString()}` : '';
     return this.fetch(`${url}${queryString}`, { method: 'GET', cache });
   }
 
-  public async post(url: string, body?: any, cache?: RequestCache): Promise<Response> {
+  public async post<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
     return this.fetch(url, {
       method: 'POST',
       body: JSON.stringify(body),
@@ -103,7 +94,7 @@ export class HttpClient {
     });
   }
 
-  public async put(url: string, body?: any, cache?: RequestCache): Promise<Response> {
+  public async put<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
     return this.fetch(url, {
       method: 'PUT',
       body: JSON.stringify(body),
@@ -112,7 +103,7 @@ export class HttpClient {
     });
   }
 
-  public async delete(url: string, cache?: RequestCache): Promise<Response> {
+  public async delete<T>(url: string, cache?: RequestCache): Promise<CommonResponse<T>> {
     return this.fetch(url, { method: 'DELETE', cache });
   }
 }
