@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRef } from 'react';
 
@@ -6,28 +6,40 @@ import { Checkbox, SolidButton, TextField } from '@ui/components';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { AuthService } from '@/service/auth';
+
 function AuthLoginPage() {
   const router = useRouter();
   const emailTextFieldRef = useRef<HTMLInputElement>(null);
   const passwordTextFieldRef = useRef<HTMLInputElement>(null);
 
   const handleLogin = () => {
-    const email = emailTextFieldRef.current?.value;
-    const password = passwordTextFieldRef.current?.value;
+    const tryLogin = async () => {
+      const email = emailTextFieldRef.current?.value;
+      const password = passwordTextFieldRef.current?.value;
 
-    if (!email) {
-      // eslint-disable-next-line no-alert -- email is required
-      alert('이메일을 입력해 주세요');
-      return;
-    }
+      if (!email) {
+        // eslint-disable-next-line no-alert -- email is required
+        alert('이메일을 입력해 주세요');
+        return;
+      }
 
-    if (!password) {
-      // eslint-disable-next-line no-alert -- password is required
-      alert('비밀번호를 입력해 주세요');
-      return;
-    }
+      if (!password) {
+        // eslint-disable-next-line no-alert -- password is required
+        alert('비밀번호를 입력해 주세요');
+        return;
+      }
 
-    router.replace('/dashboard');
+      try {
+        await AuthService.login(email, password);
+        router.replace('/dashboard');
+      } catch (e) {
+        // eslint-disable-next-line no-alert -- alert is required
+        alert('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+      }
+    };
+
+    void tryLogin();
   };
 
   return (
