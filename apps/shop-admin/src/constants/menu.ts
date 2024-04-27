@@ -2,12 +2,9 @@ import type { FunctionComponent, SVGProps } from 'react';
 
 import ColumnIcon from '@/assets/icon/icon-column.svg';
 import ContainerIcon from '@/assets/icon/icon-container.svg';
-import CustomCSSIcon from '@/assets/icon/icon-custom-css.svg';
-import CustomFontIcon from '@/assets/icon/icon-custom-font.svg';
 import DashboardOptionIcon from '@/assets/icon/icon-dashboard-option.svg';
 import DashboardIcon from '@/assets/icon/icon-dashboard.svg';
 import LayoutIcon from '@/assets/icon/icon-layout.svg';
-import NaverApiIcon from '@/assets/icon/icon-naver-api.svg';
 import ReviewOptionIcon from '@/assets/icon/icon-review-option.svg';
 import TitleIcon from '@/assets/icon/icon-title.svg';
 
