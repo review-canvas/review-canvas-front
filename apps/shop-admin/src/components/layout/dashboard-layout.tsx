@@ -55,8 +55,9 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
       </aside>
 
       <main tw="flex-1 bg-sub-secondary px-[15px]">
-        <header tw="flex items-end h-24 mb-3 border-b-[2px] border-b-black">
-          <span tw="ml-3 mb-3 text-xl">{currentPathInfo.name}</span>
+        <header tw="flex flex-col justify-end h-24 pl-3 pb-3 border-b-[2px] border-b-black">
+          <span tw="text-xl mb-1">{currentPathInfo.name}</span>
+          {currentPathInfo.caption ? <span tw="text-base text-stone-400">{currentPathInfo.caption}</span> : null}
         </header>
         <div tw="">{children}</div>
       </main>
