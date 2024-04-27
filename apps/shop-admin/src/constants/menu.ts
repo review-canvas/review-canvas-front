@@ -13,6 +13,7 @@ type SVGIcon = FunctionComponent<SVGProps<SVGSVGElement>>;
 interface AdminMenuItem {
   name: string;
   pathname: string;
+  caption?: string;
   icon: SVGIcon;
 }
 
@@ -25,6 +26,7 @@ export const ADMIN_MENU_MAP: AdminMenuItem[] = [
   {
     name: '대시보드 옵션',
     pathname: '/dashboard/option',
+    caption: '대시보드 화면의 요소들을 활성화 또는 비활성화 할 수 있습니다.',
     icon: DashboardOptionIcon as SVGIcon,
   },
   {
@@ -35,16 +37,19 @@ export const ADMIN_MENU_MAP: AdminMenuItem[] = [
   {
     name: 'Container',
     pathname: '/setting/design/container',
+    caption: '리뷰 전체 영역을 설정합니다.',
     icon: ContainerIcon as SVGIcon,
   },
   {
     name: 'Column',
     pathname: '/setting/design/column',
+    caption: '베스트리뷰, 통계, 이미지/동영상, 리뷰 영역을 설정합니다.',
     icon: ColumnIcon as SVGIcon,
   },
   {
     name: 'Title',
     pathname: '/setting/design/title',
+    caption: '리뷰 전체 영역 상단의 타이틀 및 설명글을 설정합니다.',
     icon: TitleIcon as SVGIcon,
   },
   {
