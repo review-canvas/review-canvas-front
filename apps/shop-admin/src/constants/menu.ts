@@ -55,19 +55,19 @@ export const ADMIN_MENU_MAP: AdminMenuItem[] = [
     pathname: '/setting/option',
     icon: ReviewOptionIcon as SVGIcon,
   },
-  {
-    name: 'Custom Font',
-    pathname: '/setting/design/font',
-    icon: CustomFontIcon as SVGIcon,
-  },
-  {
-    name: 'Custom CSS',
-    pathname: '/setting/design/css',
-    icon: CustomCSSIcon as SVGIcon,
-  },
-  {
-    name: 'Naver API',
-    pathname: '/setting/naver-api',
-    icon: NaverApiIcon as SVGIcon,
-  },
+  // {
+  //   name: 'Custom Font',
+  //   pathname: '/setting/design/font',
+  //   icon: CustomFontIcon as SVGIcon,
+  // },
+  // {
+  //   name: 'Custom CSS',
+  //   pathname: '/setting/design/css',
+  //   icon: CustomCSSIcon as SVGIcon,
+  // },
+  // {
+  //   name: 'Naver API',
+  //   pathname: '/setting/naver-api',
+  //   icon: NaverApiIcon as SVGIcon,
+  // },
 ];
