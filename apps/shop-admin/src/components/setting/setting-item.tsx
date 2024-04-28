@@ -16,7 +16,7 @@ function ContainerComponent({ children }: SettingItemProps) {
 }
 
 function TitleComponent({ children }: SettingItemProps) {
-  return <div tw="text-xl font-medium break-keep">{children}</div>;
+  return <div tw="text-xl font-normal break-keep">{children}</div>;
 }
 
 function CaptionComponent({ children }: SettingItemProps) {
