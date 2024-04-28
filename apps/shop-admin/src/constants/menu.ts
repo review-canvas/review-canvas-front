@@ -31,30 +31,37 @@ export const ADMIN_MENU_MAP: AdminMenuItem[] = [
   },
   {
     name: '레이아웃',
-    pathname: '/setting/design/layout',
+    pathname: '/setting/design/list/layout',
     icon: LayoutIcon as SVGIcon,
   },
   {
     name: 'Container',
-    pathname: '/setting/design/container',
+    pathname: '/setting/design/list/container',
     caption: '리뷰 전체 영역을 설정합니다.',
     icon: ContainerIcon as SVGIcon,
   },
   {
     name: 'Column',
-    pathname: '/setting/design/column',
+    pathname: '/setting/design/list/column',
     caption: '베스트리뷰, 통계, 이미지/동영상, 리뷰 영역을 설정합니다.',
     icon: ColumnIcon as SVGIcon,
   },
   {
     name: 'Title',
-    pathname: '/setting/design/title',
+    pathname: '/setting/design/list/title',
     caption: '리뷰 전체 영역 상단의 타이틀 및 설명글을 설정합니다.',
     icon: TitleIcon as SVGIcon,
   },
   {
-    name: 'ReviewOption',
-    pathname: '/setting/option',
+    name: '리뷰 쓰기 디자인',
+    pathname: '/setting/design/detail/write',
+    caption: '리뷰 쓰기 영역의 디자인을 원하는대로 정할 수 있어요.',
+    icon: ReviewOptionIcon as SVGIcon,
+  },
+  {
+    name: '리뷰 보기 디자인',
+    pathname: '/setting/design/detail/read',
+    caption: '리뷰 보기 영역의 디자인을 원하는대로 정할 수 있어요.',
     icon: ReviewOptionIcon as SVGIcon,
   },
   // {
