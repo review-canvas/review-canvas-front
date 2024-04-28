@@ -8,23 +8,23 @@ const SettingItem: React.FC<SettingItemProps> & {
   Caption: React.FC<SettingItemProps>;
   Content: React.FC<SettingItemProps>;
 } = ({ children }) => {
-  return <div tw="flex flex-1 gap-8 px-3 py-6 border-b-[1px] border-b-main-quaternary">{children}</div>;
+  return <div tw="flex gap-9 px-3 py-6 border-b-[1px] border-b-main-quaternary">{children}</div>;
 };
 
 function ContainerComponent({ children }: SettingItemProps) {
-  return <div tw="flex flex-col gap-1">{children}</div>;
+  return <div tw="flex basis-1/4 flex-col gap-1">{children}</div>;
 }
 
 function TitleComponent({ children }: SettingItemProps) {
-  return <div tw="text-xl">{children}</div>;
+  return <div tw="text-xl font-medium">{children}</div>;
 }
 
 function CaptionComponent({ children }: SettingItemProps) {
-  return <div tw="text-sm text-stone-400">{children}</div>;
+  return <div tw="text-sm text-stone-400 font-medium">{children}</div>;
 }
 
 function ContentComponent({ children }: SettingItemProps) {
-  return <div tw="w-full flex items-center">{children}</div>;
+  return <div tw="w-full flex basis-3/4 items-center">{children}</div>;
 }
 
 SettingItem.displayName = 'SettingItem';
