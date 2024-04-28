@@ -59,7 +59,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
           <span tw="text-xl mb-1">{currentPathInfo.name}</span>
           {currentPathInfo.caption ? <span tw="text-base text-stone-400">{currentPathInfo.caption}</span> : null}
         </header>
-        <div tw="">{children}</div>
+        <div>{children}</div>
       </main>
     </div>
   );
