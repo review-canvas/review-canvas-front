@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
   };
 
   return (
-    <div tw="flex h-screen">
+    <div tw="flex min-h-screen h-full">
       <aside
         tw="w-64"
         aria-label="Sidebar"
@@ -54,12 +54,12 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
         </div>
       </aside>
 
-      <main tw="flex-1 bg-sub-secondary px-[15px]">
+      <main tw="flex-1 h-full min-h-screen bg-sub-secondary px-[15px] pb-16">
         <header tw="flex flex-col justify-end h-24 pl-3 pb-3 border-b-[2px] border-b-black">
-          <span tw="text-xl mb-1">{currentPathInfo.name}</span>
+          <span tw="text-2xl mb-1">{currentPathInfo.name}</span>
           {currentPathInfo.caption ? <span tw="text-base text-stone-400">{currentPathInfo.caption}</span> : null}
         </header>
-        <div>{children}</div>
+        <div tw="h-full">{children}</div>
       </main>
     </div>
   );
