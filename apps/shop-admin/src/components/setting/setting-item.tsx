@@ -12,19 +12,19 @@ const SettingItem: React.FC<SettingItemProps> & {
 };
 
 function ContainerComponent({ children }: SettingItemProps) {
-  return <div tw="flex basis-1/4 flex-col gap-1">{children}</div>;
+  return <div tw="flex basis-1/3 flex-col gap-1">{children}</div>;
 }
 
 function TitleComponent({ children }: SettingItemProps) {
-  return <div tw="text-xl font-medium">{children}</div>;
+  return <div tw="text-xl font-medium break-keep">{children}</div>;
 }
 
 function CaptionComponent({ children }: SettingItemProps) {
-  return <div tw="text-sm text-stone-400 font-medium">{children}</div>;
+  return <div tw="text-sm text-stone-400 font-medium break-keep">{children}</div>;
 }
 
 function ContentComponent({ children }: SettingItemProps) {
-  return <div tw="w-full flex basis-3/4 items-center">{children}</div>;
+  return <div tw="w-full flex basis-2/3 items-center">{children}</div>;
 }
 
 SettingItem.displayName = 'SettingItem';
