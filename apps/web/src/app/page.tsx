@@ -11,16 +11,12 @@ import DisconnectedPage from './disconnected-page';
 
 export default function Page() {
   const shop = useShop();
-  useShopConnected('list');
   if (!shop.connected) return <DisconnectedPage />;
 
   return (
     <ReviewServiceProvider>
       <Suspense fallback={<p>loading...</p>}>
-        <ConnectedPage
-          shop={shop}
-          productId="1"
-        />
+        <ConnectedPage productId="1" />
       </Suspense>
     </ReviewServiceProvider>
   );
