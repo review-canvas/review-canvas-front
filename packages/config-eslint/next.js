@@ -35,6 +35,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': ['off'],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/consistent-type-definitions': ['off'],
     'no-var': 'error',
     'no-self-assign': 'error',
     'array-bracket-newline': 'off',
