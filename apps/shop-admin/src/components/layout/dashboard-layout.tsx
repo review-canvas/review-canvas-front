@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import tw from 'twin.macro';
 
-import { ADMIN_MENU_MAP } from '@/constants/menu';
-import { ADMIN_SUB_MENU_MAP } from '@/constants/sub-menu';
+import { ADMIN_TOTAL_MENU_MAP, ADMIN_MENU_MAP, ADMIN_SUB_MENU_MAP } from '@/constants/menu';
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const currentPathname = usePathname();
-  const currentPathInfo = ADMIN_MENU_MAP.filter((menu) => menu.pathname === currentPathname)[0] || ADMIN_MENU_MAP[0];
+  const currentPathInfo =
+    ADMIN_TOTAL_MENU_MAP.filter((menu) => menu.pathname === currentPathname)[0] || ADMIN_TOTAL_MENU_MAP[0];
 
   const isActive = (path: string) => {
     return currentPathname === path;
