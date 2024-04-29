@@ -9,6 +9,7 @@ interface FetchOptions {
   body?: BodyInit | null;
   headers?: HeadersInit;
   cache?: RequestCache;
+  next?: RequestInit['next'];
 }
 
 interface HttpClientConfig {
@@ -35,7 +36,15 @@ export class HttpClient {
     const { accessToken } = this.config;
     const headers = new Headers(options.headers || {});
 
-    if (accessToken) {
+    if (typeof window !== 'undefined') {
+      // Client Side
+      const clientAccessToken = useTokenStore.getState().accessToken;
+
+      if (clientAccessToken) {
+        headers.set('Authorization', `Bearer ${clientAccessToken}`);
+      }
+    } else if (accessToken) {
+      // Server Side
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
 
@@ -43,8 +52,10 @@ export class HttpClient {
   }
 
   private handleResponseInterceptor(response: Response): void {
-    if (response.status === 401) {
-      window.location.href = '/auth/login';
+    if (response.status === 401 || response.status === 403) {
+      if (typeof window !== 'undefined') {
+        window.location.href = '/auth/login';
+      }
     }
   }
 

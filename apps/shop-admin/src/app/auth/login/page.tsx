@@ -75,6 +75,7 @@ function AuthLoginPage() {
       <div tw="flex flex-col w-full gap-4">
         <div tw="w-full">
           <SolidButton
+            variant="primary"
             size="lg"
             tw="w-full h-12"
             onPress={handleLogin}
@@ -85,7 +86,7 @@ function AuthLoginPage() {
 
         <div tw="w-full flex justify-between [&_a]:text-main-secondary [&_a]:text-sm">
           <div>
-            <Link href="/">아이디·비밀번호 찾기</Link>
+            <Link href="/auth/login">아이디·비밀번호 찾기</Link>
           </div>
 
           <div>
