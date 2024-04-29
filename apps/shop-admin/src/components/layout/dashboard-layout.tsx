@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import tw from 'twin.macro';
 
 import { ADMIN_MENU_MAP } from '@/constants/menu';
+import { ADMIN_SUB_MENU_MAP } from '@/constants/sub-menu';
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const currentPathname = usePathname();
@@ -47,6 +48,30 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
                     <Icon css={isActive(pathname) ? tw`[&_path]:fill-main-primary` : null} />
                     <span>{name}</span>
                   </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          <ul tw="mt-10 pt-4 border-t-[1px] border-t-main-quaternary">
+            {ADMIN_SUB_MENU_MAP.map(({ key, name, pathname, action }) => {
+              const renderMenuItem = () => {
+                if (action) {
+                  return <button onClick={action}>{name}</button>;
+                } else if (pathname) {
+                  return <Link href={pathname}>{name}</Link>;
+                }
+
+                return null;
+              };
+
+              return (
+                <li
+                  tw="flex items-center px-3 py-2 text-base font-medium rounded-lg gap-2"
+                  css={pathname && isActive(pathname) ? tw`text-main-primary` : tw`text-main-quaternary`}
+                  key={key}
+                >
+                  {renderMenuItem()}
                 </li>
               );
             })}
