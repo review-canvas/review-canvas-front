@@ -1,3 +1,5 @@
+import { AuthService } from '@/service/auth';
+
 interface AdminSubMenuItem {
   key: string;
   name: string;
@@ -10,7 +12,7 @@ export const ADMIN_SUB_MENU_MAP: AdminSubMenuItem[] = [
     key: 'logout',
     name: '로그아웃',
     action: () => {
-      return false;
+      void AuthService.logout();
     },
   },
   {
