@@ -10,6 +10,16 @@ async function login(email: string, password: string): Promise<void> {
   }
 }
 
+async function logout(): Promise<void> {
+  try {
+    await apiService.postAuthLogout();
+    window.location.href = '/auth/login';
+  } catch (error) {
+    throw new Error('로그아웃에 실패했습니다.', error as ErrorOptions);
+  }
+}
+
 export const AuthService = {
   login,
+  logout,
 };
