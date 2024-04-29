@@ -19,6 +19,11 @@ class ApiService {
 
     return response.data;
   }
+
+  public async postAuthLogout() {
+    const response = await this.httpClient.post('/api/v1/logout');
+    return response.data;
+  }
 }
 
 const httpClient = new HttpClient();
