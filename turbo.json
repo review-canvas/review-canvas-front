@@ -9,7 +9,13 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
-    "web#build": {},
+    "uglify-connector": {
+      "inputs": ["apps/web/src/review-canvas-connector.js"],
+      "outputs": ["public/review-canvas-connector.js"]
+    },
+    "web#build": {
+      "dependsOn": ["uglify-connector"]
+    },
     "homepage#build": {},
     "shop-admin#build": {
       "dependsOn": ["@review-canvas/admin-ui#build"]

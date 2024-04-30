@@ -1,8 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-
-import useShopConnected from '@/hooks/use-shop-connected.ts';
 import { ReviewServiceProvider } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 
