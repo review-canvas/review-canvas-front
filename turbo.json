@@ -1,7 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "experimentalUI": true,
   "globalDotEnv": [".env", ".env.local"],
   "globalEnv": ["NEXT_PUBLIC_API_DOMAIN"],
   "pipeline": {
@@ -9,12 +8,12 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
-    "uglify-connector": {
-      "inputs": ["apps/web/src/review-canvas-connector.js"],
+    "uglify-script": {
+      "inputs": ["apps/web/src/scripts/review-canvas-connector.js"],
       "outputs": ["public/review-canvas-connector.js"]
     },
     "web#build": {
-      "dependsOn": ["uglify-connector"]
+      "dependsOn": ["uglify-script"]
     },
     "homepage#build": {},
     "shop-admin#build": {

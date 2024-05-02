@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
-    "uglify-connector": "uglifyjs -c -m --toplevel --v8 --webkit -o public/review-canvas-connector.js -- src/scripts/review-canvas-connector.js",
+    "uglify-script": "uglifyjs -c -m --toplevel --v8 --webkit -o public/review-canvas-connector.js -- src/scripts/review-canvas-connector.js",
     "build": "next build",
     "start": "next start --port 3000",
     "lint": "next lint",
