@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 export interface Font {
   name: string;
   size: string;
-  bold: string;
+  weight: string;
   color: string;
 }
 
@@ -12,6 +12,6 @@ export const generateFontCSS = (font: Font) => {
     color: ${font.color};
     font-family: var(--${font.name});
     font-size: ${font.size};
-    font-weight: ${font.bold};
+    font-weight: ${font.weight};
   `;
 };
