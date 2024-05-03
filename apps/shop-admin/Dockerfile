@@ -7,6 +7,7 @@ RUN apk add --no-cache libc6-compat
 
 # pnpm 설치
 RUN npm install -g pnpm
+RUN corepack enable pnpm
 
 WORKDIR /app
 
