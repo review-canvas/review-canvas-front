@@ -25,7 +25,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
           <div tw="flex justify-center items-end h-24 mb-3 border-b-[1px] border-b-main-quaternary">
             <div tw="flex w-full gap-[11px] items-center mb-7 ml-3">
               <div tw="bg-main-secondary rounded-lg w-8 h-8" />
-              <span tw="text-ml">Shop Name</span>
+              <span tw="text-ml">Super Admin</span>
             </div>
           </div>
 
