@@ -9,8 +9,6 @@ export const ADMIN_SUB_MENU_MAP: AdminSubMenuItem[] = [
   {
     key: 'logout',
     name: '로그아웃',
-    action: () => {
-      return false;
-    },
+    pathname: '/auth/login',
   },
 ];
