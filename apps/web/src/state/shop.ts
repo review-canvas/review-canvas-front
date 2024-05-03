@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import { createAccessToken } from '@/utils/auth.ts';
 
 export interface ConnectedShop {

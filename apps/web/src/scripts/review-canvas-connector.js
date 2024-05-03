@@ -2,8 +2,10 @@ const reviewCanvasURL = 'http://localhost:3000';
 
 window.addEventListener('load', () => {
   const $container = document.querySelector('#review-canvas-container');
-  // eslint-disable-next-line no-console -- 샵에게 알림을 보내기 위해 console.error 사용
-  if (!$container) return console.error('No container found');
+  if (!$container) {
+    // eslint-disable-next-line no-console -- 샵에게 알림을 보내기 위해 console.error 사용
+    console.error('No container found');
+  }
 
   const $iframe = document.createElement('iframe');
   $iframe.src = reviewCanvasURL;
@@ -15,20 +17,14 @@ window.addEventListener('load', () => {
 
   $container.appendChild($iframe);
 });
-
 window.addEventListener('message', (evt) => {
-  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'review-canvas-connected') return;
-  const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"]`);
-  if (!$element) return;
-  $element.dataset.connected = 'true';
-});
-window.addEventListener('message', (evt) => {
-  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'review-canvas-ready') return;
+  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'ready') return;
 
   const shopId = new URLSearchParams(location.search).get('id');
-  document.querySelectorAll('iframe[data-review-canvas][data-connected="false"]').forEach(($reviewCanvasIframe) => {
-    $reviewCanvasIframe.contentWindow.postMessage({ type: 'review-canvas-connect', payload: shopId }, evt.origin);
-  });
+  const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"][data-connected="false"]`);
+  if (!$element || !($element instanceof HTMLIFrameElement)) return;
+  $element.dataset.connected = 'true';
+  $element.contentWindow.postMessage({ type: 'connect', payload: shopId }, evt.origin);
 });
 
 window.addEventListener('message', (evt) => {

@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import GlobalStyles from '@/components/global-styles.tsx';
 import useShop from '@/state/shop.ts';
-import { sendMessageToShop } from '@/utils/message.tsx';
+import { notoSansKR } from '@/theme/font.ts';
 
 import './globals.css';
 
@@ -18,12 +18,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   useEffect(() => {
     const handleMessage = (evt: MessageEvent<{ type: string; payload: string }>) => {
       const { type, payload } = evt.data;
-      if (type !== 'review-canvas-connect') return;
+      if (type !== 'connect') return;
       shop.connect(payload, evt.origin);
     };
     window.addEventListener('message', handleMessage);
-
-    sendMessageToShop('*', 'review-canvas-ready');
     return () => {
       window.removeEventListener('message', handleMessage);
     };
@@ -31,7 +29,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   }, []);
 
   return (
-    <html lang="ko">
+    <html
+      className={notoSansKR.className}
+      lang="ko"
+    >
       <body>
         <GlobalStyles />
         <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
