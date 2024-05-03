@@ -6,7 +6,7 @@ FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat
 
 # pnpm 설치
-RUN npm install -g pnpm
+RUN corepack enable pnpm
 
 WORKDIR /app
 
@@ -34,7 +34,6 @@ COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-ta
 WORKDIR /app
 
 # 빌드할 프로젝트를 동적으로 선택하여 빌드합니다.
-RUN corepack enable pnpm
 RUN pnpm run build:shop-admin
 
 # 실행 단계
