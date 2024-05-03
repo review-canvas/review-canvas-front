@@ -54,6 +54,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/turbo.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./
 
+ARG NEXT_PUBLIC_API_DOMAIN
 ENV NEXT_PUBLIC_API_DOMAIN ${NEXT_PUBLIC_API_DOMAIN}
 
 USER nextjs
