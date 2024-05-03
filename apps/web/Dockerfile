@@ -51,6 +51,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/turbo.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./
 
+ENV NEXT_PUBLIC_API_DOMAIN ${NEXT_PUBLIC_API_DOMAIN}
+
 USER nextjs
 EXPOSE 3000
 ENV PORT 3000
