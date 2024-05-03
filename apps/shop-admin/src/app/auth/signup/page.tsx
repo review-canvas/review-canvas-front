@@ -23,7 +23,7 @@ const StepComponentsMap = new Map<string, () => React.ReactElement>([
   ['step7', () => <Step7 />],
 ])
 
-function SignUpPage() {
+function AuthSignUpPage() {
   const { currentStep } = useSignupStore();
   const router = useRouter();
 
@@ -36,11 +36,9 @@ function SignUpPage() {
   return (
     <div>
       <h1>회원가입</h1>
-      <div>
-        {CurrentStepComponent ? <CurrentStepComponent /> : <p>No Step</p>} 
-      </div>
+      <div>{CurrentStepComponent ? <CurrentStepComponent /> : <p>No Step</p>}</div>
     </div>
   );
 }
 
-export default SignUpPage
+export default AuthSignUpPage;

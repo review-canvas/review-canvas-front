@@ -21,6 +21,8 @@ export const buttonStyle = ({ size = 'lg' }: ButtonProps) => css`
   height: ${size === 'sm' ? 35 : 40}px;
   width: ${width[size]}px;
   ${tw`rounded-5 flex justify-center items-center`};
+  font-size: ${size === 'sm' ? 14 : 16}px;
+  font-weight: 400;
 `;
 
 /**

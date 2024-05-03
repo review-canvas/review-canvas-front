@@ -31,6 +31,7 @@ COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-ta
 WORKDIR /app
 
 # 빌드할 프로젝트를 동적으로 선택하여 빌드합니다.
+RUN corepack enable pnpm
 RUN pnpm run build:web
 
 # 실행 단계
