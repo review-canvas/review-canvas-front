@@ -38,6 +38,7 @@ export default function Page(): React.ReactNode {
           variant="underline"
         />
       </form>
+      <div>{process.env.NEXT_PUBLIC_CAFE24_REDIRECT_URI}</div>
     </main>
   );
 }
