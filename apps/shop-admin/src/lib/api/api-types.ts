@@ -8,3 +8,12 @@ export interface PostAuthLoginResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface PostCafe24AuthenticationProcessRequest {
+  mallId: string;
+  code: string;
+}
+
+export interface PostCafe24AuthenticationProcessResponse {
+  success: boolean;
+}
