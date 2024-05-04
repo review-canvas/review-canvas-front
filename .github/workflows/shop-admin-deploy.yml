@@ -25,11 +25,21 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       
       - name: Get secrets from AWS Secrets Manager
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        id: get-secrets
+        with:
+          secret-ids: |
+            ${{ secrets.AWS_SECRET_MANAGER_SHOP_ADMIN_NAME }}
+          parse-json-secrets: true
+
+      - name: Set secrets as environment variables
         run: |
-          echo "NEXT_PUBLIC_API_DOMAIN=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.AWS_SECRET_MANAGER_SHOP_ADMIN_NAME }} --query 'SecretString' --output text | jq -r '.NEXT_PUBLIC_API_DOMAIN')" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_CLIENT_ID=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.AWS_SECRET_MANAGER_SHOP_ADMIN_NAME }} --query 'SecretString' --output text | jq -r '.NEXT_PUBLIC_CLIENT_ID')" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_CLIENT_SECRET_KEY=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.AWS_SECRET_MANAGER_SHOP_ADMIN_NAME }} --query 'SecretString' --output text | jq -r '.NEXT_PUBLIC_CLIENT_SECRET_KEY')" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_CAFE24_REDIRECT_URI=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.AWS_SECRET_MANAGER_SHOP_ADMIN_NAME }} --query 'SecretString' --output text | jq -r '.NEXT_PUBLIC_CAFE24_REDIRECT_URI')" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_API_DOMAIN=$(echo $SECRETS | jq -r '.NEXT_PUBLIC_API_DOMAIN')" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_CLIENT_ID=$(echo $SECRETS | jq -r '.NEXT_PUBLIC_CLIENT_ID')" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_CLIENT_SECRET_KEY=$(echo $SECRETS | jq -r '.NEXT_PUBLIC_CLIENT_SECRET_KEY')" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_CAFE24_REDIRECT_URI=$(echo $SECRETS | jq -r '.NEXT_PUBLIC_CAFE24_REDIRECT_URI')" >> $GITHUB_ENV
+        env:
+          SECRETS: ${{ steps.get-secrets.outputs.secrets }}
 
       - name: Build and push docker image
         uses: review-canvas/gh-actions/common/build/docker@main
