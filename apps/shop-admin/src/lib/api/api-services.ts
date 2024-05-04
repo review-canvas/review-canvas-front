@@ -19,6 +19,16 @@ class ApiService {
 
     return response.data;
   }
+
+  public async postCafe24AuthentaicationProcess(
+    request: API.PostCafe24AuthenticationProcessRequest,
+  ): Promise<API.PostCafe24AuthenticationProcessResponse> {
+    const response = await this.httpClient.post<API.PostCafe24AuthenticationProcessResponse>(
+      `/api/v1/cafe24/${request.mallId}/authentication-process?authCode=${request.code}`,
+    );
+
+    return response.data;
+  }
 }
 
 const httpClient = new HttpClient();
