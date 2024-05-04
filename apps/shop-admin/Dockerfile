@@ -4,6 +4,15 @@ FROM node:18-alpine AS base
 ARG NEXT_PUBLIC_API_DOMAIN
 ENV NEXT_PUBLIC_API_DOMAIN=${NEXT_PUBLIC_API_DOMAIN}
 
+ARG NEXT_PUBLIC_CLIENT_ID
+ENV NEXT_PUBLIC_CLIENT_ID=${NEXT_PUBLIC_CLIENT_ID}
+
+ARG NEXT_PUBLIC_CLIENT_SECRET_KEY
+ENV NEXT_PUBLIC_CLIENT_SECRET_KEY=${NEXT_PUBLIC_CLIENT_SECRET_KEY}
+
+ARG NEXT_PUBLIC_CAFE24_REDIRECT_URI
+ENV NEXT_PUBLIC_CAFE24_REDIRECT_URI=${NEXT_PUBLIC_CAFE24_REDIRECT_URI}
+
 # alpine 이미지는 glibc 대신 musl libc을 사용.
 # 특정 라이브러리에 대해 문제가 발생할 수 있으므로 libc6-compat 패키지를 추가하는 것이 좋다.
 RUN apk add --no-cache libc6-compat
@@ -58,6 +67,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./
 
 RUN echo ${NEXT_PUBLIC_API_DOMAIN}
+RUN echo ${NEXT_PUBLIC_CLIENT_ID}
+RUN echo ${NEXT_PUBLIC_CLIENT_SECRET_KEY}
+RUN echo ${NEXT_PUBLIC_CAFE24_REDIRECT_URI}
 
 USER nextjs
 EXPOSE 3001
