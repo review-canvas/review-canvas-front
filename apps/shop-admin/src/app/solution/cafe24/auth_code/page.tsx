@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -8,6 +8,14 @@ import { SolutionCafe24Service } from '@/service/solution/cafe24';
 import useSolutionCafe24Store from '@/store/solution/cafe24';
 
 function SolutionCafe24AuthCodePage() {
+  return (
+    <Suspense>
+      <SolutionCafe24AuthCodePageContent />
+    </Suspense>
+  );
+}
+
+function SolutionCafe24AuthCodePageContent() {
   const router = useRouter();
   const { mallId } = useSolutionCafe24Store();
   const searchParams = useSearchParams();

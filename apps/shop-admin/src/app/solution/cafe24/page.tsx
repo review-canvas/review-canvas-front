@@ -1,10 +1,20 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import { useSearchParams } from 'next/navigation';
 
 import useSolutionCafe24Store from '@/store/solution/cafe24';
 
 function SolutionCafe24Page() {
+  return (
+    <Suspense>
+      <SolutionCafe24PageContent />
+    </Suspense>
+  );
+}
+
+function SolutionCafe24PageContent() {
   const { setMallId } = useSolutionCafe24Store();
   const searchParams = useSearchParams();
   const mallId = searchParams?.get('mall_id');
