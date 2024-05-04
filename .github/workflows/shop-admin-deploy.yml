@@ -32,9 +32,9 @@ jobs:
           dockerfile: ./apps/shop-admin/Dockerfile
           project: shop-admin
           extra_build_args: |
-            --build-arg NEXT_PUBLIC_API_DOMAIN=${{ secrets.NEXT_PUBLIC_API_DOMAIN }}
-            --build-arg NEXT_PUBLIC_CLIENT_ID=${{ secrets.NEXT_PUBLIC_CLIENT_ID }}
-            --build-arg NEXT_PUBLIC_CLIENT_SECRET_KEY=${{ secrets.NEXT_PUBLIC_CLIENT_SECRET_KEY }}
+            --build-arg NEXT_PUBLIC_API_DOMAIN=${{ secrets.NEXT_PUBLIC_API_DOMAIN }} \
+            --build-arg NEXT_PUBLIC_CLIENT_ID=${{ secrets.NEXT_PUBLIC_CLIENT_ID }} \
+            --build-arg NEXT_PUBLIC_CLIENT_SECRET_KEY=${{ secrets.NEXT_PUBLIC_CLIENT_SECRET_KEY }} \
             --build-arg NEXT_PUBLIC_CAFE24_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_CAFE24_REDIRECT_URI }}
 
       - uses: review-canvas/gh-actions/deploy/ecs@main
