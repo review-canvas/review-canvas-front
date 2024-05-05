@@ -17,7 +17,8 @@ function SolutionCafe24AuthCodePage() {
 
 function SolutionCafe24AuthCodePageContent() {
   const router = useRouter();
-  const { mallId } = useSolutionCafe24Store();
+
+  const { mallId, setStatus } = useSolutionCafe24Store();
   const searchParams = useSearchParams();
   const authCode = searchParams?.get('code');
   const state = searchParams?.get('state');
@@ -43,8 +44,16 @@ function SolutionCafe24AuthCodePageContent() {
       }
 
       try {
-        await SolutionCafe24Service.authenticate(mallId, authCode);
-        router.replace('/auth/signup?state=app_install');
+        const installStatus = await SolutionCafe24Service.authenticate(mallId, authCode);
+        switch (installStatus) {
+          case 'INSTALLED':
+          case 'PREVIOUS_INSTALLED':
+            router.replace('/auth/signup?state=app_install');
+            break;
+
+          case 'REGISTERED':
+            setStatus(installStatus);
+        }
       } catch (err) {
         // eslint-disable-next-line no-console -- need for analytics
         console.error(err);

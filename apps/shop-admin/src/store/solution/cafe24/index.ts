@@ -7,12 +7,16 @@ const useSolutionCafe24Store = create<SolutionCafe24Store, [['zustand/persist', 
   persist(
     (set) => ({
       mallId: null,
+      status: null,
       setMallId: (_mallId) => {
         set({ mallId: _mallId });
       },
+      setStatus: (_status) => {
+        set({ status: _status });
+      },
     }),
     {
-      name: 'app-install-mall-id',
+      name: 'cafe24-app-install',
     },
   ),
 );
