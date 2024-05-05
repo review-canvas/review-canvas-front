@@ -38,6 +38,9 @@ function SolutionCafe24AuthCodePageContent() {
 
       try {
         const installStatus = await SolutionCafe24Service.authenticate(mallId, authCode);
+        // eslint-disable-next-line no-console -- for test
+        console.log('Install Status : ', installStatus);
+
         switch (installStatus) {
           case 'INSTALLED':
           case 'PREVIOUS_INSTALLED':
@@ -46,6 +49,7 @@ function SolutionCafe24AuthCodePageContent() {
 
           case 'REGISTERED':
             setStatus(installStatus);
+            router.replace('/auth/login');
         }
       } catch (err) {
         // eslint-disable-next-line no-console -- need for analytics
