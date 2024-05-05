@@ -1,3 +1,4 @@
+import type { CommonResponse } from './api-common';
 import type * as API from './api-types';
 
 import useTokenStore from '@/store/auth/token';
@@ -22,7 +23,7 @@ class ApiService {
 
   public async postCafe24AuthentaicationProcess(
     request: API.PostCafe24AuthenticationProcessRequest,
-  ): Promise<API.PostCafe24AuthenticationProcessResponse> {
+  ): Promise<CommonResponse<API.PostCafe24AuthenticationProcessResponse>> {
     const response = await this.httpClient.post<API.PostCafe24AuthenticationProcessResponse>(
       `/api/v1/cafe24/${request.mallId}/authentication-process?authCode=${request.code}`,
     );
