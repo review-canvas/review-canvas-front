@@ -4,8 +4,8 @@ import { Suspense, useEffect } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import localStorage from '@/lib/storage/local-storage';
 import { SolutionCafe24Service } from '@/service/solution/cafe24';
-import useSolutionCafe24Store from '@/store/solution/cafe24';
 
 function SolutionCafe24AuthCodePage() {
   return (
@@ -17,10 +17,9 @@ function SolutionCafe24AuthCodePage() {
 
 function SolutionCafe24AuthCodePageContent() {
   const router = useRouter();
-
-  const { mallId, setStatus } = useSolutionCafe24Store();
   const searchParams = useSearchParams();
   const authCode = searchParams?.get('code');
+  const mallId = localStorage.getItem('cafe24MallId');
 
   useEffect(() => {
     const tryAuthenticate = async () => {
@@ -48,7 +47,7 @@ function SolutionCafe24AuthCodePageContent() {
             break;
 
           case 'REGISTERED':
-            setStatus(installStatus);
+            localStorage.setItem('cafe24InstallStatus', installStatus);
             router.replace('/auth/login');
         }
       } catch (err) {
