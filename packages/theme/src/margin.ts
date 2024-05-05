@@ -9,9 +9,9 @@ export interface Margin {
 
 export const generateMarginCSS = (margin: Margin) => {
   return css`
-    padding-top: ${margin.top};
-    padding-right: ${margin.right};
-    padding-bottom: ${margin.bottom};
-    padding-left: ${margin.left};
+    margin-top: ${margin.top};
+    margin-right: ${margin.right};
+    margin-bottom: ${margin.bottom};
+    margin-left: ${margin.left};
   `;
 };
