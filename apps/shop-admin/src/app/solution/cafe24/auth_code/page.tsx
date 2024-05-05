@@ -21,16 +21,9 @@ function SolutionCafe24AuthCodePageContent() {
   const { mallId, setStatus } = useSolutionCafe24Store();
   const searchParams = useSearchParams();
   const authCode = searchParams?.get('code');
-  const state = searchParams?.get('state');
 
   useEffect(() => {
     const tryAuthenticate = async () => {
-      if (state !== 'app_install') {
-        // eslint-disable-next-line no-alert -- exception occured
-        alert('비정상적인 설치 방식입니다. 리뷰캔버스 고객 센터에 문의해 주세요.');
-        return;
-      }
-
       if (!mallId) {
         // eslint-disable-next-line no-alert -- exception occured
         alert('Mall ID가 존재하지 않습니다. 리뷰캔버스 고객 센터에 문의해 주세요.');
@@ -45,6 +38,9 @@ function SolutionCafe24AuthCodePageContent() {
 
       try {
         const installStatus = await SolutionCafe24Service.authenticate(mallId, authCode);
+        // eslint-disable-next-line no-console -- for test
+        console.log('Install Status : ', installStatus);
+
         switch (installStatus) {
           case 'INSTALLED':
           case 'PREVIOUS_INSTALLED':
@@ -53,6 +49,7 @@ function SolutionCafe24AuthCodePageContent() {
 
           case 'REGISTERED':
             setStatus(installStatus);
+            router.replace('/auth/login');
         }
       } catch (err) {
         // eslint-disable-next-line no-console -- need for analytics
