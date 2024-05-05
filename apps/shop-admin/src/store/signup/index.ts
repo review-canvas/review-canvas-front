@@ -1,10 +1,10 @@
-import type { SignupStore } from '@/types/signup';
-
 import { create } from 'zustand';
+
+import type { SignupStore } from '@/types/signup';
 
 const useSignupStore = create<SignupStore>((set) => ({
   currentStep: 'step1',
-  steps: ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7'],
+  steps: ['step1', 'step2', 'step3'],
   formData: {
     setting: {
       title: false,
