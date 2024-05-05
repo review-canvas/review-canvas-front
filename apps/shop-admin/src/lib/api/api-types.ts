@@ -27,3 +27,15 @@ export interface GetEmailCheckRequest {
 export interface GetEmailCheckResponse {
   duplicate: boolean;
 }
+
+export interface PostShopAdminSignUpRequest {
+  email: string;
+  password: string;
+  phoneNumber: string;
+  mallName: string;
+  mallId: string;
+  consentedTermsIds: number[];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PostShopAdminSignUpResponse {}
