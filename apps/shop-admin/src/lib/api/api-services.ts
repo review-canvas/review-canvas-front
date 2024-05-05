@@ -27,7 +27,7 @@ class ApiService {
       `/api/v1/cafe24/${request.mallId}/authentication-process?authCode=${request.code}`,
     );
 
-    return response.data;
+    return response;
   }
 }
 

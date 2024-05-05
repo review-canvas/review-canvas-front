@@ -15,3 +15,19 @@ export const generateBorderCSS = (border: Border, color: string) => {
     border-left: ${border.left} solid ${color};
   `;
 };
+
+export interface BorderRadius {
+  topLeft: string;
+  topRight: string;
+  bottomRight: string;
+  bottomLeft: string;
+}
+
+export const generateBorderRadiusCSS = (borderRadius: BorderRadius) => {
+  return css`
+    border-top-left-radius: ${borderRadius.topLeft};
+    border-top-right-radius: ${borderRadius.topRight};
+    border-bottom-right-radius: ${borderRadius.bottomRight};
+    border-bottom-left-radius: ${borderRadius.bottomLeft};
+  `;
+};

@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 
-import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
+import useReviewCanvasReady, { ReviewCanvasType } from '@/hooks/use-review-canvas-ready.ts';
 import { ReviewServiceProvider } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 
@@ -12,7 +12,7 @@ import DisconnectedPage from './disconnected-page.tsx';
 export default function Page() {
   const shop = useShop();
 
-  useReviewCanvasReady('list');
+  useReviewCanvasReady(ReviewCanvasType.List);
 
   if (!shop.connected) return <DisconnectedPage />;
 

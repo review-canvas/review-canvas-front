@@ -44,7 +44,7 @@ function SolutionCafe24AuthCodePageContent() {
 
       try {
         await SolutionCafe24Service.authenticate(mallId, authCode);
-        router.replace('/auth/signup');
+        router.replace('/auth/signup?state=app_install');
       } catch (err) {
         // eslint-disable-next-line no-console -- need for analytics
         console.error(err);
