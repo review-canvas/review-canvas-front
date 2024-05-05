@@ -20,10 +20,9 @@ function Step2() {
   ];
 
   const [themeId, setThemeId] = useState(themeArr[0].id);
-  const { goToNextStep, updateSettingListThemeId } = useSignupStore();
+  const { goToNextStep } = useSignupStore();
 
   const onClickNextStepButton = () => {
-    updateSettingListThemeId(Number(themeId));
     goToNextStep();
   };
 
