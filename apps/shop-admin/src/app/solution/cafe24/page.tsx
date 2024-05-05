@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import useSolutionCafe24Store from '@/store/solution/cafe24';
+import localStorage from '@/lib/storage/local-storage';
 
 function SolutionCafe24Page() {
   return (
@@ -15,10 +15,10 @@ function SolutionCafe24Page() {
 }
 
 function SolutionCafe24PageContent() {
-  const { status, setMallId, setStatus } = useSolutionCafe24Store();
   const router = useRouter();
   const searchParams = useSearchParams();
   const mallId = searchParams?.get('mall_id');
+  const status = localStorage.getItem('cafe24InstallStatus');
   const CAFE24_CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
   const CAFE24_REDIRECT_URI = process.env.NEXT_PUBLIC_CAFE24_REDIRECT_URI;
 
@@ -28,7 +28,7 @@ function SolutionCafe24PageContent() {
     return;
   }
 
-  setMallId(mallId);
+  localStorage.setItem('cafe24MallId', mallId);
 
   // eslint-disable-next-line no-console -- for test
   console.log('status: ', status);
@@ -36,7 +36,7 @@ function SolutionCafe24PageContent() {
   if (status !== 'REGISTERED') {
     window.location.href = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=${CAFE24_CLIENT_ID}&state=app_install&redirect_uri=${CAFE24_REDIRECT_URI}&scope=mall.read_application,mall.write_application,mall.read_product,mall.read_design,mall.write_design,mall.read_privacy`;
   } else {
-    setStatus(null);
+    localStorage.setItem('cafe24InstallStatus', null);
     router.replace('/auth/login');
   }
 
