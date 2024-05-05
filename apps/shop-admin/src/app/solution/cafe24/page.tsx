@@ -33,7 +33,7 @@ function SolutionCafe24PageContent() {
   if (status !== 'REGISTERED') {
     window.location.href = `https://${mallId}.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=${CAFE24_CLIENT_ID}&state=app_install&redirect_uri=${CAFE24_REDIRECT_URI}&scope=mall.read_application,mall.write_application,mall.read_product,mall.read_design,mall.write_design,mall.read_privacy`;
   } else {
-    localStorage.setItem('cafe24InstallStatus', null);
+    localStorage.removeItem('cafe24InstallStatus');
     router.replace('/auth/login');
   }
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import Step1 from '@/components/signup/step1';
 import Step2 from '@/components/signup/step2';
@@ -18,9 +18,14 @@ const StepComponentsMap = new Map<string, () => React.ReactElement>([
 function AuthSignUpPage() {
   const { currentStep } = useSignupStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const mallId = searchParams?.get('mallId');
 
   useEffect(() => {
-    router.push(`/auth/signup#${currentStep}`, undefined);
+    const endpoint = mallId ? `/auth/signup#${currentStep}?mallId=${mallId}` : `/auth/signup#${currentStep}`;
+
+    const isInit = !window.location.hash;
+    isInit ? router.replace(endpoint) : router.push(endpoint, undefined);
   }, [currentStep, router]);
 
   const CurrentStepComponent = StepComponentsMap.get(currentStep);
