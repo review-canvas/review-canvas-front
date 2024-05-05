@@ -40,6 +40,17 @@ class ApiService {
 
     return response.data;
   }
+
+  public async postShopAdminSignUp(
+    request: API.PostShopAdminSignUpRequest,
+  ): Promise<CommonResponse<API.PostShopAdminSignUpResponse>> {
+    const response = await this.httpClient.post<CommonResponse<API.PostShopAdminSignUpResponse>>(
+      '/api/v1/shop-admin/sign-up',
+      request,
+    );
+
+    return response;
+  }
 }
 
 const httpClient = new HttpClient();
