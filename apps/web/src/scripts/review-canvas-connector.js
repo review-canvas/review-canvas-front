@@ -1,4 +1,4 @@
-const reviewCanvasURL = 'https://web.review-canvas.com';
+const reviewCanvasURL = 'http://localhost:3000';
 
 let cafe24 = null;
 
