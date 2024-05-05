@@ -37,7 +37,6 @@ function AuthSignUpPage() {
         <StepIndicator currentStep={currentStep} />
 
         <div tw="w-6/12 min-w-80 p-14 bg-white shadow-sm rounded-lg">
-          <h1>회원가입</h1>
           <div>{CurrentStepComponent ? <CurrentStepComponent /> : <p>No Step</p>}</div>
         </div>
       </main>
