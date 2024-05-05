@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import StepIndicator from '@/components/signup/step-indicator';
 import Step1 from '@/components/signup/step1';
 import Step2 from '@/components/signup/step2';
 import Step3 from '@/components/signup/step3';
@@ -31,9 +32,15 @@ function AuthSignUpPage() {
   const CurrentStepComponent = StepComponentsMap.get(currentStep);
 
   return (
-    <div>
-      <h1>회원가입</h1>
-      <div>{CurrentStepComponent ? <CurrentStepComponent /> : <p>No Step</p>}</div>
+    <div tw="flex w-full h-screen bg-sub-secondary">
+      <main tw="flex flex-col w-full h-screen justify-center items-center gap-10">
+        <StepIndicator currentStep={currentStep} />
+
+        <div tw="w-6/12 min-w-80 p-14 bg-white shadow-sm rounded-lg">
+          <h1>회원가입</h1>
+          <div>{CurrentStepComponent ? <CurrentStepComponent /> : <p>No Step</p>}</div>
+        </div>
+      </main>
     </div>
   );
 }
