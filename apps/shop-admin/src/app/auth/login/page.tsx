@@ -6,6 +6,7 @@ import { Checkbox, SolidButton, TextField } from '@ui/components';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import ReviewCanvasLogo from '@/components/common/review-canvas-logo';
 import { AuthService } from '@/service/auth';
 
 function AuthLoginPage() {
@@ -45,7 +46,7 @@ function AuthLoginPage() {
   return (
     <div tw="flex flex-col w-full items-center">
       <div tw="w-full mb-12 text-center">
-        <div tw="text-xl text-main-primary font-bold">REVIEW CANVAS LOGO</div>
+        <ReviewCanvasLogo />
       </div>
 
       <div tw="flex flex-col w-full gap-4 mb-6">
