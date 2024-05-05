@@ -2,10 +2,12 @@
 
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-import type { Review } from '@/models/review.ts';
+import { Shadow } from '@review-canvas/theme';
+
+import ReviewItem from '@/components/review/item.tsx';
+import { ReviewItemStyleProvider } from '@/contexts/style/review-item.ts';
 import { useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
-import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 
 interface ConnectedPageProps {
   productId: string;
@@ -13,7 +15,6 @@ interface ConnectedPageProps {
 
 export default function ConnectedPage({ productId }: ConnectedPageProps) {
   const { accessToken, id, domain } = useConnectedShop();
-  const sendMessage = useMessageToShop();
   const reviewService = useReviewService();
 
   const reviewListQuery = useSuspenseInfiniteQuery({
@@ -25,32 +26,59 @@ export default function ConnectedPage({ productId }: ConnectedPageProps) {
 
   const reviews = reviewListQuery.data.pages.flatMap((it) => it.content);
 
-  const openReviewDetail = (review: Review) => {
-    sendMessage('open-review-detail', `${location.origin}/reviews/${review.id}`);
-  };
-
   return (
     <main>
       <h1>
         Reviews for product {productId} from shop {id} at {domain}
       </h1>
       <ul>
-        {reviews.map((it) => (
-          <li key={it.id}>
-            <button
-              className="flex flex-col justify-start"
-              onClick={() => {
-                openReviewDetail(it);
-              }}
-              type="button"
-            >
-              <p className="text-left">comment: {it.comment}</p>
-              <p>rate: {it.rating}</p>
-              <p>reviewer: {it.reviewer}</p>
-            </button>
-            <hr />
-          </li>
-        ))}
+        <ReviewItemStyleProvider
+          value={{
+            width: '70%',
+            margin: {
+              top: '12px',
+              right: '0',
+              bottom: '0',
+              left: '4px',
+            },
+            padding: {
+              top: '4px',
+              right: '0',
+              bottom: '4px',
+              left: '12px',
+            },
+            font: {
+              color: '#000000',
+              size: '14px',
+              weight: 'normal',
+              name: 'noto-sans-kr',
+            },
+            border: {
+              top: '0',
+              right: '0',
+              bottom: '0',
+              left: '3px',
+            },
+            borderColor: '#777777',
+            borderRadius: {
+              topLeft: '2px',
+              topRight: '0',
+              bottomRight: '0',
+              bottomLeft: '2px',
+            },
+            shadow: Shadow.NONE,
+            shadowColor: 'rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          {reviews.map((it) => (
+            <ReviewItem
+              content={it.comment}
+              key={it.id}
+              rate={it.rating}
+              reviewer={it.reviewer}
+            />
+          ))}
+        </ReviewItemStyleProvider>
       </ul>
     </main>
   );
