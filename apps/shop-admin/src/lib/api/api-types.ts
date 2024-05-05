@@ -17,3 +17,11 @@ export interface PostCafe24AuthenticationProcessRequest {
 export interface PostCafe24AuthenticationProcessResponse {
   success: boolean;
 }
+
+export interface GetEmailCheckRequest {
+  email: string;
+}
+
+export interface GetEmailCheckResponse {
+  duplicate: boolean;
+}
