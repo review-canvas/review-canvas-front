@@ -18,6 +18,7 @@ const initializeReviewCanvas = () => {
 };
 
 window.addEventListener('load', () => {
+  // TODO: Connect with cafe24
   // cafe24 = CAFE24API.init({
   //   client_id: '1hTyOqvaJVEuJ7oeVLriKF',
   //   version: '2024-03-01',
@@ -31,7 +32,8 @@ window.addEventListener('message', (evt) => {
   const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"][data-connected="false"]`);
   if (!$element || !($element instanceof HTMLIFrameElement)) return;
   $element.dataset.connected = 'true';
-  $element.contentWindow.postMessage({ type: 'connect', payload: cafe24.MALL_ID }, evt.origin);
+  // TODO: Connect with cafe24
+  $element.contentWindow.postMessage({ type: 'connect', payload: cafe24?.MALL_ID ?? '1' }, evt.origin);
 });
 
 window.addEventListener('message', (evt) => {
