@@ -1,3 +1,5 @@
+import type { SolutionCafe24InstallStatus } from '@/types/solution/cafe24';
+
 export interface PostAuthLoginRequest {
   email: string;
   password: string;
@@ -15,5 +17,5 @@ export interface PostCafe24AuthenticationProcessRequest {
 }
 
 export interface PostCafe24AuthenticationProcessResponse {
-  success: boolean;
+  shopAdminStatus: SolutionCafe24InstallStatus;
 }
