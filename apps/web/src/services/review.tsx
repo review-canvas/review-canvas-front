@@ -12,20 +12,20 @@ class ReviewService {
     accessToken,
     size = 10,
     page = 0,
-  }: PageRequest<{ accessToken: string; productId: string }>): Promise<Page<Review>> {
+  }: PageRequest<{ accessToken: string; productID: string }>): Promise<Page<Review>> {
     const header = createBasicAuthHeader(accessToken);
     // eslint-disable-next-line no-console -- This is a dummy service
     console.log(header);
     return delayedData({
-      content: Array.from({ length: size }, (_, i) => createDummyReview(String(i))),
-      first: true,
-      last: true,
+      content: Array.from({ length: 40 }, (_, i) => createDummyReview(String(i))).slice(page * size, (page + 1) * size),
+      first: page === 0,
+      last: page === 3,
       number: page,
       numberOfElements: size,
       size,
       sort: [],
       totalElements: size,
-      totalPages: 1,
+      totalPages: 4,
     });
   }
 
