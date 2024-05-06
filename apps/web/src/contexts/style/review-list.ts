@@ -15,29 +15,6 @@ export interface ReviewListStyle {
   backgroundColor: string;
 }
 
-export const defaultReviewListStyle: ReviewListStyle = {
-  orderSelectorStyle: 'radio',
-  paginationStyle: 'page',
-  selectedOrderColor: '#000000',
-  padding: {
-    top: '10px',
-    right: '10px',
-    bottom: '10px',
-    left: '10px',
-  },
-  width: '100%',
-  border: {
-    top: '0',
-    right: '0',
-    bottom: '0',
-    left: '0',
-  },
-  borderColor: '#ffffff',
-  shadow: 'none',
-  shadowColor: 'transparent',
-  backgroundColor: '#ffffff',
-};
-
 const ReviewListStyleContext = createContext<ReviewListStyle | null>(null);
 export const ReviewListStyleProvider = ReviewListStyleContext.Provider;
 export const useReviewListStyle = () => {

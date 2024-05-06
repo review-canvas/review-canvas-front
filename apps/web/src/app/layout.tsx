@@ -5,11 +5,11 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import GlobalStyles from '@/components/global-styles.tsx';
+import { DesignPropertyServiceProvider } from '@/services/design-property.tsx';
 import useShop from '@/state/shop.ts';
 import { notoSansKR } from '@/theme/font.ts';
 
 import './globals.css';
-import { DesignPropertyServiceProvider } from '@/services/design-property.tsx';
 
 const queryClient = new QueryClient();
 

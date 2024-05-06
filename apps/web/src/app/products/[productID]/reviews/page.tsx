@@ -1,5 +1,7 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import { ReviewServiceProvider } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
@@ -16,7 +18,9 @@ export default function Page() {
 
   return (
     <ReviewServiceProvider>
-      <ConnectedPage productID="1" />
+      <Suspense fallback={<div>loading...</div>}>
+        <ConnectedPage productID="1" />
+      </Suspense>
     </ReviewServiceProvider>
   );
 }

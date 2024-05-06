@@ -1,5 +1,3 @@
-import { css } from 'twin.macro';
-
 import {
   generateBorderCSS,
   generateBorderRadiusCSS,

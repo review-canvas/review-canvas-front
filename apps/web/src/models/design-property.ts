@@ -7,6 +7,13 @@ export type DetailViewType = 'SPREAD' | 'MODAL';
 export type PagingType = 'PAGE_NUMBER' | 'SEE_MORE_SCROLL';
 export type FilterType = 'LIST' | 'DROPDOWN';
 
+export interface Margin {
+  left: string;
+  right: string;
+  top: string;
+  bottom: string;
+}
+
 export interface Padding {
   left: string;
   right: string;
@@ -81,7 +88,7 @@ export interface ReviewTitle {
 export interface ReviewColumn {
   width: string;
   padding: Padding;
-  margin: Padding;
+  margin: Margin;
   background: string;
   border: Border;
   borderColor: string;
@@ -94,7 +101,7 @@ export interface ReviewDesignView {
   filterType: FilterType;
   filterActiveTextColor: string;
   reviewBackgroundColor: string;
-  margin: Padding;
+  margin: Margin;
   padding: Padding;
   detailInfoTextColor: string;
   font: Font;

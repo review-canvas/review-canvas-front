@@ -1,3 +1,5 @@
+'use client';
+
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 
 export default function MyReviewsPage() {
