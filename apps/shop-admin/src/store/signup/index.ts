@@ -10,7 +10,7 @@ const useSignupStore = create<SignupStore>((set) => ({
     password: '',
     phoneNumber: '',
     mallName: '',
-    mallId: 0,
+    mallId: '',
     consentedTermsIds: [],
   },
   setCurrentStep: (step) => {
