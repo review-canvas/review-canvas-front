@@ -35,6 +35,8 @@ function Step2() {
   const searchParams = useSearchParams();
   const mallId = searchParams?.get('mallId');
 
+  const isValidEmailFormat = validateEmail(email);
+
   const validatePhoneNumber = () => {
     return (
       phoneSecondNumber.length >= 3 &&
@@ -112,6 +114,7 @@ function Step2() {
             <EmailCheckButton
               email={email}
               onSetStatus={setEmailCheckStatus}
+              disabled={!isValidEmailFormat}
               status={emailCheckStatus}
             />
           </div>

@@ -9,14 +9,14 @@ interface EmailCheckButtonProps {
   email: string;
   status: EmailCheckStatus;
   size?: SizeLevel;
-  isDisabled?: boolean;
+  disabled?: boolean;
   onSetStatus: (status: EmailCheckStatus) => void;
 }
 
 type DuplicateCheckButtonProps = Required<Omit<EmailCheckButtonProps, 'status'>>;
 type DuplicateCheckCompleteButtonProps = Required<Pick<EmailCheckButtonProps, 'size'>>;
 
-function DuplicateCheckButton({ email, size, isDisabled, onSetStatus }: DuplicateCheckButtonProps) {
+function DuplicateCheckButton({ email, size, disabled, onSetStatus }: DuplicateCheckButtonProps) {
   const handlePress = async () => {
     try {
       const isDuplicate = await AuthService.isEmailDuplicate(email);
@@ -36,9 +36,9 @@ function DuplicateCheckButton({ email, size, isDisabled, onSetStatus }: Duplicat
 
   return (
     <SolidButton
-      variant="primary"
+      variant={disabled ? 'gray' : 'primary'}
       size={size}
-      isDisabled={isDisabled}
+      isDisabled={disabled}
       onPress={() => {
         void handlePress();
       }}
@@ -60,7 +60,7 @@ function DuplicateCheckCompleteButton({ size }: DuplicateCheckCompleteButtonProp
   );
 }
 
-function EmailCheckButton({ email, status, size = 'sm', isDisabled = false, onSetStatus }: EmailCheckButtonProps) {
+function EmailCheckButton({ email, status, size = 'sm', disabled = false, onSetStatus }: EmailCheckButtonProps) {
   switch (status) {
     case 'unchecked':
     case 'duplicate':
@@ -68,7 +68,7 @@ function EmailCheckButton({ email, status, size = 'sm', isDisabled = false, onSe
         <DuplicateCheckButton
           email={email}
           size={size}
-          isDisabled={isDisabled}
+          disabled={disabled}
           onSetStatus={onSetStatus}
         />
       );
