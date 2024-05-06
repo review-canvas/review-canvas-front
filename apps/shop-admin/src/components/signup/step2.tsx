@@ -33,9 +33,11 @@ function Step2() {
 
   const { goToNextStep, formData, updateFormData } = useSignupStore();
   const searchParams = useSearchParams();
-  const mallId = searchParams?.get('mallId');
+  const mallId = searchParams?.get('mallId') ?? formData.mallId;
 
   const isValidEmailFormat = validateEmail(email);
+  const isValidPassword = validatePassword(password);
+  const isValidPasswordForCheck = Boolean(password === passwordForCheck);
 
   const validatePhoneNumber = () => {
     return (
@@ -50,9 +52,9 @@ function Step2() {
     email &&
       emailCheckStatus === 'checked' &&
       password &&
-      password === passwordForCheck &&
-      validateEmail(email) &&
-      validatePassword(password) &&
+      isValidPasswordForCheck &&
+      isValidEmailFormat &&
+      isValidPassword &&
       validatePhoneNumber() &&
       mallId &&
       mallName,
@@ -95,22 +97,23 @@ function Step2() {
         <ReviewCanvasLogo />
       </div>
 
-      <div tw="w-full flex flex-col">
+      <div tw="w-full flex flex-col [& .react-aria-FieldError]:text-sm">
         <div tw="w-full border-b-[3px] border-b-black pb-1 mb-10">
           <span tw="text-xl text-main-secondary font-bold">정보입력</span>
         </div>
 
         <div tw="w-full flex flex-col gap-6 mb-20">
-          <div tw="w-full flex gap-6 items-center [& .react-aria-FieldError]:text-sm">
+          <div tw="w-full flex gap-6 items-center">
             <TextField
               variant="underline"
               tw="w-full"
+              type="email"
               placeholder="이메일"
               value={email}
               onChange={setEmail}
               isReadOnly={emailCheckStatus === 'checked'}
               isInvalid={!isValidEmailFormat && Boolean(email)}
-              errorMessage={'올바른 이메일 포맷으로 작성해 주세요.'}
+              errorMessage="올바른 이메일 포맷으로 작성해 주세요."
             />
 
             <EmailCheckButton
@@ -125,8 +128,11 @@ function Step2() {
             <TextField
               variant="underline"
               tw="w-full"
+              type="password"
               placeholder="비밀번호"
               value={password}
+              isInvalid={!isValidPassword && Boolean(password)}
+              errorMessage="비밀번호는 영문과 숫자, 특수문자를 모두 활용해 9자 이상으로 구성해 주세요."
               onChange={setPassword}
             />
           </div>
@@ -135,10 +141,12 @@ function Step2() {
             <TextField
               variant="underline"
               tw="w-full"
+              type="password"
               placeholder="비밀번호 확인"
               value={passwordForCheck}
+              isInvalid={!isValidPasswordForCheck && Boolean(passwordForCheck)}
+              errorMessage="비밀번호와 동일하게 입력해 주세요."
               onChange={setPasswordForCheck}
-              onFocusChange={() => {}}
             />
           </div>
 
