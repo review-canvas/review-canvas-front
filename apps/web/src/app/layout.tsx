@@ -9,6 +9,7 @@ import useShop from '@/state/shop.ts';
 import { notoSansKR } from '@/theme/font.ts';
 
 import './globals.css';
+import { DesignPropertyServiceProvider } from '@/services/design-property.tsx';
 
 const queryClient = new QueryClient();
 
@@ -35,7 +36,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <body>
         <GlobalStyles />
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <DesignPropertyServiceProvider>{children}</DesignPropertyServiceProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
