@@ -4,8 +4,11 @@ import { SolidButton } from '@ui/components';
 
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
+import useAuthCheck from '@/hooks/use-auth-check';
 
 function SettingDesignContainerPage() {
+  useAuthCheck();
+
   return (
     <SettingLayout>
       <SettingLayout.Content>

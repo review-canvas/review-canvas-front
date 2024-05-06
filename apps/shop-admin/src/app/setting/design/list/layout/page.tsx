@@ -4,8 +4,11 @@ import { RadioGroup, SolidButton, Switch } from '@ui/components';
 
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
+import useAuthCheck from '@/hooks/use-auth-check';
 
 function SettingDesignLayoutPage() {
+  useAuthCheck();
+
   return (
     <SettingLayout>
       <SettingLayout.Content>

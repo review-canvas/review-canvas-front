@@ -20,6 +20,15 @@ async function logout(): Promise<void> {
   }
 }
 
+async function checkAuth() {
+  try {
+    const { success } = await apiService.getAuthCheck();
+    return success;
+  } catch (error) {
+    throw new Error('로그인 여부 확인에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 async function isEmailDuplicate(email: string): Promise<boolean> {
   try {
     const response = await apiService.getEmailCheck({ email });
@@ -40,6 +49,7 @@ async function signup(formData: SignupFormData): Promise<void> {
 export const AuthService = {
   login,
   logout,
+  checkAuth,
   isEmailDuplicate,
   signup,
 };
