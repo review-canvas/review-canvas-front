@@ -3,7 +3,7 @@ export interface SignupFormData {
   password: string;
   phoneNumber: string;
   mallName: string;
-  mallId: number;
+  mallId: string;
   consentedTermsIds: number[];
 }
 
