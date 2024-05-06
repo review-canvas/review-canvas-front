@@ -1,7 +1,5 @@
 'use client';
 
-import { Shadow } from '@review-canvas/theme';
-
 import ReviewList from '@/components/review/list.tsx';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item.ts';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list.ts';
@@ -38,7 +36,7 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
             left: '0',
           },
           borderColor: '#ffffff',
-          shadow: Shadow.NONE,
+          shadow: 'none',
           shadowColor: 'transparent',
           backgroundColor: '#ffffff',
         }}
@@ -76,7 +74,7 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
               bottomRight: '0',
               bottomLeft: '2px',
             },
-            shadow: Shadow.NONE,
+            shadow: 'none',
             shadowColor: 'rgba(0, 0, 0, 0.1)',
             backgroundColor: '#ffffff',
           }}

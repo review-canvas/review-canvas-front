@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { type Border, type BorderRadius, type Font, type Margin, type Padding, Shadow } from '@review-canvas/theme';
+import type { Border, BorderRadius, Font, Margin, Padding, Shadow } from '@review-canvas/theme';
 
 export interface ReviewItemStyle {
   margin: Margin;
@@ -46,7 +46,7 @@ export const defaultReviewItemStyle: ReviewItemStyle = {
     bottomRight: '0',
     bottomLeft: '0',
   },
-  shadow: Shadow.NONE,
+  shadow: 'none',
   shadowColor: 'transparent',
   backgroundColor: '#ffffff',
 };

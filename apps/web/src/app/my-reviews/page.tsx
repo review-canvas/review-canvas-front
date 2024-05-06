@@ -1,7 +1,7 @@
-import useReviewCanvasReady, { ReviewCanvasType } from '@/hooks/use-review-canvas-ready.ts';
+import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 
 export default function MyReviewsPage() {
-  useReviewCanvasReady(ReviewCanvasType.MyReviews);
+  useReviewCanvasReady('my-reviews');
 
   return (
     <main>

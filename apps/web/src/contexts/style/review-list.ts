@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { Shadow, type Border, type Padding } from '@review-canvas/theme';
+import type { Border, Padding, Shadow } from '@review-canvas/theme';
 
 export interface ReviewListStyle {
   orderSelectorStyle: 'dropdown' | 'radio';
@@ -33,7 +33,7 @@ export const defaultReviewListStyle: ReviewListStyle = {
     left: '0',
   },
   borderColor: '#ffffff',
-  shadow: Shadow.NONE,
+  shadow: 'none',
   shadowColor: 'transparent',
   backgroundColor: '#ffffff',
 };
