@@ -2,8 +2,7 @@ import { createContext, useContext } from 'react';
 
 import { type Border, type BorderRadius, type Font, type Margin, type Padding, Shadow } from '@review-canvas/theme';
 
-interface ReviewItemStyle {
-  width: string;
+export interface ReviewItemStyle {
   margin: Margin;
   padding: Padding;
   font: Font;
@@ -12,10 +11,10 @@ interface ReviewItemStyle {
   borderRadius: BorderRadius;
   shadow: Shadow;
   shadowColor: string;
+  backgroundColor: string;
 }
 
 export const defaultReviewItemStyle: ReviewItemStyle = {
-  width: '100%',
   margin: {
     top: '10px',
     right: '0',
@@ -49,6 +48,7 @@ export const defaultReviewItemStyle: ReviewItemStyle = {
   },
   shadow: Shadow.NONE,
   shadowColor: 'transparent',
+  backgroundColor: '#ffffff',
 };
 
 const ReviewItemStyleContext = createContext<ReviewItemStyle | null>(null);

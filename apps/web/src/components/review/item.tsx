@@ -29,9 +29,6 @@ export default function ReviewItem(props: ReviewItemProps) {
         generateBorderRadiusCSS(style.borderRadius),
         generateFontCSS(style.font),
         generateShadowCSS(style.shadow, style.shadowColor),
-        css`
-          width: ${style.width};
-        `,
       ]}
     >
       <div>
