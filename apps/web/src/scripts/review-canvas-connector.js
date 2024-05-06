@@ -1,10 +1,8 @@
-const reviewCanvasURL = 'http://localhost:3000';
-
-let cafe24 = null;
+const reviewCanvasURL = 'https://web.review-canvas.com';
 
 const initializeReviewCanvas = () => {
   const $container = document.querySelector('#review-canvas-container');
-  const productID = '1'; // TODO: Get product ID from cafe24
+  const productID = document.querySelector('meta[property="product:productId"]')?.content;
   if (!$container || !productID) return;
 
   const $iframe = document.createElement('iframe');
@@ -19,11 +17,6 @@ const initializeReviewCanvas = () => {
 };
 
 window.addEventListener('load', () => {
-  // TODO: Connect with cafe24
-  // cafe24 = CAFE24API.init({
-  //   client_id: '1hTyOqvaJVEuJ7oeVLriKF',
-  //   version: '2024-03-01',
-  // });
   initializeReviewCanvas();
 });
 
@@ -31,10 +24,10 @@ window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'ready') return;
 
   const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"][data-connected="false"]`);
-  if (!$element || !($element instanceof HTMLIFrameElement)) return;
+  const mallID = CAFE24?.SHOP?.getMallID();
+  if (!$element || !($element instanceof HTMLIFrameElement) || !mallID) return;
   $element.dataset.connected = 'true';
-  // TODO: Connect with cafe24
-  $element.contentWindow.postMessage({ type: 'connect', payload: cafe24?.MALL_ID ?? '1' }, evt.origin);
+  $element.contentWindow.postMessage({ type: 'connect', payload: mallID }, evt.origin);
 });
 //
 // window.addEventListener('message', (evt) => {
