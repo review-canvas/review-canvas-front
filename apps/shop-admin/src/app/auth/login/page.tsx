@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Checkbox, SolidButton, TextField } from '@ui/components';
 import Link from 'next/link';
@@ -8,15 +8,23 @@ import { useRouter } from 'next/navigation';
 
 import ReviewCanvasLogo from '@/components/common/review-canvas-logo';
 import { validateEmail } from '@/lib/regex';
+import localStorage from '@/lib/storage/local-storage';
 import { AuthService } from '@/service/auth';
 
 function AuthLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>(localStorage.getItem('loginEmail') ?? '');
   const [password, setPassword] = useState<string>('');
+  const [isEmailSaveChecked, setIsEmailSaveChecked] = useState<boolean>(false);
 
   const isValidEmailFormat = validateEmail(email);
   const isLoginEnabled = isValidEmailFormat && Boolean(password);
+
+  useEffect(() => {
+    if (localStorage.getItem('loginEmail')) {
+      setIsEmailSaveChecked(true);
+    }
+  }, []);
 
   const handleLogin = () => {
     const tryLogin = async () => {
@@ -34,6 +42,9 @@ function AuthLoginPage() {
 
       try {
         await AuthService.login(email, password);
+
+        isEmailSaveChecked ? localStorage.setItem('loginEmail', email) : localStorage.removeItem('loginEmail');
+
         router.replace('/dashboard');
       } catch (e) {
         // eslint-disable-next-line no-alert -- alert is required
@@ -74,7 +85,12 @@ function AuthLoginPage() {
         </div>
 
         <div tw="w-full mt-2">
-          <Checkbox>이메일 저장</Checkbox>
+          <Checkbox
+            isSelected={isEmailSaveChecked}
+            onChange={setIsEmailSaveChecked}
+          >
+            이메일 저장
+          </Checkbox>
         </div>
       </div>
 
