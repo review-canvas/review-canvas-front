@@ -17,17 +17,23 @@ const StepComponentsMap = new Map<string, () => React.ReactElement>([
 ]);
 
 function AuthSignUpPage() {
-  const { currentStep } = useSignupStore();
+  const { currentStep, updateFormData } = useSignupStore();
   const router = useRouter();
   const searchParams = useSearchParams();
   const mallId = searchParams?.get('mallId');
 
   useEffect(() => {
+    if (mallId) {
+      updateFormData({
+        mallId,
+      });
+    }
+
     const endpoint = mallId ? `/auth/signup#${currentStep}?mallId=${mallId}` : `/auth/signup#${currentStep}`;
 
     const isInit = !window.location.hash;
-    isInit ? router.replace(endpoint) : router.push(endpoint, undefined);
-  }, [currentStep, router]);
+    isInit ? router.replace(endpoint) : router.push(endpoint);
+  }, [currentStep]);
 
   const CurrentStepComponent = StepComponentsMap.get(currentStep);
 
