@@ -11,9 +11,7 @@ import API from '@/utils/api.ts';
 
 class DesignPropertyService {
   async get(mallId: string): Promise<DesignPropertyResponse> {
-    const response = await API.get<DesignPropertyResponse>(
-      `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/v1/shop/${mallId}/review-property`,
-    );
+    const response = await API.get<DesignPropertyResponse>(`/api/v1/shop/${mallId}/review-property`);
     return response.data;
   }
 
