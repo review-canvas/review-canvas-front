@@ -17,3 +17,5 @@ export interface SignupStore {
   goToPrevStep: () => void;
   updateFormData: (newData: Partial<SignupFormData>) => void;
 }
+
+export type EmailCheckStatus = 'checked' | 'duplicate' | 'unchecked';
