@@ -2,23 +2,58 @@ import { createContext, type PropsWithChildren, useContext } from 'react';
 
 import { createStore, useStore } from 'zustand';
 
-import type { Page, PageRequest } from '@/models/page.ts';
-import type { Review } from '@/models/review.ts';
-import { createDummyReview, delayedData } from '@/utils/faker.ts';
+import API from '@/utils/api.ts';
+
+export interface ReviewItem {
+  reviewId: number;
+  content: string;
+  score: number;
+  userId: number;
+  nickname: string;
+}
+
+export interface ReviewListResponse {
+  success: boolean;
+  data: {
+    page: number;
+    size: number;
+    total: number;
+    content: ReviewItem[];
+  };
+}
+
+export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
+export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
+
+export interface ReviewListRequest {
+  mallId: string;
+  productNo: number;
+  page?: number;
+  size?: number;
+  sort?: ReviewListSort;
+  filter?: ReviewListFilter;
+}
 
 class ReviewService {
-  list({ size = 10, page = 0 }: PageRequest<{ accessToken: string; productID: string }>): Promise<Page<Review>> {
-    return delayedData({
-      content: Array.from({ length: size }, (_, i) => createDummyReview(String(i))),
-      first: true,
-      last: true,
-      number: page,
-      numberOfElements: size,
-      size,
-      sort: [],
-      totalElements: size,
-      totalPages: 1,
+  async list({
+    mallId,
+    productNo,
+    sort = 'LATEST',
+    filter = 'ALL',
+    size = 10,
+    page = 0,
+  }: ReviewListRequest): Promise<ReviewListResponse> {
+    const search = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      sort,
+      filter,
     });
+
+    const response = await API.get<ReviewListResponse>(
+      `/api/v1/shop/${mallId}/products/${productNo}/reviews?${search.toString()}`,
+    );
+    return response.data;
   }
 
   create() {}
