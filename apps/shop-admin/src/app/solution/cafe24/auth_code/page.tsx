@@ -37,13 +37,15 @@ function SolutionCafe24AuthCodePageContent() {
 
       try {
         const installStatus = await SolutionCafe24Service.authenticate(mallId, authCode);
-        // eslint-disable-next-line no-console -- for test
-        console.log('Install Status : ', installStatus);
+        localStorage.removeItem('cafe24MallId');
 
         switch (installStatus) {
           case 'INSTALLED':
+            router.replace(`/solution/install_success?mallId=${mallId}`);
+            break;
+
           case 'PREVIOUS_INSTALLED':
-            router.replace('/auth/signup?state=app_install');
+            router.replace(`/auth/signup?mallId=${mallId}`);
             break;
 
           case 'REGISTERED':

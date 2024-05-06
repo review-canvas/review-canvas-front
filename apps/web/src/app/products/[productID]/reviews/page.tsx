@@ -19,7 +19,7 @@ export default function Page() {
   return (
     <ReviewServiceProvider>
       <Suspense fallback={<p>loading...</p>}>
-        <ConnectedPage productId="1" />
+        <ConnectedPage productID="1" />
       </Suspense>
     </ReviewServiceProvider>
   );
