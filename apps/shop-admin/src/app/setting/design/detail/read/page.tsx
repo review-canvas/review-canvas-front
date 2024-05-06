@@ -2,6 +2,7 @@
 
 import { SolidButton } from '@ui/components';
 
+import withAuthCheck from '@/components/common/with-auth-check';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
 
@@ -108,4 +109,4 @@ function SettingDetailReadPage() {
   );
 }
 
-export default SettingDetailReadPage;
+export default withAuthCheck(SettingDetailReadPage);

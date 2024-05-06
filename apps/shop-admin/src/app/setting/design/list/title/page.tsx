@@ -2,6 +2,7 @@
 
 import { SolidButton } from '@ui/components';
 
+import withAuthCheck from '@/components/common/with-auth-check';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
 
@@ -164,4 +165,4 @@ function SettingDesignTitlePage() {
   );
 }
 
-export default SettingDesignTitlePage;
+export default withAuthCheck(SettingDesignTitlePage);

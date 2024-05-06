@@ -1,7 +1,9 @@
 'use client';
 
+import withAuthCheck from '@/components/common/with-auth-check';
+
 function QnaPage() {
   return <></>;
 }
 
-export default QnaPage;
+export default withAuthCheck(QnaPage);
