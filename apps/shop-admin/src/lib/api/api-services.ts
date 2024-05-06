@@ -30,6 +30,27 @@ class ApiService {
 
     return response;
   }
+
+  public async getEmailCheck(request: API.GetEmailCheckRequest): Promise<API.GetEmailCheckResponse> {
+    const email = request.email;
+    const params = new URLSearchParams();
+    params.set('email', email);
+
+    const response = await this.httpClient.get<API.GetEmailCheckResponse>('/api/v1/shop-admin/email-check', params);
+
+    return response.data;
+  }
+
+  public async postShopAdminSignUp(
+    request: API.PostShopAdminSignUpRequest,
+  ): Promise<CommonResponse<API.PostShopAdminSignUpResponse>> {
+    const response = await this.httpClient.post<CommonResponse<API.PostShopAdminSignUpResponse>>(
+      '/api/v1/shop-admin/sign-up',
+      request,
+    );
+
+    return response;
+  }
 }
 
 const httpClient = new HttpClient();
