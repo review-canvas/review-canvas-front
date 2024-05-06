@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import GlobalStyles from '@/components/global-styles.tsx';
+import { DesignPropertyServiceProvider } from '@/services/design-property.tsx';
 import useShop from '@/state/shop.ts';
 import { notoSansKR } from '@/theme/font.ts';
 
@@ -35,7 +36,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <body>
         <GlobalStyles />
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <DesignPropertyServiceProvider>{children}</DesignPropertyServiceProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

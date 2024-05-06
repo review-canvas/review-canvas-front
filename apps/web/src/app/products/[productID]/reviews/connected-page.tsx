@@ -1,10 +1,13 @@
 'use client';
 
-import { Shadow } from '@review-canvas/theme';
+import { Suspense } from 'react';
+
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import ReviewList from '@/components/review/list.tsx';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item.ts';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list.ts';
+import { useDesignPropertyService } from '@/services/design-property.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
 
 interface ConnectedPageProps {
@@ -13,6 +16,12 @@ interface ConnectedPageProps {
 
 export default function ConnectedPage({ productID }: ConnectedPageProps) {
   const { id, domain } = useConnectedShop();
+  const designPropertyService = useDesignPropertyService();
+
+  const designPropertyQuery = useSuspenseQuery({
+    queryKey: ['design-property', id],
+    queryFn: () => designPropertyService.get(id),
+  });
 
   return (
     <main>
@@ -20,68 +29,14 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
         Reviews for product {productID} from shop {id} at {domain}
       </h1>
       <ReviewListStyleProvider
-        value={{
-          orderSelectorStyle: 'radio',
-          paginationStyle: 'scroll',
-          selectedOrderColor: '#000000',
-          padding: {
-            top: '10px',
-            right: '10px',
-            bottom: '10px',
-            left: '10px',
-          },
-          width: '100%',
-          border: {
-            top: '0',
-            right: '0',
-            bottom: '0',
-            left: '0',
-          },
-          borderColor: '#ffffff',
-          shadow: Shadow.NONE,
-          shadowColor: 'transparent',
-          backgroundColor: '#ffffff',
-        }}
+        value={designPropertyService.convertDesignPropertyResponseToReviewListStyle(designPropertyQuery.data)}
       >
         <ReviewItemStyleProvider
-          value={{
-            margin: {
-              top: '12px',
-              right: '0',
-              bottom: '0',
-              left: '4px',
-            },
-            padding: {
-              top: '4px',
-              right: '0',
-              bottom: '4px',
-              left: '12px',
-            },
-            font: {
-              color: '#000000',
-              size: '14px',
-              weight: 'normal',
-              name: 'noto-sans-kr',
-            },
-            border: {
-              top: '0',
-              right: '0',
-              bottom: '0',
-              left: '3px',
-            },
-            borderColor: '#777777',
-            borderRadius: {
-              topLeft: '2px',
-              topRight: '0',
-              bottomRight: '0',
-              bottomLeft: '2px',
-            },
-            shadow: Shadow.NONE,
-            shadowColor: 'rgba(0, 0, 0, 0.1)',
-            backgroundColor: '#ffffff',
-          }}
+          value={designPropertyService.convertDesignPropertyToReviewItemStyle(designPropertyQuery.data)}
         >
-          <ReviewList productID={productID} />
+          <Suspense fallback={<div>loading...</div>}>
+            <ReviewList productID={productID} />
+          </Suspense>
         </ReviewItemStyleProvider>
       </ReviewListStyleProvider>
     </main>
