@@ -1,7 +1,7 @@
 const reviewCanvasURL = 'https://web.review-canvas.com';
 
 const initializeReviewCanvas = () => {
-  const $container = document.querySelector('#review-canvas-container');
+  const $container = document.querySelector('#rvcv-container');
   const productID = document.querySelector('meta[property="product:productId"]')?.content;
   if (!$container || !productID) return;
 
