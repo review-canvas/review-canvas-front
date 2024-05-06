@@ -1,33 +1,17 @@
-import type { SignupStore } from '@/types/signup';
-
 import { create } from 'zustand';
+
+import type { SignupStore } from '@/types/signup';
 
 const useSignupStore = create<SignupStore>((set) => ({
   currentStep: 'step1',
-  steps: ['step1', 'step2', 'step3', 'step4', 'step5', 'step6', 'step7'],
+  steps: ['step1', 'step2', 'step3'],
   formData: {
-    setting: {
-      title: false,
-      author: false,
-      point: false,
-      media: false,
-      content: false,
-      createdAt: false,
-      updatedAt: false,
-      listThemeId: 0,
-      detailThemeId: 0,
-    },
-    info: {
-      email: '',
-      password: '',
-      name: '',
-      logoImage: null,
-      mallNumber: '',
-      phoneNumber: '',
-    },
-    install: {
-      type: 'ASK',
-    },
+    email: '',
+    password: '',
+    phoneNumber: '',
+    mallName: '',
+    mallId: '',
+    consentedTermsIds: [],
   },
   setCurrentStep: (step) => {
     set({ currentStep: step });
@@ -57,61 +41,6 @@ const useSignupStore = create<SignupStore>((set) => ({
       formData: {
         ...state.formData,
         ...newData,
-      },
-    }));
-  },
-  updateSettingListThemeId: (newThemeId) => {
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        setting: {
-          ...state.formData.setting,
-          listThemeId: newThemeId,
-        },
-      },
-    }));
-  },
-  updateSettingDetailThemeId: (newThemeId) => {
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        setting: {
-          ...state.formData.setting,
-          detailThemeId: newThemeId,
-        },
-      },
-    }));
-  },
-  updateReviewActiveSetting: (settings) => {
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        setting: {
-          ...state.formData.setting,
-          ...settings,
-        },
-      },
-    }));
-  },
-  updateReviewInstallData: (data) => {
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        install: {
-          ...state.formData.install,
-          ...data,
-        },
-      },
-    }));
-  },
-  updateSignupUserInfo: (info) => {
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        info: {
-          ...state.formData.info,
-          ...info,
-        },
       },
     }));
   },

@@ -1,14 +1,6 @@
 'use client';
 
-import {
-  Checkbox,
-  RadioGroup,
-  Select,
-  SolidButton,
-  Switch,
-  TextField,
-  ToggleButton,
-} from '@review-canvas/admin-ui/components';
+import { Checkbox, RadioGroup, Select, Switch, TextField, ToggleButton } from '@review-canvas/admin-ui/components';
 
 export default function Page(): React.ReactNode {
   return (
@@ -30,7 +22,6 @@ export default function Page(): React.ReactNode {
         한글
       </ToggleButton>
       <Switch>switch</Switch>
-      <SolidButton>버튼</SolidButton>
       <Select
         className="w-[300px]"
         placeholder="선택"
@@ -47,6 +38,7 @@ export default function Page(): React.ReactNode {
           variant="underline"
         />
       </form>
+      <div>{process.env.NEXT_PUBLIC_CAFE24_REDIRECT_URI}</div>
     </main>
   );
 }

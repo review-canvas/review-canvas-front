@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - 'main'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
 
 jobs:
   build_and_deploy:
@@ -27,10 +31,11 @@ jobs:
           repository: ${{ secrets.AWS_ECR_REPOSITORY }}
           dockerfile: ./apps/shop-admin/Dockerfile
           project: shop-admin
-      #          추후 환경변수 아래 처럼 추가
-      #          extra_build_args: |
-      #            --build-arg NODE_ENV=production
-      #            --build-arg NODE_ENV=production
+          extra_build_args: |
+            --build-arg NEXT_PUBLIC_API_DOMAIN=${{ secrets.NEXT_PUBLIC_API_DOMAIN }} \
+            --build-arg NEXT_PUBLIC_CLIENT_ID=${{ secrets.NEXT_PUBLIC_CLIENT_ID }} \
+            --build-arg NEXT_PUBLIC_CLIENT_SECRET_KEY=${{ secrets.NEXT_PUBLIC_CLIENT_SECRET_KEY }} \
+            --build-arg NEXT_PUBLIC_CAFE24_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_CAFE24_REDIRECT_URI }}
 
       - uses: review-canvas/gh-actions/deploy/ecs@main
         with:

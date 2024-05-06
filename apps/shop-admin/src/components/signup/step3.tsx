@@ -1,51 +1,63 @@
 'use client';
 
-import type { RadioGroupItem } from '@/types/components/radiogroup';
+import { SolidButton } from '@ui/components';
+import { useRouter } from 'next/navigation';
 
-import { useState } from 'react';
-
+import CheckRoundIcon from '@/assets/icon/icon-check-round.svg';
 import useSignupStore from '@/store/signup';
 
-import RadioGroup from '../common/radiogroup';
+import ReviewCanvasLogo from '../common/review-canvas-logo';
 
 function Step3() {
-  const themeArr: RadioGroupItem[] = [
-    {
-      id: '1',
-      name: '상세 테마 111',
-    },
-    {
-      id: '2',
-      name: '상세 테마 22222',
-    },
-  ];
+  const { formData, updateFormData } = useSignupStore();
+  const router = useRouter();
 
-  const [themeId, setThemeId] = useState(themeArr[0].id);
-  const { goToNextStep, updateSettingDetailThemeId } = useSignupStore();
+  const handlePressLoginButton = () => {
+    updateFormData({
+      email: '',
+      password: '',
+      mallId: '',
+      mallName: '',
+      phoneNumber: '',
+      consentedTermsIds: [],
+    });
 
-  const onClickNextStepButton = () => {
-    updateSettingDetailThemeId(Number(themeId));
-    goToNextStep();
+    router.replace('/auth/login');
   };
 
   return (
-    <div>
-      <div>리뷰 상세 모달 디자인 테마 선택</div>
-      <div>RadioGroup</div>
-      <div>
-        <RadioGroup
-          items={themeArr}
-          selectedId={themeId}
-          onSelectedIdChange={setThemeId}
-        />
+    <div tw="w-full flex flex-col gap-10 justify-between">
+      <div tw="w-full flex justify-center items-center">
+        <ReviewCanvasLogo />
       </div>
-      <div>
-        <button
-          onClick={onClickNextStepButton}
-          type="button"
+
+      <div tw="w-full flex flex-col justify-center mb-6">
+        <div tw="w-full flex flex-col justify-center items-center gap-5 mb-16">
+          <CheckRoundIcon />
+          <div tw="text-2xl text-main-primary">회원가입 완료</div>
+        </div>
+
+        <div tw="w-full flex flex-col justify-center items-center gap-8">
+          <div tw="text-ml font-normal text-center text-main-secondary">
+            <div>{formData.mallName}님의 회원가입이</div>
+            <div>완료되었습니다.</div>
+          </div>
+
+          <div tw="text-sm font-normal text-center text-[#B5B8D0]">
+            회원가입 내역 및 수정은 <span tw="font-semibold">마이페이지</span>에서 가능합니다.
+          </div>
+        </div>
+      </div>
+
+      <div tw="w-full flex justify-center items-center">
+        <SolidButton
+          variant="primary"
+          size="lg"
+          tw="py-6"
+          onPress={handlePressLoginButton}
         >
-          다음 단계로 이동
-        </button>
+          로그인
+        </SolidButton>
       </div>
     </div>
   );

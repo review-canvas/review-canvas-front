@@ -10,7 +10,7 @@
     "types": [
       "./src/@types/twin.d.ts"
     ],
-    "strictNullChecks": true
+    "strict": true
   },
   "include": [
     "next-env.d.ts",
@@ -19,6 +19,7 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/scripts"
   ]
 }

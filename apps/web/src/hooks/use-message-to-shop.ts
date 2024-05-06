@@ -1,11 +1,11 @@
 import { useConnectedShop } from '@/state/shop.ts';
-import { sendMessageToShop } from '@/utils/message.tsx';
+import { sendMessageToShop } from '@/utils/message.ts';
 
-const useMessage = () => {
+const useMessageToShop = () => {
   const connectedShop = useConnectedShop();
   return (type: string, payload: unknown) => {
     sendMessageToShop(connectedShop.domain, type, payload);
   };
 };
 
-export default useMessage;
+export default useMessageToShop;

@@ -2,9 +2,9 @@
 
 import { useParams } from 'next/navigation';
 
-import useShopConnected from '@/hooks/use-shop-connected.ts';
+import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import useShop from '@/state/shop.ts';
-import { sendMessageToShop } from '@/utils/message.tsx';
+import { sendMessageToShop } from '@/utils/message.ts';
 
 type PageParams = {
   reviewID: string;
@@ -13,7 +13,7 @@ type PageParams = {
 export default function ReviewDetailPage() {
   const params = useParams<PageParams>();
   const shop = useShop();
-  useShopConnected('detail');
+  useReviewCanvasReady('detail');
 
   if (!shop.connected) return null;
 
@@ -29,7 +29,7 @@ export default function ReviewDetailPage() {
       >
         close
       </button>
-      This is review detail for {params?.reviewID}
+      This is my review detail for {params?.reviewID}
     </main>
   );
 }

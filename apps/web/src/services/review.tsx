@@ -4,18 +4,10 @@ import { createStore, useStore } from 'zustand';
 
 import type { Page, PageRequest } from '@/models/page.ts';
 import type { Review } from '@/models/review.ts';
-import { createBasicAuthHeader } from '@/utils/auth.ts';
 import { createDummyReview, delayedData } from '@/utils/faker.ts';
 
 class ReviewService {
-  list({
-    accessToken,
-    size = 10,
-    page = 0,
-  }: PageRequest<{ accessToken: string; productId: string }>): Promise<Page<Review>> {
-    const header = createBasicAuthHeader(accessToken);
-    // eslint-disable-next-line no-console -- This is a dummy service
-    console.log(header);
+  list({ size = 10, page = 0 }: PageRequest<{ accessToken: string; productID: string }>): Promise<Page<Review>> {
     return delayedData({
       content: Array.from({ length: size }, (_, i) => createDummyReview(String(i))),
       first: true,
@@ -45,10 +37,18 @@ interface ReviewServiceStore {
 const reviewServiceStore = createStore<ReviewServiceStore>(() => ({
   service: new ReviewService(),
 }));
-const ReviewServiceContext = createContext<typeof reviewServiceStore | null>(null);
+type ReviewServiceStoreType = typeof reviewServiceStore;
+const ReviewServiceContext = createContext<ReviewServiceStoreType | null>(null);
 
-export function ReviewServiceProvider({ children }: Readonly<PropsWithChildren>) {
-  return <ReviewServiceContext.Provider value={reviewServiceStore}>{children}</ReviewServiceContext.Provider>;
+export function ReviewServiceProvider({
+  children,
+  service = reviewServiceStore,
+}: Readonly<
+  PropsWithChildren<{
+    service?: ReviewServiceStoreType;
+  }>
+>) {
+  return <ReviewServiceContext.Provider value={service}>{children}</ReviewServiceContext.Provider>;
 }
 
 export const useReviewService = (): ReviewService => {
