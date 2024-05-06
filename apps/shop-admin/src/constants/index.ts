@@ -1,0 +1,1 @@
+export const phoneIdentifiers = ['010', '011', '016', '017', '018', '019'] as const;
