@@ -1,12 +1,10 @@
+'use client';
+
 import { useEffect } from 'react';
 
 import { broadcastMessageToParent } from '@/utils/message.ts';
 
-export const enum ReviewCanvasType {
-  List = 'list',
-  Detail = 'detail',
-  MyReviews = 'my-reviews',
-}
+export type ReviewCanvasType = 'list' | 'detail' | 'my-reviews';
 
 const useReviewCanvasReady = (type: ReviewCanvasType) => {
   useEffect(() => {
