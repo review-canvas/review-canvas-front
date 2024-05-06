@@ -10,6 +10,7 @@ async function login(email: string, password: string): Promise<void> {
     throw new Error('로그인에 실패했습니다.', error as ErrorOptions);
   }
 }
+
 async function logout(): Promise<void> {
   try {
     await apiService.postAuthLogout();
@@ -38,7 +39,7 @@ async function signup(formData: SignupFormData): Promise<void> {
 
 export const AuthService = {
   login,
-  logout
+  logout,
   isEmailDuplicate,
-  signup
+  signup,
 };
