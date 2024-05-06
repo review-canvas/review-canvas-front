@@ -2,11 +2,13 @@
 
 import { SolidButton } from '@ui/components';
 
-import withAuthCheck from '@/components/common/with-auth-check';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
+import useAuthCheck from '@/hooks/use-auth-check';
 
 function SettingDesignColumnPage() {
+  useAuthCheck();
+
   return (
     <SettingLayout>
       <SettingLayout.Content>
@@ -90,4 +92,4 @@ function SettingDesignColumnPage() {
   );
 }
 
-export default withAuthCheck(SettingDesignColumnPage);
+export default SettingDesignColumnPage;

@@ -2,11 +2,13 @@
 
 import { SolidButton } from '@ui/components';
 
-import withAuthCheck from '@/components/common/with-auth-check';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
+import useAuthCheck from '@/hooks/use-auth-check';
 
 function SettingDesignTitlePage() {
+  useAuthCheck();
+
   return (
     <SettingLayout>
       <SettingLayout.Title>타이틀</SettingLayout.Title>
@@ -165,4 +167,4 @@ function SettingDesignTitlePage() {
   );
 }
 
-export default withAuthCheck(SettingDesignTitlePage);
+export default SettingDesignTitlePage;

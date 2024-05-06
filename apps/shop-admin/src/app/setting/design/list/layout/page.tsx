@@ -2,11 +2,13 @@
 
 import { RadioGroup, SolidButton, Switch } from '@ui/components';
 
-import withAuthCheck from '@/components/common/with-auth-check';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
+import useAuthCheck from '@/hooks/use-auth-check';
 
 function SettingDesignLayoutPage() {
+  useAuthCheck();
+
   return (
     <SettingLayout>
       <SettingLayout.Content>
@@ -87,4 +89,4 @@ function SettingDesignLayoutPage() {
   );
 }
 
-export default withAuthCheck(SettingDesignLayoutPage);
+export default SettingDesignLayoutPage;

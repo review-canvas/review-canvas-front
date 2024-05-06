@@ -1,9 +1,11 @@
 'use client';
 
-import withAuthCheck from '@/components/common/with-auth-check';
+import useAuthCheck from '@/hooks/use-auth-check';
 
 function SettingOptionPage() {
+  useAuthCheck();
+
   return <></>;
 }
 
-export default withAuthCheck(SettingOptionPage);
+export default SettingOptionPage;

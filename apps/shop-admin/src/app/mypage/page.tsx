@@ -1,9 +1,11 @@
 'use client';
 
-import withAuthCheck from '@/components/common/with-auth-check';
+import useAuthCheck from '@/hooks/use-auth-check';
 
 function MyPage() {
+  useAuthCheck();
+
   return <></>;
 }
 
-export default withAuthCheck(MyPage);
+export default MyPage;
