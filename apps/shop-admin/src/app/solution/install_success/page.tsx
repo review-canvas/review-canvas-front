@@ -1,11 +1,19 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
 import SolidButton from '@ui/components/button/solid-button';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 function InstallSuccessPage() {
+  return (
+    <Suspense>
+      <InstallSuccessPageContent />
+    </Suspense>
+  );
+}
+
+function InstallSuccessPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const mallId = searchParams?.get('mallId');
