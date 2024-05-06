@@ -3,7 +3,7 @@ import axios from 'axios';
 import useShop from '@/state/shop.ts';
 
 const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_DOMAIN,
 });
 
 API.interceptors.request.use((config) => {

@@ -3,40 +3,39 @@ import { useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import ReviewItem from '@/components/review/item.tsx';
-import { useReviewService } from '@/services/review.tsx';
+import { type ReviewListFilter, type ReviewListSort, useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
 
 interface PaginatedListProps {
   productID: string;
-  filter: string;
-  orderBy: `${string}-${string}`;
+  filter: ReviewListFilter;
+  sort: ReviewListSort;
 }
 
-export default function PaginatedList({ productID, filter, orderBy }: PaginatedListProps) {
-  const { accessToken } = useConnectedShop();
+export default function PaginatedList({ productID, filter, sort }: PaginatedListProps) {
+  const { id } = useConnectedShop();
   const reviewService = useReviewService();
 
   const [page, setPage] = useState(0);
 
   const reviewListQuery = useSuspenseQuery({
-    queryKey: ['review', { accessToken, productID, filter, orderBy, page }],
+    queryKey: ['review', { id, productID, filter, sort, page }],
     queryFn: () => {
-      const [property, direction] = orderBy.split('-');
-      return reviewService.list({ accessToken, productID, direction, property, page });
+      return reviewService.list({ mallId: id, productNo: Number(productID), page, sort, filter });
     },
   });
 
-  const reviews = reviewListQuery.data.content;
+  const reviews = reviewListQuery.data.data.content;
 
   return (
     <>
       <ul>
         {reviews.map((it) => (
           <ReviewItem
-            content={it.comment}
-            key={it.id}
-            rate={it.rating}
-            reviewer={it.reviewer}
+            content={it.content}
+            key={it.reviewId}
+            rate={it.score}
+            reviewer={it.nickname}
           />
         ))}
       </ul>
@@ -44,7 +43,7 @@ export default function PaginatedList({ productID, filter, orderBy }: PaginatedL
       <Pagination
         onPage={setPage}
         page={page}
-        totalPages={reviewListQuery.data.totalPages}
+        totalPages={reviewListQuery.data.data.total}
       />
     </>
   );

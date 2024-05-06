@@ -121,7 +121,7 @@ export const name = () => {
 
 export const createDummyReview = (id: string): Review => ({
   id,
-  productId: '1',
+  productID: '1',
   rating: 5,
   comment: loremIpsum(),
   reviewer: name(),
