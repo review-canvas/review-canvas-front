@@ -1,24 +1,25 @@
 'use client';
 
-import { useRef } from 'react';
+import { useState } from 'react';
 
 import { Checkbox, SolidButton, TextField } from '@ui/components';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import ReviewCanvasLogo from '@/components/common/review-canvas-logo';
+import { validateEmail } from '@/lib/regex';
 import { AuthService } from '@/service/auth';
 
 function AuthLoginPage() {
   const router = useRouter();
-  const emailTextFieldRef = useRef<HTMLInputElement>(null);
-  const passwordTextFieldRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const isValidEmailFormat = validateEmail(email);
+  const isLoginEnabled = isValidEmailFormat && Boolean(password);
 
   const handleLogin = () => {
     const tryLogin = async () => {
-      const email = emailTextFieldRef.current?.value;
-      const password = passwordTextFieldRef.current?.value;
-
       if (!email) {
         // eslint-disable-next-line no-alert -- email is required
         alert('이메일을 입력해 주세요');
@@ -49,36 +50,41 @@ function AuthLoginPage() {
         <ReviewCanvasLogo />
       </div>
 
-      <div tw="flex flex-col w-full gap-4 mb-6">
+      <div tw="flex flex-col w-full gap-4 mb-6 [& .react-aria-FieldError]:text-sm">
         <div tw="w-full">
           <TextField
-            ref={emailTextFieldRef}
-            placeholder="이메일"
-            type="email"
             variant="underline"
+            type="email"
+            placeholder="이메일"
+            value={email}
+            onChange={setEmail}
+            isInvalid={!isValidEmailFormat && Boolean(email)}
+            errorMessage="올바른 이메일 포맷으로 입력해 주세요."
           />
         </div>
 
         <div tw="w-full">
           <TextField
-            ref={passwordTextFieldRef}
-            placeholder="비밀번호"
-            type="password"
             variant="underline"
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={setPassword}
           />
         </div>
 
         <div tw="w-full mt-2">
-          <Checkbox>아이디 저장</Checkbox>
+          <Checkbox>이메일 저장</Checkbox>
         </div>
       </div>
 
       <div tw="flex flex-col w-full gap-4">
         <div tw="w-full">
           <SolidButton
-            variant="primary"
+            variant={isLoginEnabled ? 'primary' : 'gray'}
             size="lg"
             tw="w-full h-12"
+            isDisabled={!isLoginEnabled}
             onPress={handleLogin}
           >
             로그인
