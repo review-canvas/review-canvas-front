@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -17,6 +17,14 @@ const StepComponentsMap = new Map<string, () => React.ReactElement>([
 ]);
 
 function AuthSignUpPage() {
+  return (
+    <Suspense>
+      <AuthSignUpPageContent />
+    </Suspense>
+  );
+}
+
+function AuthSignUpPageContent() {
   const { currentStep, updateFormData } = useSignupStore();
   const router = useRouter();
   const searchParams = useSearchParams();
