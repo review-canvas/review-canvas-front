@@ -101,7 +101,7 @@ function Step2() {
         </div>
 
         <div tw="w-full flex flex-col gap-6 mb-20">
-          <div tw="w-full flex gap-6 items-center">
+          <div tw="w-full flex gap-6 items-center [& .react-aria-FieldError]:text-sm">
             <TextField
               variant="underline"
               tw="w-full"
@@ -109,6 +109,8 @@ function Step2() {
               value={email}
               onChange={setEmail}
               isReadOnly={emailCheckStatus === 'checked'}
+              isInvalid={!isValidEmailFormat && Boolean(email)}
+              errorMessage={'올바른 이메일 포맷으로 작성해 주세요.'}
             />
 
             <EmailCheckButton
