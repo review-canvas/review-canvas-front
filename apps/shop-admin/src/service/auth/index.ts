@@ -10,6 +10,16 @@ async function login(email: string, password: string): Promise<void> {
   }
 }
 
+async function isEmailDuplicate(email: string): Promise<boolean> {
+  try {
+    const response = await apiService.getEmailCheck({ email });
+    return response.duplicate;
+  } catch (error) {
+    throw new Error('이메일 중복 체크에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 export const AuthService = {
   login,
+  isEmailDuplicate,
 };
