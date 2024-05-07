@@ -31,6 +31,17 @@ export interface GetShopAdminInfoResponse {
   businessNumber: string;
 }
 
+export interface PostShopAdminInfoRequest {
+  email: string;
+  password: string;
+  phoneNumber: string;
+  mallNumber: string;
+  mallName: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PostShopAdminInfoResponse {}
+
 export interface GetEmailCheckRequest {
   email: string;
 }
