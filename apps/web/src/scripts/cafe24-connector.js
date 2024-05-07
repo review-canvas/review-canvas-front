@@ -1,9 +1,9 @@
 const reviewCanvasURL = 'https://web.review-canvas.com';
+let $reviewCanvasContainer = null;
 
 const initializeReviewCanvas = () => {
-  const $container = document.querySelector('#rvcv-container');
   const productID = document.querySelector('meta[property="product:productId"]')?.content;
-  if (!$container || !productID) return;
+  if (!$reviewCanvasContainer || !productID) return;
 
   const $iframe = document.createElement('iframe');
   $iframe.src = new URL(`/products/${productID}/reviews`, reviewCanvasURL).toString();
@@ -13,11 +13,19 @@ const initializeReviewCanvas = () => {
   $iframe.style.height = '100%';
   $iframe.style.border = 'none';
 
-  $container.appendChild($iframe);
+  $reviewCanvasContainer.appendChild($iframe);
 };
 
 window.addEventListener('load', () => {
+  $reviewCanvasContainer = document.querySelector('#rvcv-container');
   initializeReviewCanvas();
+});
+
+window.addEventListener('message', (evt) => {
+  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'adjust-height') return;
+
+  if (!$reviewCanvasContainer) return;
+  $reviewCanvasContainer.style.height = evt.data.payload;
 });
 
 window.addEventListener('message', (evt) => {
