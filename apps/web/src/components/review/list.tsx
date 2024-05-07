@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 
 import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@review-canvas/theme';
 
@@ -63,27 +63,29 @@ export default function ReviewList({ productID }: ReviewListProps) {
 
       <hr />
 
-      <div
-        css={[
-          generatePaddingCSS(style.padding),
-          generateBorderCSS(style.border, style.borderColor),
-          generateShadowCSS(style.shadow, style.shadowColor),
-        ]}
-      >
-        {style.paginationStyle === 'page' ? (
-          <PaginatedList
-            filter={filter}
-            productID={productID}
-            sort={sort}
-          />
-        ) : (
-          <InfiniteList
-            filter={filter}
-            productID={productID}
-            sort={sort}
-          />
-        )}
-      </div>
+      <Suspense fallback={<div>loading reviews...</div>}>
+        <div
+          css={[
+            generatePaddingCSS(style.padding),
+            generateBorderCSS(style.border, style.borderColor),
+            generateShadowCSS(style.shadow, style.shadowColor),
+          ]}
+        >
+          {style.paginationStyle === 'page' ? (
+            <PaginatedList
+              filter={filter}
+              productID={productID}
+              sort={sort}
+            />
+          ) : (
+            <InfiniteList
+              filter={filter}
+              productID={productID}
+              sort={sort}
+            />
+          )}
+        </div>
+      </Suspense>
     </section>
   );
 }
@@ -110,7 +112,7 @@ function Filter<T extends string>({ filters, selectedFilter, onFilter }: FilterP
             className="sr-only"
             name="filter"
             onChange={(evt) => {
-              onFilter(evt.target.value as T);
+              onFilter(evt.currentTarget.value as T);
             }}
             type="radio"
             value={it.value}
@@ -138,13 +140,18 @@ function OrderSelector<T extends string>({ orders, orderBy, type, onSelect }: Or
       {type === 'dropdown' ? (
         <select
           name="order"
-          onSelect={(evt) => {
+          onChange={(evt) => {
             onSelect(evt.currentTarget.value as T);
           }}
           value={orderBy}
         >
           {orders.map((it) => (
-            <option key={it.value}>{it.label}</option>
+            <option
+              key={it.value}
+              value={it.value}
+            >
+              {it.label}
+            </option>
           ))}
         </select>
       ) : (
@@ -158,7 +165,7 @@ function OrderSelector<T extends string>({ orders, orderBy, type, onSelect }: Or
               className="sr-only"
               name="order"
               onChange={(evt) => {
-                onSelect(evt.target.value as T);
+                onSelect(evt.currentTarget.value as T);
               }}
               type="radio"
               value={it.value}
