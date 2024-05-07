@@ -26,7 +26,8 @@
     "type-check": {},
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "dependsOn": ["uglify-script"]
     },
     "clean": {
       "cache": false
