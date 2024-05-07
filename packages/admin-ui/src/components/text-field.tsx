@@ -35,7 +35,7 @@ export default forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
         <AriaInput
           placeholder={placeholder}
           ref={ref}
-          tw="text-base placeholder:text-sub-primary flex-1"
+          tw="text-base placeholder:text-sub-primary flex-1 bg-transparent"
         />
       </InputContainer>
       <FieldError>{errorMessage}</FieldError>

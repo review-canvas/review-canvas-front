@@ -21,7 +21,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
       return reviewService.list({ mallId: id, productNo: Number(productID), sort, filter, page: pageParam });
     },
     getNextPageParam: ({ data }) => {
-      return data.page + 1 < data.total ? data.page + 1 : undefined;
+      return data.page + 1 < data.total / data.size ? data.page + 1 : undefined;
     },
     initialPageParam: 0,
   });

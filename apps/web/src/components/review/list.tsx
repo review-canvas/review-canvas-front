@@ -73,14 +73,14 @@ export default function ReviewList({ productID }: ReviewListProps) {
         {style.paginationStyle === 'page' ? (
           <PaginatedList
             filter={filter}
-            sort={sort}
             productID={productID}
+            sort={sort}
           />
         ) : (
           <InfiniteList
             filter={filter}
-            sort={sort}
             productID={productID}
+            sort={sort}
           />
         )}
       </div>

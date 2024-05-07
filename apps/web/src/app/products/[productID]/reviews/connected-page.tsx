@@ -15,7 +15,7 @@ interface ConnectedPageProps {
 }
 
 export default function ConnectedPage({ productID }: ConnectedPageProps) {
-  const { id, domain } = useConnectedShop();
+  const { id } = useConnectedShop();
   const designPropertyService = useDesignPropertyService();
 
   const designPropertyQuery = useSuspenseQuery({
@@ -25,9 +25,6 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
 
   return (
     <main>
-      <h1>
-        Reviews for product {productID} from shop {id} at {domain}
-      </h1>
       <ReviewListStyleProvider
         value={designPropertyService.convertDesignPropertyResponseToReviewListStyle(designPropertyQuery.data)}
       >
