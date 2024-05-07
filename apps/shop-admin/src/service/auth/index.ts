@@ -1,4 +1,5 @@
 import { apiService } from '@/lib/api/api-services';
+import type { PostShopAdminInfoRequest } from '@/lib/api/api-types';
 import useTokenStore from '@/store/auth/token';
 import type { SignupFormData } from '@/types/signup';
 
@@ -42,6 +43,15 @@ async function getShopAdminInfo() {
   }
 }
 
+async function modifyShopAdminInfo(request: PostShopAdminInfoRequest): Promise<boolean> {
+  try {
+    const response = await apiService.postShopAdminInfo(request);
+    return response.success;
+  } catch (error) {
+    throw new Error('Shop Admin 정보 수정에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 async function isEmailDuplicate(email: string): Promise<boolean> {
   try {
     const response = await apiService.getEmailCheck({ email });
@@ -64,6 +74,7 @@ export const AuthService = {
   logout,
   checkAuth,
   getShopAdminInfo,
+  modifyShopAdminInfo,
   isEmailDuplicate,
   signup,
 };
