@@ -33,7 +33,13 @@ class ApiService {
 
   public async getShopAdminInfo(): Promise<CommonResponse<API.GetShopAdminInfoResponse>> {
     const response = await this.httpClient.get<API.GetShopAdminInfoResponse>('/api/v1/shop-admin');
+    return response;
+  }
 
+  public async postShopAdminInfo(
+    request: API.PostShopAdminInfoRequest,
+  ): Promise<CommonResponse<API.PostShopAdminInfoResponse>> {
+    const response = await this.httpClient.post<API.PostShopAdminInfoResponse>('/api/v1/shop-admin', request);
     return response;
   }
 
