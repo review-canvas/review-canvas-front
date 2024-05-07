@@ -68,6 +68,7 @@ window.addEventListener('message', (evt) => {
   $iframe.style.width = '80%';
   $iframe.style.height = '80%';
   $iframe.style.border = 'none';
+  $iframe.style.background = 'white';
 
   $dim.appendChild($iframe);
   document.body.appendChild($dim);
