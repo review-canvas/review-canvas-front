@@ -77,5 +77,7 @@ window.addEventListener('message', (evt) => {
 window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'close-modal') return;
 
+  // body scroll unlock
+  document.body.style.overflow = '';
   document.querySelector('#rvcv-modal-dim')?.remove();
 });
