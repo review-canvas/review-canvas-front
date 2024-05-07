@@ -20,6 +20,17 @@ export interface PostCafe24AuthenticationProcessResponse {
   shopAdminStatus: SolutionCafe24InstallStatus;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface GetShopAdminInfoRequest {}
+
+export interface GetShopAdminInfoResponse {
+  email: string;
+  mallNumber: string;
+  phoneNumber: string;
+  mallName: string;
+  businessNumber: string;
+}
+
 export interface GetEmailCheckRequest {
   email: string;
 }
