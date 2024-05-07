@@ -31,6 +31,12 @@ class ApiService {
     return response;
   }
 
+  public async getShopAdminInfo(): Promise<CommonResponse<API.GetShopAdminInfoResponse>> {
+    const response = await this.httpClient.get<API.GetShopAdminInfoResponse>('/api/v1/shop-admin');
+
+    return response;
+  }
+
   public async postCafe24AuthentaicationProcess(
     request: API.PostCafe24AuthenticationProcessRequest,
   ): Promise<CommonResponse<API.PostCafe24AuthenticationProcessResponse>> {
