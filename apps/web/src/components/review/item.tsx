@@ -10,8 +10,10 @@ import {
 } from '@review-canvas/theme';
 
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
+import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 
 interface ReviewItemProps {
+  id: number;
   rate: number;
   content: string;
   reviewer: string;
@@ -19,6 +21,7 @@ interface ReviewItemProps {
 
 export default function ReviewItem(props: ReviewItemProps) {
   const style = useReviewItemStyle();
+  const message = useMessageToShop();
 
   return (
     <li
@@ -37,18 +40,28 @@ export default function ReviewItem(props: ReviewItemProps) {
         `,
       ]}
     >
-      <div className="flex gap-0.5 items-center">
-        {[1, 2, 3, 4, 5].map((it) => (
-          <Star
-            active={it <= props.rate}
-            key={it}
-          />
-        ))}
-      </div>
-      <div>
-        작성자 <span>{props.reviewer}</span>
-      </div>
-      <p>{props.content}</p>
+      <button
+        onClick={() => {
+          message('open-modal', {
+            type: 'detail',
+            url: `/reviews/${props.id}`,
+          });
+        }}
+        type="button"
+      >
+        <div className="flex gap-0.5 items-center w-fit">
+          {[1, 2, 3, 4, 5].map((it) => (
+            <Star
+              active={it <= props.rate}
+              key={it}
+            />
+          ))}
+        </div>
+        <div className="w-fit">
+          작성자 <span>{props.reviewer}</span>
+        </div>
+        <p className="text-left">{props.content}</p>
+      </button>
     </li>
   );
 }

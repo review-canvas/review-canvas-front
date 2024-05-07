@@ -38,40 +38,43 @@ window.addEventListener('message', (evt) => {
   $element.contentWindow.postMessage({ type: 'connect', payload: mallID }, evt.origin);
 });
 //
-// window.addEventListener('message', (evt) => {
-//   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'open-review-detail') return;
-//
-//   const $dim = document.createElement('div');
-//   $dim.id = 'review-detail-container';
-//   $dim.style.position = 'fixed';
-//   $dim.style.top = '0';
-//   $dim.style.left = '0';
-//   $dim.style.width = '100%';
-//   $dim.style.height = '100%';
-//   $dim.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-//   $dim.style.display = 'flex';
-//   $dim.style.justifyContent = 'center';
-//   $dim.style.alignItems = 'center';
-//   $dim.style.zIndex = '9999';
-//   $dim.style.cursor = 'pointer';
-//   $dim.addEventListener('click', () => {
-//     $dim.remove();
-//   });
-//
-//   const $iframe = document.createElement('iframe');
-//   $iframe.dataset.reviewCanvas = 'detail';
-//   $iframe.dataset.connected = 'false';
-//   $iframe.src = evt.data.payload;
-//   $iframe.style.width = '80%';
-//   $iframe.style.height = '80%';
-//   $iframe.style.border = 'none';
-//
-//   $dim.appendChild($iframe);
-//   document.body.appendChild($dim);
-// });
-//
-// window.addEventListener('message', (evt) => {
-//   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'close-review-detail') return;
-//
-//   document.querySelector('#review-detail-container')?.remove();
-// });
+window.addEventListener('message', (evt) => {
+  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'open-modal') return;
+
+  // body scroll lock
+  document.body.style.overflow = 'hidden';
+
+  const $dim = document.createElement('div');
+  $dim.id = 'rvcv-modal-dim';
+  $dim.style.position = 'fixed';
+  $dim.style.top = '0';
+  $dim.style.left = '0';
+  $dim.style.width = '100%';
+  $dim.style.height = '100%';
+  $dim.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  $dim.style.display = 'flex';
+  $dim.style.justifyContent = 'center';
+  $dim.style.alignItems = 'center';
+  $dim.style.zIndex = '9999';
+  $dim.style.cursor = 'pointer';
+  $dim.addEventListener('click', () => {
+    $dim.remove();
+  });
+
+  const $iframe = document.createElement('iframe');
+  $iframe.dataset.reviewCanvas = evt.data.payload.type;
+  $iframe.dataset.connected = 'false';
+  $iframe.src = new URL(evt.data.payload.url, reviewCanvasURL).toString();
+  $iframe.style.width = '80%';
+  $iframe.style.height = '80%';
+  $iframe.style.border = 'none';
+
+  $dim.appendChild($iframe);
+  document.body.appendChild($dim);
+});
+
+window.addEventListener('message', (evt) => {
+  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'close-modal') return;
+
+  document.querySelector('#rvcv-modal-dim')?.remove();
+});
