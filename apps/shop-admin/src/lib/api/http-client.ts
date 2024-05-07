@@ -2,7 +2,7 @@ import type { CommonResponse } from './api-common';
 
 import useTokenStore from '@/store/auth/token';
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
 interface FetchOptions {
   method: HttpMethod;
@@ -99,6 +99,15 @@ export class HttpClient {
   public async post<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
     return this.fetch(url, {
       method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+      cache,
+    });
+  }
+
+  public async patch<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    return this.fetch(url, {
+      method: 'PATCH',
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
       cache,
