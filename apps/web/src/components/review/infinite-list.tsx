@@ -44,6 +44,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
         {reviews.map((it) => (
           <ReviewItem
             content={it.content}
+            id={it.reviewId}
             key={it.reviewId}
             rate={it.score}
             reviewer={it.nickname}

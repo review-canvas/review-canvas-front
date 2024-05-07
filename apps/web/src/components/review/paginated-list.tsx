@@ -41,6 +41,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
         {reviews.map((it) => (
           <ReviewItem
             content={it.content}
+            id={it.reviewId}
             key={it.reviewId}
             rate={it.score}
             reviewer={it.nickname}
