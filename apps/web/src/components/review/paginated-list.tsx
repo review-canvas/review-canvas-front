@@ -43,7 +43,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
       <Pagination
         onPage={setPage}
         page={page}
-        totalPages={reviewListQuery.data.data.total}
+        totalPages={Math.ceil(reviewListQuery.data.data.total / reviewListQuery.data.data.size)}
       />
     </>
   );
