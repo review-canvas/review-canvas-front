@@ -29,6 +29,19 @@ async function checkAuth() {
   }
 }
 
+async function getShopAdminInfo() {
+  try {
+    const { success, data } = await apiService.getShopAdminInfo();
+
+    return {
+      success,
+      info: data,
+    };
+  } catch (error) {
+    throw new Error('로그인 되어 있는 어드민 정보 확인에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 async function isEmailDuplicate(email: string): Promise<boolean> {
   try {
     const response = await apiService.getEmailCheck({ email });
@@ -50,6 +63,7 @@ export const AuthService = {
   login,
   logout,
   checkAuth,
+  getShopAdminInfo,
   isEmailDuplicate,
   signup,
 };
