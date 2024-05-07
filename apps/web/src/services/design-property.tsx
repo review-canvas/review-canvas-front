@@ -27,7 +27,7 @@ class DesignPropertyService {
       border: reviewContainer.border,
       borderColor: reviewContainer.borderColor,
       shadow: reviewContainer.shadow,
-      shadowColor: 'transparent',
+      shadowColor: 'rgba(0, 0, 0, 0.3)',
       backgroundColor: reviewContainer.background,
     };
   }
@@ -46,7 +46,7 @@ class DesignPropertyService {
       borderColor: reviewDesignView.borderColor,
       borderRadius: reviewDesignView.round,
       shadow: reviewDesignView.shadow,
-      shadowColor: 'transparent',
+      shadowColor: 'rgba(0, 0, 0, 0.3)',
       backgroundColor: reviewDesignView.reviewBackgroundColor,
     };
   }
