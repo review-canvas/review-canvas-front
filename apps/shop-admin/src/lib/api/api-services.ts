@@ -36,10 +36,10 @@ class ApiService {
     return response;
   }
 
-  public async postShopAdminInfo(
-    request: API.PostShopAdminInfoRequest,
-  ): Promise<CommonResponse<API.PostShopAdminInfoResponse>> {
-    const response = await this.httpClient.post<API.PostShopAdminInfoResponse>('/api/v1/shop-admin', request);
+  public async patchShopAdminInfo(
+    request: API.PatchShopAdminInfoRequest,
+  ): Promise<CommonResponse<API.PatchShopAdminInfoResponse>> {
+    const response = await this.httpClient.patch<API.PatchShopAdminInfoResponse>('/api/v1/shop-admin', request);
     return response;
   }
 

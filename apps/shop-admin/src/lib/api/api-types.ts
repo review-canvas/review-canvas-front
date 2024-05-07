@@ -31,7 +31,7 @@ export interface GetShopAdminInfoResponse {
   businessNumber: string;
 }
 
-export interface PostShopAdminInfoRequest {
+export interface PatchShopAdminInfoRequest {
   email: string;
   password: string;
   phoneNumber: string;
@@ -40,7 +40,7 @@ export interface PostShopAdminInfoRequest {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
-export interface PostShopAdminInfoResponse {}
+export interface PatchShopAdminInfoResponse {}
 
 export interface GetEmailCheckRequest {
   email: string;
