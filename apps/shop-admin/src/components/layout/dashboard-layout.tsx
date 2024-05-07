@@ -5,8 +5,10 @@ import { usePathname } from 'next/navigation';
 import tw from 'twin.macro';
 
 import { ADMIN_TOTAL_MENU_MAP, ADMIN_MENU_MAP, ADMIN_SUB_MENU_MAP } from '@/constants/menu';
+import useShopAdminInfoStore from '@/store/auth/shop-admin-info';
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const { info } = useShopAdminInfoStore();
   const currentPathname = usePathname();
   const currentPathInfo =
     ADMIN_TOTAL_MENU_MAP.filter((menu) => menu.pathname === currentPathname)[0] || ADMIN_TOTAL_MENU_MAP[0];
@@ -32,7 +34,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
               /> */}
             <div tw="flex w-full gap-[11px] items-center mb-7 ml-3">
               <div tw="bg-main-secondary rounded-lg w-8 h-8" />
-              <span tw="text-ml">Shop Name</span>
+              <span tw="text-ml">{info.mallName}</span>
             </div>
           </div>
 
