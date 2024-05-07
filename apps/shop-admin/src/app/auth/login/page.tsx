@@ -113,7 +113,15 @@ function AuthLoginPage() {
           </div>
 
           <div>
-            <Link href="/auth/signup">회원가입</Link>
+            <Link
+              href="/auth/login"
+              onClick={() => {
+                // eslint-disable-next-line no-alert -- require alert
+                alert('현재 회원가입은 앱 설치를 통해서만 진행 가능합니다. 카페24에서 리뷰 캔버스 앱을 설치해 주세요.');
+              }}
+            >
+              회원가입
+            </Link>
           </div>
         </div>
       </div>
