@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import ReviewItem from '@/components/review/item.tsx';
+import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import { type ReviewListFilter, type ReviewListSort, useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
 
@@ -15,15 +16,22 @@ interface PaginatedListProps {
 export default function PaginatedList({ productID, filter, sort }: PaginatedListProps) {
   const { id } = useConnectedShop();
   const reviewService = useReviewService();
+  const message = useMessageToShop();
 
   const [page, setPage] = useState(0);
 
   const reviewListQuery = useSuspenseQuery({
-    queryKey: ['review', { id, productID, filter, sort, page }],
+    queryKey: ['review-list', { id, productID, filter, sort, page }],
     queryFn: () => {
       return reviewService.list({ mallId: id, productNo: Number(productID), page, sort, filter });
     },
   });
+
+  useEffect(() => {
+    if (reviewListQuery.status !== 'success') return;
+    message('adjust-height', window.getComputedStyle(document.body).height);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
+  }, [reviewListQuery.status]);
 
   const reviews = reviewListQuery.data.data.content;
 
