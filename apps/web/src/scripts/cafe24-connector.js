@@ -58,6 +58,8 @@ window.addEventListener('message', (evt) => {
   $dim.style.zIndex = '9999';
   $dim.style.cursor = 'pointer';
   $dim.addEventListener('click', () => {
+    // body scroll unlock
+    document.body.style.overflow = '';
     $dim.remove();
   });
 
