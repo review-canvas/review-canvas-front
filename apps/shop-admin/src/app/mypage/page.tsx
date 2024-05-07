@@ -3,17 +3,20 @@
 import { useState } from 'react';
 
 import { SolidButton, TextField } from '@ui/components';
+import { useRouter } from 'next/navigation';
 
 import EmailCheckButton from '@/components/signup/email-check-button';
 import useAuthCheck from '@/hooks/use-auth-check';
 import { validateEmail, validatePassword } from '@/lib/regex';
+import { AuthService } from '@/service/auth';
 import useShopAdminInfoStore from '@/store/auth/shop-admin-info';
 import type { EmailCheckStatus } from '@/types/signup';
 
 function MyPage() {
   useAuthCheck();
 
-  const { info } = useShopAdminInfoStore();
+  const router = useRouter();
+  const { info, setInfo } = useShopAdminInfoStore();
 
   const [email, setEmail] = useState<string>(info.email);
   const [emailCheckStatus, setEmailCheckStatus] = useState<EmailCheckStatus>('unchecked');
@@ -23,9 +26,68 @@ function MyPage() {
   const [phoneNumber, setPhoneNumber] = useState<string>(info.phoneNumber);
   const [mallName, setMallName] = useState<string>(info.mallName);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const isValidEmailFormat = validateEmail(email);
   const isValidPassword = validatePassword(password);
   const isValidPasswordForCheck = Boolean(password === passwordForCheck);
+
+  const isValidEmail = () => {
+    return (
+      email &&
+      ((email === info.email && emailCheckStatus === 'unchecked') ||
+        (email !== info.email && emailCheckStatus === 'checked'))
+    );
+  };
+
+  const isModifyEnabled = Boolean(
+    isValidEmail() &&
+      password &&
+      isValidPasswordForCheck &&
+      isValidEmailFormat &&
+      isValidPassword &&
+      phoneNumber &&
+      phoneNumber.length >= 10 &&
+      phoneNumber.length <= 11 &&
+      mallNumber &&
+      mallNumber.length >= 10 &&
+      mallNumber.length <= 11 &&
+      mallName,
+  );
+
+  const handlePressModifyButton = async () => {
+    if (isModifyEnabled) {
+      setIsLoading(true);
+
+      try {
+        const requestForm = {
+          email,
+          password,
+          phoneNumber,
+          mallNumber,
+          mallName,
+        };
+
+        const isSuccess = await AuthService.modifyShopAdminInfo(requestForm);
+
+        if (!isSuccess) {
+          throw new Error('정보 수정 실패');
+        }
+
+        setInfo({
+          ...requestForm,
+          businessNumber: info.businessNumber,
+        });
+
+        router.refresh();
+      } catch (error) {
+        // eslint-disable-next-line no-alert -- error alert
+        alert('정보 수정 과정에서 일시적으로 문제가 발생했습니다. 잠시 후 다시 시도해주세요');
+
+        setIsLoading(false);
+      }
+    }
+  };
 
   const handlePressResetButton = () => {
     setEmail(info.email);
@@ -125,8 +187,12 @@ function MyPage() {
 
         <div tw="w-full flex gap-4">
           <SolidButton
-            variant="primary"
+            variant={isModifyEnabled ? 'primary' : 'gray'}
             size="sm"
+            onPress={() => {
+              void handlePressModifyButton();
+            }}
+            isDisabled={!isModifyEnabled || isLoading}
           >
             저장하기
           </SolidButton>
