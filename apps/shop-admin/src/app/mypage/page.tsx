@@ -19,6 +19,7 @@ function MyPage() {
   const [emailCheckStatus, setEmailCheckStatus] = useState<EmailCheckStatus>('unchecked');
   const [password, setPassword] = useState<string>('');
   const [passwordForCheck, setPasswordForCheck] = useState<string>('');
+  const [mallNumber, setMallNumber] = useState<string>(info.mallNumber);
   const [phoneNumber, setPhoneNumber] = useState<string>(info.phoneNumber);
   const [mallName, setMallName] = useState<string>(info.mallName);
 
@@ -31,6 +32,7 @@ function MyPage() {
     setEmailCheckStatus('unchecked');
     setPassword('');
     setPasswordForCheck('');
+    setMallNumber(info.mallNumber);
     setPhoneNumber(info.phoneNumber);
     setMallName(info.mallName);
   };
@@ -90,6 +92,18 @@ function MyPage() {
               tw="w-full"
               type="text"
               label="전화번호"
+              placeholder="연락 받으실 전화번호를 입력해 주세요."
+              value={mallNumber}
+              onChange={setMallNumber}
+            />
+          </div>
+
+          <div tw="flex flex-col">
+            <TextField
+              variant="underline"
+              tw="w-full"
+              type="text"
+              label="관리자 전화번호"
               placeholder="연락 받으실 전화번호를 입력해 주세요."
               value={phoneNumber}
               onChange={setPhoneNumber}
