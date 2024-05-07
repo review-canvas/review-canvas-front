@@ -26,6 +26,15 @@ function MyPage() {
   const isValidPassword = validatePassword(password);
   const isValidPasswordForCheck = Boolean(password === passwordForCheck);
 
+  const handlePressResetButton = () => {
+    setEmail(info.email);
+    setEmailCheckStatus('unchecked');
+    setPassword('');
+    setPasswordForCheck('');
+    setPhoneNumber(info.phoneNumber);
+    setMallName(info.mallName);
+  };
+
   return (
     <div tw="w-full flex flex-col mt-8">
       <div tw="max-w-[450px] flex flex-col gap-16 pl-4">
@@ -110,6 +119,7 @@ function MyPage() {
           <SolidButton
             variant="gray"
             size="sm"
+            onPress={handlePressResetButton}
           >
             초기화
           </SolidButton>
