@@ -12,7 +12,7 @@ export interface ReviewItem {
   nickname: string;
 }
 
-export interface ReviewListResponse {
+export interface RetrieveReviewListResponse {
   success: boolean;
   data: {
     page: number;
@@ -25,13 +25,18 @@ export interface ReviewListResponse {
 export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
 
-export interface ReviewListRequest {
+export interface RetrieveReviewListRequest {
   mallId: string;
   productNo: number;
   page?: number;
   size?: number;
   sort?: ReviewListSort;
   filter?: ReviewListFilter;
+}
+
+export interface RetrieveReviewItemResponse {
+  success: boolean;
+  data: ReviewItem;
 }
 
 class ReviewService {
@@ -42,7 +47,7 @@ class ReviewService {
     filter = 'ALL',
     size = 10,
     page = 0,
-  }: ReviewListRequest): Promise<ReviewListResponse> {
+  }: RetrieveReviewListRequest): Promise<RetrieveReviewListResponse> {
     const search = new URLSearchParams({
       page: page.toString(),
       size: size.toString(),
@@ -50,7 +55,7 @@ class ReviewService {
       filter,
     });
 
-    const response = await API.get<ReviewListResponse>(
+    const response = await API.get<RetrieveReviewListResponse>(
       `/api/v1/shop/${mallId}/products/${productNo}/reviews?${search.toString()}`,
     );
     return response.data;
@@ -62,7 +67,10 @@ class ReviewService {
 
   delete() {}
 
-  get() {}
+  async get(id: string) {
+    const response = await API.get<RetrieveReviewItemResponse>(`/api/v1/reviews/${id}`);
+    return response.data;
+  }
 }
 
 interface ReviewServiceStore {
