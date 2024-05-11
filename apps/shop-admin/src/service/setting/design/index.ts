@@ -1,3 +1,5 @@
+import type { ReviewLayoutProperty } from '@review-canvas/theme';
+
 import { apiService } from '@/lib/api/api-services';
 
 async function getReviewLayout() {
@@ -8,8 +10,15 @@ async function getReviewLayout() {
   }
 }
 
-async function modifyReviewLayout() {
-  
+async function modifyReviewLayout(properties: ReviewLayoutProperty) {
+  try {
+    const { success } = await apiService.patchReviewLayout(properties);
+    if (!success) {
+      throw new Error('call success bu† something wrong');
+    }
+  } catch (error) {
+    throw new Error('레이아웃 수정에 실패했습니다', error as ErrorOptions);
+  }
 }
 
 export const SettingDesignService = {
