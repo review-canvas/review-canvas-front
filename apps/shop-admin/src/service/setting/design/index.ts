@@ -21,7 +21,19 @@ async function modifyReviewLayout(properties: ReviewLayoutProperty) {
   }
 }
 
+async function resetReviewLayout() {
+  try {
+    const { success } = await apiService.patchReviewLayoutInitialize();
+    if (!success) {
+      throw new Error('call success but something wrong');
+    }
+  } catch (error) {
+    throw new Error('레이아웃 초기화에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 export const SettingDesignService = {
   getReviewLayout,
   modifyReviewLayout,
+  resetReviewLayout,
 };
