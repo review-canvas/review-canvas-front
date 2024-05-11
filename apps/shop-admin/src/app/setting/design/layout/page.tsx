@@ -45,6 +45,16 @@ function SettingDesignLayoutPage() {
     }));
   };
 
+  const handlePressSaveButton = async () => {
+    try {
+      await SettingDesignService.modifyReviewLayout(layoutProperties);
+      router.refresh();
+    } catch (error) {
+      // eslint-disable-next-line no-alert -- required alert
+      alert('레이아웃 설정값 변경에 일시적으로 실패했습니다. 잠시 후 다시 시도해 주세요.');
+    }
+  };
+
   useEffect(() => {
     void getReviewLayoutSetting();
   }, []);
@@ -123,6 +133,9 @@ function SettingDesignLayoutPage() {
         <SolidButton
           size="sm"
           variant="primary"
+          onPress={() => {
+            void handlePressSaveButton();
+          }}
         >
           저장하기
         </SolidButton>
