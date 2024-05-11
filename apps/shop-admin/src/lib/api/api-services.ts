@@ -89,6 +89,11 @@ class ApiService {
 
     return response;
   }
+
+  public async patchReviewLayoutInitialize(): Promise<CommonResponse<API.PatchReviewLayoutInitializeResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewLayoutInitializeResponse>>('/api/v1/shop-admin/review-layout/initialize');
+    return response;
+  }
 }
 
 const httpClient = HttpClient.getInstance();

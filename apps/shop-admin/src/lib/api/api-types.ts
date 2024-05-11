@@ -83,5 +83,8 @@ export interface PatchReviewLayoutRequest {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty response
 export interface PatchReviewLayoutResponse {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty response
+export interface PatchReviewLayoutInitializeResponse {}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
