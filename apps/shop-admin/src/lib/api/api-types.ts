@@ -59,5 +59,32 @@ export interface PostShopAdminSignUpRequest {
   consentedTermsIds: number[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty request
+export interface GetReviewLayoutRequest {}
+
+export interface GetReviewLayoutResponse {
+  bestReviewAreaActivation: boolean,
+  reviewStatisticsAreaActivation: boolean,
+  imageReviewAreaActivation: boolean,
+  focusAreaLayout: string,
+  imageReviewAreaLayout: string,
+  reviewLayoutDesign: string
+}
+
+export interface PatchReviewLayoutRequest {
+  bestReviewAreaActivation: boolean,
+  reviewStatisticsAreaActivation: boolean,
+  imageReviewAreaActivation: boolean,
+  focusAreaLayout: string,
+  imageReviewAreaLayout: string,
+  reviewLayoutDesign: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty response
+export interface PatchReviewLayoutResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty response
+export interface PatchReviewLayoutInitializeResponse {}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}

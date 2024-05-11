@@ -12,9 +12,9 @@ const config = {
       },
     ];
   },
-  transpilePackages: ['@review-canvas/admin-ui'],
+  transpilePackages: ['@review-canvas/admin-ui', '@review-canvas/theme'],
   experimental: {
-    optimizePackageImports: ['@review-canvas/admin-ui'],
+    optimizePackageImports: ['@review-canvas/admin-ui', '@review-canvas/theme'],
   },
 };
 

@@ -73,9 +73,30 @@ class ApiService {
 
     return response;
   }
+
+  public async getReviewLayout(): Promise<API.GetReviewLayoutResponse> {
+    const response = await this.httpClient.get<API.GetReviewLayoutResponse>('/api/v1/shop-admin/review-layout');
+    return response.data;
+  }
+
+  public async patchReviewLayout(
+    request: API.PatchReviewLayoutRequest,
+  ): Promise<CommonResponse<API.PatchReviewLayoutResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewLayoutResponse>>(
+      '/api/v1/shop-admin/review-layout',
+      request,
+    );
+
+    return response;
+  }
+
+  public async patchReviewLayoutInitialize(): Promise<CommonResponse<API.PatchReviewLayoutInitializeResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewLayoutInitializeResponse>>('/api/v1/shop-admin/review-layout/initialize');
+    return response;
+  }
 }
 
-const httpClient = new HttpClient();
+const httpClient = HttpClient.getInstance();
 
 const { accessToken } = useTokenStore.getState();
 if (accessToken) {

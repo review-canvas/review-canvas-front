@@ -20,6 +20,7 @@ interface HttpClientConfig {
 }
 
 export class HttpClient {
+  private static instance: HttpClient | undefined = undefined;
   private config: HttpClientConfig;
 
   constructor(config?: HttpClientConfig) {
@@ -30,6 +31,14 @@ export class HttpClient {
     };
 
     this.config = { ...defaultConfig, ...config };
+  }
+
+  public static getInstance(config?: HttpClientConfig): HttpClient {
+    if (HttpClient.instance === undefined) {
+      HttpClient.instance = new HttpClient(config);
+    }
+
+    return HttpClient.instance;
   }
 
   private handleRequestInterceptor(url: string, options: FetchOptions): void {
