@@ -16,6 +16,7 @@
     "@review-canvas/admin-ui": "workspace:*",
     "@tanstack/react-query": "^5.28.8",
     "axios": "^1.6.8",
+    "chart.js": "^4.4.2",
     "dayjs": "^1.11.10",
     "next": "^14.1.1",
     "react": "^18.2.0",
