@@ -91,7 +91,7 @@ class ApiService {
   }
 }
 
-const httpClient = new HttpClient();
+const httpClient = HttpClient.getInstance();
 
 const { accessToken } = useTokenStore.getState();
 if (accessToken) {
