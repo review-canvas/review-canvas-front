@@ -25,6 +25,15 @@ export default function withTwin(
       config.module.rules = config.module.rules || [];
 
       config.module.rules.push({
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+          },
+        ],
+      });
+
+      config.module.rules.push({
         test: /\.tsx?$/,
         include: includedDirs,
         use: [

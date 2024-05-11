@@ -3,12 +3,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"],
+      "@ui/*": ["../../packages/admin-ui/src/*"],
     },
     "jsxImportSource": "@emotion/react",
-    "types": ["@review-canvas/admin-ui/declared-types"],
+    "types": [
+      "@review-canvas/admin-ui/declared-types"
+    ],
     "strictNullChecks": true
   },
   "include": [
