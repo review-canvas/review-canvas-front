@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { broadcastMessageToParent } from '@/utils/message.ts';
 
-export type ReviewCanvasType = 'list' | 'detail' | 'my-reviews';
+export type ReviewCanvasType = 'list' | 'detail' | 'mypage';
 
 const useReviewCanvasReady = (type: ReviewCanvasType) => {
   useEffect(() => {
