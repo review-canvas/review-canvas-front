@@ -17,10 +17,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const shop = useShop();
 
   useEffect(() => {
-    const handleMessage = (evt: MessageEvent<{ type: string; payload: string }>) => {
+    const handleMessage = (
+      evt: MessageEvent<{ type: string; payload: { mallID: string; userID: string | undefined } }>,
+    ) => {
       const { type, payload } = evt.data;
       if (type !== 'connect') return;
-      shop.connect(payload, evt.origin);
+      shop.connect(payload.mallID, evt.origin, payload.userID);
     };
     window.addEventListener('message', handleMessage);
     return () => {
