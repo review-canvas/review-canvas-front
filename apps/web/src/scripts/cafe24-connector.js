@@ -34,8 +34,9 @@ window.addEventListener('message', (evt) => {
   const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"][data-connected="false"]`);
   const mallID = CAFE24?.SHOP?.getMallID();
   if (!$element || !($element instanceof HTMLIFrameElement) || !mallID) return;
+  const userID = document.querySelector('.xans-layout-statelogon.userId > span')?.textContent;
   $element.dataset.connected = 'true';
-  $element.contentWindow.postMessage({ type: 'connect', payload: mallID }, evt.origin);
+  $element.contentWindow.postMessage({ type: 'connect', payload: { mallID, userID } }, evt.origin);
 });
 //
 window.addEventListener('message', (evt) => {
