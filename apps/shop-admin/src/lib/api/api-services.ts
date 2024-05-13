@@ -91,7 +91,32 @@ class ApiService {
   }
 
   public async patchReviewLayoutInitialize(): Promise<CommonResponse<API.PatchReviewLayoutInitializeResponse>> {
-    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewLayoutInitializeResponse>>('/api/v1/shop-admin/review-layout/initialize');
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewLayoutInitializeResponse>>(
+      '/api/v1/shop-admin/review-layout/initialize',
+    );
+    return response;
+  }
+
+  public async getReviewContainer(): Promise<API.GetReviewContainerResponse> {
+    const response = await this.httpClient.get<API.GetReviewContainerResponse>('/api/v1/shop-admin/review-container');
+    return response.data;
+  }
+
+  public async patchReviewContainer(
+    request: API.PatchReviewContainerRequest,
+  ): Promise<CommonResponse<API.PatchReviewContainerResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewContainerResponse>>(
+      '/api/v1/shop-admin/review-container',
+      request,
+    );
+
+    return response;
+  }
+
+  public async patchReviewContainerInitialize(): Promise<CommonResponse<API.PatchReviewContainerInitializeResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewContainerInitializeResponse>>(
+      '/api/v1/shop-admin/review-container/reset',
+    );
     return response;
   }
 }
