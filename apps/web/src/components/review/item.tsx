@@ -11,18 +11,34 @@ import {
 
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
+import { useConnectedShop } from '@/state/shop.ts';
 
 interface ReviewItemProps {
   id: number;
   rate: number;
   content: string;
+  reviewerID: string;
   reviewer: string;
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
   const style = useReviewItemStyle();
+  const { userID } = useConnectedShop();
   const message = useMessageToShop();
 
+  const edit = () => {
+    message('open-modal', {
+      type: 'edit-review',
+      url: `/reviews/${props.id}/edit`,
+    });
+  };
+
+  const showReviewDetail = () => {
+    message('open-modal', {
+      type: 'detail',
+      url: `/reviews/${props.id}`,
+    });
+  };
   return (
     <li
       css={[
@@ -40,14 +56,13 @@ export default function ReviewItem(props: ReviewItemProps) {
         `,
       ]}
     >
-      <button
-        onClick={() => {
-          message('open-modal', {
-            type: 'detail',
-            url: `/reviews/${props.id}`,
-          });
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */}
+      <div
+        aria-haspopup
+        onClick={showReviewDetail}
+        onKeyUp={(evt) => {
+          if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
         }}
-        type="button"
       >
         <div className="flex gap-0.5 items-center w-fit">
           {[1, 2, 3, 4, 5].map((it) => (
@@ -61,7 +76,29 @@ export default function ReviewItem(props: ReviewItemProps) {
           작성자 <span>{props.reviewer}</span>
         </div>
         <p className="text-left">{props.content}</p>
-      </button>
+        {userID === props.reviewerID ? (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions -- This is intentional
+          <div
+            className="flex gap-2"
+            onClick={(evt) => {
+              evt.stopPropagation();
+            }}
+          >
+            <button
+              onClick={edit}
+              type="button"
+            >
+              수정
+            </button>
+            <button
+              onClick={() => {}}
+              type="button"
+            >
+              삭제
+            </button>
+          </div>
+        ) : null}
+      </div>
     </li>
   );
 }
