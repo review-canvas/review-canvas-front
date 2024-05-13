@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ColorPicker, RadioGroup, SolidButton } from '@ui/components';
+import { useRouter } from 'next/navigation';
 
 import { ThemeUtil } from '@review-canvas/theme';
 import type { Shadow, ReviewContainerProperty, WidthType } from '@review-canvas/theme';
@@ -11,8 +12,10 @@ import DesignUnitTextField from '@/components/common/design-unit-text-field';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
 import useAuthCheck from '@/hooks/use-auth-check';
+import { SettingDesignService } from '@/service/setting/design';
 
 function SettingDesignContainerPage() {
+  const router = useRouter();
   const [containerProperties, setContainerProperties] = useState<ReviewContainerProperty>({
     width: '100%',
     padding: {
@@ -36,6 +39,19 @@ function SettingDesignContainerPage() {
 
   useAuthCheck();
 
+  const getReviewContainerSetting = async () => {
+    try {
+      const settings = await SettingDesignService.getReviewContainer();
+      setContainerProperties(settings as ReviewContainerProperty);
+    } catch (error) {
+      // eslint-disable-next-line no-console -- track error
+      console.error('리뷰 컨테이너 기존 세팅값 조회에 실패했습니다 : ', error);
+      // eslint-disable-next-line no-alert -- required alert
+      alert('일시적으로 데이터를 조회하지 못하고 있습니다. 잠시 후 다시 시도해 주세요.');
+      router.push('/dashboard');
+    }
+  };
+
   const updateContainerProperty = <K extends keyof ReviewContainerProperty>(
     property: K,
     value: ReviewContainerProperty[K],
@@ -46,9 +62,33 @@ function SettingDesignContainerPage() {
     }));
   };
 
-  const handlePressSaveButton = () => {};
+  const handlePressSaveButton = async () => {
+    try {
+      await SettingDesignService.modifyReviewContainer(containerProperties);
+      // eslint-disable-next-line no-alert -- required alert
+      alert('성공적으로 저장되었어요');
+      router.refresh();
+    } catch (error) {
+      // eslint-disable-next-line no-alert -- required alert
+      alert('Container 설정값 변경에 일시적으로 실패했습니다. 잠시 후 다시 시도해 주세요.');
+    }
+  };
 
-  const handlePressResetButton = () => {};
+  const handlePressResetButton = async () => {
+    try {
+      await SettingDesignService.resetReviewContainer();
+      // eslint-disable-next-line no-alert -- required alert
+      alert('성공적으로 초기화되었어요');
+      router.refresh();
+    } catch (error) {
+      // eslint-disable-next-line no-alert -- required alert
+      alert('Container 설정값 초기화에 일시적으로 실패했습니다. 잠시 후 다시 시도해 주세요.');
+    }
+  };
+
+  useEffect(() => {
+    void getReviewContainerSetting();
+  }, []);
 
   return (
     <SettingLayout>
@@ -264,7 +304,7 @@ function SettingDesignContainerPage() {
           size="sm"
           variant="primary"
           onPress={() => {
-            handlePressSaveButton();
+            void handlePressSaveButton();
           }}
         >
           저장하기
@@ -273,7 +313,7 @@ function SettingDesignContainerPage() {
           size="sm"
           variant="gray"
           onPress={() => {
-            handlePressResetButton();
+            void handlePressResetButton();
           }}
         >
           초기화
