@@ -136,5 +136,67 @@ export interface PatchReviewContainerInitializeRequest {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PatchReviewContainerInitializeResponse {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty request
+export interface GetReviewColumnRequest {}
+
+export interface GetReviewColumnResponse {
+  width: string,
+  padding: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  margin: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  background: string,
+  border: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  borderColor: string,
+  shadow: string
+}
+
+export interface PatchReviewColumnRequest {
+  width: string,
+  padding: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  margin: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  background: string,
+  border: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  borderColor: string,
+  shadow: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewColumnResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewColumnInitializeRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewColumnInitializeResponse {}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
