@@ -11,7 +11,8 @@ interface DesignUnitTextFieldProps {
 }
 
 function DesignUnitTextField({ type, value, onChange, isReadOnly = false, label }: DesignUnitTextFieldProps) {
-  const isValidInput: boolean = ThemeUtil.isValidDesignUnit(value);
+  const isValidInput: boolean = ThemeUtil.isValidDesignUnit(value) && Boolean(value);
+
   const displayValue = ThemeUtil.getWidthType(value) === 'CUSTOM' ? value : '';
 
   const handleChange = (_value: string) => {
@@ -28,7 +29,7 @@ function DesignUnitTextField({ type, value, onChange, isReadOnly = false, label 
       value={type === 'WIDTH' ? displayValue : value}
       onChange={handleChange}
       isReadOnly={isReadOnly}
-      isInvalid={Boolean(value) && !isValidInput}
+      isInvalid={!(isValidInput || !value)}
       errorMessage="올바른 값을 입력해 주세요."
     />
   );
