@@ -27,7 +27,7 @@ const returnWidthValueWidthType = (type: WidthType, value?: string): string => {
 };
 
 const isValidDesignUnit = (value: string): boolean => {
-  const regex = /(?:\d+)(?<unit>px|%)$/;
+  const regex = /(?:\d+)(?<unit>px|%|vw|vh)$/;
   return regex.test(value);
 };
 
