@@ -40,6 +40,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "framer-motion": "^11.0.25",
-    "react-aria-components": "^1.1.1"
+    "react-aria-components": "^1.2.0",
+    "react-color-palette": "^7.1.1"
   }
 }
