@@ -79,7 +79,7 @@ function SettingDesignContainerPage() {
       await SettingDesignService.resetReviewContainer();
       // eslint-disable-next-line no-alert -- required alert
       alert('성공적으로 초기화되었어요');
-      router.refresh();
+      window.location.reload();
     } catch (error) {
       // eslint-disable-next-line no-alert -- required alert
       alert('Container 설정값 초기화에 일시적으로 실패했습니다. 잠시 후 다시 시도해 주세요.');

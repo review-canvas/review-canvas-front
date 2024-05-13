@@ -119,6 +119,29 @@ class ApiService {
     );
     return response;
   }
+
+  public async getReviewColumn(): Promise<API.GetReviewColumnResponse> {
+    const response = await this.httpClient.get<API.GetReviewColumnResponse>('/api/v1/shop-admin/review-column');
+    return response.data;
+  }
+
+  public async patchReviewColumn(
+    request: API.PatchReviewColumnRequest,
+  ): Promise<CommonResponse<API.PatchReviewColumnResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewColumnResponse>>(
+      '/api/v1/shop-admin/review-column',
+      request,
+    );
+
+    return response;
+  }
+
+  public async patchReviewColumnInitialize(): Promise<CommonResponse<API.PatchReviewColumnInitializeResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewColumnInitializeResponse>>(
+      '/api/v1/shop-admin/review-column/reset',
+    );
+    return response;
+  }
 }
 
 const httpClient = HttpClient.getInstance();
