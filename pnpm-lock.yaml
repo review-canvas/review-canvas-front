@@ -369,6 +369,9 @@ importers:
       react-aria-components:
         specifier: ^1.2.0
         version: 1.2.0(react-dom@18.3.1)(react@18.2.0)
+      react-color-palette:
+        specifier: ^7.1.1
+        version: 7.1.1(react@18.2.0)
     devDependencies:
       '@review-canvas/eslint-config':
         specifier: workspace:*
@@ -7668,6 +7671,15 @@ packages:
       '@react-types/shared': 3.23.0(react@18.2.0)
       react: 18.2.0
       react-dom: 18.3.1(react@18.2.0)
+    dev: false
+
+  /react-color-palette@7.1.1(react@18.2.0):
+    resolution: {integrity: sha512-fBmTRWmTCrH08yZwU+5647pUKABRM6h4TS/43Q/mt/TLH1hyTfWopCc6wm2L9IoynPcOT7SaOm3Xmdz+goFEDw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-dom@18.2.0(react@18.2.0):
