@@ -29,6 +29,8 @@ export interface Font {
   color: string;
 }
 
+export type WidthType = 'SITE_WIDTH' | 'FULL' | 'CUSTOM';
+
 export interface ReviewLayoutProperty {
   bestReviewAreaActivation: boolean;
   reviewStatisticsAreaActivation: boolean;
