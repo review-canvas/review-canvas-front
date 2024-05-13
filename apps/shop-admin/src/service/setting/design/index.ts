@@ -1,4 +1,4 @@
-import type { ReviewContainerProperty, ReviewLayoutProperty } from '@review-canvas/theme';
+import type { ReviewColumnProperty, ReviewContainerProperty, ReviewLayoutProperty } from '@review-canvas/theme';
 
 import { apiService } from '@/lib/api/api-services';
 
@@ -62,6 +62,36 @@ async function resetReviewContainer() {
   }
 }
 
+async function getReviewColumn() {
+  try {
+    return await apiService.getReviewColumn();
+  } catch (error) {
+    throw new Error('Column 조회에 실패했습니다', error as ErrorOptions);
+  }
+}
+
+async function modifyReviewColumn(properties: ReviewColumnProperty) {
+  try {
+    const { success } = await apiService.patchReviewColumn(properties);
+    if (!success) {
+      throw new Error('call success bu† something wrong');
+    }
+  } catch (error) {
+    throw new Error('Column 수정에 실패했습니다', error as ErrorOptions);
+  }
+}
+
+async function resetReviewColumn() {
+  try {
+    const { success } = await apiService.patchReviewColumnInitialize();
+    if (!success) {
+      throw new Error('call success but something wrong');
+    }
+  } catch (error) {
+    throw new Error('Column 초기화에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 export const SettingDesignService = {
   getReviewLayout,
   modifyReviewLayout,
@@ -69,4 +99,7 @@ export const SettingDesignService = {
   getReviewContainer,
   modifyReviewContainer,
   resetReviewContainer,
+  getReviewColumn,
+  modifyReviewColumn,
+  resetReviewColumn,
 };
