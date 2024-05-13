@@ -3,7 +3,7 @@ import TextField from '@ui/components/text-field';
 import { ThemeUtil } from '@review-canvas/theme';
 
 interface DesignUnitTextFieldProps {
-  type: 'WIDTH' | 'MARGIN' | 'PADDING' | 'BORDER';
+  type: 'WIDTH' | 'MARGIN' | 'PADDING' | 'BORDER' | 'FONT';
   value: string;
   onChange: (value: string) => void;
   isReadOnly?: boolean;
