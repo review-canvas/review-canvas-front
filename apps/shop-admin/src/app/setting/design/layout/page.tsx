@@ -48,6 +48,8 @@ function SettingDesignLayoutPage() {
   const handlePressSaveButton = async () => {
     try {
       await SettingDesignService.modifyReviewLayout(layoutProperties);
+      // eslint-disable-next-line no-alert -- required alert
+      alert('성공적으로 저장되었어요');
       router.refresh();
     } catch (error) {
       // eslint-disable-next-line no-alert -- required alert
@@ -58,6 +60,8 @@ function SettingDesignLayoutPage() {
   const handlePressResetButton = async () => {
     try {
       await SettingDesignService.resetReviewLayout();
+      // eslint-disable-next-line no-alert -- required alert
+      alert('성공적으로 초기화되었어요');
       router.refresh();
     } catch (error) {
       // eslint-disable-next-line no-alert -- required alert

@@ -86,5 +86,55 @@ export interface PatchReviewLayoutResponse {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty response
 export interface PatchReviewLayoutInitializeResponse {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty request
+export interface GetReviewContainerRequest {}
+
+export interface GetReviewContainerResponse {
+  width: string,
+  padding: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  background: string,
+  border: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  borderColor: string,
+  shadow: string
+}
+
+export interface PatchReviewContainerRequest {
+  width: string,
+  padding: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  background: string,
+  border: {
+    left: string,
+    right: string,
+    top: string,
+    bottom: string
+  },
+  borderColor: string,
+  shadow: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewContainerResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewContainerInitializeRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewContainerInitializeResponse {}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
