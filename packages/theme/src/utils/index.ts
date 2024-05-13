@@ -26,7 +26,7 @@ const returnWidthValueWidthType = (type: WidthType, value?: string): string => {
   }
 };
 
-const isValidWidth = (value: string): boolean => {
+const isValidDesignUnit = (value: string): boolean => {
   const regex = /(?:\d+)(?<unit>px|%)$/;
   return regex.test(value);
 };
@@ -34,5 +34,5 @@ const isValidWidth = (value: string): boolean => {
 export const ThemeUtil = {
   getWidthType,
   returnWidthValueWidthType,
-  isValidWidth,
+  isValidDesignUnit,
 };
