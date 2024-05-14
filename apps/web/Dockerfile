@@ -1,12 +1,15 @@
 # 기본 이미지 설정
 FROM node:18-alpine AS base
 
+ARG NEXT_PUBLIC_API_DOMAIN
+ENV NEXT_PUBLIC_API_DOMAIN=${NEXT_PUBLIC_API_DOMAIN}
+
 # alpine 이미지는 glibc 대신 musl libc을 사용.
 # 특정 라이브러리에 대해 문제가 발생할 수 있으므로 libc6-compat 패키지를 추가하는 것이 좋다.
 RUN apk add --no-cache libc6-compat
 
 # pnpm 설치
-RUN npm install -g pnpm
+RUN corepack enable pnpm
 
 WORKDIR /app
 
@@ -16,6 +19,7 @@ COPY ./apps/web/package.json ./apps/web/
 COPY ./packages/config-eslint/package.json ./packages/config-eslint/
 COPY ./packages/config-tailwind/package.json ./packages/config-tailwind/
 COPY ./packages/config-typescript/package.json ./packages/config-typescript/
+COPY ./packages/theme/package.json ./packages/theme/
 
 # 모노레포 구조에서 필요한 패키지를 설치합니다.
 RUN pnpm install --frozen-lockfile
@@ -27,6 +31,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=deps /app/packages/config-eslint/node_modules ./packages/config-eslint/node_modules
 COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
+COPY --from=deps /app/packages/theme/node_modules ./packages/theme/node_modules
 
 WORKDIR /app
 
@@ -50,6 +55,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/packages ./packages
 COPY --from=builder --chown=nextjs:nodejs /app/turbo.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./
+
+RUN echo ${NEXT_PUBLIC_API_DOMAIN}
 
 USER nextjs
 EXPOSE 3000

@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - 'main'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
 
 jobs:
   build_and_deploy:
@@ -27,6 +31,8 @@ jobs:
           repository: ${{ secrets.AWS_ECR_REPOSITORY }}
           dockerfile: ./apps/web/Dockerfile
           project: web
+          extra_build_args: |
+            --build-arg NEXT_PUBLIC_API_DOMAIN=${{ secrets.NEXT_PUBLIC_API_DOMAIN }}
       #          추후 환경변수 아래 처럼 추가
       #          extra_build_args: |
       #            --build-arg NODE_ENV=production

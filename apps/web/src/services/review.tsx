@@ -2,31 +2,63 @@ import { createContext, type PropsWithChildren, useContext } from 'react';
 
 import { createStore, useStore } from 'zustand';
 
-import type { Page, PageRequest } from '@/models/page.ts';
-import type { Review } from '@/models/review.ts';
-import { createBasicAuthHeader } from '@/utils/auth.ts';
-import { createDummyReview, delayedData } from '@/utils/faker.ts';
+import API from '@/utils/api.ts';
+
+export interface ReviewItem {
+  reviewId: number;
+  content: string;
+  score: number;
+  userId: number;
+  nickname: string;
+}
+
+export interface RetrieveReviewListResponse {
+  success: boolean;
+  data: {
+    page: number;
+    size: number;
+    total: number;
+    content: ReviewItem[];
+  };
+}
+
+export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
+export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
+
+export interface RetrieveReviewListRequest {
+  mallId: string;
+  productNo: number;
+  page?: number;
+  size?: number;
+  sort?: ReviewListSort;
+  filter?: ReviewListFilter;
+}
+
+export interface RetrieveReviewItemResponse {
+  success: boolean;
+  data: ReviewItem;
+}
 
 class ReviewService {
-  list({
-    accessToken,
+  async list({
+    mallId,
+    productNo,
+    sort = 'LATEST',
+    filter = 'ALL',
     size = 10,
     page = 0,
-  }: PageRequest<{ accessToken: string; productId: string }>): Promise<Page<Review>> {
-    const header = createBasicAuthHeader(accessToken);
-    // eslint-disable-next-line no-console -- This is a dummy service
-    console.log(header);
-    return delayedData({
-      content: Array.from({ length: size }, (_, i) => createDummyReview(String(i))),
-      first: true,
-      last: true,
-      number: page,
-      numberOfElements: size,
-      size,
-      sort: [],
-      totalElements: size,
-      totalPages: 1,
+  }: RetrieveReviewListRequest): Promise<RetrieveReviewListResponse> {
+    const search = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      sort,
+      filter,
     });
+
+    const response = await API.get<RetrieveReviewListResponse>(
+      `/api/v1/shop/${mallId}/products/${productNo}/reviews?${search.toString()}`,
+    );
+    return response.data;
   }
 
   create() {}
@@ -35,7 +67,10 @@ class ReviewService {
 
   delete() {}
 
-  get() {}
+  async get(id: string) {
+    const response = await API.get<RetrieveReviewItemResponse>(`/api/v1/reviews/${id}`);
+    return response.data;
+  }
 }
 
 interface ReviewServiceStore {
@@ -45,10 +80,18 @@ interface ReviewServiceStore {
 const reviewServiceStore = createStore<ReviewServiceStore>(() => ({
   service: new ReviewService(),
 }));
-const ReviewServiceContext = createContext<typeof reviewServiceStore | null>(null);
+type ReviewServiceStoreType = typeof reviewServiceStore;
+const ReviewServiceContext = createContext<ReviewServiceStoreType | null>(null);
 
-export function ReviewServiceProvider({ children }: Readonly<PropsWithChildren>) {
-  return <ReviewServiceContext.Provider value={reviewServiceStore}>{children}</ReviewServiceContext.Provider>;
+export function ReviewServiceProvider({
+  children,
+  service = reviewServiceStore,
+}: Readonly<
+  PropsWithChildren<{
+    service?: ReviewServiceStoreType;
+  }>
+>) {
+  return <ReviewServiceContext.Provider value={service}>{children}</ReviewServiceContext.Provider>;
 }
 
 export const useReviewService = (): ReviewService => {

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import { createAccessToken } from '@/utils/auth.ts';
 
 export interface ConnectedShop {
@@ -6,6 +7,7 @@ export interface ConnectedShop {
   id: string;
   domain: string;
   accessToken: string;
+  userID?: string;
 }
 
 export interface DisconnectedShop {
@@ -18,15 +20,15 @@ export interface DisconnectedShop {
 export type ShopConnectionState = ConnectedShop | DisconnectedShop;
 
 export interface ShopConnectionActions {
-  connect: (id: string, domain: string) => void;
+  connect: (id: string, domain: string, userID: string | undefined) => void;
 }
 
 type ShopConnectionStore = ShopConnectionState & ShopConnectionActions;
 
 const useShop = create<ShopConnectionStore>((set) => ({
   connected: false,
-  connect: (id, domain) => {
-    set({ connected: true, id, domain, accessToken: createAccessToken(id, domain) });
+  connect: (id, domain, userID) => {
+    set({ connected: true, id, domain, accessToken: createAccessToken(id, domain), userID });
   },
 }));
 
