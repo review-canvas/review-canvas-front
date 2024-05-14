@@ -1,3 +1,4 @@
+import type { CommonResponse } from './api-common';
 import type * as API from './api-types';
 
 import useTokenStore from '@/store/auth/token';
@@ -24,9 +25,19 @@ class ApiService {
     const response = await this.httpClient.post('/api/v1/logout');
     return response.data;
   }
+
+  public async getAuthCheck() {
+    const response = await this.httpClient.get('/api/v1/auth/check');
+    return response;
+  }
+
+  public async getShopAdminInfo(): Promise<CommonResponse<API.GetShopAdminInfoResponse>> {
+    const response = await this.httpClient.get<API.GetShopAdminInfoResponse>('/api/v1/shop-admin');
+    return response;
+  }
 }
 
-const httpClient = new HttpClient();
+const httpClient = HttpClient.getInstance();
 
 const { accessToken } = useTokenStore.getState();
 if (accessToken) {

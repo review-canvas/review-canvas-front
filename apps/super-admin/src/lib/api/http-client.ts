@@ -2,7 +2,7 @@ import type { CommonResponse } from './api-common';
 
 import useTokenStore from '@/store/auth/token';
 
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
 interface FetchOptions {
   method: HttpMethod;
@@ -20,6 +20,7 @@ interface HttpClientConfig {
 }
 
 export class HttpClient {
+  private static instance: HttpClient | undefined = undefined;
   private config: HttpClientConfig;
 
   constructor(config?: HttpClientConfig) {
@@ -30,6 +31,14 @@ export class HttpClient {
     };
 
     this.config = { ...defaultConfig, ...config };
+  }
+
+  public static getInstance(config?: HttpClientConfig): HttpClient {
+    if (HttpClient.instance === undefined) {
+      HttpClient.instance = new HttpClient(config);
+    }
+
+    return HttpClient.instance;
   }
 
   private handleRequestInterceptor(url: string, options: FetchOptions): void {
@@ -99,6 +108,15 @@ export class HttpClient {
   public async post<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
     return this.fetch(url, {
       method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+      cache,
+    });
+  }
+
+  public async patch<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    return this.fetch(url, {
+      method: 'PATCH',
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
       cache,
