@@ -18,8 +18,8 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
   return (
     <div tw="flex min-h-screen h-full">
       <aside
-        tw="w-64"
         aria-label="Sidebar"
+        tw="w-64"
       >
         <div tw="px-3 bg-white">
           <div tw="flex justify-center items-end h-24 mb-3 border-b-[1px] border-b-main-quaternary">
@@ -34,9 +34,9 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
               return (
                 <li key={pathname}>
                   <Link
+                    css={isActive(pathname) ? tw`text-main-primary` : tw`text-main-quaternary`}
                     href={pathname}
                     tw="flex items-center p-2 text-base font-medium rounded-lg gap-2"
-                    css={isActive(pathname) ? tw`text-main-primary` : tw`text-main-quaternary`}
                   >
                     <Icon css={isActive(pathname) ? tw`[&_path]:fill-main-primary` : null} />
                     <span>{name}</span>
@@ -60,9 +60,9 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
 
               return (
                 <li
-                  tw="flex items-center px-3 py-2 text-base font-medium rounded-lg gap-2"
                   css={pathname && isActive(pathname) ? tw`text-main-primary` : tw`text-main-quaternary`}
                   key={key}
+                  tw="flex items-center px-3 py-2 text-base font-medium rounded-lg gap-2"
                 >
                   {renderMenuItem()}
                 </li>

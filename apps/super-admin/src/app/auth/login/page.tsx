@@ -63,23 +63,23 @@ function AuthLoginPage() {
         <div tw="flex flex-col w-full gap-4 mb-6 [& .react-aria-FieldError]:text-sm">
           <div tw="w-full">
             <TextField
-                variant="underline"
-                type="email"
-                placeholder="이메일"
-                value={email}
-                onChange={setEmail}
-                isInvalid={!isValidEmailFormat && Boolean(email)}
                 errorMessage="올바른 이메일 포맷으로 입력해 주세요."
+                isInvalid={!isValidEmailFormat && Boolean(email)}
+                onChange={setEmail}
+                placeholder="이메일"
+                type="email"
+                value={email}
+                variant="underline"
             />
           </div>
 
           <div tw="w-full">
             <TextField
-                variant="underline"
-                type="password"
-                placeholder="비밀번호"
-                value={password}
                 onChange={setPassword}
+                placeholder="비밀번호"
+                type="password"
+                value={password}
+                variant="underline"
             />
           </div>
 
@@ -96,11 +96,11 @@ function AuthLoginPage() {
         <div tw="flex flex-col w-full gap-4">
           <div tw="w-full">
             <SolidButton
-                variant={isLoginEnabled ? 'primary' : 'gray'}
-                size="lg"
-                tw="w-full h-12"
                 isDisabled={!isLoginEnabled}
                 onPress={handleLogin}
+                size="lg"
+                tw="w-full h-12"
+                variant={isLoginEnabled ? 'primary' : 'gray'}
             >
               로그인
             </SolidButton>
