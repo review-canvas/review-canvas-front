@@ -1,8 +1,4 @@
-import type { SolutionCafe24InstallStatus } from '@/types/solution/cafe24';
-
 export type LocalStorageMap = {
-  cafe24MallId: string;
-  cafe24InstallStatus: SolutionCafe24InstallStatus | null;
   loginEmail: string;
 };
 

@@ -26,22 +26,8 @@ async function checkAuth() {
     throw new Error('로그인 여부 확인에 실패했습니다', error as ErrorOptions);
   }
 }
-
-async function getShopAdminInfo() {
-  try {
-    const { success, data } = await apiService.getShopAdminInfo();
-
-    return {
-      success,
-      info: data,
-    };
-  } catch (error) {
-    throw new Error('로그인 되어 있는 어드민 정보 확인에 실패했습니다', error as ErrorOptions);
-  }
-}
 export const AuthService = {
   login,
   logout,
-  checkAuth,
-  getShopAdminInfo,
+  checkAuth
 };

@@ -9,11 +9,3 @@ export interface PostAuthLoginResponse {
   refreshToken: string;
 }
 
-export interface GetShopAdminInfoResponse {
-  email: string;
-  mallNumber: string;
-  phoneNumber: string;
-  mallName: string;
-  businessNumber: string;
-}
-
