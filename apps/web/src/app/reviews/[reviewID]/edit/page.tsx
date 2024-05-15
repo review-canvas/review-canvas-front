@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { notFound, useParams } from 'next/navigation';
@@ -26,7 +26,7 @@ export default function ReviewEditPage() {
     queryFn: () => reviewService.get(params!.reviewID),
     enabled: Boolean(shop.connected && params?.reviewID),
   });
-
+  const [content, setContent] = useState('');
   const [star, setStar] = useState(0);
 
   if (!shop.connected) return <div>connecting...</div>;
@@ -36,13 +36,25 @@ export default function ReviewEditPage() {
   if (reviewDetail.nickname !== shop.userID) notFound();
 
   if (star === 0) setStar(reviewDetail.score);
-
+  if (content === '') setContent(reviewDetail.content);
   const close = () => {
     sendMessageToShop(shop.domain, 'close-modal');
   };
+  const handleChange = (event : React.ChangeEvent<HTMLTextAreaElement>) => {
+      setContent(event.target.value);
+  };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      try {
+          await reviewService.update(params?.reviewID, {content: content, score: star});
+      } catch (error) {
+          throw new Error('수정에 실패했습니다', error as ErrorOptions);
+      }
+      sendMessageToShop(shop.domain, 'close-modal');
+  };
 
   return (
-    <form className="relative p-4 flex flex-col gap-8">
+    <form className="relative p-4 flex flex-col gap-8" onSubmit={handleSubmit}>
       <button
         className="absolute top-4 right-4"
         onClick={close}
@@ -66,6 +78,7 @@ export default function ReviewEditPage() {
       </div>
       <textarea
         defaultValue={reviewDetail.content}
+        onChange={handleChange}
         rows={3}
       />
       <button
