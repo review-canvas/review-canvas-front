@@ -38,7 +38,12 @@ export interface RetrieveReviewItemResponse {
   success: boolean;
   data: ReviewItem;
 }
-
+export interface UpdateReviewItemRequest {
+  content: string;
+  score: number;
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface UpdateReviewItemResponse {}
 class ReviewService {
   async list({
     mallId,
@@ -63,7 +68,10 @@ class ReviewService {
 
   create() {}
 
-  update() {}
+  async update(id: string | undefined, request: UpdateReviewItemRequest) {
+    const response = await API.patch<UpdateReviewItemResponse>(`/api/v1/reviews/${id}`,request);
+    return response;
+  }
 
   delete() {}
 
