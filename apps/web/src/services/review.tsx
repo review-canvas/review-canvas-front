@@ -4,46 +4,9 @@ import { createStore, useStore } from 'zustand';
 
 import API from '@/utils/api.ts';
 
-export interface ReviewItem {
-  reviewId: number;
-  content: string;
-  score: number;
-  userId: number;
-  nickname: string;
-}
+import type * as TYPE from '@/services/api-types/review.ts';
+import {CreateReviewItemRequest} from "@/services/api-types/review.ts";
 
-export interface RetrieveReviewListResponse {
-  success: boolean;
-  data: {
-    page: number;
-    size: number;
-    total: number;
-    content: ReviewItem[];
-  };
-}
-
-export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
-export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
-
-export interface RetrieveReviewListRequest {
-  mallId: string;
-  productNo: number;
-  page?: number;
-  size?: number;
-  sort?: ReviewListSort;
-  filter?: ReviewListFilter;
-}
-
-export interface RetrieveReviewItemResponse {
-  success: boolean;
-  data: ReviewItem;
-}
-export interface UpdateReviewItemRequest {
-  content: string;
-  score: number;
-}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
-export interface UpdateReviewItemResponse {}
 class ReviewService {
   async list({
     mallId,
@@ -52,7 +15,7 @@ class ReviewService {
     filter = 'ALL',
     size = 10,
     page = 0,
-  }: RetrieveReviewListRequest): Promise<RetrieveReviewListResponse> {
+  }: TYPE.RetrieveReviewListRequest): Promise<TYPE.RetrieveReviewListResponse> {
     const search = new URLSearchParams({
       page: page.toString(),
       size: size.toString(),
@@ -60,23 +23,25 @@ class ReviewService {
       filter,
     });
 
-    const response = await API.get<RetrieveReviewListResponse>(
+    const response = await API.get<TYPE.RetrieveReviewListResponse>(
       `/api/v1/shop/${mallId}/products/${productNo}/reviews?${search.toString()}`,
     );
     return response.data;
   }
 
-  create() {}
-
-  async update(id: string | undefined, request: UpdateReviewItemRequest) {
-    const response = await API.patch<UpdateReviewItemResponse>(`/api/v1/reviews/${id}`,request);
-    return response;
+  async create(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
+    await API.patch<TYPE.CommonResponse>(`/api/v1/products/${id}/reviews`,request);
   }
 
-  delete() {}
+  async update(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
+    await API.patch<TYPE.CommonResponse>(`/api/v1/reviews/${id}`,request);
+  }
+  async delete(id: string | undefined) {
+    await API.delete<TYPE.CommonResponse>(`/api/v1/reviews/${id}`);
+  }
 
   async get(id: string) {
-    const response = await API.get<RetrieveReviewItemResponse>(`/api/v1/reviews/${id}`);
+    const response = await API.get<TYPE.RetrieveReviewItemResponse>(`/api/v1/reviews/${id}`);
     return response.data;
   }
 }
