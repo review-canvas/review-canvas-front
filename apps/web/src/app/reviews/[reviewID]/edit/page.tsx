@@ -43,15 +43,19 @@ export default function ReviewEditPage() {
   const handleChange = (event : React.ChangeEvent<HTMLTextAreaElement>) => {
       setContent(event.target.value);
   };
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      try {
-          await reviewService.update(params?.reviewID, {content: content, score: star});
-      } catch (error) {
-          throw new Error('수정에 실패했습니다', error as ErrorOptions);
-      }
-      sendMessageToShop(shop.domain, 'close-modal');
-  };
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        void handleAsyncSubmit();
+    };
+    const handleAsyncSubmit = async () => {
+        try {
+            await reviewService.update(params?.reviewID, {content: content, score: star});
+        } catch (error) {
+            throw new Error('수정에 실패했습니다', error as ErrorOptions);
+        }
+        sendMessageToShop(shop.domain, 'refresh-page');
+    };
+
 
   return (
     <form className="relative p-4 flex flex-col gap-8" onSubmit={handleSubmit}>

@@ -84,3 +84,9 @@ window.addEventListener('message', (evt) => {
   document.body.style.overflow = '';
   document.querySelector('#rvcv-modal-dim')?.remove();
 });
+window.addEventListener('message', (evt) => {
+  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'refresh-page') return;
+  document.body.style.overflow = 'hidden';
+  $reviewCanvasContainer.removeChild($reviewCanvasContainer.firstChild);
+  initializeReviewCanvas();
+});
