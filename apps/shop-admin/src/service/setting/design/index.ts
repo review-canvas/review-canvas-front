@@ -1,6 +1,7 @@
 import type {
   ReviewColumnProperty,
   ReviewContainerProperty,
+  ReviewDesignViewProperty,
   ReviewLayoutProperty,
   ReviewTitleProperty,
 } from '@review-canvas/theme';
@@ -127,6 +128,36 @@ async function resetReviewTitle() {
   }
 }
 
+async function getReviewDesignView() {
+  try {
+    return await apiService.getReviewDesignView();
+  } catch (error) {
+    throw new Error('Design View 조회에 실패했습니다', error as ErrorOptions);
+  }
+}
+
+async function modifyReviewDesignView(properties: ReviewDesignViewProperty) {
+  try {
+    const { success } = await apiService.patchReviewDesignView(properties);
+    if (!success) {
+      throw new Error('call success bu† something wrong');
+    }
+  } catch (error) {
+    throw new Error('Design View 수정에 실패했습니다', error as ErrorOptions);
+  }
+}
+
+async function resetReviewDesignView() {
+  try {
+    const { success } = await apiService.patchReviewDesignViewInitialize();
+    if (!success) {
+      throw new Error('call success but something wrong');
+    }
+  } catch (error) {
+    throw new Error('Design View 초기화에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 export const SettingDesignService = {
   getReviewLayout,
   modifyReviewLayout,
@@ -140,4 +171,7 @@ export const SettingDesignService = {
   getReviewTitle,
   modifyReviewTitle,
   resetReviewTitle,
+  getReviewDesignView,
+  modifyReviewDesignView,
+  resetReviewDesignView,
 };
