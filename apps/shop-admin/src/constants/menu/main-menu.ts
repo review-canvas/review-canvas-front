@@ -60,7 +60,7 @@ export const ADMIN_MENU_MAP: AdminMenuItem[] = [
   },
   {
     name: '리뷰 보기 디자인',
-    pathname: '/setting/design/review-list',
+    pathname: '/setting/design/review-read',
     caption: '리뷰 보기 영역의 디자인을 원하는대로 정할 수 있어요.',
     icon: ReviewOptionIcon as SVGIcon,
   },
