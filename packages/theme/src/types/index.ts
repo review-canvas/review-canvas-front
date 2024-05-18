@@ -31,6 +31,31 @@ export interface Font {
 
 export type WidthType = 'SITE_WIDTH' | 'FULL' | 'CUSTOM';
 
+export type ReviewDetailViewType = 'SPREAD' | 'MODAL';
+
+export type ReviewPagingType = 'PAGE_NUMBER' | 'SEE_MORE_SCROLL';
+
+export type ReviewFilterType = 'LIST' | 'DROPDOWN';
+
+export type ReviewMoreButtonType = 'SEE_MORE_TOGGLE' | 'SEE_MORE_UNDERLINE' | 'READ_MORE' | 'NO_BUTTON';
+
+export type ReviewLikeButtonType = 'NONE' | 'THUMB_UP_WITH_TEXT' | 'THUMB_UP';
+
+export interface ButtonRoundProps {
+  topLeft: string;
+  topRight: string;
+  bottomLeft: string;
+  bottomRight: string;
+}
+
+export interface ReviewLikeButtonProps {
+  buttonType: ReviewLikeButtonType;
+  iconColor: string;
+  textColor: string;
+  buttonBorderColor: string;
+  buttonRound: ButtonRoundProps;
+}
+
 export interface ReviewLayoutProperty {
   bestReviewAreaActivation: boolean;
   reviewStatisticsAreaActivation: boolean;
@@ -81,10 +106,10 @@ export interface ReviewTitleProperty {
   descriptionBackGround: string;
 }
 
-export interface ReviewListProperty {
-  detailViewType: string;
-  pagingType: string;
-  filterType: string;
+export interface ReviewDesignViewProperty {
+  detailViewType: ReviewDetailViewType;
+  pagingType: ReviewPagingType;
+  filterType: ReviewFilterType;
   filterActiveTextColor: string;
   reviewBackgroundColor: string;
   margin: Margin;
@@ -102,15 +127,12 @@ export interface ReviewListProperty {
   shadow: Shadow;
   replyBackgroundColor: string;
   reviewPreviewTextMaxSize: number;
-  seeMoreButtonType: string;
+  seeMoreButtonType: ReviewMoreButtonType;
   reviewLike: {
-    buttonType: string;
+    buttonType: ReviewLikeButtonType;
     iconColor: string;
     textColor: string;
     buttonBorderColor: string;
-    buttonRoundTopLeft: string;
-    buttonRoundTopRight: string;
-    buttonRoundBottomLeft: string;
-    buttonRoundBottomRight: string;
+    buttonRound: ButtonRoundProps;
   };
 }
