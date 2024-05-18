@@ -165,6 +165,31 @@ class ApiService {
     );
     return response;
   }
+
+  public async getReviewDesignView(): Promise<API.GetReviewDesignViewRequest> {
+    const response = await this.httpClient.get<API.GetReviewDesignViewResponse>(
+      '/api/v1/shop-admin/review-design-view',
+    );
+    return response.data;
+  }
+
+  public async patchReviewDesignView(
+    request: API.PatchReviewDesignViewRequest,
+  ): Promise<CommonResponse<API.PatchReviewDesignViewResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignViewResponse>>(
+      '/api/v1/shop-admin/review-design-view',
+      request,
+    );
+
+    return response;
+  }
+
+  public async patchReviewDesignViewInitialize(): Promise<CommonResponse<API.PatchReviewDesignViewInitializeResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignViewInitializeResponse>>(
+      '/api/v1/shop-admin/review-design-view/reset',
+    );
+    return response;
+  }
 }
 
 const httpClient = HttpClient.getInstance();

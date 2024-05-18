@@ -304,5 +304,129 @@ export interface PatchReviewTitleInitializeRequest {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PatchReviewTitleInitializeResponse {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty request
+export interface GetReviewDesignViewRequest {}
+
+export interface GetReviewDesignViewResponse {
+  detailViewType: string;
+  pagingType: string;
+  filterType: string;
+  filterActiveTextColor: string;
+  reviewBackgroundColor: string;
+  margin: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  detailInfoTextColor: string;
+  font: {
+    name: string;
+    size: string;
+    bold: string;
+    color: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  round: {
+    topLeft: string;
+    topRight: string;
+    bottomLeft: string;
+    bottomRight: string;
+  };
+  borderColor: string;
+  shadow: string;
+  replyBackgroundColor: string;
+  reviewPreviewTextMaxSize: number;
+  seeMoreButtonType: string;
+  reviewLike: {
+    buttonType: string;
+    iconColor: string;
+    textColor: string;
+    buttonBorderColor: string;
+    buttonRound: {
+      topLeft: string;
+      topRight: string;
+      bottomLeft: string;
+      bottomRight: string;
+    };
+  };
+}
+
+export interface PatchReviewDesignViewRequest {
+  detailViewType: string;
+  pagingType: string;
+  filterType: string;
+  filterActiveTextColor: string;
+  reviewBackgroundColor: string;
+  margin: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  detailInfoTextColor: string;
+  font: {
+    name: string;
+    size: string;
+    bold: string;
+    color: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  round: {
+    topLeft: string;
+    topRight: string;
+    bottomLeft: string;
+    bottomRight: string;
+  };
+  borderColor: string;
+  shadow: string;
+  replyBackgroundColor: string;
+  reviewPreviewTextMaxSize: number;
+  seeMoreButtonType: string;
+  reviewLike: {
+    buttonType: string;
+    iconColor: string;
+    textColor: string;
+    buttonBorderColor: string;
+    buttonRound: {
+      topLeft: string;
+      topRight: string;
+      bottomLeft: string;
+      bottomRight: string;
+    };
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignViewResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignViewInitializeRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignViewInitializeResponse {}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
