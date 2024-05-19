@@ -190,6 +190,33 @@ class ApiService {
     );
     return response;
   }
+
+  public async getReviewDesignWrite(): Promise<API.GetReviewDesignWriteRequest> {
+    const response = await this.httpClient.get<API.GetReviewDesignWriteResponse>(
+      '/api/v1/shop-admin/review-design-write',
+    );
+    return response.data;
+  }
+
+  public async patchReviewDesignWrite(
+    request: API.PatchReviewDesignWriteRequest,
+  ): Promise<CommonResponse<API.PatchReviewDesignWriteResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignWriteResponse>>(
+      '/api/v1/shop-admin/review-design-write',
+      request,
+    );
+
+    return response;
+  }
+
+  public async patchReviewDesignWriteInitialize(): Promise<
+    CommonResponse<API.PatchReviewDesignWriteInitializeResponse>
+  > {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignWriteInitializeResponse>>(
+      '/api/v1/shop-admin/review-design-write/reset',
+    );
+    return response;
+  }
 }
 
 const httpClient = HttpClient.getInstance();
