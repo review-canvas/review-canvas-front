@@ -428,5 +428,77 @@ export interface PatchReviewDesignViewInitializeRequest {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PatchReviewDesignViewInitializeResponse {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty request
+export interface GetReviewDesignWriteRequest {}
+
+export interface GetReviewDesignWriteResponse {
+  pageType: string;
+  widthSizePc: string;
+  widthSizeMobile: string;
+  backgroundColor: string;
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  borderColor: string;
+  starRateBackgroundColor: string;
+  starRateColor: string;
+  detailEvaluationCheckBoxBackgroundColor: string;
+  detailEvaluationCheckBoxColor: string;
+  detailEvaluationCategory: string;
+  cancelButtonBackgroundColor: string;
+  cancelButtonBorderColor: string;
+  cancelButtonTextColor: string;
+  completedButtonBackgroundColor: string;
+  completedButtonTextColor: string;
+}
+
+export interface PatchReviewDesignWriteRequest {
+  pageType: string;
+  widthSizePc: string;
+  widthSizeMobile: string;
+  backgroundColor: string;
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  borderColor: string;
+  starRateBackgroundColor: string;
+  starRateColor: string;
+  detailEvaluationCheckBoxBackgroundColor: string;
+  detailEvaluationCheckBoxColor: string;
+  detailEvaluationCategory: string;
+  cancelButtonBackgroundColor: string;
+  cancelButtonBorderColor: string;
+  cancelButtonTextColor: string;
+  completedButtonBackgroundColor: string;
+  completedButtonTextColor: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignWriteResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignWriteInitializeRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignWriteInitializeResponse {}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
