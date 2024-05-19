@@ -33,6 +33,8 @@ export type WidthType = 'SITE_WIDTH' | 'FULL' | 'CUSTOM';
 
 export type ReviewDetailViewType = 'SPREAD' | 'MODAL';
 
+export type ReviewDesignWritePageType = 'NEW_PAGE' | 'MODAL';
+
 export type ReviewPagingType = 'PAGE_NUMBER' | 'SEE_MORE_SCROLL';
 
 export type ReviewFilterType = 'LIST' | 'DROPDOWN';
@@ -135,4 +137,24 @@ export interface ReviewDesignViewProperty {
     buttonBorderColor: string;
     buttonRound: ButtonRoundProps;
   };
+}
+
+export interface ReviewDesignWriteProperty {
+  pageType: ReviewDesignWritePageType;
+  widthSizePc: string;
+  widthSizeMobile: string;
+  backgroundColor: string;
+  padding: Padding;
+  border: Border;
+  borderColor: string;
+  starRateBackgroundColor: string;
+  starRateColor: string;
+  detailEvaluationCheckBoxBackgroundColor: string;
+  detailEvaluationCheckBoxColor: string;
+  detailEvaluationCategory: string;
+  cancelButtonBackgroundColor: string;
+  cancelButtonBorderColor: string;
+  cancelButtonTextColor: string;
+  completedButtonBackgroundColor: string;
+  completedButtonTextColor: string;
 }
