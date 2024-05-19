@@ -29,7 +29,7 @@ class ReviewService {
   }
 
   async create(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
-    await API.patch<TYPE.CommonResponse>(`/api/v1/products/${id}/reviews`,request);
+    await API.post<TYPE.CommonResponse>(`/api/v1/products/${id}/reviews`,request);
   }
 
   async update(id: string | undefined, request: TYPE.CreateReviewItemRequest) {

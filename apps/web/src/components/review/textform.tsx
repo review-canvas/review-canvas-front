@@ -3,7 +3,7 @@ import {Star} from "@/components/review/star.tsx";
 import {ReviewItem} from '@/services/api-types/review.tsx';
 
 export function Textform({ reviewDetail, handleAsync }:
-                             { reviewDetail: ReviewItem; handleAsync: (content: string, star: number) => void }) {
+                             { reviewDetail: ReviewItem | null; handleAsync: (content: string, star: number) => void }) {
     const [content, setContent] = useState('');
     const [star, setStar] = useState(0);
 
@@ -16,7 +16,7 @@ export function Textform({ reviewDetail, handleAsync }:
     };
 
     useEffect(() => {
-        if (reviewDetail.nickname) {
+        if (reviewDetail?.nickname) {
             setStar(reviewDetail.score);
             setContent(reviewDetail.content);
         }
@@ -35,7 +35,7 @@ export function Textform({ reviewDetail, handleAsync }:
                     />
                 ))}
             </div>
-            {reviewDetail.nickname ? (
+            {reviewDetail?.nickname ? (
                 <div>
                     작성자 <span>{reviewDetail.nickname}</span>
                 </div>
