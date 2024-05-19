@@ -46,27 +46,28 @@ export default function ReviewDeletePage() {
   };
 
   return (
-    <main className="relative p-8 flex flex-col gap-8">
-        <div className="">
-            <p>삭제된 리뷰 정보는 다시 복구할 수 없습니다.</p>
-            정말 <span className="text-red-500">삭제</span>하시겠습니까?
-        </div>
-        <div className="relative p-8 flex flex-row gap-8">
-            <button
-                className="text-red-500"
-                onClick={handleAsync}
-                type="button"
-            >
-                확인
-            </button>
-            <button
-                onClick={close}
-                type="button"
-            >
-                취소
-            </button>
-        </div>
-
-    </main>
+      <main className="flex items-center justify-center min-h-screen">
+          <div className="flex flex-col items-center p-8">
+              <div className="text-center">
+                  <p>삭제된 리뷰 정보는 다시 복구할 수 없습니다.</p>
+                  정말 <span className="text-red-500">삭제</span>하시겠습니까?
+              </div>
+              <div className="flex flex-row  p-4 gap-8 mt-4">
+                  <button
+                      className="text-red-500"
+                      onClick={handleAsync}
+                      type="button"
+                  >
+                      확인
+                  </button>
+                  <button
+                      onClick={close}
+                      type="button"
+                  >
+                      취소
+                  </button>
+              </div>
+          </div>
+      </main>
   );
 }
