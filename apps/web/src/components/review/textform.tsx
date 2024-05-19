@@ -26,13 +26,17 @@ export function Textform({ reviewDetail, handleAsync }:
         <form className="relative p-4 flex flex-col gap-8" onSubmit={handleSubmit}>
             <div className="flex gap-0.5 items-center w-fit">
                 {[1, 2, 3, 4, 5].map((it) => (
+                    <button
+                        key={it}
+                        type="button"
+                        onClick={() => {
+                            setStar(it);
+                        }}>
                     <Star
                         active={it <= star}
                         key={it}
-                        onClick={() => {
-                            setStar(it);
-                        }}
                     />
+                    </button>
                 ))}
             </div>
             {reviewDetail?.nickname ? (
