@@ -35,7 +35,7 @@ class ReviewService {
   async update(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
     await API.patch<TYPE.CommonResponse>(`/api/v1/reviews/${id}`,request);
   }
-  async delete(id: string | undefined) {
+  async delete(id: string | number |undefined) {
     await API.delete<TYPE.CommonResponse>(`/api/v1/reviews/${id}`);
   }
 
