@@ -12,6 +12,7 @@ import {
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import { useConnectedShop } from '@/state/shop.ts';
+import {useReviewService} from "@/services/review.tsx";
 
 interface ReviewItemProps {
   id: number;
@@ -25,11 +26,18 @@ export default function ReviewItem(props: ReviewItemProps) {
   const style = useReviewItemStyle();
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
-
+  const reviewService = useReviewService();
   const edit = () => {
     message('open-modal', {
       type: 'edit-review',
       url: `/reviews/${props.id}/edit`,
+    });
+  };
+
+  const deleteReview = () => {
+    message('open-modal', {
+      type: 'delete',
+      url: `/reviews/${props.id}/delete`,
     });
   };
 
@@ -91,7 +99,7 @@ export default function ReviewItem(props: ReviewItemProps) {
               수정
             </button>
             <button
-              onClick={() => {}}
+              onClick={deleteReview}
               type="button"
             >
               삭제
