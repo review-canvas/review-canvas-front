@@ -5,7 +5,7 @@ import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@revie
 import InfiniteList from '@/components/review/infinite-list.tsx';
 import PaginatedList from '@/components/review/paginated-list.tsx';
 import { type ReviewListStyle, useReviewListStyle } from '@/contexts/style/review-list.ts';
-import type { ReviewListFilter, ReviewListSort } from '@/services/review.tsx';
+import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review.tsx';
 
 interface ReviewListProps {
   productID: string;

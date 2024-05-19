@@ -4,8 +4,7 @@ import { createStore, useStore } from 'zustand';
 
 import API from '@/utils/api.ts';
 
-import type * as TYPE from '@/services/api-types/review.ts';
-import {CreateReviewItemRequest} from "@/services/api-types/review.ts";
+import type * as TYPE from '@/services/api-types/review.tsx';
 
 class ReviewService {
   async list({

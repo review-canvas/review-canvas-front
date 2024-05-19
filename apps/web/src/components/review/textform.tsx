@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from "react";
 import {Star} from "@/components/review/star.tsx";
-import {ReviewItem} from "@/services/review.tsx";
+import {ReviewItem} from '@/services/api-types/review.tsx';
 
 export function Textform({ reviewDetail, handleAsync }:
                              { reviewDetail: ReviewItem; handleAsync: (content: string, star: number) => void }) {

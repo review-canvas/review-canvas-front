@@ -5,7 +5,8 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import IntersectionBoundary from '@/components/intersection-boundary.tsx';
 import ReviewItem from '@/components/review/item.tsx';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import { type ReviewListFilter, type ReviewListSort, useReviewService } from '@/services/review.tsx';
+import { useReviewService } from '@/services/review.tsx';
+import { type ReviewListFilter, type ReviewListSort } from '@/services/api-types/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
 
 interface InfiniteListProps {
