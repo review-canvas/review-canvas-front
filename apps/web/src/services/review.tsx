@@ -27,7 +27,6 @@ class ReviewService {
     );
     return response.data;
   }
-
   async create(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
     await API.post<TYPE.CommonResponse>(`/api/v1/products/${id}/reviews`,request);
   }
@@ -36,7 +35,7 @@ class ReviewService {
     await API.patch<TYPE.CommonResponse>(`/api/v1/reviews/${id}`,request);
   }
   async delete(id: string | number |undefined) {
-    await API.delete<TYPE.CommonResponse>(`/api/v1/reviews/${id}`);
+    // await API.delete<TYPE.CommonResponse>(`/api/v1/reviews/${id}`);// Todo. 삭제 api 배포 이후 수정할 것
   }
 
   async get(id: string) {
