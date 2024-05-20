@@ -9,6 +9,7 @@ import { ThemeUtil } from '@review-canvas/theme';
 import type { Shadow, WidthType, ReviewColumnProperty } from '@review-canvas/theme';
 
 import DesignUnitTextField from '@/components/common/design-unit-text-field';
+import DesignUnitTextFieldGroupContainer from '@/components/setting/design-unit-text-field-group';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
 import useAuthCheck from '@/hooks/use-auth-check';
@@ -200,7 +201,7 @@ function SettingDesignColumnPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-start [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="MARGIN"
                 label="왼쪽"
@@ -248,7 +249,7 @@ function SettingDesignColumnPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -273,7 +274,7 @@ function SettingDesignColumnPage() {
             <SettingItem.Caption>테두리의 두께를 설정합니다.</SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER"
                 label="왼쪽"
@@ -321,7 +322,7 @@ function SettingDesignColumnPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
