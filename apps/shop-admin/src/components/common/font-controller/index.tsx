@@ -50,7 +50,7 @@ function FontController({
   }, []);
 
   return (
-    <div tw="w-full flex items-center gap-4 flex-wrap [& .react-aria-Label]:text-sm [& .react-aria-Label]:text-[#9692A7]">
+    <div tw="w-full flex items-start gap-4 flex-wrap [& .react-aria-Label]:text-sm [& .react-aria-Label]:text-[#9692A7]">
       <Select
         label="구글 폰트"
         selectedKey={name}
@@ -64,7 +64,7 @@ function FontController({
             <Select.Item
               key={_name}
               id={_name}
-              tw="bg-sub-secondary rounded-md text-sm"
+              style={SelectItemStyles}
             >
               {_name}
             </Select.Item>
@@ -94,7 +94,7 @@ function FontController({
             <Select.Item
               key={_bold}
               id={_bold}
-              tw="bg-sub-secondary rounded-md text-sm"
+              style={SelectItemStyles}
             >
               {_bold}
             </Select.Item>
@@ -107,9 +107,17 @@ function FontController({
         onChange={(_value) => {
           onColorChange(_value);
         }}
+        label="폰트 색상"
       />
     </div>
   );
 }
 
 export default FontController;
+
+const SelectItemStyles = {
+  fontSize: '0.875rem',
+  lineHeight: '1.25rem',
+  borderRadius: '0.375rem',
+  backgroundColor: '#F4F5FB',
+};
