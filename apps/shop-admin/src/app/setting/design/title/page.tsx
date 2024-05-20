@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
-import { ColorPicker, RadioGroup, Select, SolidButton } from '@ui/components';
+import { ColorPicker, RadioGroup, SolidButton } from '@ui/components';
 import TextField from '@ui/components/text-field';
 import { useRouter } from 'next/navigation';
 
 import type { ReviewTitleProperty } from '@review-canvas/theme';
 
 import DesignUnitTextField from '@/components/common/design-unit-text-field';
+import FontController from '@/components/common/font-controller';
 import DesignUnitTextFieldGroupContainer from '@/components/setting/design-unit-text-field-group';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
@@ -230,105 +231,36 @@ function SettingDesignTitlePage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="w-full flex items-center gap-4 flex-wrap [& .react-aria-Label]:text-sm [& .react-aria-Label]:text-[#9692A7]">
-              <Select
-                label="구글 폰트"
-                selectedKey={titleProperties.titleFont.name}
-                defaultSelectedKey={titleProperties.titleFont.name}
-                onSelectionChange={(key) => {
-                  updateTitleProperty('titleFont', {
-                    ...titleProperties.titleFont,
-                    name: key as ReviewTitleProperty['titleFont']['name'],
-                  });
-                }}
-                isDisabled
-              >
-                <Select.Item id="noto-sans-kr">Noto Sans KR</Select.Item>
-              </Select>
-
-              <DesignUnitTextField
-                type="FONT"
-                label="폰트 사이즈"
-                value={titleProperties.titleFont.size}
-                onChange={(_value) => {
-                  updateTitleProperty('titleFont', {
-                    ...titleProperties.titleFont,
-                    size: _value,
-                  });
-                }}
-              />
-
-              <Select
-                label="폰트 두께"
-                selectedKey={titleProperties.titleFont.bold}
-                defaultSelectedKey={titleProperties.titleFont.bold}
-                onSelectionChange={(key) => {
-                  updateTitleProperty('titleFont', {
-                    ...titleProperties.titleFont,
-                    bold: key as ReviewTitleProperty['titleFont']['bold'],
-                  });
-                }}
-              >
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="100"
-                >
-                  100
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="200"
-                >
-                  200
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="300"
-                >
-                  300
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="400"
-                >
-                  400
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="500"
-                >
-                  500
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="600"
-                >
-                  600
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="700"
-                >
-                  700
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="bold"
-                >
-                  bold
-                </Select.Item>
-              </Select>
-
-              <ColorPicker
-                color={titleProperties.titleFont.color}
-                onChange={(_value) => {
-                  updateTitleProperty('titleFont', {
-                    ...titleProperties.titleFont,
-                    color: _value,
-                  });
-                }}
-              />
-            </div>
+            <FontController
+              name={titleProperties.titleFont.name}
+              size={titleProperties.titleFont.size}
+              bold={titleProperties.titleFont.bold}
+              color={titleProperties.titleFont.color}
+              onNameChange={(_name) => {
+                updateTitleProperty('titleFont', {
+                  ...titleProperties.titleFont,
+                  name: _name,
+                });
+              }}
+              onSizeChange={(_size) => {
+                updateTitleProperty('titleFont', {
+                  ...titleProperties.titleFont,
+                  size: _size,
+                });
+              }}
+              onBoldChange={(_bold) => {
+                updateTitleProperty('titleFont', {
+                  ...titleProperties.titleFont,
+                  bold: _bold,
+                });
+              }}
+              onColorChange={(_color) => {
+                updateTitleProperty('titleFont', {
+                  ...titleProperties.titleFont,
+                  color: _color,
+                });
+              }}
+            />
           </SettingItem.Content>
         </SettingItem>
 
@@ -540,105 +472,36 @@ function SettingDesignTitlePage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="w-full flex items-center gap-4 flex-wrap [& .react-aria-Label]:text-sm [& .react-aria-Label]:text-[#9692A7]">
-              <Select
-                label="구글 폰트"
-                selectedKey={titleProperties.descriptionFont.name}
-                defaultSelectedKey={titleProperties.descriptionFont.name}
-                onSelectionChange={(key) => {
-                  updateTitleProperty('descriptionFont', {
-                    ...titleProperties.descriptionFont,
-                    name: key as ReviewTitleProperty['descriptionFont']['name'],
-                  });
-                }}
-                isDisabled
-              >
-                <Select.Item id="noto-sans-kr">Noto Sans KR</Select.Item>
-              </Select>
-
-              <DesignUnitTextField
-                type="FONT"
-                label="폰트 사이즈"
-                value={titleProperties.descriptionFont.size}
-                onChange={(_value) => {
-                  updateTitleProperty('descriptionFont', {
-                    ...titleProperties.descriptionFont,
-                    size: _value,
-                  });
-                }}
-              />
-
-              <Select
-                label="폰트 두께"
-                selectedKey={titleProperties.descriptionFont.bold}
-                defaultSelectedKey={titleProperties.descriptionFont.bold}
-                onSelectionChange={(key) => {
-                  updateTitleProperty('descriptionFont', {
-                    ...titleProperties.descriptionFont,
-                    bold: key as ReviewTitleProperty['descriptionFont']['bold'],
-                  });
-                }}
-              >
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="100"
-                >
-                  100
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="200"
-                >
-                  200
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="300"
-                >
-                  300
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="400"
-                >
-                  400
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="500"
-                >
-                  500
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="600"
-                >
-                  600
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="700"
-                >
-                  700
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="bold"
-                >
-                  bold
-                </Select.Item>
-              </Select>
-
-              <ColorPicker
-                color={titleProperties.descriptionFont.color}
-                onChange={(_value) => {
-                  updateTitleProperty('descriptionFont', {
-                    ...titleProperties.descriptionFont,
-                    color: _value,
-                  });
-                }}
-              />
-            </div>
+            <FontController
+              name={titleProperties.descriptionFont.name}
+              size={titleProperties.descriptionFont.size}
+              bold={titleProperties.descriptionFont.bold}
+              color={titleProperties.descriptionFont.color}
+              onNameChange={(_name) => {
+                updateTitleProperty('descriptionFont', {
+                  ...titleProperties.descriptionFont,
+                  name: _name,
+                });
+              }}
+              onSizeChange={(_size) => {
+                updateTitleProperty('descriptionFont', {
+                  ...titleProperties.descriptionFont,
+                  size: _size,
+                });
+              }}
+              onBoldChange={(_bold) => {
+                updateTitleProperty('descriptionFont', {
+                  ...titleProperties.descriptionFont,
+                  bold: _bold,
+                });
+              }}
+              onColorChange={(_color) => {
+                updateTitleProperty('descriptionFont', {
+                  ...titleProperties.descriptionFont,
+                  color: _color,
+                });
+              }}
+            />
           </SettingItem.Content>
         </SettingItem>
 
