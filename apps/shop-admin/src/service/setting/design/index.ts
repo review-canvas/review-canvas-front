@@ -189,6 +189,14 @@ async function resetReviewDesignWrite() {
   }
 }
 
+async function getFontInfo() {
+  try {
+    return await apiService.getFontInfo();
+  } catch (error) {
+    throw new Error('Font Info 조회에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 export const SettingDesignService = {
   getReviewLayout,
   modifyReviewLayout,
@@ -208,4 +216,5 @@ export const SettingDesignService = {
   getReviewDesignWrite,
   modifyReviewDesignWrite,
   resetReviewDesignWrite,
+  getFontInfo,
 };
