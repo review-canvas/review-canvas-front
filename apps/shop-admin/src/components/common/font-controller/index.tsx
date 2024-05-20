@@ -51,64 +51,74 @@ function FontController({
 
   return (
     <div tw="w-full flex items-start gap-4 flex-wrap [& .react-aria-Label]:text-sm [& .react-aria-Label]:text-[#9692A7]">
-      <Select
-        label="구글 폰트"
-        selectedKey={name}
-        defaultSelectedKey={name}
-        onSelectionChange={(key) => {
-          onNameChange(key as string);
-        }}
-      >
-        {fontNameList.map((_name) => {
-          return (
-            <Select.Item
-              key={_name}
-              id={_name}
-              style={SelectItemStyles}
-            >
-              {_name}
-            </Select.Item>
-          );
-        })}
-      </Select>
+      <div tw="inline-flex items-start w-1/4 basis-1/4 [& > *]:w-full [& > *]:leading-[0] gap-1">
+        <Select
+          label="구글 폰트"
+          selectedKey={name}
+          defaultSelectedKey={name}
+          onSelectionChange={(key) => {
+            onNameChange(key as string);
+          }}
+          tw="inline-flex flex-col [& .react-aria-Button]:py-[7px] gap-1"
+        >
+          {fontNameList.map((_name) => {
+            return (
+              <Select.Item
+                key={_name}
+                id={_name}
+                style={SelectItemStyles}
+              >
+                {_name}
+              </Select.Item>
+            );
+          })}
+        </Select>
+      </div>
 
-      <DesignUnitTextField
-        type="FONT"
-        label="폰트 사이즈"
-        value={size}
-        onChange={(_value) => {
-          onSizeChange(_value);
-        }}
-      />
+      <div tw="inline-flex items-start w-[15%] basis-[15%] [& > *]:w-full [& > *]:gap-1">
+        <DesignUnitTextField
+          type="FONT"
+          label="폰트 사이즈"
+          value={size}
+          onChange={(_value) => {
+            onSizeChange(_value);
+          }}
+        />
+      </div>
 
-      <Select
-        label="폰트 두께"
-        selectedKey={bold}
-        defaultSelectedKey={bold}
-        onSelectionChange={(key) => {
-          onBoldChange(key as string);
-        }}
-      >
-        {fontBoldList.map((_bold) => {
-          return (
-            <Select.Item
-              key={_bold}
-              id={_bold}
-              style={SelectItemStyles}
-            >
-              {_bold}
-            </Select.Item>
-          );
-        })}
-      </Select>
+      <div tw="inline-flex items-start w-1/6 basis-1/6 [& > *]:w-full [& > *]:leading-[0] gap-1">
+        <Select
+          label="폰트 두께"
+          selectedKey={bold}
+          defaultSelectedKey={bold}
+          onSelectionChange={(key) => {
+            onBoldChange(key as string);
+          }}
+          tw="inline-flex flex-col [& .react-aria-Button]:py-[7px] gap-1"
+        >
+          {fontBoldList.map((_bold) => {
+            return (
+              <Select.Item
+                key={_bold}
+                id={_bold}
+                style={SelectItemStyles}
+              >
+                {_bold}
+              </Select.Item>
+            );
+          })}
+        </Select>
+      </div>
 
-      <ColorPicker
-        color={color}
-        onChange={(_value) => {
-          onColorChange(_value);
-        }}
-        label="폰트 색상"
-      />
+      <div tw="inline-flex items-start w-1/5 basis-1/5 [& > *]:w-full">
+        <ColorPicker
+          color={color}
+          onChange={(_value) => {
+            onColorChange(_value);
+          }}
+          label="폰트 색상"
+        />
+      </div>
     </div>
   );
 }
