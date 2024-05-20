@@ -110,7 +110,7 @@ function FontController({
         </Select>
       </div>
 
-      <div tw="inline-flex items-start w-1/5 basis-1/5 [& > *]:w-full">
+      <div tw="inline-flex items-start w-1/5 basis-1/5">
         <ColorPicker
           color={color}
           onChange={(_value) => {
