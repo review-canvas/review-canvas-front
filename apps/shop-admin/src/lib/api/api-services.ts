@@ -217,6 +217,11 @@ class ApiService {
     );
     return response;
   }
+
+  public async getFontInfo(): Promise<API.GetFontInfoResponse> {
+    const response = await this.httpClient.get<API.GetFontInfoResponse>('/api/v1/font-info');
+    return response.data;
+  }
 }
 
 const httpClient = HttpClient.getInstance();

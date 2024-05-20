@@ -1,4 +1,4 @@
-import { Button, DialogTrigger, Popover } from 'react-aria-components';
+import { Button, DialogTrigger, Popover, Label as AriaLabel } from 'react-aria-components';
 import type { IColor } from 'react-color-palette';
 import { ColorPicker as ReactColorPalettePicker, useColor } from 'react-color-palette';
 import 'react-color-palette/css';
@@ -7,9 +7,10 @@ import { css, styled } from 'twin.macro';
 interface ColorPickerProps {
   color: string;
   onChange: (color: string) => void;
+  label?: string;
 }
 
-export default function ColorPicker({ color, onChange }: ColorPickerProps) {
+export default function ColorPicker({ color, onChange, label }: ColorPickerProps) {
   const [convertedColor, setConvertedColor] = useColor(color);
 
   const handleChange = (_color: IColor) => {
@@ -19,10 +20,13 @@ export default function ColorPicker({ color, onChange }: ColorPickerProps) {
 
   return (
     <DialogTrigger>
-      <StyledButton>
-        <ColorIndicator color={convertedColor.hex} />
-        <span className="label">색상 선택</span>
-      </StyledButton>
+      <div tw="flex flex-col gap-1">
+        {label ? <AriaLabel tw="text-[#9692A7] text-sm">{label}</AriaLabel> : null}
+        <StyledButton>
+          <ColorIndicator color={convertedColor.hex} />
+          <span className="label">색상 선택</span>
+        </StyledButton>
+      </div>
       <Popover>
         <ReactColorPalettePicker
           color={convertedColor}

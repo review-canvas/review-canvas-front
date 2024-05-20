@@ -45,13 +45,13 @@ export default forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
 
 // noinspection CssUnusedSymbol
 const InputContainer = styled.span<StyledProps>`
-  ${tw`inline-flex gap-2.5 w-full`};
+  ${tw`inline-flex gap-2.5 w-full overflow-x-hidden`};
   border-color: ${({ theme }) => theme.colors.main.tertiary};
   border-style: solid;
   border-radius: ${({ variant }) => (variant === 'box' ? '5px' : 0)};
   border-width: ${({ variant }) => (variant === 'box' ? '1px' : '0 0 1px 0')};
 
-  padding: ${({ variant }) => (variant === 'box' ? '0 10px 8px' : '0 0 8px 0')};
+  padding: ${({ variant }) => (variant === 'box' ? '5px 8px' : '0 0 8px 0')};
   transition: border-color 125ms linear;
   &:has(input[data-focused]) {
     border-color: ${({ theme }) => theme.colors.main.primary};

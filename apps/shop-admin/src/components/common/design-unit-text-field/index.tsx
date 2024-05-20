@@ -3,7 +3,7 @@ import TextField from '@ui/components/text-field';
 import { ThemeUtil } from '@review-canvas/theme';
 
 interface DesignUnitTextFieldProps {
-  type: 'WIDTH' | 'WIDTH_RAW' | 'MARGIN' | 'PADDING' | 'BORDER' | 'FONT' | 'BORDER_RADIUS';
+  type: 'WIDTH' | 'WIDTH_CUSTOM' | 'MARGIN' | 'PADDING' | 'BORDER' | 'FONT' | 'BORDER_RADIUS';
   value: string;
   onChange: (value: string) => void;
   isReadOnly?: boolean;
@@ -26,7 +26,7 @@ function DesignUnitTextField({ type, value, onChange, isReadOnly = false, label 
       placeholder="px 또는 % 입력"
       label={label}
       tw="[& .react-aria-FieldError]:text-sm"
-      value={type === 'WIDTH' ? displayValue : value}
+      value={type === 'WIDTH_CUSTOM' ? displayValue : value}
       onChange={handleChange}
       isReadOnly={isReadOnly}
       isInvalid={!(isValidInput || !value)}
