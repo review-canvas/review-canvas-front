@@ -10,6 +10,7 @@ import { ReviewListStyleProvider } from '@/contexts/style/review-list.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import { useDesignPropertyService } from '@/services/design-property.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
+import { MESSAGE_TYPES } from '@/utils/message';
 
 interface ConnectedPageProps {
   productID: string;
@@ -26,7 +27,7 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
   });
 
   const openMyPage = () => {
-    message('open-modal', {
+    message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'mypage',
       url: `/mypage/${userID}`,
     });

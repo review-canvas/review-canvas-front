@@ -2,13 +2,13 @@
 
 import { useEffect } from 'react';
 
-import { broadcastMessageToParent } from '@/utils/message.ts';
+import { MESSAGE_TYPES, broadcastMessageToParent } from '@/utils/message.ts';
 
 export type ReviewCanvasType = 'list' | 'detail' | 'mypage' | 'edit-review' | 'delete';
 
 const useReviewCanvasReady = (type: ReviewCanvasType) => {
   useEffect(() => {
-    broadcastMessageToParent('ready', type);
+    broadcastMessageToParent(MESSAGE_TYPES.READY, type);
   }, [type]);
 };
 
