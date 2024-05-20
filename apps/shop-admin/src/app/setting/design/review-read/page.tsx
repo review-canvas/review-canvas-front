@@ -11,6 +11,7 @@ import type { ReviewDesignViewProperty, Shadow } from '@review-canvas/theme';
 import ArrowIcon from '@/assets/icon/icon-arrow.svg';
 import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import DesignUnitTextField from '@/components/common/design-unit-text-field';
+import DesignUnitTextFieldGroupContainer from '@/components/setting/design-unit-text-field-group';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
 import { numberRegex } from '@/constants/regex';
@@ -229,7 +230,7 @@ function SettingDetailReadPage() {
             <SettingItem.Caption>각 리뷰의 바깥 여백을 설정합니다. 기본 값은 0px입니다.</SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="MARGIN"
                 label="왼쪽"
@@ -277,7 +278,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -289,7 +290,7 @@ function SettingDetailReadPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="PADDING"
                 label="왼쪽"
@@ -337,7 +338,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -477,7 +478,7 @@ function SettingDetailReadPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER"
                 label="왼쪽"
@@ -525,7 +526,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -535,7 +536,7 @@ function SettingDetailReadPage() {
             <SettingItem.Caption>각 리뷰 모서리의 라운드를 적용할 수 있어요. 기본 값은 0이에요.</SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER_RADIUS"
                 label="왼쪽 상단"
@@ -583,7 +584,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -802,7 +803,7 @@ function SettingDetailReadPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER_RADIUS"
                 label="왼쪽 상단"
@@ -862,7 +863,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
       </SettingLayout.Content>
