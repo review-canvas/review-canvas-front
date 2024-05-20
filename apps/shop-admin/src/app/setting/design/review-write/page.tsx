@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import type { ReviewDesignWriteProperty } from '@review-canvas/theme';
 
 import DesignUnitTextField from '@/components/common/design-unit-text-field';
+import DesignUnitTextFieldGroupContainer from '@/components/setting/design-unit-text-field-group';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
 import useAuthCheck from '@/hooks/use-auth-check';
@@ -130,7 +131,7 @@ function SettingDetailWritePage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="WIDTH_RAW"
                 label="PC"
@@ -148,7 +149,7 @@ function SettingDetailWritePage() {
                   updateDesignWriteProperty('widthSizeMobile', _value);
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -177,7 +178,7 @@ function SettingDetailWritePage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="PADDING"
                 label="왼쪽"
@@ -225,7 +226,7 @@ function SettingDetailWritePage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -237,7 +238,7 @@ function SettingDetailWritePage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER"
                 label="왼쪽"
@@ -285,7 +286,7 @@ function SettingDetailWritePage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
