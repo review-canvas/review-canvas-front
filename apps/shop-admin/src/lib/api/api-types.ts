@@ -510,3 +510,9 @@ export interface GetFontInfoResponse {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminQuitRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminQuitResponse {}
