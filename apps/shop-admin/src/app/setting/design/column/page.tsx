@@ -139,7 +139,7 @@ function SettingDesignColumnPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <div tw="inline-flex flex-wrap gap-4 items-start [& > *]:w-24">
               <DesignUnitTextField
                 type="PADDING"
                 label="왼쪽"
@@ -200,7 +200,7 @@ function SettingDesignColumnPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <div tw="inline-flex flex-wrap gap-4 items-start [& > *]:w-24">
               <DesignUnitTextField
                 type="MARGIN"
                 label="왼쪽"
