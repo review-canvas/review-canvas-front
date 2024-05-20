@@ -121,7 +121,7 @@ function SettingDesignColumnPage() {
               <RadioGroup.Item value="CUSTOM">직접입력</RadioGroup.Item>
             </RadioGroup>
             <DesignUnitTextField
-              type="WIDTH"
+              type="WIDTH_CUSTOM"
               value={columnProperties.width}
               onChange={(_value) => {
                 updateColumnProperty('width', _value);

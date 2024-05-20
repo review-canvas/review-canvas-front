@@ -133,7 +133,7 @@ function SettingDetailWritePage() {
           <SettingItem.Content>
             <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
-                type="WIDTH_RAW"
+                type="WIDTH"
                 label="PC"
                 value={designWriteProperties.widthSizePc}
                 onChange={(_value) => {
@@ -142,7 +142,7 @@ function SettingDetailWritePage() {
               />
 
               <DesignUnitTextField
-                type="WIDTH_RAW"
+                type="WIDTH"
                 label="모바일"
                 value={designWriteProperties.widthSizeMobile}
                 onChange={(_value) => {

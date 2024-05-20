@@ -119,7 +119,7 @@ function SettingDesignContainerPage() {
               <RadioGroup.Item value="CUSTOM">직접입력</RadioGroup.Item>
             </RadioGroup>
             <DesignUnitTextField
-              type="WIDTH"
+              type="WIDTH_CUSTOM"
               value={containerProperties.width}
               onChange={(_value) => {
                 updateContainerProperty('width', _value);
