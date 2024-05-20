@@ -69,6 +69,14 @@ async function signup(formData: SignupFormData): Promise<void> {
   }
 }
 
+async function unregister(): Promise<void> {
+  try {
+    await apiService.deleteShopAdminQuit();
+  } catch (error) {
+    throw new Error('회원 탈퇴에 실패했습니다', error as ErrorOptions);
+  }
+}
+
 export const AuthService = {
   login,
   logout,
@@ -77,4 +85,5 @@ export const AuthService = {
   modifyShopAdminInfo,
   isEmailDuplicate,
   signup,
+  unregister,
 };

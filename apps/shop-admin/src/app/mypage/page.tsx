@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { SolidButton, TextField } from '@ui/components';
+import { Button, SolidButton, TextField } from '@ui/components';
 import { useRouter } from 'next/navigation';
 
 import EmailCheckButton from '@/components/signup/email-check-button';
@@ -86,6 +86,22 @@ function MyPage() {
 
         setIsLoading(false);
       }
+    }
+  };
+
+  const handlePressUnregisterButton = async () => {
+    try {
+      // eslint-disable-next-line no-alert -- required confirm
+      if (confirm('회원 탈퇴 후 복구할 수 없습니다. 정말 탈퇴를 진행하시겠습니까?')) {
+        await AuthService.unregister();
+
+        // eslint-disable-next-line no-alert -- required alert
+        alert('회원 탈퇴가 완료되었습니다. 그동안 리뷰캔버스를 이용해 주셔서 감사합니다');
+        router.replace('/auth/login');
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-alert -- error alert
+      alert('탈퇴 과정에서 일시적으로 문제가 발생했습니다. 잠시 후 다시 시도해주세요');
     }
   };
 
@@ -204,6 +220,18 @@ function MyPage() {
             초기화
           </SolidButton>
         </div>
+      </div>
+
+      <div tw="w-full mt-8">
+        <Button
+          size="sm"
+          tw="text-sub-primary underline"
+          onPress={() => {
+            void handlePressUnregisterButton();
+          }}
+        >
+          회원 탈퇴
+        </Button>
       </div>
     </div>
   );
