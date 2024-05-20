@@ -74,6 +74,13 @@ class ApiService {
     return response;
   }
 
+  public async deleteShopAdminQuit(): Promise<CommonResponse<API.DeleteShopAdminQuitResponse>> {
+    const response =
+      await this.httpClient.delete<CommonResponse<API.DeleteShopAdminQuitResponse>>('/api/v1/shop-admin/quit');
+
+    return response;
+  }
+
   public async getReviewLayout(): Promise<API.GetReviewLayoutResponse> {
     const response = await this.httpClient.get<API.GetReviewLayoutResponse>('/api/v1/shop-admin/review-layout');
     return response.data;
@@ -216,6 +223,11 @@ class ApiService {
       '/api/v1/shop-admin/review-design-write/reset',
     );
     return response;
+  }
+
+  public async getFontInfo(): Promise<API.GetFontInfoResponse> {
+    const response = await this.httpClient.get<API.GetFontInfoResponse>('/api/v1/font-info');
+    return response.data;
   }
 }
 

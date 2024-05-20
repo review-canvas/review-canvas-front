@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { ColorPicker, RadioGroup, Select, SolidButton } from '@ui/components';
+import { ColorPicker, RadioGroup, SolidButton } from '@ui/components';
 import TextField from '@ui/components/text-field';
 import { useRouter } from 'next/navigation';
 
@@ -11,6 +11,8 @@ import type { ReviewDesignViewProperty, Shadow } from '@review-canvas/theme';
 import ArrowIcon from '@/assets/icon/icon-arrow.svg';
 import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import DesignUnitTextField from '@/components/common/design-unit-text-field';
+import FontController from '@/components/common/font-controller';
+import DesignUnitTextFieldGroupContainer from '@/components/setting/design-unit-text-field-group';
 import SettingItem from '@/components/setting/setting-item';
 import SettingLayout from '@/components/setting/setting-layout';
 import { numberRegex } from '@/constants/regex';
@@ -229,7 +231,7 @@ function SettingDetailReadPage() {
             <SettingItem.Caption>각 리뷰의 바깥 여백을 설정합니다. 기본 값은 0px입니다.</SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="MARGIN"
                 label="왼쪽"
@@ -277,7 +279,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -289,7 +291,7 @@ function SettingDetailReadPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="PADDING"
                 label="왼쪽"
@@ -337,7 +339,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -367,105 +369,36 @@ function SettingDetailReadPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="w-full flex items-center gap-4 flex-wrap [& .react-aria-Label]:text-sm [& .react-aria-Label]:text-[#9692A7]">
-              <Select
-                label="구글 폰트"
-                selectedKey={designViewProperties.font.name}
-                defaultSelectedKey={designViewProperties.font.name}
-                onSelectionChange={(key) => {
-                  updateDesignViewProperty('font', {
-                    ...designViewProperties.font,
-                    name: key as ReviewDesignViewProperty['font']['name'],
-                  });
-                }}
-                isDisabled
-              >
-                <Select.Item id="noto-sans-kr">Noto Sans KR</Select.Item>
-              </Select>
-
-              <DesignUnitTextField
-                type="FONT"
-                label="폰트 사이즈"
-                value={designViewProperties.font.size}
-                onChange={(_value) => {
-                  updateDesignViewProperty('font', {
-                    ...designViewProperties.font,
-                    size: _value,
-                  });
-                }}
-              />
-
-              <Select
-                label="폰트 두께"
-                selectedKey={designViewProperties.font.bold}
-                defaultSelectedKey={designViewProperties.font.bold}
-                onSelectionChange={(key) => {
-                  updateDesignViewProperty('font', {
-                    ...designViewProperties.font,
-                    bold: key as ReviewDesignViewProperty['font']['bold'],
-                  });
-                }}
-              >
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="100"
-                >
-                  100
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="200"
-                >
-                  200
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="300"
-                >
-                  300
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="400"
-                >
-                  400
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="500"
-                >
-                  500
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="600"
-                >
-                  600
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="700"
-                >
-                  700
-                </Select.Item>
-                <Select.Item
-                  style={{ backgroundColor: '#F4F5FB' }}
-                  id="bold"
-                >
-                  bold
-                </Select.Item>
-              </Select>
-
-              <ColorPicker
-                color={designViewProperties.font.color}
-                onChange={(_value) => {
-                  updateDesignViewProperty('font', {
-                    ...designViewProperties.font,
-                    color: _value,
-                  });
-                }}
-              />
-            </div>
+            <FontController
+              name={designViewProperties.font.name}
+              size={designViewProperties.font.size}
+              bold={designViewProperties.font.bold}
+              color={designViewProperties.font.color}
+              onNameChange={(_name) => {
+                updateDesignViewProperty('font', {
+                  ...designViewProperties.font,
+                  name: _name,
+                });
+              }}
+              onSizeChange={(_size) => {
+                updateDesignViewProperty('font', {
+                  ...designViewProperties.font,
+                  size: _size,
+                });
+              }}
+              onBoldChange={(_bold) => {
+                updateDesignViewProperty('font', {
+                  ...designViewProperties.font,
+                  bold: _bold,
+                });
+              }}
+              onColorChange={(_color) => {
+                updateDesignViewProperty('font', {
+                  ...designViewProperties.font,
+                  color: _color,
+                });
+              }}
+            />
           </SettingItem.Content>
         </SettingItem>
 
@@ -477,7 +410,7 @@ function SettingDetailReadPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER"
                 label="왼쪽"
@@ -525,7 +458,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -535,7 +468,7 @@ function SettingDetailReadPage() {
             <SettingItem.Caption>각 리뷰 모서리의 라운드를 적용할 수 있어요. 기본 값은 0이에요.</SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER_RADIUS"
                 label="왼쪽 상단"
@@ -583,7 +516,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
 
@@ -802,7 +735,7 @@ function SettingDetailReadPage() {
             </SettingItem.Caption>
           </SettingItem.Container>
           <SettingItem.Content>
-            <div tw="inline-flex flex-wrap gap-4 items-center [& > *]:w-24">
+            <DesignUnitTextFieldGroupContainer>
               <DesignUnitTextField
                 type="BORDER_RADIUS"
                 label="왼쪽 상단"
@@ -862,7 +795,7 @@ function SettingDetailReadPage() {
                   });
                 }}
               />
-            </div>
+            </DesignUnitTextFieldGroupContainer>
           </SettingItem.Content>
         </SettingItem>
       </SettingLayout.Content>

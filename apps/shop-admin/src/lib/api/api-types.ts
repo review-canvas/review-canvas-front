@@ -501,4 +501,18 @@ export interface PatchReviewDesignWriteInitializeRequest {}
 export interface PatchReviewDesignWriteInitializeResponse {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface GetFontInfoRequest {}
+
+export interface GetFontInfoResponse {
+  fontNames: string[];
+  fontBolds: string[];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminQuitRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminQuitResponse {}
