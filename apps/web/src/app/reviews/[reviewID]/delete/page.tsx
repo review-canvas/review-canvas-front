@@ -1,12 +1,12 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import { useReviewService } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
-import { sendMessageToShop } from '@/utils/message.ts';
+import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 
 type PageParams = {
   reviewID: string;
@@ -15,6 +15,7 @@ type PageParams = {
 export default function ReviewDeletePage() {
   const params = useParams<PageParams>();
   const shop = useShop();
+
   useReviewCanvasReady('delete');
   const reviewService = useReviewService();
 
@@ -24,50 +25,55 @@ export default function ReviewDeletePage() {
     queryFn: () => reviewService.get(params!.reviewID),
     enabled: Boolean(shop.connected && params?.reviewID),
   });
+  const deleteReviewMutation = useMutation({
+    mutationFn: async () => {
+      await reviewService.delete(params?.reviewID);
+    },
+    onSuccess: () => {
+      refesh();
+      close();
+    },
+    onError: () => {
+      throw new Error('삭제에 실패했습니다');
+    },
+  });
 
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
 
+  const deleteReview = () => {
+    deleteReviewMutation.mutate();
+  };
   const close = () => {
-    sendMessageToShop(shop.domain, 'close-modal');
+    sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);
   };
-  const handleAsync = () => {
-        void deleteReview();
-  };
-
-  const deleteReview = async () => {
-      try {
-          await reviewService.delete(params?.reviewID);
-      } catch (error) {
-          throw new Error('삭제에 실패했습니다', error as ErrorOptions);
-      }
-      sendMessageToShop(shop.domain, 'refresh-page');
-      sendMessageToShop(shop.domain, 'close-modal');
+  const refesh = () => {
+    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
   };
 
   return (
-      <main className="flex items-center justify-center min-h-screen">
-          <div className="flex flex-col items-center p-8">
-              <div className="text-center">
-                  <p>삭제된 리뷰 정보는 다시 복구할 수 없습니다.</p>
-                  정말 <span className="text-red-500">삭제</span>하시겠습니까?
-              </div>
-              <div className="flex flex-row  p-4 gap-8 mt-4">
-                  <button
-                      className="text-red-500"
-                      onClick={handleAsync}
-                      type="button"
-                  >
-                      확인
-                  </button>
-                  <button
-                      onClick={close}
-                      type="button"
-                  >
-                      취소
-                  </button>
-              </div>
-          </div>
-      </main>
+    <main className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center p-8">
+        <div className="text-center">
+          <p>삭제된 리뷰 정보는 다시 복구할 수 없습니다.</p>
+          정말 <span className="text-red-500">삭제</span>하시겠습니까?
+        </div>
+        <div className="flex flex-row  p-4 gap-8 mt-4">
+          <button
+            className="text-red-500"
+            onClick={deleteReview}
+            type="button"
+          >
+            확인
+          </button>
+          <button
+            onClick={close}
+            type="button"
+          >
+            취소
+          </button>
+        </div>
+      </div>
+    </main>
   );
 }
