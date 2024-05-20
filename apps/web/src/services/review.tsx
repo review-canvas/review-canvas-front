@@ -2,9 +2,8 @@ import { createContext, type PropsWithChildren, useContext } from 'react';
 
 import { createStore, useStore } from 'zustand';
 
-import API from '@/utils/api.ts';
-
 import type * as TYPE from '@/services/api-types/review.tsx';
+import API from '@/utils/api.ts';
 
 class ReviewService {
   async list({
@@ -28,13 +27,13 @@ class ReviewService {
     return response.data;
   }
   async create(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
-    await API.post<TYPE.CommonResponse>(`/api/v1/products/${id}/reviews`,request);
+    await API.post<TYPE.CommonResponse>(`/api/v1/products/${id}/reviews`, request);
   }
 
   async update(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
-    await API.patch<TYPE.CommonResponse>(`/api/v1/reviews/${id}`,request);
+    await API.patch<TYPE.CommonResponse>(`/api/v1/reviews/${id}`, request);
   }
-  async delete(id: string | number |undefined) {
+  async delete(_id: string | number | undefined) {
     // await API.delete<TYPE.CommonResponse>(`/api/v1/reviews/${id}`);// Todo. 삭제 api 배포 이후 수정할 것
   }
 
