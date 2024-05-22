@@ -9,6 +9,7 @@ import { ThemeProvider } from '@emotion/react';
 
 import theme from '@review-canvas/admin-ui/theme';
 
+import GlobalOverlay from '@/components/common/global-overlay.tsx';
 import GlobalStyles from '@/components/global-styles.tsx';
 import { notoSansKR, roboto } from '@/theme/font.ts';
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ThemeProvider theme={theme}>
           <GlobalStyles />
           {children}
+          <GlobalOverlay />
         </ThemeProvider>
       </body>
     </html>
