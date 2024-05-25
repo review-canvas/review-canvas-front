@@ -25,7 +25,7 @@ export default function ReviewItem(props: ReviewItemProps) {
   const style = useReviewItemStyle();
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
-
+  console.log(style);
   const edit = () => {
     message('open-modal', {
       type: 'edit-review',
@@ -49,6 +49,7 @@ export default function ReviewItem(props: ReviewItemProps) {
         generateFontCSS(style.font),
         generateShadowCSS(style.shadow, style.shadowColor),
         css`
+          border-color: ${style.borderColor};
           background-color: ${style.backgroundColor};
           display: flex;
           flex-direction: column;
