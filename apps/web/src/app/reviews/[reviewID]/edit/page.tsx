@@ -18,7 +18,7 @@ export default function ReviewEditPage() {
   const params = useParams<PageParams>();
   const shop = useShop();
 
-  useReviewCanvasReady('edit-review');
+  useReviewCanvasReady('edit_review');
   const reviewService = useReviewService();
 
   const reviewDetailQuery = useQuery({
