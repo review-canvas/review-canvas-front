@@ -516,3 +516,57 @@ export interface DeleteShopAdminQuitRequest {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface DeleteShopAdminQuitResponse {}
+
+export interface GetProductReviewRequest {
+  productId: number;
+  size?: number;
+  page?: number;
+  sort?: string;
+  reviewFilters?: string;
+  score?: string;
+  replyFilters?: string;
+}
+
+export interface GetProductReviewResponse {
+  page: number;
+  size: number;
+  total: number;
+  content: {
+    reviewId: number;
+    content: string;
+    score: number;
+    userId: number;
+    shopAdminId: number;
+    nickname: string;
+    isMine: boolean;
+    createAt: string;
+    updatedAt: string;
+    deleted: boolean;
+    replies: {
+      replyId: number;
+      content: string;
+      createAt: string;
+      updatedAt: string;
+      deleted: boolean;
+      userId: number;
+      nickname: string;
+    }[];
+  }[];
+}
+
+export interface GetShopProductsRequest {
+  shopAdminId: number;
+  page?: number;
+  size?: number;
+}
+
+export interface GetShopProductsResponse {
+  page: number;
+  size: number;
+  total: number;
+  content: {
+    productId: number;
+    productNo: number;
+    productName: string;
+  }[];
+}
