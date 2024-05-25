@@ -2,6 +2,7 @@ export interface PathInfo {
   mailId: string | undefined;
   memberId: string | undefined;
   reviewId: number | undefined;
+  productId: number | undefined;
 }
 export interface ReviewItem {
   reviewId: number;
