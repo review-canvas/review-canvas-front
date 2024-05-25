@@ -5,7 +5,7 @@ import { notFound, useParams } from 'next/navigation';
 
 import { Textform } from '@/components/review/textform.tsx';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { CreateReviewItemRequest } from '@/services/api-types/review';
+import type { CreateReviewItemRequest, PathInfo } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
@@ -30,7 +30,13 @@ export default function ReviewEditPage() {
 
   const updateReviewMutation = useMutation({
     mutationFn: async ({ content, score }: CreateReviewItemRequest) => {
-      await reviewService.update(params?.reviewID, { content, score });
+      const pathInfo: PathInfo = {
+        reviewId: params?.reviewID,
+        mailId: shop.id,
+        memberId: reviewDetailQuery.data?.data.userId,
+        productId: undefined,
+      };
+      await reviewService.update(pathInfo, { content, score });
     },
     onSuccess: () => {
       refresh();
@@ -55,7 +61,7 @@ export default function ReviewEditPage() {
   };
 
   const submit = (content: string, star: number) => {
-    updateReviewMutation.mutate({ content, score : star });
+    updateReviewMutation.mutate({ content, score: star });
   };
 
   return (

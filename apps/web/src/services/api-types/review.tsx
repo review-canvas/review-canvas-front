@@ -1,7 +1,7 @@
 export interface PathInfo {
   mailId: string | undefined;
-  memberId: string | undefined;
-  reviewId: number | undefined;
+  memberId: number | undefined;
+  reviewId: string | undefined;
   productId: number | undefined;
 }
 export interface ReviewItem {
