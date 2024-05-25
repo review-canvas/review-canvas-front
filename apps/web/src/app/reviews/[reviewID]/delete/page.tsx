@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import { useReviewService } from '@/services/review.tsx';
+import type { PathInfo } from '@/services/api-types/review';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 
@@ -25,9 +26,10 @@ export default function ReviewDeletePage() {
     queryFn: () => reviewService.get(params!.reviewID),
     enabled: Boolean(shop.connected && params?.reviewID),
   });
+
   const deleteReviewMutation = useMutation({
     mutationFn: async () => {
-      await reviewService.delete(params?.reviewID);
+      await reviewService.delete(pathInfo);
     },
     onSuccess: () => {
       refesh();
@@ -37,6 +39,13 @@ export default function ReviewDeletePage() {
       throw new Error('삭제에 실패했습니다');
     },
   });
+
+  const pathInfo: PathInfo = {
+    reviewId: params?.reviewID,
+    mailId: shop.id,
+    memberId: reviewDetailQuery.data?.data.userId,
+    productId: undefined,
+  };
 
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;

@@ -30,12 +30,6 @@ export default function ReviewEditPage() {
 
   const updateReviewMutation = useMutation({
     mutationFn: async ({ content, score }: CreateReviewItemRequest) => {
-      const pathInfo: PathInfo = {
-        reviewId: params?.reviewID,
-        mailId: shop.id,
-        memberId: reviewDetailQuery.data?.data.userId,
-        productId: undefined,
-      };
       await reviewService.update(pathInfo, { content, score });
     },
     onSuccess: () => {
@@ -45,6 +39,13 @@ export default function ReviewEditPage() {
       throw new Error('수정에 실패했습니다');
     },
   });
+
+  const pathInfo: PathInfo = {
+    reviewId: params?.reviewID,
+    mailId: shop.id,
+    memberId: reviewDetailQuery.data?.data.userId,
+    productId: undefined,
+  };
 
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
