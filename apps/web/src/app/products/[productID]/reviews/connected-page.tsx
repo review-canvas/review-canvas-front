@@ -33,6 +33,13 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
     });
   };
 
+  const openCreateReviewPage = () => {
+    message(MESSAGE_TYPES.OPEN_MODAL, {
+      type: 'craete_review',
+      url: `/products/${productID}/reviews/${userID}`,
+    });
+  };
+
   return (
     <main>
       {userID ? (
@@ -42,6 +49,13 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
             type="button"
           >
             mypage
+          </button>
+          <p/>
+          <button
+            onClick={openCreateReviewPage}
+            type="button"
+          >
+            write review
           </button>
         </div>
       ) : null}
