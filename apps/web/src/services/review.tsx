@@ -26,15 +26,43 @@ class ReviewService {
     );
     return response.data;
   }
-  async create(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
-    await API.post<TYPE.CommonResponse>(`/api/v1/products/${id}/reviews`, request);
+
+  async create(id: TYPE.PathInfo, request: TYPE.CreateReviewItemRequest, reviewImages?: File) {
+    const formData = new FormData();
+
+    if (reviewImages) {
+      formData.append('reviewImages', reviewImages, reviewImages.name);
+    }
+
+    formData.append('createReviewRequest', JSON.stringify(request));
+    await API.post<TYPE.CommonResponse>(`/api/v1/shop/${id.mailId}/products/${id.productId}/review`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
 
-  async update(id: string | undefined, request: TYPE.CreateReviewItemRequest) {
-    await API.patch<TYPE.CommonResponse>(`/api/v1/reviews/${id}`, request);
+  async update(id: TYPE.PathInfo, request: TYPE.CreateReviewItemRequest, reviewImages?: File) {
+    const formData = new FormData();
+
+    if (reviewImages) {
+      formData.append('reviewImages', reviewImages, reviewImages.name);
+    }
+
+    formData.append('updateReviewRequest', JSON.stringify(request));
+    await API.patch<TYPE.CommonResponse>(
+      `/api/v1/shop/${id.mailId}/users/${id.memberId}/reviews/${id.reviewId}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
   }
-  async delete(_id: string | number | undefined) {
-    // await API.delete<TYPE.CommonResponse>(`/api/v1/reviews/${id}`);// Todo. 삭제 api 배포 이후 수정할 것
+
+  async delete(id: TYPE.PathInfo) {
+    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mailId}/users/${id.memberId}/reviews/${id.reviewId}`);
   }
 
   async get(id: string) {
