@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { notFound, useParams } from 'next/navigation';
 
@@ -16,12 +16,26 @@ type PageParams = {
 
 export default function MyReviewsPage() {
   useReviewCanvasReady('craete_review');
+  const [content, setContent] = useState('');
   const [star, setStar] = useState(1);
   const shop = useShop();
   const params = useParams<PageParams>();
+
+  useEffect(() => {
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      textarea.style.height = 'auto'; // 높이를 초기화
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [content]); // content가 변경될 때마다 실행
+
   if (!params?.userID) notFound();
 
   if (!shop.connected) return <div>connecting...</div>;
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(event.target.value);
+  };
 
   const close = () => {
     sendMessageToShop(shop.domain, 'close-modal');
@@ -30,6 +44,7 @@ export default function MyReviewsPage() {
   return (
     <main className="relative">
       <div className="flex justify-center text-lg font-medium p-2">리뷰쓰기</div>
+      
       <button
         className="absolute top-3 right-3"
         onClick={close}
@@ -46,10 +61,20 @@ export default function MyReviewsPage() {
           <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
         </svg>
       </button>
+
       <BigStar
         setStar={setStar}
         star={star}
       />
+      <div className="relative p-4 flex flex-col gap-8">
+        <textarea
+          className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
+          onChange={handleChange}
+          placeholder="리뷰를 작성해주세요. (최소 10자 이상)"
+          rows={6}
+          value={content}
+        />
+      </div>
       <ImageUploader />
     </main>
   );
