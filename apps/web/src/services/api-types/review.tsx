@@ -1,10 +1,10 @@
 export interface ReivewPathInfo {
-  mailId: string | undefined;
+  mallId: string | undefined;
   memberId: number | string | undefined;
   reviewId: string | undefined;
 }
 export interface CreateReivewPathInfo {
-  mailId: string | undefined;
+  mallId: string | undefined;
   productId: string | undefined;
 }
 export interface ReviewItem {
@@ -18,7 +18,7 @@ export interface ReviewItem {
   createAt: string;
   updatedAt: string;
   deleted: boolean;
-  replies: ReplyItem;
+  replies: ReplyItem[];
 }
 
 export interface RetrieveReviewListResponse {
@@ -29,6 +29,10 @@ export interface RetrieveReviewListResponse {
     total: number;
     content: ReviewItem[];
   };
+}
+export interface RetrieveReplyListResponse {
+  success: boolean;
+  data: ReplyItem[];
 }
 
 export interface ReplyItem {
@@ -67,6 +71,12 @@ export interface CreateReviewItemRequest {
 export interface UpdateReviewItemRequest {
   content: string;
   score: number;
+}
+
+export interface CreateReplyItemRequest {
+  mallId: string;
+  memberId: string;
+  content: string;
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface CommonResponse {}

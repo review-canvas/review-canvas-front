@@ -42,7 +42,7 @@ export default function ReviewDeletePage() {
 
   const pathInfo: ReivewPathInfo = {
     reviewId: params?.reviewID,
-    mailId: shop.id,
+    mallId: shop.id,
     memberId: reviewDetailQuery.data?.data.userId,
   };
 

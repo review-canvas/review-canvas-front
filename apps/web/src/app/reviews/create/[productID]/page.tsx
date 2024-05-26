@@ -53,7 +53,7 @@ export default function MyReviewsPage() {
   if (!shop.connected) return <div>connecting...</div>;
 
   const pathInfo: CreateReivewPathInfo = {
-    mailId: shop.id,
+    mallId: shop.id,
     productId: params?.productId,
   };
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
