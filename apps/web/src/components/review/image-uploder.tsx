@@ -37,7 +37,7 @@ export function ImageUploader() {
 
   return (
     <div>
-      <div className="flex justify-center text-center text-lg font-medium">
+      <div className="flex justify-center text-center text-lg font-medium pt-6">
         사진 첨부하기 {uploadImages.imageUrls.length}/10
       </div>
       <div className="flex flex-row flex-wrap m-4 px-10">
@@ -115,7 +115,7 @@ export function ImageUploader() {
           </button>
         )}
       </div>
-      <div className="flex justify-center text-center text-xs text-gray-500">
+      <div className="flex justify-center text-center text-xs text-gray-500 pt-1 pb-4">
         사진은 최대 20MB 이하의 JPG, PNG, GIF 파일 10장까지 첨부 가능합니다
       </div>
     </div>
