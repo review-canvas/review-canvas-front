@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
+import CloseButton from '@/components/close-button';
 import { Star } from '@/components/review/star';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import { useReviewService } from '@/services/review.tsx';
@@ -37,13 +38,7 @@ export default function ReviewDetailPage() {
 
   return (
     <main className="relative p-4 flex flex-col gap-8">
-      <button
-        className="absolute top-4 right-4"
-        onClick={close}
-        type="button"
-      >
-        X
-      </button>
+      <CloseButton close={close} />
       <div className="flex gap-0.5 items-center w-fit">
         <Star
           setStar={() => {}}
