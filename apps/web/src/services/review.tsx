@@ -38,7 +38,7 @@ class ReviewService {
     const jsonBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });
     formData.append('createReviewRequest', jsonBlob, 'createReviewRequest.json');
 
-    await API.post<TYPE.CommonResponse>(`/api/v1/shop/${Id.mailId}/products/${Id.productId}/review`, formData);
+    await API.post<TYPE.CommonResponse>(`/api/v1/shop/${Id.mallId}/products/${Id.productId}/review`, formData);
   }
 
   async update(id: TYPE.ReivewPathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File) {
@@ -52,18 +52,22 @@ class ReviewService {
     formData.append('updateReviewRequest', jsonBlob, 'updateReviewRequest.json');
 
     await API.patch<TYPE.CommonResponse>(
-      `/api/v1/shop/${id.mailId}/users/${id.memberId}/reviews/${id.reviewId}`,
+      `/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.reviewId}`,
       formData,
     );
   }
 
   async delete(id: TYPE.ReivewPathInfo) {
-    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mailId}/users/${id.memberId}/reviews/${id.reviewId}`);
+    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.reviewId}`);
   }
 
   async get(id: string) {
     const response = await API.get<TYPE.RetrieveReviewItemResponse>(`/api/v1/reviews/${id}`);
     return response.data;
+  }
+
+  async createReply(Id: string, request: TYPE.CreateReplyItemRequest) {
+    await API.post<TYPE.CommonResponse>(`/api/v1/reviews/${Id}/reply`, request);
   }
 }
 
