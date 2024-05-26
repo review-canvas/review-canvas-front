@@ -19,8 +19,6 @@ export default function ReviewList({ productID }: ReviewListProps) {
 
   return (
     <section>
-      <h3>Reviews</h3>
-
       <div className="m-2 flex justify-between">
         <Filter
           filters={[
