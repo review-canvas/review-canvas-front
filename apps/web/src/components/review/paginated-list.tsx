@@ -46,6 +46,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
             id={it.reviewId}
             key={it.reviewId}
             rate={it.score}
+            replies={it.replies}
             reviewer={it.nickname}
             reviewerID={it.nickname}
           />

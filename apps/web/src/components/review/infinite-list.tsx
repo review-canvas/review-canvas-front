@@ -49,6 +49,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
             id={it.reviewId}
             key={it.reviewId}
             rate={it.score}
+            replies={it.replies}
             reviewer={it.nickname}
             reviewerID={it.nickname}
           />

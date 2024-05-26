@@ -12,8 +12,11 @@ import {
 import { Star } from '@/components/review/star.tsx';
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
+import type { ReplyItem } from '@/services/api-types/review';
 import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
+
+import Reply from './reply';
 
 interface ReviewItemProps {
   id: number;
@@ -21,14 +24,14 @@ interface ReviewItemProps {
   content: string;
   reviewerID: string;
   reviewer: string;
+  replies: ReplyItem[];
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
-  
   const style = useReviewItemStyle();
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
-  
+
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'edit_review',
@@ -107,6 +110,20 @@ export default function ReviewItem(props: ReviewItemProps) {
             </button>
           </div>
         ) : null}
+        {props.replies.length === 0
+          ? props.replies.map((it) => (
+              <Reply
+                content={it.content}
+                createAt={it.createAt}
+                deleted={it.deleted}
+                key={it.replyId}
+                nickname={it.nickname}
+                replyId={it.replyId}
+                updatedAt={it.updatedAt}
+                userId={it.userId}
+              />
+            ))
+          : null}
       </div>
     </li>
   );
