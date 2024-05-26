@@ -5,7 +5,7 @@ import { notFound, useParams } from 'next/navigation';
 
 import { Textform } from '@/components/review/textform.tsx';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { CreateReviewItemRequest, PathInfo } from '@/services/api-types/review';
+import type { ReivewPathInfo, UpdateReviewItemRequest } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
@@ -29,7 +29,7 @@ export default function ReviewEditPage() {
   });
 
   const updateReviewMutation = useMutation({
-    mutationFn: async ({ content, score }: CreateReviewItemRequest) => {
+    mutationFn: async ({ content, score }: UpdateReviewItemRequest) => {
       await reviewService.update(pathInfo, { content, score });
     },
     onSuccess: () => {
@@ -40,11 +40,10 @@ export default function ReviewEditPage() {
     },
   });
 
-  const pathInfo: PathInfo = {
+  const pathInfo: ReivewPathInfo = {
     reviewId: params?.reviewID,
     mailId: shop.id,
     memberId: reviewDetailQuery.data?.data.userId,
-    productId: undefined,
   };
 
   if (!shop.connected) return <div>connecting...</div>;

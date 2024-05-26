@@ -4,8 +4,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
+import type { ReivewPathInfo } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';
-import type { PathInfo } from '@/services/api-types/review';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 
@@ -40,11 +40,10 @@ export default function ReviewDeletePage() {
     },
   });
 
-  const pathInfo: PathInfo = {
+  const pathInfo: ReivewPathInfo = {
     reviewId: params?.reviewID,
     mailId: shop.id,
     memberId: reviewDetailQuery.data?.data.userId,
-    productId: undefined,
   };
 
   if (!shop.connected) return <div>connecting...</div>;

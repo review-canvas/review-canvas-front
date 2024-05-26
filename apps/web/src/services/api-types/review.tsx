@@ -1,8 +1,11 @@
-export interface PathInfo {
+export interface ReivewPathInfo {
   mailId: string | undefined;
   memberId: number | undefined;
   reviewId: string | undefined;
-  productId: number | undefined;
+}
+export interface CreateReivewPathInfo {
+  mailId: string | undefined;
+  productId: string | undefined;
 }
 export interface ReviewItem {
   reviewId: number;
@@ -56,6 +59,12 @@ export interface RetrieveReviewItemResponse {
 }
 
 export interface CreateReviewItemRequest {
+  memberId: string;
+  content: string;
+  score: number;
+}
+
+export interface UpdateReviewItemRequest {
   content: string;
   score: number;
 }
