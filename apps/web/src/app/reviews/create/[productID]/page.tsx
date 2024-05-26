@@ -44,6 +44,7 @@ export default function MyReviewsPage() {
     },
     onSuccess: () => {
       refresh();
+      close();
     },
     onError: () => {
       throw new Error('생성에 실패했습니다');
@@ -67,7 +68,9 @@ export default function MyReviewsPage() {
   };
 
   const submit = () => {
-    createReviewMutation.mutate();
+    if (content.length >= 10) {
+      createReviewMutation.mutate();
+    }
   };
 
   return (
@@ -78,16 +81,24 @@ export default function MyReviewsPage() {
         setStar={setScore}
         star={score}
       />
-      <div className="relative p-4 flex flex-col gap-8">
+      <div className="relative flex flex-col gap-8 px-4 pt-4">
         <textarea
-          className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
+          className="border-2 overflow-hidden resize-none"
+          maxLength={2000}
           onChange={handleChange}
           placeholder="리뷰를 작성해주세요. (최소 10자 이상)"
           rows={6}
           value={content}
         />
+        <div className="absolute right-1 bottom-0 pr-4 text-gray-400">{content.length}/2000</div>
       </div>
+      {content.length < 10 && content.length !== 0 ? (
+        <div className="flex flex-row-reverse pr-4 text-xs text-gray-400">최소 10자 이상 입력해주세요!</div>
+      ) : (
+        <p> </p>
+      )}
       <ImageUploader />
+
       <div className="grid grid-cols-2 justify-center text-lg font-medium place-content-around p-3 w-100% mb-4">
         <button
           className="border-2 border-gray-400/85 text-gray-400 p-2 m-2"

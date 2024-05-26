@@ -1,6 +1,6 @@
 export interface ReivewPathInfo {
   mailId: string | undefined;
-  memberId: number | undefined;
+  memberId: number | string | undefined;
   reviewId: string | undefined;
 }
 export interface CreateReivewPathInfo {
