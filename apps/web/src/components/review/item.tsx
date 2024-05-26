@@ -12,6 +12,7 @@ import {
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import { useConnectedShop } from '@/state/shop.ts';
+import LikeButton from "@/components/review/like-button.tsx";
 
 interface ReviewItemProps {
   id: number;
@@ -77,6 +78,7 @@ export default function ReviewItem(props: ReviewItemProps) {
           작성자 <span>{props.reviewer}</span>
         </div>
         <p className="text-left">{props.content}</p>
+        <LikeButton />
         {userID === props.reviewerID ? (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions -- This is intentional
           <div
