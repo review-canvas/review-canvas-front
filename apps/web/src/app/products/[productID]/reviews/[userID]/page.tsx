@@ -2,6 +2,7 @@
 
 import { notFound, useParams } from 'next/navigation';
 
+import { ImageUploader } from '@/components/review/image-uploder';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import useShop from '@/state/shop.ts';
 import { sendMessageToShop } from '@/utils/message.ts';
@@ -34,6 +35,8 @@ export default function MyReviewsPage() {
       </button>
       <h1>My Reviews</h1>
       <p>Hello, {params.userID}!</p>
+      <ImageUploader/>
+      
     </main>
   );
 }
