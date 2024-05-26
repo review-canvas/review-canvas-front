@@ -27,25 +27,27 @@ class ReviewService {
     return response.data;
   }
 
-  async create(Id: TYPE.CreateReivewPathInfo, request: TYPE.CreateReviewItemRequest, reviewImages?: File) {
+  async create(Id: TYPE.CreateReivewPathInfo, request: TYPE.CreateReviewItemRequest, reviewImages?: File[]) {
     const formData = new FormData();
-
     if (reviewImages) {
-      formData.append('reviewImages', reviewImages, reviewImages.name);
+      reviewImages.forEach(file => {
+        formData.append('reviewImages', file, file.name);
+      });
     }
 
-    formData.append('createReviewRequest', JSON.stringify(request));
     const jsonBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });
     formData.append('createReviewRequest', jsonBlob, 'createReviewRequest.json');
 
     await API.post<TYPE.CommonResponse>(`/api/v1/shop/${Id.mallId}/products/${Id.productId}/review`, formData);
   }
 
-  async update(id: TYPE.ReivewPathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File) {
+  async update(id: TYPE.ReivewPathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File[]) {
     const formData = new FormData();
 
     if (reviewImages) {
-      formData.append('reviewImages', reviewImages, reviewImages.name);
+      reviewImages.forEach(file => {
+        formData.append('reviewImages', file, file.name);
+      });
     }
 
     const jsonBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });

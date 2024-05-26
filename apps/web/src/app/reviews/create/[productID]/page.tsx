@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
 import CloseButton from '@/components/close-button';
+import type { UploadImagesState } from '@/components/review/image-uploder';
 import { ImageUploader } from '@/components/review/image-uploder';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import type { CreateReivewPathInfo } from '@/services/api-types/review';
@@ -18,6 +19,10 @@ type PageParams = {
 };
 
 export default function MyReviewsPage() {
+  const [uploadImages, setUploadImages] = useState<UploadImagesState>({
+    imageFiles: [],
+    imageUrls: [],
+  });
   const [content, setContent] = useState('');
   const [score, setScore] = useState(1);
   const shop = useShop();
@@ -40,7 +45,7 @@ export default function MyReviewsPage() {
         content,
         score,
         memberId: '',
-      });
+      }, uploadImages.imageFiles);
     },
     onSuccess: () => {
       refresh();
@@ -97,7 +102,10 @@ export default function MyReviewsPage() {
       ) : (
         <p> </p>
       )}
-      <ImageUploader />
+      <ImageUploader
+        setUploadImages={setUploadImages}
+        uploadImages={uploadImages}
+      />
 
       <div className="grid grid-cols-2 justify-center text-lg font-medium place-content-around p-3 w-100% mb-4">
         <button

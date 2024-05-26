@@ -1,17 +1,17 @@
-import { useRef, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import { useRef } from 'react';
 
 import Image from 'next/image';
 
-type UploadImagesState = {
+export type UploadImagesState = {
   imageFiles: File[];
   imageUrls: string[];
 };
-
-export function ImageUploader() {
-  const [uploadImages, setUploadImages] = useState<UploadImagesState>({
-    imageFiles: [],
-    imageUrls: [],
-  });
+export interface ImageUploaderProps {
+  uploadImages: UploadImagesState;
+  setUploadImages: Dispatch<SetStateAction<UploadImagesState>>;
+}
+export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const handleClick = () => {
     fileRef.current?.click();
