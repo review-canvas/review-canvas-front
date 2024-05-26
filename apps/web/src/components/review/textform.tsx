@@ -12,6 +12,14 @@ export function Textform({ reviewDetail, submit }: TextformProps) {
   const [content, setContent] = useState('');
   const [star, setStar] = useState(0);
 
+  useEffect(() => {
+    const textarea = document.querySelector('textarea');
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [content]);
+
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
@@ -44,6 +52,7 @@ export function Textform({ reviewDetail, submit }: TextformProps) {
         </div>
       ) : null}
       <textarea
+        className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
         defaultValue={content}
         onChange={handleChange}
         rows={3}

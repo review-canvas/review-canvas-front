@@ -31,7 +31,7 @@ export default function ReviewItem(props: ReviewItemProps) {
   
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'edit-review',
+      type: 'edit_review',
       url: `/reviews/${props.id}/edit`,
     });
   };
