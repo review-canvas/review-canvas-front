@@ -1,3 +1,5 @@
+import {ReviewLikeButtonProps} from "@review-canvas/theme";
+
 export type Shadow = 'NONE' | 'SMALL' | 'MEDIUM' | 'LARGE';
 export type FocusAreaLayout = 'BEST_REVIEW_TOP' | 'BEST_REVIEW_BOTTOM' | 'BEST_REVIEW_LEFT' | 'BEST_REVIEW_RIGHT';
 export type ReviewAreaLayout = 'REVIEW_TOP' | 'REVIEW_BOTTOM' | 'REVIEW_LEFT' | 'REVIEW_RIGHT';
@@ -6,6 +8,7 @@ export type AlignmentPosition = 'LEFT' | 'CENTER' | 'RIGHT';
 export type DetailViewType = 'SPREAD' | 'MODAL';
 export type PagingType = 'PAGE_NUMBER' | 'SEE_MORE_SCROLL';
 export type FilterType = 'LIST' | 'DROPDOWN';
+export type ReviewLikeButtonType = 'NONE' | 'THUMB_UP_WITH_TEXT' | 'THUMB_UP';
 
 export interface Margin {
   left: string;
@@ -43,11 +46,11 @@ export interface Round {
 }
 
 export interface ReviewLike {
+  buttonBorderColor: ReviewLikeButtonType;
+  buttonRound: Round;
   buttonType: string;
   iconColor: string;
   textColor: string;
-  buttonBorderColor: string;
-  buttonRound: Round;
 }
 
 export interface ReviewLayout {

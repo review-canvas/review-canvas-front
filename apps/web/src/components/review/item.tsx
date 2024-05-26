@@ -12,7 +12,6 @@ import {
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import { useConnectedShop } from '@/state/shop.ts';
-import LikeButton from "@/components/review/like-button.tsx";
 
 interface ReviewItemProps {
   id: number;
@@ -26,14 +25,12 @@ export default function ReviewItem(props: ReviewItemProps) {
   const style = useReviewItemStyle();
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
-  console.log(style);
   const edit = () => {
     message('open-modal', {
       type: 'edit-review',
       url: `/reviews/${props.id}/edit`,
     });
   };
-
   const showReviewDetail = () => {
     message('open-modal', {
       type: 'detail',
@@ -78,7 +75,31 @@ export default function ReviewItem(props: ReviewItemProps) {
           작성자 <span>{props.reviewer}</span>
         </div>
         <p className="text-left">{props.content}</p>
-        <LikeButton />
+        <button onClick={(evt) => {
+          evt.stopPropagation();
+          console.log("Like!");
+        }} 
+          css={
+            css`
+            border-width: 1px;
+            padding: 2px 6px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            border-color: ${style.reviewLike.buttonBorderColor};
+            color: ${style.reviewLike.textColor};
+            border-top-left-radius: ${style.reviewLike.buttonRound.topLeft};
+            border-top-right-radius: ${style.reviewLike.buttonRound.topRight};
+            border-bottom-right-radius: ${style.reviewLike.buttonRound.bottomRight};
+            border-bottom-left-radius: ${style.reviewLike.buttonRound.bottomLeft};
+              transition: background-color 0.5s ease, color 0.5s ease;
+              &:hover {
+                background-color: ${style.reviewLike.textColor};
+                color: white;
+              }
+          `
+        }>
+          좋아요!
+        </button>
         {userID === props.reviewerID ? (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions -- This is intentional
           <div

@@ -1,12 +1,12 @@
-const reviewCanvasURL = 'https://web.review-canvas.com';
+const reviewCanvasURL = 'http://localhost:3000';
 let $reviewCanvasContainer = null;
 
 const initializeReviewCanvas = () => {
-  const productID = document.querySelector('meta[property="product:productId"]')?.content;
+  const productID = '10';
   if (!$reviewCanvasContainer || !productID) return;
 
   const $iframe = document.createElement('iframe');
-  $iframe.src = new URL(`/products/${productID}/reviews`, reviewCanvasURL).toString();
+  $iframe.src = new URL(`/products/10/reviews`, reviewCanvasURL).toString();
   $iframe.dataset.reviewCanvas = 'list';
   $iframe.dataset.connected = 'false';
   $iframe.style.width = '100%';
@@ -32,9 +32,9 @@ window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'ready') return;
 
   const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"][data-connected="false"]`);
-  const mallID = CAFE24?.SHOP?.getMallID();
+  const mallID = 'teddytest1';
   if (!$element || !($element instanceof HTMLIFrameElement) || !mallID) return;
-  const userID = document.querySelector('.xans-layout-statelogon.userId > span')?.textContent;
+  const userID = 'test1';
   $element.dataset.connected = 'true';
   $element.contentWindow.postMessage({ type: 'connect', payload: { mallID, userID } }, evt.origin);
 });
