@@ -2,37 +2,59 @@
 
 import { useEffect, useState } from 'react';
 
-import { notFound, useParams } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 
+import CloseButton from '@/components/close-button';
 import { ImageUploader } from '@/components/review/image-uploder';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
+import type { CreateReivewPathInfo } from '@/services/api-types/review';
+import { useReviewService } from '@/services/review';
 import useShop from '@/state/shop.ts';
-import { sendMessageToShop } from '@/utils/message.ts';
+import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 
 type PageParams = {
-  productID: string;
-  userID: string;
+  productId: string;
 };
 
 export default function MyReviewsPage() {
-  useReviewCanvasReady('craete_review');
   const [content, setContent] = useState('');
-  const [star, setStar] = useState(1);
+  const [score, setScore] = useState(1);
   const shop = useShop();
   const params = useParams<PageParams>();
 
   useEffect(() => {
     const textarea = document.querySelector('textarea');
     if (textarea) {
-      textarea.style.height = 'auto'; // 높이를 초기화
+      textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  }, [content]); // content가 변경될 때마다 실행
+  }, [content]);
 
-  if (!params?.userID) notFound();
+  useReviewCanvasReady('craete_review');
+  const reviewService = useReviewService();
 
+  const createReviewMutation = useMutation({
+    mutationFn: async () => {
+      await reviewService.create(pathInfo, {
+        content,
+        score,
+        memberId: '',
+      });
+    },
+    onSuccess: () => {
+      refresh();
+    },
+    onError: () => {
+      throw new Error('생성에 실패했습니다');
+    },
+  });
   if (!shop.connected) return <div>connecting...</div>;
 
+  const pathInfo: CreateReivewPathInfo = {
+    mailId: shop.id,
+    productId: params?.productId,
+  };
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
@@ -40,31 +62,21 @@ export default function MyReviewsPage() {
   const close = () => {
     sendMessageToShop(shop.domain, 'close-modal');
   };
+  const refresh = () => {
+    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
+  };
+
+  const submit = () => {
+    createReviewMutation.mutate();
+  };
 
   return (
     <main className="relative">
       <div className="flex justify-center text-lg font-medium p-2">리뷰쓰기</div>
-      
-      <button
-        className="absolute top-3 right-3"
-        onClick={close}
-        type="button"
-      >
-        <svg
-          className="bi bi-x-lg"
-          fill="black"
-          height="24"
-          viewBox="0 0 16 16"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-        </svg>
-      </button>
-
+      <CloseButton close={close} />
       <BigStar
-        setStar={setStar}
-        star={star}
+        setStar={setScore}
+        star={score}
       />
       <div className="relative p-4 flex flex-col gap-8">
         <textarea
@@ -76,13 +88,31 @@ export default function MyReviewsPage() {
         />
       </div>
       <ImageUploader />
+      <div className="grid grid-cols-2 justify-center text-lg font-medium place-content-around p-3 w-100% mb-4">
+        <button
+          className="border-2 border-gray-400/85 text-gray-400 p-2 m-2"
+          onClick={close}
+          type="button"
+        >
+          취소
+        </button>
+        <button
+          className="border-2 border-indigo-500/60 text-white bg-blue-500 m-2"
+          onClick={submit}
+          type="button"
+        >
+          <div className="bg-blue-500 p-2">등록하기</div>
+        </button>
+      </div>
     </main>
   );
 }
+
 interface StarProps {
   star: number;
   setStar: (star: number) => void;
 }
+
 function BigStar({ star, setStar }: StarProps) {
   const StarArray = [1, 2, 3, 4, 5];
 
