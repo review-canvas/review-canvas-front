@@ -4,9 +4,9 @@ interface StarProps {
 }
 
 export function Star({ star, setStar }: StarProps) {
-  const StarArrary = [1, 2, 3, 4, 5];
+  const StarArray = [1, 2, 3, 4, 5];
 
-  return StarArrary.map((it) => (
+  return StarArray.map((it) => (
     <div key={it}>
       <button
         onClick={() => {
