@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import tw, { styled } from 'twin.macro';
 
+import ReviewDetailModal from '@/components/dashboard/review-detail-modal';
 import {
   REVIEW_FILTER_OPTIONS_MAP,
   REVIEW_PERIOD_OPTIONS_MAP,
@@ -21,10 +22,13 @@ import {
 } from '@/constants/review';
 import useAuthCheck from '@/hooks/use-auth-check';
 import { ReviewService } from '@/service/review';
-import type { ReviewPageSizeType, ReviewPeriodType, ReviewReplyDataType } from '@/types/review';
+import { useOverlayAction } from '@/store/overlay';
+import type { ReviewDataType, ReviewPageSizeType, ReviewPeriodType, ReviewReplyDataType } from '@/types/review';
 
 function DashboardPage() {
   const router = useRouter();
+  const { openOverlay, closeOverlay } = useOverlayAction();
+
   const defaultReviewFilters = REVIEW_FILTER_OPTIONS_MAP.map((option) => option.value);
   const defaultScores = REVIEW_SCORE_OPTIONS_MAP.map((option) => option.value);
   const defaultReviewReplyFilters = REVIEW_REPLY_FILTER_OPTIONS_MAP.map((option) => option.value);
@@ -53,7 +57,7 @@ function DashboardPage() {
     {
       accessorKey: 'score',
       header: '점수',
-      cell: ({ getValue }: TableCellProps) => {
+      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
         const initialValue = getValue();
         return initialValue ? <span>{initialValue} / 5</span> : null;
       },
@@ -61,7 +65,7 @@ function DashboardPage() {
     {
       accessorKey: 'replies',
       header: '답변 개수',
-      cell: ({ getValue }: TableCellProps) => {
+      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
         const repliesArr: ReviewReplyDataType[] | undefined = getValue();
         return repliesArr?.length ? <span>{repliesArr.length}개</span> : null;
       },
@@ -69,25 +73,44 @@ function DashboardPage() {
     {
       accessorKey: 'deleted',
       header: '삭제 여부',
-      cell: ({ getValue }: TableCellProps) => {
+      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
         const initialValue: boolean = getValue();
         return <span>{initialValue ? 'O' : 'X'}</span>;
       },
     },
     {
-      accessorKey: 'createAt',
-      header: '최초 작성 일시',
-      cell: ({ getValue }: TableCellProps) => {
+      accessorKey: 'updatedAt',
+      header: '최종 수정 일시',
+      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
         const initialValue: string | undefined = getValue();
         return initialValue ? <span>{dayjs(initialValue).format('YYYY/MM/DD HH:mm')}</span> : null;
       },
     },
     {
-      accessorKey: 'updatedAt',
-      header: '최종 수정 일시',
-      cell: ({ getValue }: TableCellProps) => {
-        const initialValue: string | undefined = getValue();
-        return initialValue ? <span>{dayjs(initialValue).format('YYYY/MM/DD HH:mm')}</span> : null;
+      id: 'control',
+      header: '리뷰 관리',
+      cell: ({ cell }: TableCellProps<ReviewDataType, any>) => {
+        const targetRowData = cell.row.original;
+        return (
+          <SolidButton
+            variant="primary"
+            size="sm"
+            className="review-control-button"
+            onPress={() => {
+              openOverlay(
+                'review-detail',
+                <ReviewDetailModal
+                  {...targetRowData}
+                  onClose={() => {
+                    closeOverlay('review-detail');
+                  }}
+                />,
+              );
+            }}
+          >
+            상세
+          </SolidButton>
+        );
       },
     },
   ];
@@ -291,6 +314,7 @@ function DashboardPage() {
                 <SolidButton
                   variant="primary"
                   size="sm"
+                  className="review-control-button"
                   onPress={() => {
                     void refetch();
                   }}
@@ -389,14 +413,19 @@ const TableContainer = styled.div`
     thead tr th {
       padding: 10px 0;
     }
-  }
 
-  .table-cell[data-column-id='reviewId'],
-  .table-cell[data-column-id='score'],
-  .table-cell[data-column-id='deleted'],
-  .table-cell[data-column-id='createAt'],
-  .table-cell[data-column-id='updatedAt'] {
-    text-align: center;
+    .table-cell[data-column-id='reviewId'],
+    .table-cell[data-column-id='score'],
+    .table-cell[data-column-id='deleted'],
+    .table-cell[data-column-id='createAt'],
+    .table-cell[data-column-id='updatedAt'],
+    .table-cell[data-column-id='control'] {
+      text-align: center;
+    }
+
+    .review-control-button {
+      width: 50px;
+    }
   }
 
   .table-pagination {
