@@ -573,3 +573,10 @@ export interface GetShopProductsResponse {
     productName: string;
   }[];
 }
+
+export interface DeleteShopAdminReviewRequest {
+  reviewId: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminReviewResponse {}
