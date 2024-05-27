@@ -41,11 +41,15 @@ export default function MyReviewsPage() {
 
   const createReviewMutation = useMutation({
     mutationFn: async () => {
-      await reviewService.create(pathInfo, {
-        content,
-        score,
-        memberId: '',
-      }, uploadImages.imageFiles);
+      await reviewService.create(
+        pathInfo,
+        {
+          content,
+          score,
+          memberId: '',
+        },
+        uploadImages.imageFiles,
+      );
     },
     onSuccess: () => {
       refresh();

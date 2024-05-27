@@ -4,7 +4,7 @@ interface CloseButtonProps {
 export default function CloseButton({close}:CloseButtonProps) {
   return (
     <button
-      className="absolute top-3 right-3"
+      className="absolute top-3 right-3 z-10"
       onClick={close}
       type="button"
     >

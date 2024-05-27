@@ -56,7 +56,7 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
             onClick={openCreateReviewPage}
             type="button"
           >
-            <div className="bg-blue-500 p-2">리뷰 작성  </div>
+            <div className="bg-blue-500 p-2">리뷰 작성</div>
           </button>
         </div>
       ) : null}
