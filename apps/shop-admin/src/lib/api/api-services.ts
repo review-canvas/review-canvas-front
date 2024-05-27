@@ -264,6 +264,16 @@ class ApiService {
 
     return response.data;
   }
+
+  public async deleteShopAdminReview(
+    request: API.DeleteShopAdminReviewRequest,
+  ): Promise<CommonResponse<API.DeleteShopAdminReviewResponse>> {
+    const response = await this.httpClient.delete<CommonResponse<API.DeleteShopAdminReviewResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}`,
+    );
+
+    return response;
+  }
 }
 
 const httpClient = HttpClient.getInstance();
