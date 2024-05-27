@@ -4,8 +4,10 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import ReviewItem from '@/components/review/item.tsx';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import { type ReviewListFilter, type ReviewListSort, useReviewService } from '@/services/review.tsx';
+import { type ReviewListFilter, type ReviewListSort } from '@/services/api-types/review.tsx';
+import { useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
+import { MESSAGE_TYPES } from '@/utils/message';
 
 interface PaginatedListProps {
   productID: string;
@@ -29,11 +31,11 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
 
   useEffect(() => {
     if (reviewListQuery.status !== 'success') return;
-    message('adjust-height', window.getComputedStyle(document.body).height);
+    message(MESSAGE_TYPES.ADJUST_HEIGHT, window.getComputedStyle(document.body).height);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
   }, [reviewListQuery.status]);
 
-  const reviews = reviewListQuery.data.data.content;
+  const reviews = reviewListQuery.data.data.content.filter(review => !review.deleted);
 
   return (
     <>
@@ -44,6 +46,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
             id={it.reviewId}
             key={it.reviewId}
             rate={it.score}
+            replies={it.replies}
             reviewer={it.nickname}
             reviewerID={it.nickname}
           />

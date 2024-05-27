@@ -229,6 +229,51 @@ class ApiService {
     const response = await this.httpClient.get<API.GetFontInfoResponse>('/api/v1/font-info');
     return response.data;
   }
+
+  public async getProductReviews(request: API.GetProductReviewRequest): Promise<API.GetProductReviewResponse> {
+    const { productId, size, page, sort, period, reviewFilters, score, replyFilters } = request;
+
+    const params = new URLSearchParams();
+    params.set('size', String(size));
+    params.set('page', String(page));
+    params.set('sort', String(sort));
+    period && params.set('period', period);
+    reviewFilters && params.set('reviewFilters', reviewFilters);
+    score && params.set('score', score);
+    replyFilters && params.set('replyFilters', replyFilters);
+
+    const response = await this.httpClient.get<API.GetProductReviewResponse>(
+      `/api/v1/products/${productId}/reviews`,
+      params,
+    );
+
+    return response.data;
+  }
+
+  public async getShopProducts(request: API.GetShopProductsRequest): Promise<API.GetShopProductsResponse> {
+    const { shopAdminId, page, size } = request;
+
+    const params = new URLSearchParams();
+    params.set('size', String(size));
+    params.set('page', String(page));
+
+    const response = await this.httpClient.get<API.GetShopProductsResponse>(
+      `/api/v1/shops/${shopAdminId}/products`,
+      params,
+    );
+
+    return response.data;
+  }
+
+  public async deleteShopAdminReview(
+    request: API.DeleteShopAdminReviewRequest,
+  ): Promise<CommonResponse<API.DeleteShopAdminReviewResponse>> {
+    const response = await this.httpClient.delete<CommonResponse<API.DeleteShopAdminReviewResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}`,
+    );
+
+    return response;
+  }
 }
 
 const httpClient = HttpClient.getInstance();
