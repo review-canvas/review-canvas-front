@@ -35,7 +35,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
     // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
   }, [reviewListQuery.status]);
 
-  const reviews = reviewListQuery.data.data.content;
+  const reviews = reviewListQuery.data.data.content.filter(review => !review.deleted);
 
   return (
     <>
