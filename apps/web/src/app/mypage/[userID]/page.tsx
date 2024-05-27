@@ -2,6 +2,7 @@
 
 import { notFound, useParams } from 'next/navigation';
 
+import CloseButton from '@/components/close-button';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import useShop from '@/state/shop.ts';
 import { sendMessageToShop } from '@/utils/message.ts';
@@ -24,13 +25,7 @@ export default function MyReviewsPage() {
 
   return (
     <main className="relative">
-      <button
-        className="absolute top-4 right-4"
-        onClick={close}
-        type="button"
-      >
-        X
-      </button>
+      <CloseButton close={close}/>
       <h1>My Reviews</h1>
       <p>Hello, {params.userID}!</p>
     </main>
