@@ -20,9 +20,14 @@ interface TableProps<T>
     | 'onGlobalFilterChange'
   > {
   pageSize: number;
+  activateSearchFilter?: boolean;
 }
 
-export default function Table<T>({ pageSize, ...options }: TableProps<T>) {
+export interface TableCellProps {
+  getValue: () => any;
+}
+
+export default function Table<T>({ pageSize, activateSearchFilter = false, ...options }: TableProps<T>) {
   const [globalFilter, setGlobalFilter] = useState('');
 
   const table = useReactTable({
@@ -47,25 +52,29 @@ export default function Table<T>({ pageSize, ...options }: TableProps<T>) {
 
   return (
     <>
-      <input
-        className="rounded-md border border-gray-200 px-4 py-2"
-        onChange={(evt) => {
-          setGlobalFilter(evt.currentTarget.value);
-        }}
-        placeholder="검색어를 입력해주세요."
-        type="text"
-        value={globalFilter}
-      />
-      <table className="w-full">
+      {activateSearchFilter ? (
+        <div className="table-search">
+          <input
+            className="table-search-input rounded-md border border-gray-200 px-4 py-2"
+            onChange={(evt) => {
+              setGlobalFilter(evt.currentTarget.value);
+            }}
+            placeholder="검색어를 입력해주세요."
+            type="text"
+            value={globalFilter}
+          />
+        </div>
+      ) : null}
+      <table className="table w-full">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr
-              className="border-b border-b-sub-secondary"
+              className="table-header-row border-b border-b-sub-secondary"
               key={headerGroup.id}
             >
               {headerGroup.headers.map((header) => (
                 <th
-                  className="border-b-sub-secondary text-gray-500 font-normal"
+                  className="table-header border-b-sub-secondary text-gray-500 font-normal"
                   colSpan={header.colSpan}
                   key={header.id}
                 >
@@ -90,13 +99,14 @@ export default function Table<T>({ pageSize, ...options }: TableProps<T>) {
         <tbody>
           {table.getRowModel().rows.map((row) => (
             <tr
-              className="border-b border-b-sub-secondary"
+              className="table-row border-b border-b-sub-secondary"
               key={row.id}
             >
               {row.getVisibleCells().map((cell) => (
                 <td
-                  className="py-1"
+                  className="table-cell py-1"
                   key={cell.id}
+                  data-column-id={cell.column.id}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
@@ -105,8 +115,9 @@ export default function Table<T>({ pageSize, ...options }: TableProps<T>) {
           ))}
         </tbody>
       </table>
-      <div className="flex gap-2">
+      <div className="table-pagination flex gap-2">
         <button
+          className="previous-page-button"
           disabled={!table.getCanPreviousPage()}
           onClick={() => {
             table.previousPage();
@@ -117,7 +128,7 @@ export default function Table<T>({ pageSize, ...options }: TableProps<T>) {
         </button>
         {Array.from({ length: table.getPageCount() }, (_, idx) => (
           <button
-            className={idx === currentPage ? 'text-main-primary' : 'text-gray-500'}
+            className={`page-number-button ${idx === currentPage ? 'text-main-primary' : 'text-gray-500'}`}
             key={idx}
             onClick={() => {
               table.setPageIndex(idx);
@@ -128,6 +139,7 @@ export default function Table<T>({ pageSize, ...options }: TableProps<T>) {
           </button>
         ))}
         <button
+          className="next-page-button"
           disabled={!table.getCanNextPage()}
           onClick={() => {
             table.nextPage();
