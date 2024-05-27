@@ -48,6 +48,13 @@ class DesignPropertyService {
       shadow: reviewDesignView.shadow,
       shadowColor: 'rgba(0, 0, 0, 0.3)',
       backgroundColor: reviewDesignView.reviewBackgroundColor,
+      reviewLike: {
+        buttonBorderColor: reviewDesignView.reviewLike.buttonBorderColor,
+        buttonRound: reviewDesignView.reviewLike.buttonRound,
+        buttonType: reviewDesignView.reviewLike.buttonType,
+        iconColor:reviewDesignView.reviewLike.iconColor,
+        textColor: reviewDesignView.reviewLike.textColor
+      }
     };
   }
 }
