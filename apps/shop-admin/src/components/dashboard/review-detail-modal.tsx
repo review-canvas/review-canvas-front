@@ -1,6 +1,9 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { SolidButton } from '@ui/components';
 import dayjs from 'dayjs';
 import tw, { styled } from 'twin.macro';
 
+import { ReviewService } from '@/service/review';
 import type { ReviewDataType } from '@/types/review';
 
 export interface ReviewDetailModalProps extends ReviewDataType {
@@ -8,6 +11,30 @@ export interface ReviewDetailModalProps extends ReviewDataType {
 }
 
 function ReviewDetailModal(props: ReviewDetailModalProps) {
+  const queryClient = useQueryClient();
+
+  const handlePressDeleteButton = async () => {
+    try {
+      const isSuccess = await ReviewService.deleteReview(props.reviewId);
+      if (isSuccess) {
+        // eslint-disable-next-line no-alert -- required
+        alert('리뷰가 삭제되었습니다.');
+        await queryClient.invalidateQueries({
+          queryKey: ['review-list'],
+        });
+
+        props.onClose();
+      } else {
+        throw new Error('Fail With Business Logic Error');
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-alert -- required
+      alert('일시적으로 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      // eslint-disable-next-line no-console -- track
+      console.error(error);
+    }
+  };
+
   return (
     <div tw="flex flex-col gap-8 w-[80vw] max-w-[800px] max-h-[90vh] p-10 bg-white rounded-md overflow-y-auto">
       <div tw="flex flex-col gap-1">
@@ -84,6 +111,19 @@ function ReviewDetailModal(props: ReviewDetailModalProps) {
           <RowTitle>리뷰 최종 수정 일시</RowTitle>
           <RowContent>{dayjs(props.updatedAt).format('YYYY/MM/DD HH:mm:ss')}</RowContent>
         </Row>
+      </div>
+
+      <div tw="flex justify-end items-center">
+        <SolidButton
+          variant="primary"
+          size="sm"
+          tw="bg-red-600"
+          onPress={() => {
+            void handlePressDeleteButton();
+          }}
+        >
+          삭제
+        </SolidButton>
       </div>
     </div>
   );
