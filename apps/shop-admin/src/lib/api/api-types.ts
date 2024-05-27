@@ -552,6 +552,8 @@ export interface GetProductReviewResponse {
       userId: number;
       nickname: string;
     }[];
+    productId: number;
+    productName: string;
   }[];
 }
 

@@ -26,6 +26,8 @@ export interface ReviewDataType {
   updatedAt: string;
   deleted: boolean;
   replies: ReviewReplyDataType[];
+  productId: number;
+  productName: string;
 }
 
 export interface ReviewDataListType {
