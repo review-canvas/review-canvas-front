@@ -9,13 +9,13 @@ import CloseButton from '@/components/close-button';
 import type { UploadImagesState } from '@/components/review/image-uploder';
 import { ImageUploader } from '@/components/review/image-uploder';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { CreateReivewPathInfo } from '@/services/api-types/review';
+import type { CreateReivewPathInfo, CreateReviewItemRequest } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 
 type PageParams = {
-  productId: string;
+  productID: string;
 };
 
 export default function MyReviewsPage() {
@@ -41,15 +41,7 @@ export default function MyReviewsPage() {
 
   const createReviewMutation = useMutation({
     mutationFn: async () => {
-      await reviewService.create(
-        pathInfo,
-        {
-          content,
-          score,
-          memberId: '',
-        },
-        uploadImages.imageFiles,
-      );
+      await reviewService.create(pathInfo, ReviewItemRequest, uploadImages.imageFiles);
     },
     onSuccess: () => {
       refresh();
@@ -63,7 +55,13 @@ export default function MyReviewsPage() {
 
   const pathInfo: CreateReivewPathInfo = {
     mallId: shop.id,
-    productId: params?.productId,
+    productId: params?.productID,
+  };
+
+  const ReviewItemRequest: CreateReviewItemRequest = {
+    content,
+    score,
+    memberId: shop.userID,
   };
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);

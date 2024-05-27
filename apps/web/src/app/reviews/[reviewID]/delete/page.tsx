@@ -40,14 +40,14 @@ export default function ReviewDeletePage() {
     },
   });
 
+  if (!shop.connected) return <div>connecting...</div>;
+  if (!reviewDetailQuery.data) return <div>loading...</div>;
+
   const pathInfo: ReivewPathInfo = {
     reviewId: params?.reviewID,
     mallId: shop.id,
-    memberId: reviewDetailQuery.data?.data.userId,
+    memberId: shop.userID,
   };
-
-  if (!shop.connected) return <div>connecting...</div>;
-  if (!reviewDetailQuery.data) return <div>loading...</div>;
 
   const deleteReview = () => {
     deleteReviewMutation.mutate();

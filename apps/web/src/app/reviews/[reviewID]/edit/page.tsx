@@ -41,15 +41,17 @@ export default function ReviewEditPage() {
     },
   });
 
-  const pathInfo: ReivewPathInfo = {
-    reviewId: params?.reviewID,
-    mallId: shop.id,
-    memberId: reviewDetailQuery.data?.data.userId,
-  };
+
 
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
 
+  const pathInfo: ReivewPathInfo = {
+    reviewId: params?.reviewID,
+    mallId: shop.id,
+    memberId: shop.userID, //reviewDetailQuery.data?.data.userId,
+  };
+  
   const reviewDetail = reviewDetailQuery.data.data;
   if (reviewDetail.nickname !== shop.userID) notFound();
 

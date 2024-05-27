@@ -63,7 +63,7 @@ export interface RetrieveReviewItemResponse {
 }
 
 export interface CreateReviewItemRequest {
-  memberId: string;
+  memberId: string | undefined;
   content: string;
   score: number;
 }
