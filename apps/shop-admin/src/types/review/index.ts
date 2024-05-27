@@ -1,5 +1,9 @@
 export type ReviewSortingType = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 
+export type ReviewPeriodType = 'ALL' | 'TODAY' | 'ONE_MONTH' | 'THREE_MONTH' | 'SIX_MONTH' | 'CUSTOM';
+
+export type ReviewPageSizeType = 10 | 20 | 50 | 100;
+
 export interface ReviewReplyDataType {
   replyId: number;
   content: string;

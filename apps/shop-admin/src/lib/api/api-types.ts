@@ -522,6 +522,7 @@ export interface GetProductReviewRequest {
   size?: number;
   page?: number;
   sort?: string;
+  period?: string;
   reviewFilters?: string;
   score?: string;
   replyFilters?: string;

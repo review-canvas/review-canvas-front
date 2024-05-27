@@ -1,3 +1,11 @@
+export const REVIEW_PERIOD_OPTIONS_MAP = [
+  { value: 'ALL', label: '전체' },
+  { value: 'TODAY', label: '오늘' },
+  { value: 'ONE_MONTH', label: '최근 1개월' },
+  { value: 'THREE_MONTH', label: '최근 3개월' },
+  { value: 'SIX_MONTH', label: '최근 6개월' },
+];
+
 export const REVIEW_FILTER_OPTIONS_MAP = [
   { value: 'PHOTO', label: '포토 리뷰' },
   { value: 'TEXT', label: '텍스트 리뷰' },

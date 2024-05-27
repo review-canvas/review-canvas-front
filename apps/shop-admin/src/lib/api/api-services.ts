@@ -231,12 +231,13 @@ class ApiService {
   }
 
   public async getProductReviews(request: API.GetProductReviewRequest): Promise<API.GetProductReviewResponse> {
-    const { productId, size, page, sort, reviewFilters, score, replyFilters } = request;
+    const { productId, size, page, sort, period, reviewFilters, score, replyFilters } = request;
 
     const params = new URLSearchParams();
     params.set('size', String(size));
     params.set('page', String(page));
     params.set('sort', String(sort));
+    period && params.set('period', period);
     reviewFilters && params.set('reviewFilters', reviewFilters);
     score && params.set('score', score);
     replyFilters && params.set('replyFilters', replyFilters);
