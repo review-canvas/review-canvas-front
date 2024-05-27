@@ -1,10 +1,11 @@
-import { getFilteredRowModel, type TableOptions } from '@tanstack/react-table';
+import type { Cell, TableOptions } from '@tanstack/react-table';
 import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  getFilteredRowModel,
 } from '@tanstack/react-table';
 import { useState } from 'react';
 
@@ -23,8 +24,9 @@ interface TableProps<T>
   activateSearchFilter?: boolean;
 }
 
-export interface TableCellProps {
+export interface TableCellProps<TData, TValue> {
   getValue: () => any;
+  cell: Cell<TData, TValue>;
 }
 
 export default function Table<T>({ pageSize, activateSearchFilter = false, ...options }: TableProps<T>) {
