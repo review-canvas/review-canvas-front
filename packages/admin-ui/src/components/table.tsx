@@ -20,16 +20,23 @@ interface TableProps<T>
     | 'state'
     | 'onGlobalFilterChange'
   > {
+  pageIndex: number;
   pageSize: number;
+  onPageIndexChange: (page: number) => void;
   activateSearchFilter?: boolean;
 }
 
 export interface TableCellProps<TData, TValue> {
-  getValue: () => any;
   cell: Cell<TData, TValue>;
 }
 
-export default function Table<T>({ pageSize, activateSearchFilter = false, ...options }: TableProps<T>) {
+export default function Table<T>({
+  pageSize,
+  pageIndex,
+  onPageIndexChange,
+  activateSearchFilter = false,
+  ...options
+}: TableProps<T>) {
   const [globalFilter, setGlobalFilter] = useState('');
 
   const table = useReactTable({
@@ -38,14 +45,12 @@ export default function Table<T>({ pageSize, activateSearchFilter = false, ...op
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    initialState: {
-      pagination: {
-        pageIndex: 0,
-        pageSize,
-      },
-    },
     state: {
       globalFilter,
+      pagination: {
+        pageIndex,
+        pageSize,
+      },
     },
     onGlobalFilterChange: setGlobalFilter,
   });
@@ -122,7 +127,7 @@ export default function Table<T>({ pageSize, activateSearchFilter = false, ...op
           className="previous-page-button"
           disabled={!table.getCanPreviousPage()}
           onClick={() => {
-            table.previousPage();
+            onPageIndexChange(pageIndex - 1);
           }}
           type="button"
         >
@@ -133,7 +138,7 @@ export default function Table<T>({ pageSize, activateSearchFilter = false, ...op
             className={`page-number-button ${idx === currentPage ? 'text-main-primary' : 'text-gray-500'}`}
             key={idx}
             onClick={() => {
-              table.setPageIndex(idx);
+              onPageIndexChange(idx);
             }}
             type="button"
           >
@@ -144,7 +149,7 @@ export default function Table<T>({ pageSize, activateSearchFilter = false, ...op
           className="next-page-button"
           disabled={!table.getCanNextPage()}
           onClick={() => {
-            table.nextPage();
+            onPageIndexChange(pageIndex + 1);
           }}
           type="button"
         >
