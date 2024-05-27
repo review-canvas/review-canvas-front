@@ -23,6 +23,10 @@ interface TableProps<T>
   activateSearchFilter?: boolean;
 }
 
+export interface TableCellProps {
+  getValue: () => any;
+}
+
 export default function Table<T>({ pageSize, activateSearchFilter = false, ...options }: TableProps<T>) {
   const [globalFilter, setGlobalFilter] = useState('');
 
