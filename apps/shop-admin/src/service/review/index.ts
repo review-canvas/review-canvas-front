@@ -52,7 +52,20 @@ async function getShopProductList(param: GetShopProductListParam): Promise<Produ
   }
 }
 
+async function deleteReview(reviewId: number): Promise<boolean> {
+  try {
+    const response = await apiService.deleteShopAdminReview({
+      reviewId,
+    });
+
+    return response.success;
+  } catch (error) {
+    throw new Error('리뷰 삭제에 실패했습니다.', error as ErrorOptions);
+  }
+}
+
 export const ReviewService = {
   getProductReviewList,
   getShopProductList,
+  deleteReview,
 };
