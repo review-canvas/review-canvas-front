@@ -110,19 +110,21 @@ export default function ReviewItem(props: ReviewItemProps) {
             </button>
           </div>
         ) : null}
-        {props.replies.length === 0
-          ? props.replies.map((it) => (
-              <Reply
-                content={it.content}
-                createAt={it.createAt}
-                deleted={it.deleted}
-                key={it.replyId}
-                nickname={it.nickname}
-                replyId={it.replyId}
-                updatedAt={it.updatedAt}
-                userId={it.userId}
-              />
-            ))
+        {props.replies.length !== 0
+          ? props.replies.map((it) =>
+              !it.deleted ? (
+                <Reply
+                  content={it.content}
+                  createAt={it.createAt}
+                  deleted={it.deleted}
+                  key={it.replyId}
+                  nickname={it.nickname}
+                  replyId={it.replyId}
+                  updatedAt={it.updatedAt}
+                  userId={it.userId}
+                />
+              ) : null,
+            )
           : null}
       </div>
     </li>

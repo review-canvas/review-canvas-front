@@ -9,6 +9,7 @@ import Reply from '@/components/review/reply';
 import { Star } from '@/components/review/star';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
+import type { CreateReplyItemRequest } from '@/services/api-types/review';
 import { useDesignPropertyService } from '@/services/design-property';
 import { useReviewService } from '@/services/review.tsx';
 import useShop, { useConnectedShop } from '@/state/shop.ts';
@@ -19,7 +20,7 @@ interface ConnectedPageProps {
 }
 
 export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
-  const { id, userID } = useConnectedShop();
+  const { id } = useConnectedShop();
   const [content, setContent] = useState('');
   const shop = useShop();
 
@@ -47,14 +48,10 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
 
   const createReplyMutation = useMutation({
     mutationFn: async () => {
-      await reviewService.createReply(reviewID, {
-        mallId: id,
-        memberId: '',// TODO memberID 받아오는 방법 찾아야함
-        content,
-      });
+      await reviewService.createReply(reviewID, ReplyItemRequest);
     },
     onSuccess: () => {
-      close();
+      void reviewDetailQuery.refetch();
     },
     onError: () => {
       throw new Error('생성에 실패했습니다');
@@ -67,6 +64,13 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
 
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
+
+  const ReplyItemRequest: CreateReplyItemRequest = {
+    mallId: id,
+    memberId: shop.userID,
+    content,
+  };
+
   const submit = () => {
     createReplyMutation.mutate();
   };
@@ -91,7 +95,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
         </div>
         <p>{reviewDetail.content}</p>
       </div>
-      {userID ? ( // TODO memberID로 조건문해야함
+      {shop.userID ? (
         <div className="relative flex flex-col gap-2 px-3 mt-8">
           <div>댓글</div>
           <textarea
@@ -112,9 +116,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
                 작성
               </button>
             </div>
-          ) : (
-            <p> </p>
-          )}
+          ) : null}
         </div>
       ) : null}
 
@@ -126,28 +128,21 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
         >
           <Suspense fallback={<div>loading...</div>}>
             <div className="mt-8">
-              {/* <Reply
-                content={'it.content'}
-                createAt={'it.createAt'}
-                deleted={false}
-                nickname={'it.nickname'}
-                replyId={2}
-                updatedAt={'it.updatedAt'}
-                userId={2}
-              /> */}
-              {reviewDetail.replies.length === 0
-                ? reviewDetail.replies.map((it) => (
-                    <Reply
-                      content={it.content}
-                      createAt={it.createAt}
-                      deleted={it.deleted}
-                      key={it.replyId}
-                      nickname={it.nickname}
-                      replyId={it.replyId}
-                      updatedAt={it.updatedAt}
-                      userId={it.userId}
-                    />
-                  ))
+              {reviewDetail.replies.length !== 0
+                ? reviewDetail.replies.map((it) =>
+                    !it.deleted ? (
+                      <Reply
+                        content={it.content}
+                        createAt={it.createAt}
+                        deleted={it.deleted}
+                        key={it.replyId}
+                        nickname={it.nickname}
+                        replyId={it.replyId}
+                        updatedAt={it.updatedAt}
+                        userId={it.userId}
+                      />
+                    ) : null,
+                  )
                 : null}
             </div>
           </Suspense>
