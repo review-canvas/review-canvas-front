@@ -74,8 +74,8 @@ export interface UpdateReviewItemRequest {
 }
 
 export interface CreateReplyItemRequest {
-  mallId: string;
-  memberId: string;
+  mallId: string | undefined;
+  memberId: string | undefined;
   content: string;
 }
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data

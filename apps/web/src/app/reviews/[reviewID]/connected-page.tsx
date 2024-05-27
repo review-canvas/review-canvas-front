@@ -52,6 +52,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
     },
     onSuccess: () => {
       void reviewDetailQuery.refetch();
+      refresh;
     },
     onError: () => {
       throw new Error('생성에 실패했습니다');
@@ -76,6 +77,9 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
   };
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);
+  };
+  const refresh = () => {
+    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
   };
 
   const reviewDetail = reviewDetailQuery.data.data;
