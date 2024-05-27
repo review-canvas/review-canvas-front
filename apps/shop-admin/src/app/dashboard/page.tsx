@@ -300,6 +300,14 @@ function DashboardPage() {
                 <SolidButton
                   variant="gray"
                   size="sm"
+                  onPress={() => {
+                    setReviewPeriod('ALL');
+                    setReviewFilters(defaultReviewFilters);
+                    setScores(defaultScores);
+                    setReplyFilters(defaultReviewReplyFilters);
+
+                    void refetch();
+                  }}
                 >
                   초기화
                 </SolidButton>
