@@ -19,7 +19,7 @@ export default function ReviewEditPage() {
   const params = useParams<PageParams>();
   const shop = useShop();
 
-  useReviewCanvasReady('edit_review');
+  useReviewCanvasReady('edit');
   const reviewService = useReviewService();
 
   const reviewDetailQuery = useQuery({
@@ -70,7 +70,9 @@ export default function ReviewEditPage() {
     <div className="relative p-4 flex flex-col gap-8">
       <CloseButton close={close} />
       <Textform
-        reviewDetail={reviewDetail}
+        content={reviewDetail.content}
+        nickname={reviewDetail.nickname}
+        score={reviewDetail.score}
         submit={submit}
       />
     </div>

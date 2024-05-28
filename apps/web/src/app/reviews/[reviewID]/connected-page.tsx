@@ -139,22 +139,14 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
         >
           <Suspense fallback={<div>loading...</div>}>
             <div className="mt-8">
-              {reviewDetail.replies.length !== 0
-                ? reviewDetail.replies.map((it) =>
-                    !it.deleted ? (
-                      <Reply
-                        content={it.content}
-                        createAt={it.createAt}
-                        deleted={it.deleted}
-                        key={it.replyId}
-                        nickname={it.nickname}
-                        replyId={it.replyId}
-                        updatedAt={it.updatedAt}
-                        userId={it.userId}
-                      />
-                    ) : null,
-                  )
-                : null}
+              {reviewDetail.replies.map((it) =>
+                !it.deleted ? (
+                  <Reply
+                    key={it.replyId}
+                    reply={it}
+                  />
+                ) : null,
+              )}
             </div>
           </Suspense>
         </ReviewItemStyleProvider>

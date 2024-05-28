@@ -34,7 +34,7 @@ export default function ReviewItem(props: ReviewItemProps) {
 
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'edit_review',
+      type: 'edit',
       url: `/reviews/${props.id}/edit`,
     });
   };
@@ -73,7 +73,7 @@ export default function ReviewItem(props: ReviewItemProps) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */}
       <div
         aria-haspopup
-        className= "relative"
+        className="relative"
         onClick={showReviewDetail}
         onKeyUp={(evt) => {
           if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
@@ -113,22 +113,14 @@ export default function ReviewItem(props: ReviewItemProps) {
             삭제
           </button>
         </div>
-        {props.replies.length !== 0
-          ? props.replies.map((it) =>
-              !it.deleted ? (
-                <Reply
-                  content={it.content}
-                  createAt={it.createAt}
-                  deleted={it.deleted}
-                  key={it.replyId}
-                  nickname={it.nickname}
-                  replyId={it.replyId}
-                  updatedAt={it.updatedAt}
-                  userId={it.userId}
-                />
-              ) : null,
-            )
-          : null}
+        {props.replies.map((it) =>
+          !it.deleted ? (
+            <Reply
+              key={it.replyId}
+              reply={it}
+            />
+          ) : null,
+        )}
       </div>
     </li>
   );
