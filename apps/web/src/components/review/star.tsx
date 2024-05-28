@@ -18,7 +18,7 @@ export function Star({ size, star, setStar}: StarProps) {
       >
         <svg
           fill="none"
-          height="{starSize}"
+          height={starSize}
           viewBox="0 0 16 16"
           width={starSize}
           xmlns="http://www.w3.org/2000/svg"
