@@ -304,5 +304,279 @@ export interface PatchReviewTitleInitializeRequest {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PatchReviewTitleInitializeResponse {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty request
+export interface GetReviewDesignViewRequest {}
+
+export interface GetReviewDesignViewResponse {
+  detailViewType: string;
+  pagingType: string;
+  filterType: string;
+  filterActiveTextColor: string;
+  reviewBackgroundColor: string;
+  margin: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  detailInfoTextColor: string;
+  font: {
+    name: string;
+    size: string;
+    bold: string;
+    color: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  round: {
+    topLeft: string;
+    topRight: string;
+    bottomLeft: string;
+    bottomRight: string;
+  };
+  borderColor: string;
+  shadow: string;
+  replyBackgroundColor: string;
+  reviewPreviewTextMaxSize: number;
+  seeMoreButtonType: string;
+  reviewLike: {
+    buttonType: string;
+    iconColor: string;
+    textColor: string;
+    buttonBorderColor: string;
+    buttonRound: {
+      topLeft: string;
+      topRight: string;
+      bottomLeft: string;
+      bottomRight: string;
+    };
+  };
+}
+
+export interface PatchReviewDesignViewRequest {
+  detailViewType: string;
+  pagingType: string;
+  filterType: string;
+  filterActiveTextColor: string;
+  reviewBackgroundColor: string;
+  margin: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  detailInfoTextColor: string;
+  font: {
+    name: string;
+    size: string;
+    bold: string;
+    color: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  round: {
+    topLeft: string;
+    topRight: string;
+    bottomLeft: string;
+    bottomRight: string;
+  };
+  borderColor: string;
+  shadow: string;
+  replyBackgroundColor: string;
+  reviewPreviewTextMaxSize: number;
+  seeMoreButtonType: string;
+  reviewLike: {
+    buttonType: string;
+    iconColor: string;
+    textColor: string;
+    buttonBorderColor: string;
+    buttonRound: {
+      topLeft: string;
+      topRight: string;
+      bottomLeft: string;
+      bottomRight: string;
+    };
+  };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignViewResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignViewInitializeRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignViewInitializeResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- empty request
+export interface GetReviewDesignWriteRequest {}
+
+export interface GetReviewDesignWriteResponse {
+  pageType: string;
+  widthSizePc: string;
+  widthSizeMobile: string;
+  backgroundColor: string;
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  borderColor: string;
+  starRateBackgroundColor: string;
+  starRateColor: string;
+  detailEvaluationCheckBoxBackgroundColor: string;
+  detailEvaluationCheckBoxColor: string;
+  detailEvaluationCategory: string;
+  cancelButtonBackgroundColor: string;
+  cancelButtonBorderColor: string;
+  cancelButtonTextColor: string;
+  completedButtonBackgroundColor: string;
+  completedButtonTextColor: string;
+}
+
+export interface PatchReviewDesignWriteRequest {
+  pageType: string;
+  widthSizePc: string;
+  widthSizeMobile: string;
+  backgroundColor: string;
+  padding: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  border: {
+    left: string;
+    right: string;
+    top: string;
+    bottom: string;
+  };
+  borderColor: string;
+  starRateBackgroundColor: string;
+  starRateColor: string;
+  detailEvaluationCheckBoxBackgroundColor: string;
+  detailEvaluationCheckBoxColor: string;
+  detailEvaluationCategory: string;
+  cancelButtonBackgroundColor: string;
+  cancelButtonBorderColor: string;
+  cancelButtonTextColor: string;
+  completedButtonBackgroundColor: string;
+  completedButtonTextColor: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignWriteResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignWriteInitializeRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchReviewDesignWriteInitializeResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface GetFontInfoRequest {}
+
+export interface GetFontInfoResponse {
+  fontNames: string[];
+  fontBolds: string[];
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminSignUpResponse {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminQuitRequest {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminQuitResponse {}
+
+export interface GetProductReviewRequest {
+  productId: number;
+  size?: number;
+  page?: number;
+  sort?: string;
+  period?: string;
+  reviewFilters?: string;
+  score?: string;
+  replyFilters?: string;
+}
+
+export interface GetProductReviewResponse {
+  page: number;
+  size: number;
+  total: number;
+  content: {
+    reviewId: number;
+    content: string;
+    score: number;
+    userId: number;
+    shopAdminId: number;
+    nickname: string;
+    isMine: boolean;
+    createAt: string;
+    updatedAt: string;
+    deleted: boolean;
+    replies: {
+      replyId: number;
+      content: string;
+      createAt: string;
+      updatedAt: string;
+      deleted: boolean;
+      userId: number;
+      nickname: string;
+    }[];
+    productId: number;
+    productName: string;
+  }[];
+}
+
+export interface GetShopProductsRequest {
+  shopAdminId: number;
+  page?: number;
+  size?: number;
+}
+
+export interface GetShopProductsResponse {
+  page: number;
+  size: number;
+  total: number;
+  content: {
+    productId: number;
+    productNo: number;
+    productName: string;
+  }[];
+}
+
+export interface DeleteShopAdminReviewRequest {
+  reviewId: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminReviewResponse {}

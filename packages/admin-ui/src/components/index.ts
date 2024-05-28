@@ -5,3 +5,4 @@ export { Button, OutlineButton, SolidButton, ToggleButton } from './button';
 export { default as Select } from './select';
 export { default as TextField } from './text-field';
 export { default as ColorPicker } from './color-picker';
+export { default as Table } from './table';

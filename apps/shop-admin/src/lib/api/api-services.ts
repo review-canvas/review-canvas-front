@@ -74,6 +74,13 @@ class ApiService {
     return response;
   }
 
+  public async deleteShopAdminQuit(): Promise<CommonResponse<API.DeleteShopAdminQuitResponse>> {
+    const response =
+      await this.httpClient.delete<CommonResponse<API.DeleteShopAdminQuitResponse>>('/api/v1/shop-admin/quit');
+
+    return response;
+  }
+
   public async getReviewLayout(): Promise<API.GetReviewLayoutResponse> {
     const response = await this.httpClient.get<API.GetReviewLayoutResponse>('/api/v1/shop-admin/review-layout');
     return response.data;
@@ -163,6 +170,108 @@ class ApiService {
     const response = await this.httpClient.patch<CommonResponse<API.PatchReviewTitleInitializeResponse>>(
       '/api/v1/shop-admin/review-title/reset',
     );
+    return response;
+  }
+
+  public async getReviewDesignView(): Promise<API.GetReviewDesignViewRequest> {
+    const response = await this.httpClient.get<API.GetReviewDesignViewResponse>(
+      '/api/v1/shop-admin/review-design-view',
+    );
+    return response.data;
+  }
+
+  public async patchReviewDesignView(
+    request: API.PatchReviewDesignViewRequest,
+  ): Promise<CommonResponse<API.PatchReviewDesignViewResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignViewResponse>>(
+      '/api/v1/shop-admin/review-design-view',
+      request,
+    );
+
+    return response;
+  }
+
+  public async patchReviewDesignViewInitialize(): Promise<CommonResponse<API.PatchReviewDesignViewInitializeResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignViewInitializeResponse>>(
+      '/api/v1/shop-admin/review-design-view/reset',
+    );
+    return response;
+  }
+
+  public async getReviewDesignWrite(): Promise<API.GetReviewDesignWriteRequest> {
+    const response = await this.httpClient.get<API.GetReviewDesignWriteResponse>(
+      '/api/v1/shop-admin/review-design-write',
+    );
+    return response.data;
+  }
+
+  public async patchReviewDesignWrite(
+    request: API.PatchReviewDesignWriteRequest,
+  ): Promise<CommonResponse<API.PatchReviewDesignWriteResponse>> {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignWriteResponse>>(
+      '/api/v1/shop-admin/review-design-write',
+      request,
+    );
+
+    return response;
+  }
+
+  public async patchReviewDesignWriteInitialize(): Promise<
+    CommonResponse<API.PatchReviewDesignWriteInitializeResponse>
+  > {
+    const response = await this.httpClient.patch<CommonResponse<API.PatchReviewDesignWriteInitializeResponse>>(
+      '/api/v1/shop-admin/review-design-write/reset',
+    );
+    return response;
+  }
+
+  public async getFontInfo(): Promise<API.GetFontInfoResponse> {
+    const response = await this.httpClient.get<API.GetFontInfoResponse>('/api/v1/font-info');
+    return response.data;
+  }
+
+  public async getProductReviews(request: API.GetProductReviewRequest): Promise<API.GetProductReviewResponse> {
+    const { productId, size, page, sort, period, reviewFilters, score, replyFilters } = request;
+
+    const params = new URLSearchParams();
+    params.set('size', String(size));
+    params.set('page', String(page));
+    params.set('sort', String(sort));
+    period && params.set('period', period);
+    reviewFilters && params.set('reviewFilters', reviewFilters);
+    score && params.set('score', score);
+    replyFilters && params.set('replyFilters', replyFilters);
+
+    const response = await this.httpClient.get<API.GetProductReviewResponse>(
+      `/api/v1/products/${productId}/reviews`,
+      params,
+    );
+
+    return response.data;
+  }
+
+  public async getShopProducts(request: API.GetShopProductsRequest): Promise<API.GetShopProductsResponse> {
+    const { shopAdminId, page, size } = request;
+
+    const params = new URLSearchParams();
+    params.set('size', String(size));
+    params.set('page', String(page));
+
+    const response = await this.httpClient.get<API.GetShopProductsResponse>(
+      `/api/v1/shops/${shopAdminId}/products`,
+      params,
+    );
+
+    return response.data;
+  }
+
+  public async deleteShopAdminReview(
+    request: API.DeleteShopAdminReviewRequest,
+  ): Promise<CommonResponse<API.DeleteShopAdminReviewResponse>> {
+    const response = await this.httpClient.delete<CommonResponse<API.DeleteShopAdminReviewResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}`,
+    );
+
     return response;
   }
 }
