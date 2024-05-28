@@ -68,11 +68,15 @@ class ReviewService {
     return response.data;
   }
 
+  async getReply(Id: string) {
+    const response = await API.post<TYPE.RetrieveReplyItemResponse>(`/api/v1/reviews/${Id}`);
+    return response.data;
+  }
   async createReply(Id: string, request: TYPE.CreateReplyItemRequest) {
     await API.post<TYPE.CommonResponse>(`/api/v1/reviews/${Id}/reply`, request);
   }
   async updateReply(Id: string, request: TYPE.CreateReplyItemRequest) {
-    await API.post<TYPE.CommonResponse>(`/api/v1/replies/${Id}`, request);
+    await API.patch<TYPE.CommonResponse>(`/api/v1/replies/${Id}`, request);
   }
   async deleteReply(id: TYPE.ReplyPathInfo) {
     await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/replies/${id.replyId}`);

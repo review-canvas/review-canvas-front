@@ -39,10 +39,12 @@ export interface ReplyPathInfo {
 export interface ReplyItem {
   replyId: number;
   content: string;
+  isMine: boolean;
   createAt: string;
   updatedAt: string;
   deleted: boolean;
   userId: number;
+  mallId: string;
   nickname: string;
 }
 export interface RetrieveReplyListResponse {
@@ -64,6 +66,11 @@ export interface RetrieveReviewListRequest {
 export interface RetrieveReviewItemResponse {
   success: boolean;
   data: ReviewItem;
+}
+
+export interface RetrieveReplyItemResponse {
+  success: boolean;
+  data: ReplyItem;
 }
 
 export interface CreateReviewItemRequest {
