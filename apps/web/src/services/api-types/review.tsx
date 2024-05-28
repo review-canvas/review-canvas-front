@@ -30,9 +30,10 @@ export interface RetrieveReviewListResponse {
     content: ReviewItem[];
   };
 }
-export interface RetrieveReplyListResponse {
-  success: boolean;
-  data: ReplyItem[];
+export interface ReplyPathInfo {
+  mallId: number | undefined;
+  memberId: string | undefined;
+  replyId: string | undefined;
 }
 
 export interface ReplyItem {
@@ -44,7 +45,10 @@ export interface ReplyItem {
   userId: number;
   nickname: string;
 }
-
+export interface RetrieveReplyListResponse {
+  success: boolean;
+  data: ReplyItem[];
+}
 export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
 
