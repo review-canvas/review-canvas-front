@@ -38,7 +38,6 @@ export default function ReviewItem(props: ReviewItemProps) {
             url: `/reviews/${props.id}/edit`,
         });
     };
-
     const deleteReview = () => {
         message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
             type: 'delete',
@@ -61,7 +60,7 @@ export default function ReviewItem(props: ReviewItemProps) {
                 generatePaddingCSS(style.padding),
                 generateBorderCSS(style.border, style.borderColor),
                 generateBorderRadiusCSS(style.borderRadius),
-                generateFontCSS(style.font),
+                generateFontCSS(style.font), 
                 generateShadowCSS(style.shadow, style.shadowColor),
                 css`
                     border-color: ${style.borderColor};

@@ -12,6 +12,7 @@ export interface ReviewItemStyle {
   shadow: Shadow;
   shadowColor: string;
   backgroundColor: string;
+  replyBackgroundColor: string;
   reviewLike: ReviewLikeButtonProps;
 }
 
