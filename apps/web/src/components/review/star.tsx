@@ -6,7 +6,7 @@ interface StarProps {
 
 export function Star({ size, star, setStar}: StarProps) {
   const StarArray = [1, 2, 3, 4, 5];
-  const starSize = size==="big"?"50":"24";
+  const starSize = size==="big"?"50":"16";
 
   return StarArray.map((it) => (
     <div key={it}>
