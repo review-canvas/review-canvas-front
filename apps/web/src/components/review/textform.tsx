@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 import { Star } from '@/components/review/star.tsx';
-import type { ReviewItem } from '@/services/api-types/review.tsx';
 
 interface TextformProps {
-  reviewDetail: ReviewItem | null;
+  content: string;
+  score?: number;
+  nickname: string;
   submit: (content: string, star: number) => void;
 }
 
-export function Textform({ reviewDetail, submit }: TextformProps) {
-  const [content, setContent] = useState('');
+export function Textform({ content, score, nickname, submit }: TextformProps) {
+  const [text, setText] = useState(content);
   const [star, setStar] = useState(0);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export function Textform({ reviewDetail, submit }: TextformProps) {
   }, [content]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(event.target.value);
+    setText(event.target.value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,10 +30,10 @@ export function Textform({ reviewDetail, submit }: TextformProps) {
   };
 
   useEffect(() => {
-    if (reviewDetail?.nickname) {
-      setStar(reviewDetail.score);
-      setContent(reviewDetail.content);
+    if (score) {
+      setStar(score);
     }
+    setText(content);
   }, []);
 
   return (
@@ -46,14 +47,12 @@ export function Textform({ reviewDetail, submit }: TextformProps) {
           star={star}
         />
       </div>
-      {reviewDetail?.nickname ? (
-        <div>
-          작성자 <span>{reviewDetail.nickname}</span>
-        </div>
-      ) : null}
+      <div hidden={!nickname}>
+        작성자 <span>{nickname}</span>
+      </div>
       <textarea
         className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
-        defaultValue={content}
+        defaultValue={text}
         onChange={handleChange}
         rows={3}
       />
