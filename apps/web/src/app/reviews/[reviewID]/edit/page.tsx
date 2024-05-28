@@ -35,13 +35,12 @@ export default function ReviewEditPage() {
     },
     onSuccess: () => {
       refresh();
+      close();
     },
     onError: () => {
       throw new Error('수정에 실패했습니다');
     },
   });
-
-
 
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
@@ -49,9 +48,9 @@ export default function ReviewEditPage() {
   const pathInfo: ReivewPathInfo = {
     reviewId: params?.reviewID,
     mallId: shop.id,
-    memberId: shop.userID, //reviewDetailQuery.data?.data.userId,
+    memberId: shop.userID,
   };
-  
+
   const reviewDetail = reviewDetailQuery.data.data;
   if (reviewDetail.nickname !== shop.userID) notFound();
 

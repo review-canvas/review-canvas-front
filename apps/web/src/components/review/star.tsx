@@ -1,10 +1,12 @@
 interface StarProps {
+  size?: "big" | undefined;
   star: number;
   setStar: (star: number) => void;
 }
 
-export function Star({ star, setStar }: StarProps) {
+export function Star({ size, star, setStar}: StarProps) {
   const StarArray = [1, 2, 3, 4, 5];
+  const starSize = size==="big"?"50":"16";
 
   return StarArray.map((it) => (
     <div key={it}>
@@ -16,9 +18,9 @@ export function Star({ star, setStar }: StarProps) {
       >
         <svg
           fill="none"
-          height="16"
+          height="{starSize}"
           viewBox="0 0 16 16"
-          width="16"
+          width={starSize}
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

@@ -73,6 +73,7 @@ export default function ReviewItem(props: ReviewItemProps) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */}
       <div
         aria-haspopup
+        className= "relative"
         onClick={showReviewDetail}
         onKeyUp={(evt) => {
           if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
@@ -88,28 +89,30 @@ export default function ReviewItem(props: ReviewItemProps) {
           작성자 <span>{props.reviewer}</span>
         </div>
         <p className="text-left">{props.content}</p>
-        {userID === props.reviewerID ? (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions -- This is intentional
-          <div
-            className="flex gap-2"
-            onClick={(evt) => {
-              evt.stopPropagation();
-            }}
+        {/*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
+        This is intentional*/}
+        <div
+          className="absolute top-1 right-1 z-5"
+          hidden={userID !== props.reviewerID}
+          onClick={(evt) => {
+            evt.stopPropagation();
+          }}
+        >
+          <button
+            className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
+            onClick={edit}
+            type="button"
           >
-            <button
-              onClick={edit}
-              type="button"
-            >
-              수정
-            </button>
-            <button
-              onClick={deleteReview}
-              type="button"
-            >
-              삭제
-            </button>
-          </div>
-        ) : null}
+            수정
+          </button>
+          <button
+            className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
+            onClick={deleteReview}
+            type="button"
+          >
+            삭제
+          </button>
+        </div>
         {props.replies.length !== 0
           ? props.replies.map((it) =>
               !it.deleted ? (
