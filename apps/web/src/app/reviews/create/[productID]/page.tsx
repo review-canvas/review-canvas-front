@@ -105,7 +105,7 @@ export default function MyReviewsPage() {
           className="border-2 overflow-hidden resize-none"
           maxLength={2000}
           onChange={handleChange}
-          placeholder="리뷰를 작성해주세요. (최소 10자 이상)"
+          placeholder=" 리뷰를 작성해주세요. (최소 10자 이상)"
           ref={textareaRef}
           rows={6}
           value={content}
@@ -133,11 +133,15 @@ export default function MyReviewsPage() {
           취소
         </button>
         <button
-          className="border-2 border-indigo-500/60 text-white bg-blue-500 m-2"
+          className="text-white bg-blue-500 m-2"
           onClick={submit}
           type="button"
         >
-          <div className="bg-blue-500 p-2">등록하기</div>
+          {content.length <= 10 ? ( 
+            <div className="border-2 border-gray-400/85 bg-gray-400 p-2">등록하기</div>
+          ) : (
+            <div className="border-2 border-indigo-500/60 bg-blue-500 p-2">등록하기</div>
+          )}
         </button>
       </div>
     </main>
