@@ -1,3 +1,6 @@
+import { useState } from 'react';
+
+import { useMutation } from '@tanstack/react-query';
 import { css } from 'twin.macro';
 
 import {
@@ -11,22 +14,64 @@ import {
 
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop';
-import type { ReplyItem } from '@/services/api-types/review';
+import type { CreateReplyItemRequest, ReplyItem } from '@/services/api-types/review';
+import { useReviewService } from '@/services/review';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 interface ReplyItemProps {
   reply: ReplyItem;
+  isModal?: boolean;
+  memberId?: string;
 }
 
 export default function Reply(props: ReplyItemProps) {
+  const [editText, setEditText] = useState(false);
+  const [content, setContent] = useState(props.reply.content);
   const style = useReviewItemStyle();
   const message = useMessageToShop();
+  const reviewService = useReviewService();
 
+  const updateReplyMutation = useMutation({
+    mutationFn: async () => {
+      await reviewService.updateReply(props.reply.replyId, request);
+    },
+    onSuccess: () => {
+      close();
+    },
+    onError: () => {
+      throw new Error('수정에 실패했습니다');
+    },
+  });
+
+  const request: CreateReplyItemRequest = {
+    content,
+    mallId: props.reply.mallId,
+    memberId: props.memberId,
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(event.target.value);
+  };
+  const handleKeyDown = (e: { key: string; shiftKey: any; preventDefault: () => void }) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (content.length !== 0) submit();
+    }
+  };
+  const submit = () => {
+    updateReplyMutation.mutate();
+    setEditText(false);
+  };
+  
   const edit = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'edit',
-      url: `/replies/${props.reply.replyId}/edit`,
-    });
+    if (props.isModal) {
+      setEditText(true);
+    } else {
+      message(MESSAGE_TYPES.OPEN_MODAL, {
+        type: 'edit',
+        url: `/replies/${props.reply.replyId}/edit`,
+      });
+    }
   };
 
   const deleteReply = () => {
@@ -35,7 +80,6 @@ export default function Reply(props: ReplyItemProps) {
       url: `/replies/${props.reply.replyId}/delete`,
     });
   };
-
   return (
     <ul>
       <li
@@ -55,34 +99,70 @@ export default function Reply(props: ReplyItemProps) {
         ]}
       >
         <div className="relative">
-          <div className="w-fit">
+          <div className="w-fit mb-1">
             작성자 <span>{props.reply.nickname}</span>
           </div>
-          <p className="text-left">{props.reply.content}</p>
-          {/*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-        This is intentional*/}
-          <div
-            className="absolute top-2 right-1 z-5"
-            hidden={props.reply.isMine}
-            onClick={(evt) => {
-              evt.stopPropagation();
-            }}
-          >
-            <button
-              className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
-              onClick={edit}
-              type="button"
-            >
-              수정
-            </button>
-            <button
-              className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
-              onClick={deleteReply}
-              type="button"
-            >
-              삭제
-            </button>
-          </div>
+          {editText ? (
+            <div className="flex text-left">
+              <textarea
+                className="border-2 border-gray-400/80 p-1 w-full resize-none"
+                maxLength={500}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                placeholder="댓글을 작성해주세요."
+                rows={3}
+                value={content}
+              />
+              <div
+                className="absolute right-0 top-0 border-gray-600/70 text-gray-700/90"
+                hidden={content.length === 0}
+              >
+                <button
+                  className="border-b-2 border-gray-600/70 mx-1"
+                  onClick={submit}
+                  type="button"
+                >
+                  수정
+                </button>
+                <button
+                  className="border-b-2 border-gray-600/70 mx-1"
+                  onClick={deleteReply}
+                  type="button"
+                >
+                  삭제
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p className="text-left">{content}</p>
+              {props.reply.isMine ? (
+                /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
+      This is intentional*/
+                <div
+                  className="absolute top-2 right-1 text-gray-700/90 mt-1 z-5"
+                  onClick={(evt) => {
+                    evt.stopPropagation();
+                  }}
+                >
+                  <button
+                    className="border-b-2 border-gray-600/70 mx-1"
+                    onClick={edit}
+                    type="button"
+                  >
+                    수정
+                  </button>
+                  <button
+                    className="border-b-2 border-gray-600/70 mx-1"
+                    onClick={deleteReply}
+                    type="button"
+                  >
+                    삭제
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
       </li>
     </ul>

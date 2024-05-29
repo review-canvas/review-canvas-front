@@ -75,7 +75,7 @@ class ReviewService {
   async createReply(Id: string, request: TYPE.CreateReplyItemRequest) {
     await API.post<TYPE.CommonResponse>(`/api/v1/reviews/${Id}/reply`, request);
   }
-  async updateReply(Id: string, request: TYPE.CreateReplyItemRequest) {
+  async updateReply(Id: number | string, request: TYPE.CreateReplyItemRequest) {
     await API.patch<TYPE.CommonResponse>(`/api/v1/replies/${Id}`, request);
   }
   async deleteReply(id: TYPE.PathInfo) {
