@@ -29,7 +29,12 @@ export default function Reply(props: ReplyItemProps) {
     });
   };
 
-  const deleteReply = () => {};
+  const deleteReply = () => {
+    message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
+      type: 'delete',
+      url: `/replies/${props.reply.replyId}/delete`,
+    });
+  };
 
   return (
     <ul>

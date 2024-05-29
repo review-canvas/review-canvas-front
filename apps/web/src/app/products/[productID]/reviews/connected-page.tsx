@@ -35,7 +35,7 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
 
   const openCreateReviewPage = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'craete_review',
+      type: 'craete',
       url: `/reviews/create/${productID}`,
     });
   };
