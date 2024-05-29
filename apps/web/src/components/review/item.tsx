@@ -16,7 +16,7 @@ import type { ReplyItem } from '@/services/api-types/review';
 import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
 
-import Reply from './reply';
+import Reply from '../reply/item';
 
 interface ReviewItemProps {
   id: number;

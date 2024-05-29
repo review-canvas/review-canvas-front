@@ -1,7 +1,7 @@
-export interface ReivewPathInfo {
+export interface PathInfo {
   mallId: string | undefined;
   memberId: number | string | undefined;
-  reviewId: string | undefined;
+  requestId: string | undefined;
 }
 export interface CreateReivewPathInfo {
   mallId: string | undefined;

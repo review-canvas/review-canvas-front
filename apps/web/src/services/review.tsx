@@ -41,7 +41,7 @@ class ReviewService {
     await API.post<TYPE.CommonResponse>(`/api/v1/shop/${Id.mallId}/products/${Id.productId}/review`, formData);
   }
 
-  async update(id: TYPE.ReivewPathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File[]) {
+  async update(id: TYPE.PathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File[]) {
     const formData = new FormData();
 
     if (reviewImages) {
@@ -54,13 +54,13 @@ class ReviewService {
     formData.append('updateReviewRequest', jsonBlob, 'updateReviewRequest.json');
 
     await API.patch<TYPE.CommonResponse>(
-      `/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.reviewId}`,
+      `/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.requestId}`,
       formData,
     );
   }
 
-  async delete(id: TYPE.ReivewPathInfo) {
-    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.reviewId}`);
+  async delete(id: TYPE.PathInfo) {
+    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.requestId}`);
   }
 
   async get(id: string) {

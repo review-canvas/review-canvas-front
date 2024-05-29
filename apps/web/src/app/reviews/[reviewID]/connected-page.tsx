@@ -5,7 +5,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import CloseButton from '@/components/close-button';
-import Reply from '@/components/review/reply';
+import Reply from '@/components/reply/item';
 import { Star } from '@/components/review/star';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';

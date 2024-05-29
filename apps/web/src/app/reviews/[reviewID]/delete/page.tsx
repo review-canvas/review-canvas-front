@@ -1,10 +1,10 @@
 'use client';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { ReivewPathInfo } from '@/services/api-types/review';
+import type { PathInfo } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
@@ -20,13 +20,6 @@ export default function ReviewDeletePage() {
   useReviewCanvasReady('delete');
   const reviewService = useReviewService();
 
-  const reviewDetailQuery = useQuery({
-    queryKey: ['review-detail', { id: params?.reviewID }],
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- controlled by react-query
-    queryFn: () => reviewService.get(params!.reviewID),
-    enabled: Boolean(shop.connected && params?.reviewID),
-  });
-
   const deleteReviewMutation = useMutation({
     mutationFn: async () => {
       await reviewService.delete(pathInfo);
@@ -41,10 +34,9 @@ export default function ReviewDeletePage() {
   });
 
   if (!shop.connected) return <div>connecting...</div>;
-  if (!reviewDetailQuery.data) return <div>loading...</div>;
 
-  const pathInfo: ReivewPathInfo = {
-    reviewId: params?.reviewID,
+  const pathInfo: PathInfo = {
+    requestId: params?.reviewID,
     mallId: shop.id,
     memberId: shop.userID,
   };

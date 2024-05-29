@@ -6,7 +6,7 @@ import { notFound, useParams } from 'next/navigation';
 import CloseButton from '@/components/close-button';
 import { Textform } from '@/components/review/textform.tsx';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { ReivewPathInfo, UpdateReviewItemRequest } from '@/services/api-types/review';
+import type { PathInfo, UpdateReviewItemRequest } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
@@ -45,8 +45,8 @@ export default function ReviewEditPage() {
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
 
-  const pathInfo: ReivewPathInfo = {
-    reviewId: params?.reviewID,
+  const pathInfo: PathInfo = {
+    requestId: params?.reviewID,
     mallId: shop.id,
     memberId: shop.userID,
   };
