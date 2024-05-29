@@ -1,33 +1,34 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import { notFound, useParams } from 'next/navigation';
 
-import CloseButton from '@/components/close-button';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
+import DisconnectedPage from '@/pages/disconnected-page.tsx';
+import { ReviewServiceProvider } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
-import { sendMessageToShop } from '@/utils/message.ts';
+
+import ConnectedPage from './connected-page.tsx';
 
 type PageParams = {
   userID: string;
 };
 
-export default function MyReviewsPage() {
-  useReviewCanvasReady('mypage');
-  const shop = useShop();
+export default function Page() {
   const params = useParams<PageParams>();
   if (!params?.userID) notFound();
+  const shop = useShop();
 
-  if (!shop.connected) return <div>connecting...</div>;
+  useReviewCanvasReady('mypage');
 
-  const close = () => {
-    sendMessageToShop(shop.domain, 'close-modal');
-  };
+  if (!shop.connected) return <DisconnectedPage />;
 
   return (
-    <main className="relative">
-      <CloseButton close={close}/>
-      <h1>My Reviews</h1>
-      <p>Hello, {params.userID}!</p>
-    </main>
+    <ReviewServiceProvider>
+      <Suspense fallback={<div>loading...</div>}>
+        <ConnectedPage userID={params.userID} />
+      </Suspense>
+    </ReviewServiceProvider>
   );
 }
