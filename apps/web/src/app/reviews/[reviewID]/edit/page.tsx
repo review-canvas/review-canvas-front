@@ -34,7 +34,6 @@ export default function ReviewEditPage() {
       await reviewService.update(pathInfo, { content, score });
     },
     onSuccess: () => {
-      refresh();
       close();
     },
     onError: () => {
@@ -56,10 +55,6 @@ export default function ReviewEditPage() {
 
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);
-  };
-
-  const refresh = () => {
-    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
   };
 
   const submit = (content: string, star: number) => {

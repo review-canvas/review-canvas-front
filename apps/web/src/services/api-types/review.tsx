@@ -30,12 +30,6 @@ export interface RetrieveReviewListResponse {
     content: ReviewItem[];
   };
 }
-export interface ReplyPathInfo {
-  mallId: number | undefined;
-  memberId: string | undefined;
-  replyId: string | undefined;
-}
-
 export interface ReplyItem {
   replyId: number;
   content: string;

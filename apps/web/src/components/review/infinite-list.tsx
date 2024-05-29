@@ -38,24 +38,36 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
     // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
   }, [reviewListQuery.status]);
 
-  const reviews = reviewListQuery.data.pages.flatMap((it) => 
-    it.data.content.filter(review => !review.deleted)
-  );
+  useEffect(() => {
+    const handleMessage = (event: { data: string }) => {
+      if (event.data === 'refresh') {
+        void reviewListQuery.refetch();
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
+  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content.filter((review) => !review.deleted));
 
   return (
     <>
       <ul>
-        {reviews.map((it) =>
-            <ReviewItem
-              content={it.content}
-              id={it.reviewId}
-              key={it.reviewId}
-              rate={it.score}
-              replies={it.replies}
-              reviewer={it.nickname}
-              reviewerID={it.nickname}
-            />
-        )}
+        {reviews.map((it) => (
+          <ReviewItem
+            content={it.content}
+            id={it.reviewId}
+            key={it.reviewId}
+            rate={it.score}
+            replies={it.replies}
+            reviewer={it.nickname}
+            reviewerID={it.nickname}
+          />
+        ))}
       </ul>
       <IntersectionBoundary loadMore={reviewListQuery.fetchNextPage} />
     </>

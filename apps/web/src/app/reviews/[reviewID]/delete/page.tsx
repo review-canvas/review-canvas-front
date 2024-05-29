@@ -25,7 +25,6 @@ export default function ReviewDeletePage() {
       await reviewService.delete(pathInfo);
     },
     onSuccess: () => {
-      refesh();
       close();
     },
     onError: () => {
@@ -47,10 +46,6 @@ export default function ReviewDeletePage() {
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);
   };
-  const refesh = () => {
-    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
-  };
-
   return (
     <main className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col items-center p-8">

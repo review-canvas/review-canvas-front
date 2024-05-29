@@ -13,7 +13,7 @@ import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import type { CreateReivewPathInfo, CreateReviewItemRequest } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review';
 import useShop from '@/state/shop.ts';
-import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
+import { sendMessageToShop } from '@/utils/message.ts';
 
 type PageParams = {
   productID: string;
@@ -39,14 +39,13 @@ export default function MyReviewsPage() {
     }
   }, [content]);
 
-  useReviewCanvasReady('craete_review');
+  useReviewCanvasReady('craete');
   const reviewService = useReviewService();
   const createReviewMutation = useMutation({
     mutationFn: async () => {
       await reviewService.create(pathInfo, ReviewItemRequest, uploadImages.imageFiles);
     },
     onSuccess: () => {
-      refresh();
       close();
     },
     onError: () => {
@@ -73,9 +72,6 @@ export default function MyReviewsPage() {
 
   const close = () => {
     sendMessageToShop(shop.domain, 'close-modal');
-  };
-  const refresh = () => {
-    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
   };
 
   const submit = () => {
@@ -137,7 +133,7 @@ export default function MyReviewsPage() {
           onClick={submit}
           type="button"
         >
-          {content.length <= 10 ? ( 
+          {content.length <= 10 ? (
             <div className="border-2 border-gray-400/85 bg-gray-400 p-2">등록하기</div>
           ) : (
             <div className="border-2 border-indigo-500/60 bg-blue-500 p-2">등록하기</div>

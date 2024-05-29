@@ -2,7 +2,7 @@ const reviewCanvasURL = 'https://web.review-canvas.com';
 let $reviewCanvasContainer = null;
 
 const initializeReviewCanvas = () => {
-  const productID = document.querySelector('meta[property="product:productId"]')?.content;;
+  const productID = document.querySelector('meta[property="product:productId"]')?.content;
   if (!$reviewCanvasContainer || !productID) return;
 
   const $iframe = document.createElement('iframe');
@@ -59,13 +59,12 @@ window.addEventListener('message', (evt) => {
   $element.dataset.connected = 'true';
   $element.contentWindow.postMessage({ type: 'connect', payload: { mallID, userID } }, evt.origin);
 });
-//
+
 window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'open-modal') return;
   // body scroll lock
   document.body.style.overflow = 'hidden';
   const $dim = initializeDiv();
-
   const $iframe = document.createElement('iframe');
   $iframe.dataset.reviewCanvas = evt.data.payload.type;
   $iframe.dataset.connected = 'false';
@@ -83,6 +82,7 @@ window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'open-selecting-modal') return;
   // body scroll lock
   document.body.style.overflow = 'hidden';
+
   const $dim = initializeDiv();
 
   const $iframe = document.createElement('iframe');
@@ -100,15 +100,14 @@ window.addEventListener('message', (evt) => {
 
 window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'close-modal') return;
-
+  $reviewCanvasContainer.firstChild.contentWindow.postMessage('refresh', '*');
+  document.querySelector('#rvcv-modal-dim')?.firstChild.contentWindow.postMessage('refresh', '*');
   // body scroll unlock
   document.body.style.overflow = '';
-  document.querySelector('#rvcv-modal-dim')?.remove();
-});
 
-window.addEventListener('message', (evt) => {
-  if (evt.origin !== reviewCanvasURL || evt.data.type !== 'refresh-page') return;
-  document.body.style.overflow = 'hidden';
-  $reviewCanvasContainer.removeChild($reviewCanvasContainer.firstChild);
-  initializeReviewCanvas();
+  const elements = document.querySelectorAll('#rvcv-modal-dim');
+  if (elements.length > 0) {
+    const lastElement = elements[elements.length - 1];
+    lastElement.parentNode.removeChild(lastElement);
+  }
 });

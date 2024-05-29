@@ -35,6 +35,20 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
     // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
   }, [reviewListQuery.status]);
 
+  useEffect(() => {
+    const handleMessage = (event: { data: string }) => {
+      if (event.data === 'refresh') {
+        void reviewListQuery.refetch();
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
   const reviews = reviewListQuery.data.data.content.filter(review => !review.deleted);
 
   return (

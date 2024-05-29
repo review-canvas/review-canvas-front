@@ -52,12 +52,24 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
     },
     onSuccess: () => {
       void reviewDetailQuery.refetch();
-      refresh;
     },
     onError: () => {
       throw new Error('생성에 실패했습니다');
     },
   });
+  useEffect(() => {
+    const handleMessager = (event: { data: string }) => {
+      if (event.data === 'refresh') {
+        void reviewDetailQuery.refetch();
+      }
+    };
+
+    window.addEventListener('message', handleMessager);
+
+    return () => {
+      window.removeEventListener('message', handleMessager);
+    };
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
@@ -82,9 +94,6 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
   };
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);
-  };
-  const refresh = () => {
-    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
   };
 
   const reviewDetail = reviewDetailQuery.data.data;
