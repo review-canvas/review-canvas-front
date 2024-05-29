@@ -89,11 +89,11 @@ export default function ReviewItem(props: ReviewItemProps) {
           작성자 <span>{props.reviewer}</span>
         </div>
         <p className="text-left">{props.content}</p>
-        {/*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-        This is intentional*/}
+        {userID === props.reviewerID ? (
+                /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
+      This is intentional*/
         <div
           className="absolute top-1 right-1 z-5"
-          hidden={userID !== props.reviewerID}
           onClick={(evt) => {
             evt.stopPropagation();
           }}
@@ -112,7 +112,7 @@ export default function ReviewItem(props: ReviewItemProps) {
           >
             삭제
           </button>
-        </div>
+        </div>):null}
         {props.replies.map((it) =>
           !it.deleted ? (
             <Reply

@@ -29,7 +29,7 @@ export default function ReplyEditPage() {
     enabled: Boolean(shop.connected && params?.replyID),
   });
 
-  const updateReviewMutation = useMutation({
+  const updateReplyMutation = useMutation({
     mutationFn: async ({ content, score }: UpdateReviewItemRequest) => {
       await reviewService.update(pathInfo, { content, score });
     },
@@ -58,7 +58,7 @@ export default function ReplyEditPage() {
   };
 
   const submit = (content: string, star: number) => {
-    updateReviewMutation.mutate({ content, score: star });
+    updateReplyMutation.mutate({ content, score: star });
   };
 
   return (

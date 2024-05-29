@@ -40,9 +40,11 @@ export function Textform({ content, score, nickname, submit }: TextformProps) {
           star={star}
         />
       </div>
-      <div hidden={!nickname}>
-        작성자 <span>{nickname}</span>
-      </div>
+      {nickname ? (
+        <div>
+          작성자 <span>{nickname}</span>
+        </div>
+      ) : null}
       <textarea
         className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
         defaultValue={text}
