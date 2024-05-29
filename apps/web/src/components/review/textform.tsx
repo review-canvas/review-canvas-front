@@ -11,7 +11,7 @@ interface TextformProps {
 
 export function Textform({ content, score, nickname, submit }: TextformProps) {
   const [text, setText] = useState(content);
-  const [star, setStar] = useState(0);
+  const [star, setStar] = useState(score || 5);
 
   useEffect(() => {
     const textarea = document.querySelector('textarea');
@@ -19,22 +19,15 @@ export function Textform({ content, score, nickname, submit }: TextformProps) {
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  }, [content]);
+  }, [text]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    submit(content, star);
+    submit(text, star);
   };
-
-  useEffect(() => {
-    if (score) {
-      setStar(score);
-    }
-    setText(content);
-  }, []);
 
   return (
     <form
