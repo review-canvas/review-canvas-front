@@ -16,16 +16,28 @@ interface PaginatedListProps {
 }
 
 export default function PaginatedList({ productID, filter, sort }: PaginatedListProps) {
-  const { id } = useConnectedShop();
+  const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
   const message = useMessageToShop();
 
   const [page, setPage] = useState(0);
 
+  const url = new URL(window.location.href);
+  const isMyPage = url.pathname === `/mypage/${productID}`;
   const reviewListQuery = useSuspenseQuery({
-    queryKey: ['review-list', { id, productID, filter, sort, page }],
+    queryKey: [isMyPage ? 'my-list' : 'review-list', { id, productID, filter, sort, page }],
     queryFn: () => {
-      return reviewService.list({ mallId: id, productNo: Number(productID), page, sort, filter });
+      if (isMyPage) {
+        return reviewService.myReiveiwList({
+          mallId: id,
+          memberId: userID,
+          productNo: Number(productID),
+          sort,
+          filter,
+          page,
+        });
+      }
+      return reviewService.list({ mallId: id, memberId: userID, productNo: Number(productID), page, sort, filter });
     },
   });
 
@@ -49,7 +61,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
     };
   }, []);
 
-  const reviews = reviewListQuery.data.data.content.filter(review => !review.deleted);
+  const reviews = reviewListQuery.data.data.content.filter((review) => !review.deleted);
 
   return (
     <>

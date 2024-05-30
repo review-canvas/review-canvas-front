@@ -20,7 +20,7 @@ interface ConnectedPageProps {
 }
 
 export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
-  const { id } = useConnectedShop();
+  const { id, userID } = useConnectedShop();
   const [content, setContent] = useState('');
   const shop = useShop();
 
@@ -42,7 +42,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
 
   const reviewDetailQuery = useQuery({
     queryKey: ['review-detail', { id: reviewID }],
-    queryFn: () => reviewService.get(reviewID),
+    queryFn: () => reviewService.get(reviewID, userID),
     enabled: Boolean(shop.connected && reviewID),
   });
 
@@ -126,9 +126,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
             value={content}
           />
           {content.length !== 0 ? (
-            <div
-              className="absolute right-2 bottom-2 mr-4 border-2 border-gray-300/80 rounded-md z-10 items-center bg-violet-100/40"
-            >
+            <div className="absolute right-2 bottom-2 mr-4 border-2 border-gray-300/80 rounded-md z-10 items-center bg-violet-100/40">
               <button
                 className="text-sm px-3 py-1"
                 onClick={submit}

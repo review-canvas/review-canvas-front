@@ -29,7 +29,7 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
   const openMyPage = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'mypage',
-      url: `/mypage/${userID}`,
+      url: `/mypage/${productID}`,
     });
   };
 

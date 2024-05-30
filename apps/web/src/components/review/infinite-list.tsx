@@ -17,14 +17,27 @@ interface InfiniteListProps {
 }
 
 export default function InfiniteList({ productID, filter, sort }: InfiniteListProps) {
-  const { id } = useConnectedShop();
+  const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
   const message = useMessageToShop();
 
+  const url = new URL(window.location.href);
+  const isMyPage = url.pathname === `/mypage/${productID}`;
+
   const reviewListQuery = useSuspenseInfiniteQuery({
-    queryKey: ['review-list', { id, productID, filter, sort }],
+    queryKey: [isMyPage ? 'my-list':'review-list', { id, productID, filter, sort }],
     queryFn: ({ pageParam }) => {
-      return reviewService.list({ mallId: id, productNo: Number(productID), sort, filter, page: pageParam });
+      if (isMyPage) {
+        return reviewService.myReiveiwList({
+          mallId: id,
+          memberId: userID,
+          productNo: Number(productID),
+          sort,
+          filter,
+          page: pageParam,
+        });
+      }
+      return reviewService.list({ mallId: id, memberId: userID, productNo: Number(productID), sort, filter, page: pageParam });
     },
     getNextPageParam: ({ data }) => {
       return data.page + 1 < data.total / data.size ? data.page + 1 : undefined;
@@ -33,7 +46,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
   });
 
   useEffect(() => {
-    if (reviewListQuery.status !== 'success') return;
+    if (reviewListQuery.status !== 'success' || isMyPage) return;
     message(MESSAGE_TYPES.ADJUST_HEIGHT, window.getComputedStyle(document.body).height);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
   }, [reviewListQuery.status]);
@@ -44,7 +57,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
         void reviewListQuery.refetch();
       }
     };
-
+    
     window.addEventListener('message', handleMessage);
 
     return () => {
