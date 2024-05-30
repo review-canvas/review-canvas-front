@@ -12,12 +12,12 @@ import useShop from '@/state/shop.ts';
 import ConnectedPage from './connected-page.tsx';
 
 type PageParams = {
-  userID: string;
+  productID: string;
 };
 
 export default function Page() {
   const params = useParams<PageParams>();
-  if (!params?.userID) notFound();
+  if (!params?.productID) notFound();
   const shop = useShop();
 
   useReviewCanvasReady('mypage');
@@ -27,7 +27,7 @@ export default function Page() {
   return (
     <ReviewServiceProvider>
       <Suspense fallback={<div>loading...</div>}>
-        <ConnectedPage userID={params.userID} />
+        <ConnectedPage productID={params.productID} />
       </Suspense>
     </ReviewServiceProvider>
   );
