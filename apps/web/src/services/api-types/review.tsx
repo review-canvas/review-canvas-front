@@ -51,6 +51,7 @@ export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
 export interface RetrieveReviewListRequest {
   mallId: string;
   productNo: number;
+  memberId: string | undefined;
   page?: number;
   size?: number;
   sort?: ReviewListSort;

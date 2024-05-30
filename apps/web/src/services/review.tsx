@@ -9,17 +9,26 @@ class ReviewService {
   async list({
     mallId,
     productNo,
+    memberId,
     sort = 'LATEST',
     filter = 'ALL',
     size = 10,
     page = 0,
   }: TYPE.RetrieveReviewListRequest): Promise<TYPE.RetrieveReviewListResponse> {
-    const search = new URLSearchParams({
-      page: page.toString(),
-      size: size.toString(),
-      sort,
-      filter,
-    });
+    const search = memberId
+      ? new URLSearchParams({
+          memberId,
+          page: page.toString(),
+          size: size.toString(),
+          sort,
+          filter,
+        })
+      : new URLSearchParams({
+          page: page.toString(),
+          size: size.toString(),
+          sort,
+          filter,
+        });
 
     const response = await API.get<TYPE.RetrieveReviewListResponse>(
       `/api/v1/shop/${mallId}/products/${productNo}/reviews?${search.toString()}`,
@@ -63,8 +72,29 @@ class ReviewService {
     await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.requestId}`);
   }
 
-  async get(id: string) {
-    const response = await API.get<TYPE.RetrieveReviewItemResponse>(`/api/v1/reviews/${id}`);
+  async get(id: string, memberId: string | number | undefined) {
+    const response = await API.get<TYPE.RetrieveReviewItemResponse>(`/api/v1/reviews/${id}?memberId=${memberId}`);
+    return response.data;
+  }
+  async myReiveiwList({
+    mallId,
+    productNo,
+    memberId,
+    sort = 'LATEST',
+    filter = 'ALL',
+    size = 10,
+    page = 0,
+  }: TYPE.RetrieveReviewListRequest): Promise<TYPE.RetrieveReviewListResponse> {
+    const search = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      sort,
+      filter,
+    });
+
+    const response = await API.get<TYPE.RetrieveReviewListResponse>(
+      `/api/v1/shop/${mallId}/users/${memberId}/mypage/${productNo}/reviews?${search.toString()}`,
+    );
     return response.data;
   }
 
