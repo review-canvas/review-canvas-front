@@ -15,7 +15,7 @@ const initializeReviewCanvas = () => {
 
   $reviewCanvasContainer.appendChild($iframe);
 };
-const initializeDiv = () => {
+const initializeDiv = (evt) => {
   const $dim = document.createElement('div');
   $dim.id = 'rvcv-modal-dim';
   $dim.style.position = 'fixed';
@@ -32,6 +32,7 @@ const initializeDiv = () => {
   $dim.addEventListener('click', () => {
     // body scroll unlock
     document.body.style.overflow = '';
+    refreshItems(evt);
     $dim.remove();
   });
   return $dim;
@@ -51,7 +52,6 @@ window.addEventListener('message', (evt) => {
 
 window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'ready') return;
-
   const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"][data-connected="false"]`);
   const mallID = CAFE24?.SHOP?.getMallID();
   if (!$element || !($element instanceof HTMLIFrameElement) || !mallID) return;
@@ -64,7 +64,7 @@ window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'open-modal') return;
   // body scroll lock
   document.body.style.overflow = 'hidden';
-  const $dim = initializeDiv();
+  const $dim = initializeDiv(evt);
   const $iframe = document.createElement('iframe');
   $iframe.dataset.reviewCanvas = evt.data.payload.type;
   $iframe.dataset.connected = 'false';
@@ -83,7 +83,7 @@ window.addEventListener('message', (evt) => {
   // body scroll lock
   document.body.style.overflow = 'hidden';
 
-  const $dim = initializeDiv();
+  const $dim = initializeDiv(evt);
 
   const $iframe = document.createElement('iframe');
   $iframe.dataset.reviewCanvas = evt.data.payload.type;
@@ -100,14 +100,20 @@ window.addEventListener('message', (evt) => {
 
 window.addEventListener('message', (evt) => {
   if (evt.origin !== reviewCanvasURL || evt.data.type !== 'close-modal') return;
-  $reviewCanvasContainer.firstChild.contentWindow.postMessage('refresh', '*');
-  document.querySelector('#rvcv-modal-dim')?.firstChild.contentWindow.postMessage('refresh', '*');
   // body scroll unlock
   document.body.style.overflow = '';
 
+  refreshItems(evt);
   const elements = document.querySelectorAll('#rvcv-modal-dim');
   if (elements.length > 0) {
     const lastElement = elements[elements.length - 1];
     lastElement.parentNode.removeChild(lastElement);
   }
 });
+
+const refreshItems = (evt) => {
+  $reviewCanvasContainer.firstChild.contentWindow.postMessage('refresh', evt.origin);
+  document.querySelectorAll('#rvcv-modal-dim').forEach((modalDim) => {
+    modalDim.querySelector('iframe')?.contentWindow.postMessage('refresh', evt.origin);
+  });
+};
