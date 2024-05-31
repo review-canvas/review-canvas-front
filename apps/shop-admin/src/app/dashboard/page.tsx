@@ -343,6 +343,7 @@ const TableContainer = styled.div`
     .table-cell[data-column-id='reviewId'],
     .table-cell[data-column-id='score'],
     .table-cell[data-column-id='deleted'],
+    .table-cell[data-column-id='replies'],
     .table-cell[data-column-id='createAt'],
     .table-cell[data-column-id='updatedAt'],
     .table-cell[data-column-id='control'] {
@@ -408,21 +409,26 @@ function ScoreCell({ cell }: TableCellProps<ReviewDataType, number>) {
   const initialValue = cell.getValue();
   return initialValue ? <span>{initialValue} / 5</span> : null;
 }
+
 function ReplyCell({ cell }: TableCellProps<ReviewDataType, ReviewReplyDataType[] | undefined>) {
   const repliesArr = cell.getValue();
   return repliesArr?.length ? <span>{repliesArr.length}개</span> : null;
 }
+
 function DeleteStatusCell({ cell }: TableCellProps<ReviewDataType, boolean>) {
   const initialValue = cell.getValue();
   return <span>{initialValue ? 'O' : 'X'}</span>;
 }
+
 function UpdatedAtCell({ cell }: TableCellProps<ReviewDataType, string | undefined>) {
   const initialValue = cell.getValue();
   return initialValue ? <span>{dayjs(initialValue).format('YYYY/MM/DD HH:mm')}</span> : null;
 }
+
 function ReviewDetailCell({ cell }: TableCellProps<ReviewDataType, any>) {
   const targetRowData = cell.row.original;
   const { openOverlay, closeOverlay } = useOverlayAction();
+
   return (
     <SolidButton
       className="review-control-button"
