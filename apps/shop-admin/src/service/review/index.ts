@@ -2,7 +2,7 @@ import { apiService } from '@/lib/api/api-services';
 import type { GetProductReviewRequest } from '@/lib/api/api-types';
 import type { ProductDataListType, ReviewDataListType, ReviewPeriodType } from '@/types/review';
 
-interface GetProductReviewListParam {
+export interface GetProductReviewListParam {
   productId: number;
   size?: number;
   page?: number;

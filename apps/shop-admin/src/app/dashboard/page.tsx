@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment -- for react table cell props */
-/* eslint-disable react/no-unstable-nested-components -- for react table cell props */
 'use client';
 
 import type { TableCellProps } from '@ui/components/table';
 
 import { useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Checkbox, RadioGroup, SolidButton, Table } from '@ui/components';
 import CheckboxGroup from '@ui/components/checkbox-group';
 import dayjs from 'dayjs';
@@ -21,99 +19,20 @@ import {
   REVIEW_SCORE_OPTIONS_MAP,
 } from '@/constants/review';
 import useAuthCheck from '@/hooks/use-auth-check';
-import { ReviewService } from '@/service/review';
+import { type GetProductReviewListParam, ReviewService } from '@/service/review';
 import { useOverlayAction } from '@/store/overlay';
 import type { ReviewDataType, ReviewPageSizeType, ReviewPeriodType, ReviewReplyDataType } from '@/types/review';
 
 function DashboardPage() {
   const router = useRouter();
-  const { openOverlay, closeOverlay } = useOverlayAction();
-
-  const defaultReviewFilters = REVIEW_FILTER_OPTIONS_MAP.map((option) => option.value);
-  const defaultScores = REVIEW_SCORE_OPTIONS_MAP.map((option) => option.value);
-  const defaultReviewReplyFilters = REVIEW_REPLY_FILTER_OPTIONS_MAP.map((option) => option.value);
 
   const [productId] = useState<number>(0);
-  const [pageNumber] = useState<number>(1);
+  const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize] = useState<ReviewPageSizeType>(10);
   const [reviewPeriod, setReviewPeriod] = useState<ReviewPeriodType>('ALL');
   const [reviewFilters, setReviewFilters] = useState<string[]>(defaultReviewFilters);
   const [scores, setScores] = useState<string[]>(defaultScores);
   const [replyFilters, setReplyFilters] = useState<string[]>(defaultReviewReplyFilters);
-
-  const columns = [
-    {
-      accessorKey: 'reviewId',
-      header: '리뷰 No',
-    },
-    {
-      accessorKey: 'content',
-      header: '내용',
-    },
-    {
-      accessorKey: 'nickname',
-      header: '작성자',
-    },
-    {
-      accessorKey: 'score',
-      header: '점수',
-      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
-        const initialValue = getValue();
-        return initialValue ? <span>{initialValue} / 5</span> : null;
-      },
-    },
-    {
-      accessorKey: 'replies',
-      header: '답변 개수',
-      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
-        const repliesArr: ReviewReplyDataType[] | undefined = getValue();
-        return repliesArr?.length ? <span>{repliesArr.length}개</span> : null;
-      },
-    },
-    {
-      accessorKey: 'deleted',
-      header: '삭제 여부',
-      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
-        const initialValue: boolean = getValue();
-        return <span>{initialValue ? 'O' : 'X'}</span>;
-      },
-    },
-    {
-      accessorKey: 'updatedAt',
-      header: '최종 수정 일시',
-      cell: ({ getValue }: TableCellProps<ReviewDataType, any>) => {
-        const initialValue: string | undefined = getValue();
-        return initialValue ? <span>{dayjs(initialValue).format('YYYY/MM/DD HH:mm')}</span> : null;
-      },
-    },
-    {
-      id: 'control',
-      header: '리뷰 관리',
-      cell: ({ cell }: TableCellProps<ReviewDataType, any>) => {
-        const targetRowData = cell.row.original;
-        return (
-          <SolidButton
-            variant="primary"
-            size="sm"
-            className="review-control-button"
-            onPress={() => {
-              openOverlay(
-                'review-detail',
-                <ReviewDetailModal
-                  {...targetRowData}
-                  onClose={() => {
-                    closeOverlay('review-detail');
-                  }}
-                />,
-              );
-            }}
-          >
-            상세
-          </SolidButton>
-        );
-      },
-    },
-  ];
 
   const handleReviewFiltersChange = (newValues: string[]) => {
     if (newValues.includes('ALL')) {
@@ -141,19 +60,9 @@ function DashboardPage() {
 
   useAuthCheck();
 
-  const getReviewList = async () => {
+  const getReviewList = async (params: Readonly<GetProductReviewListParam>) => {
     try {
-      const reviewList = await ReviewService.getProductReviewList({
-        productId,
-        page: pageNumber - 1,
-        size: pageSize,
-        period: reviewPeriod,
-        reviewFilters,
-        score: scores,
-        replyFilters,
-      });
-
-      return reviewList;
+      return await ReviewService.getProductReviewList(params);
     } catch (error) {
       // eslint-disable-next-line no-console -- track error
       console.error('리뷰 리스트 데이터 조회에 실패했습니다 : ', error);
@@ -164,8 +73,22 @@ function DashboardPage() {
   };
 
   const { data, isPending, refetch } = useQuery({
-    queryKey: ['review-list'],
-    queryFn: () => getReviewList(),
+    queryKey: [
+      'review-list',
+      {
+        productId,
+        page: pageIndex,
+        size: pageSize,
+        period: reviewPeriod,
+        reviewFilters,
+        score: scores,
+        replyFilters,
+      },
+    ] as const,
+    queryFn: ({ queryKey }) => {
+      return getReviewList(queryKey[1]);
+    },
+    placeholderData: keepPreviousData,
   });
 
   const pageCount = data?.total ? Math.ceil(data.total / pageSize) : 0;
@@ -184,17 +107,17 @@ function DashboardPage() {
               <FilterTableRowTitle>조회기간</FilterTableRowTitle>
               <FilterTableRowContent>
                 <ReviewPeriodRadioGroup
-                  value={reviewPeriod}
                   onChange={(_value) => {
                     setReviewPeriod(_value as ReviewPeriodType);
                   }}
+                  value={reviewPeriod}
                 >
                   {REVIEW_PERIOD_OPTIONS_MAP.map((option) => {
                     return (
                       <ReviewPeriodRadioItem
+                        isSelected={reviewPeriod === option.value}
                         key={option.value}
                         value={option.value}
-                        isSelected={reviewPeriod === option.value}
                       >
                         {option.label}
                       </ReviewPeriodRadioItem>
@@ -208,22 +131,22 @@ function DashboardPage() {
               <FilterTableRowTitle>리뷰구분</FilterTableRowTitle>
               <FilterTableRowContent>
                 <Checkbox
-                  tw="mr-8"
-                  value="ALL"
                   isSelected={reviewFilters.length === defaultReviewFilters.length}
                   onChange={(isSelected) => {
                     setReviewFilters(isSelected ? defaultReviewFilters : []);
                   }}
+                  tw="mr-8"
+                  value="ALL"
                 >
                   전체
                 </Checkbox>
 
                 <CheckboxGroup
-                  tw="[& > label]:mr-8"
-                  orientation="horizontal"
                   defaultValue={defaultReviewFilters}
-                  value={reviewFilters}
                   onChange={handleReviewFiltersChange}
+                  orientation="horizontal"
+                  tw="[& > label]:mr-8"
+                  value={reviewFilters}
                 >
                   {REVIEW_FILTER_OPTIONS_MAP.map((option) => {
                     return (
@@ -243,22 +166,22 @@ function DashboardPage() {
               <FilterTableRowTitle>리뷰조건</FilterTableRowTitle>
               <FilterTableRowContent>
                 <Checkbox
-                  tw="mr-8"
-                  value="ALL"
                   isSelected={scores.length === defaultScores.length}
                   onChange={(isSelected) => {
                     setScores(isSelected ? defaultScores : []);
                   }}
+                  tw="mr-8"
+                  value="ALL"
                 >
                   전체
                 </Checkbox>
 
                 <CheckboxGroup
-                  tw="[& > label]:mr-8"
-                  orientation="horizontal"
                   defaultValue={defaultScores}
-                  value={scores}
                   onChange={handleReviewScoresChange}
+                  orientation="horizontal"
+                  tw="[& > label]:mr-8"
+                  value={scores}
                 >
                   {REVIEW_SCORE_OPTIONS_MAP.map((option) => {
                     return (
@@ -278,22 +201,22 @@ function DashboardPage() {
               <FilterTableRowTitle>답글여부</FilterTableRowTitle>
               <FilterTableRowContent>
                 <Checkbox
-                  tw="mr-8"
-                  value="ALL"
                   isSelected={replyFilters.length === defaultReviewReplyFilters.length}
                   onChange={(isSelected) => {
                     setReplyFilters(isSelected ? defaultReviewReplyFilters : []);
                   }}
+                  tw="mr-8"
+                  value="ALL"
                 >
                   전체
                 </Checkbox>
 
                 <CheckboxGroup
-                  tw="[& > label]:mr-8"
-                  orientation="horizontal"
                   defaultValue={defaultReviewReplyFilters}
-                  value={replyFilters}
                   onChange={handleReplyFiltersChange}
+                  orientation="horizontal"
+                  tw="[& > label]:mr-8"
+                  value={replyFilters}
                 >
                   {REVIEW_REPLY_FILTER_OPTIONS_MAP.map((option) => {
                     return (
@@ -312,18 +235,16 @@ function DashboardPage() {
             <FilterTableRow tw="mt-4">
               <FilterTableRowContent tw="gap-4">
                 <SolidButton
-                  variant="primary"
-                  size="sm"
                   className="review-control-button"
                   onPress={() => {
                     void refetch();
                   }}
+                  size="sm"
+                  variant="primary"
                 >
                   검색하기
                 </SolidButton>
                 <SolidButton
-                  variant="gray"
-                  size="sm"
                   onPress={() => {
                     setReviewPeriod('ALL');
                     setReviewFilters(defaultReviewFilters);
@@ -332,6 +253,8 @@ function DashboardPage() {
 
                     void refetch();
                   }}
+                  size="sm"
+                  variant="gray"
                 >
                   초기화
                 </SolidButton>
@@ -345,11 +268,14 @@ function DashboardPage() {
             ) : (
               <TableContainer>
                 <Table
-                  data={data?.content || []}
-                  columns={columns}
-                  pageSize={pageSize}
-                  pageCount={pageCount}
                   activateSearchFilter
+                  columns={columns}
+                  data={data?.content || []}
+                  manualPagination
+                  onPageIndexChange={setPageIndex}
+                  pageCount={pageCount}
+                  pageIndex={pageIndex}
+                  pageSize={pageSize}
                 />
               </TableContainer>
             )}
@@ -433,3 +359,88 @@ const TableContainer = styled.div`
     justify-content: center;
   }
 `;
+
+const defaultReviewFilters = REVIEW_FILTER_OPTIONS_MAP.map((option) => option.value);
+const defaultScores = REVIEW_SCORE_OPTIONS_MAP.map((option) => option.value);
+const defaultReviewReplyFilters = REVIEW_REPLY_FILTER_OPTIONS_MAP.map((option) => option.value);
+
+const columns = [
+  {
+    accessorKey: 'reviewId',
+    header: '리뷰 No',
+  },
+  {
+    accessorKey: 'content',
+    header: '내용',
+  },
+  {
+    accessorKey: 'nickname',
+    header: '작성자',
+  },
+  {
+    accessorKey: 'score',
+    header: '점수',
+    cell: ScoreCell,
+  },
+  {
+    accessorKey: 'replies',
+    header: '답변 개수',
+    cell: ReplyCell,
+  },
+  {
+    accessorKey: 'deleted',
+    header: '삭제 여부',
+    cell: DeleteStatusCell,
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: '최종 수정 일시',
+    cell: UpdatedAtCell,
+  },
+  {
+    id: 'control',
+    header: '리뷰 관리',
+    cell: ReviewDetailCell,
+  },
+];
+
+function ScoreCell({ cell }: TableCellProps<ReviewDataType, number>) {
+  const initialValue = cell.getValue();
+  return initialValue ? <span>{initialValue} / 5</span> : null;
+}
+function ReplyCell({ cell }: TableCellProps<ReviewDataType, ReviewReplyDataType[] | undefined>) {
+  const repliesArr = cell.getValue();
+  return repliesArr?.length ? <span>{repliesArr.length}개</span> : null;
+}
+function DeleteStatusCell({ cell }: TableCellProps<ReviewDataType, boolean>) {
+  const initialValue = cell.getValue();
+  return <span>{initialValue ? 'O' : 'X'}</span>;
+}
+function UpdatedAtCell({ cell }: TableCellProps<ReviewDataType, string | undefined>) {
+  const initialValue = cell.getValue();
+  return initialValue ? <span>{dayjs(initialValue).format('YYYY/MM/DD HH:mm')}</span> : null;
+}
+function ReviewDetailCell({ cell }: TableCellProps<ReviewDataType, any>) {
+  const targetRowData = cell.row.original;
+  const { openOverlay, closeOverlay } = useOverlayAction();
+  return (
+    <SolidButton
+      className="review-control-button"
+      onPress={() => {
+        openOverlay(
+          'review-detail',
+          <ReviewDetailModal
+            {...targetRowData}
+            onClose={() => {
+              closeOverlay('review-detail');
+            }}
+          />,
+        );
+      }}
+      size="sm"
+      variant="primary"
+    >
+      상세
+    </SolidButton>
+  );
+}
