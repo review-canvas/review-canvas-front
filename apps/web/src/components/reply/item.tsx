@@ -62,7 +62,7 @@ export default function Reply(props: ReplyItemProps) {
     updateReplyMutation.mutate();
     setEditText(false);
   };
-  
+
   const edit = () => {
     if (props.isModal) {
       setEditText(true);
@@ -80,6 +80,70 @@ export default function Reply(props: ReplyItemProps) {
       url: `/replies/${props.reply.replyId}/delete`,
     });
   };
+
+  const buttonForReply = (onClick: () => void) => {
+    return (
+      <div>
+        <button
+          className="border-b-2 border-gray-600/70 mx-1"
+          onClick={onClick}
+          type="button"
+        >
+          수정
+        </button>
+        <button
+          className="border-b-2 border-gray-600/70 mx-1"
+          onClick={deleteReply}
+          type="button"
+        >
+          삭제
+        </button>
+      </div>
+    );
+  };
+
+  const editingText = () => {
+    return (
+      <div className="flex text-left">
+        <textarea
+          className="border-2 border-gray-400/80 p-1 w-full resize-none"
+          maxLength={500}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder="댓글을 작성해주세요."
+          rows={3}
+          value={content}
+        />
+        <div
+          className="absolute right-0 top-0 border-gray-600/70 text-gray-700/90"
+          hidden={content.length === 0}
+        >
+          {buttonForReply(submit)}
+        </div>
+      </div>
+    );
+  };
+
+  const showingText = () => {
+    return (
+      <div>
+        <p className="text-left">{props.reply.deleted ? '삭제된 리플입니다.' : content}</p>
+        {!props.reply.deleted && props.reply.isMine ? (
+          /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
+This is intentional*/
+          <div
+            className="absolute top-2 right-1 text-gray-700/90 mt-1 z-5"
+            onClick={(evt) => {
+              evt.stopPropagation();
+            }}
+          >
+            {buttonForReply(edit)}
+          </div>
+        ) : null}
+      </div>
+    );
+  };
+
   return (
     <ul>
       <li
@@ -102,67 +166,7 @@ export default function Reply(props: ReplyItemProps) {
           <div className="w-fit mb-1">
             작성자 <span>{props.reply.nickname}</span>
           </div>
-          {editText ? (
-            <div className="flex text-left">
-              <textarea
-                className="border-2 border-gray-400/80 p-1 w-full resize-none"
-                maxLength={500}
-                onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                placeholder="댓글을 작성해주세요."
-                rows={3}
-                value={content}
-              />
-              <div
-                className="absolute right-0 top-0 border-gray-600/70 text-gray-700/90"
-                hidden={content.length === 0}
-              >
-                <button
-                  className="border-b-2 border-gray-600/70 mx-1"
-                  onClick={submit}
-                  type="button"
-                >
-                  수정
-                </button>
-                <button
-                  className="border-b-2 border-gray-600/70 mx-1"
-                  onClick={deleteReply}
-                  type="button"
-                >
-                  삭제
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div>
-              <p className="text-left">{content}</p>
-              {props.reply.isMine ? (
-                /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-      This is intentional*/
-                <div
-                  className="absolute top-2 right-1 text-gray-700/90 mt-1 z-5"
-                  onClick={(evt) => {
-                    evt.stopPropagation();
-                  }}
-                >
-                  <button
-                    className="border-b-2 border-gray-600/70 mx-1"
-                    onClick={edit}
-                    type="button"
-                  >
-                    수정
-                  </button>
-                  <button
-                    className="border-b-2 border-gray-600/70 mx-1"
-                    onClick={deleteReply}
-                    type="button"
-                  >
-                    삭제
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          )}
+          <div>{editText ? editingText() : showingText()}</div>
         </div>
       </li>
     </ul>

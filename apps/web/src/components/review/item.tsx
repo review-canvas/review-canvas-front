@@ -114,12 +114,12 @@ export default function ReviewItem(props: ReviewItemProps) {
           </button>
         </div>):null}
         {props.replies.map((it) =>
-          !it.deleted ? (
+          
             <Reply
               key={it.replyId}
               reply={it}
             />
-          ) : null,
+          
         )}
       </div>
     </li>
