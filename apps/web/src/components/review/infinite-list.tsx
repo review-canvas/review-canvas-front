@@ -9,6 +9,7 @@ import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/revi
 import { useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
+import ChatReviewItem from '@/components/review/chat-item.tsx';
 
 interface InfiniteListProps {
   productID: string;
@@ -46,7 +47,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
     <>
       <ul>
         {reviews.map((it) =>
-            <ReviewItem
+            <ChatReviewItem
               content={it.content}
               id={it.reviewId}
               key={it.reviewId}
