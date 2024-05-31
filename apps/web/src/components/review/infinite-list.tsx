@@ -25,7 +25,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
   const isMyPage = url.pathname === `/mypage/${productID}`;
 
   const reviewListQuery = useSuspenseInfiniteQuery({
-    queryKey: [isMyPage ? 'my-list':'review-list', { id, productID, filter, sort }],
+    queryKey: [isMyPage ? 'my-list' : 'review-list', { id, productID, filter, sort }],
     queryFn: ({ pageParam }) => {
       if (isMyPage) {
         return reviewService.myReiveiwList({
@@ -37,7 +37,14 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
           page: pageParam,
         });
       }
-      return reviewService.list({ mallId: id, memberId: userID, productNo: Number(productID), sort, filter, page: pageParam });
+      return reviewService.list({
+        mallId: id,
+        memberId: userID,
+        productNo: Number(productID),
+        sort,
+        filter,
+        page: pageParam,
+      });
     },
     getNextPageParam: ({ data }) => {
       return data.page + 1 < data.total / data.size ? data.page + 1 : undefined;
@@ -57,7 +64,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
         void reviewListQuery.refetch();
       }
     };
-    
+
     window.addEventListener('message', handleMessage);
 
     return () => {
@@ -65,7 +72,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
     };
   }, []);
 
-  const reviews = reviewListQuery.data.pages.flatMap(it => it.data.content);
+  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
 
   return (
     <>
