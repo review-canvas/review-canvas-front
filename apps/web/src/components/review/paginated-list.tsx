@@ -61,7 +61,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
     };
   }, []);
 
-  const reviews = reviewListQuery.data.data.content.filter((review) => !review.deleted);
+  const reviews = reviewListQuery.data.data.content;
 
   return (
     <>
@@ -69,6 +69,7 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
         {reviews.map((it) => (
           <ReviewItem
             content={it.content}
+            deleted={it.deleted}
             id={it.reviewId}
             key={it.reviewId}
             rate={it.score}

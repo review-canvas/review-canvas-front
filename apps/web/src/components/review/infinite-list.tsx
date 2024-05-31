@@ -65,7 +65,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
     };
   }, []);
 
-  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content.filter((review) => !review.deleted));
+  const reviews = reviewListQuery.data.pages.flatMap(it => it.data.content);
 
   return (
     <>
@@ -73,6 +73,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
         {reviews.map((it) => (
           <ReviewItem
             content={it.content}
+            deleted={it.deleted}
             id={it.reviewId}
             key={it.reviewId}
             rate={it.score}

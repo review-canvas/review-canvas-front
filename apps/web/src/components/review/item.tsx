@@ -22,6 +22,7 @@ interface ReviewItemProps {
   id: number;
   rate: number;
   content: string;
+  deleted: boolean;
   reviewerID: string;
   reviewer: string;
   replies: ReplyItem[];
@@ -70,58 +71,69 @@ export default function ReviewItem(props: ReviewItemProps) {
         `,
       ]}
     >
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */}
-      <div
-        aria-haspopup
-        className="relative"
-        onClick={showReviewDetail}
-        onKeyUp={(evt) => {
-          if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
-        }}
-      >
-        <div className="flex gap-0.5 items-center w-fit">
-          <Star
-            setStar={() => {}}
-            star={props.rate}
-          />
-        </div>
-        <div className="w-fit">
-          작성자 <span>{props.reviewer}</span>
-        </div>
-        <p className="text-left">{props.content}</p>
-        {userID === props.reviewerID ? (
-                /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-      This is intentional*/
+      {props.deleted ? (
         <div
-          className="absolute top-1 right-1 z-5"
-          onClick={(evt) => {
-            evt.stopPropagation();
+          aria-haspopup
+          className="relative"
+        >
+          <div className="w-fit">
+            작성자 <span>{props.reviewer}</span>
+          </div>
+          <p className="text-left">삭제된 리뷰입니다.</p>
+        </div>
+      ) : (
+        /* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */
+        <div
+          aria-haspopup
+          className="relative"
+          onClick={showReviewDetail}
+          onKeyUp={(evt) => {
+            if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
           }}
         >
-          <button
-            className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
-            onClick={edit}
-            type="button"
-          >
-            수정
-          </button>
-          <button
-            className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
-            onClick={deleteReview}
-            type="button"
-          >
-            삭제
-          </button>
-        </div>):null}
-        {props.replies.map((it) =>
-          
+          <div className="flex gap-0.5 items-center w-fit">
+            <Star
+              setStar={() => {}}
+              star={props.rate}
+            />
+          </div>
+          <div className="w-fit">
+            작성자 <span>{props.reviewer}</span>
+          </div>
+          <p className="text-left">{props.content}</p>
+          {userID === props.reviewerID ? (
+            /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
+      This is intentional*/
+            <div
+              className="absolute top-1 right-1 z-5"
+              onClick={(evt) => {
+                evt.stopPropagation();
+              }}
+            >
+              <button
+                className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
+                onClick={edit}
+                type="button"
+              >
+                수정
+              </button>
+              <button
+                className="border-b-2 border-gray-600/70 text-gray-700/90 mx-1"
+                onClick={deleteReview}
+                type="button"
+              >
+                삭제
+              </button>
+            </div>
+          ) : null}
+          {props.replies.map((it) => (
             <Reply
               key={it.replyId}
               reply={it}
             />
-          
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </li>
   );
 }
