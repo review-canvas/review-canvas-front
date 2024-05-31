@@ -147,16 +147,14 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
         >
           <Suspense fallback={<div>loading...</div>}>
             <div className="mt-8">
-              {reviewDetail.replies.map((it) =>
-                !it.deleted ? (
-                  <Reply
-                    isModal
-                    key={it.replyId}
-                    memberId={shop.userID}
-                    reply={it}
-                  />
-                ) : null,
-              )}
+              {reviewDetail.replies.map((it) => (
+                <Reply
+                  isModal
+                  key={it.replyId}
+                  memberId={shop.userID}
+                  reply={it}
+                />
+              ))}
             </div>
           </Suspense>
         </ReviewItemStyleProvider>
