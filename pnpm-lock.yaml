@@ -436,6 +436,24 @@ importers:
 
   packages/config-typescript: {}
 
+  packages/http-client:
+    devDependencies:
+      '@review-canvas/eslint-config':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@review-canvas/typescript-config':
+        specifier: workspace:*
+        version: link:../config-typescript
+      '@vercel/style-guide':
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@8.57.0)(prettier@3.2.5)(typescript@5.4.5)
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
+
   packages/theme:
     dependencies:
       '@emotion/react':

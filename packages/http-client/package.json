@@ -1,0 +1,17 @@
+{
+  "name": "@review-canvas/http-client",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "devDependencies": {
+    "@review-canvas/eslint-config": "workspace:*",
+    "@review-canvas/typescript-config": "workspace:*",
+    "@vercel/style-guide": "^5.2.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  }
+}
