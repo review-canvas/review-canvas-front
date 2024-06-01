@@ -1,11 +1,15 @@
 export interface PathInfo {
-  mallId: string | undefined;
-  memberId: number | string | undefined;
-  requestId: string | undefined;
+  mallId?: string;
+  memberId?: number | string;
+  requestId?: string;
 }
 export interface CreateReivewPathInfo {
   mallId: string | undefined;
   productId: string | undefined;
+}
+export interface ImageVideoUrl {
+  reviewFileUrls: string[];
+  reviewResizeImageUrls: string[];
 }
 export interface ReviewItem {
   reviewId: number;
@@ -18,6 +22,9 @@ export interface ReviewItem {
   createAt: string;
   updatedAt: string;
   deleted: boolean;
+  productId: number;
+  productName: string;
+  imageVideoUrls: ImageVideoUrl;
   replies: ReplyItem[];
 }
 
@@ -62,10 +69,19 @@ export interface RetrieveReviewItemResponse {
   success: boolean;
   data: ReviewItem;
 }
-
+export interface ReplyItemforEdit {
+  replyId: number;
+  content: string;
+  createAt: string;
+  updatedAt: string;
+  deletedAt: boolean;
+  memberId: string;
+  nickName: string;
+  shopAdminId: number;
+}
 export interface RetrieveReplyItemResponse {
   success: boolean;
-  data: ReplyItem;
+  data: ReplyItemforEdit;
 }
 
 export interface CreateReviewItemRequest {

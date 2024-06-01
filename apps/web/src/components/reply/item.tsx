@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { css } from 'twin.macro';
@@ -30,7 +30,9 @@ export default function Reply(props: ReplyItemProps) {
   const style = useReviewItemStyle();
   const message = useMessageToShop();
   const reviewService = useReviewService();
-
+  useEffect(() => {
+    setContent(props.reply.content);
+  }, [props.reply.content]);
   const updateReplyMutation = useMutation({
     mutationFn: async () => {
       await reviewService.updateReply(props.reply.replyId, request);
@@ -52,12 +54,14 @@ export default function Reply(props: ReplyItemProps) {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
+
   const handleKeyDown = (e: { key: string; shiftKey: any; preventDefault: () => void }) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (content.length !== 0) submit();
     }
   };
+
   const submit = () => {
     updateReplyMutation.mutate();
     setEditText(false);
@@ -127,7 +131,7 @@ export default function Reply(props: ReplyItemProps) {
   const showingText = () => {
     return (
       <div>
-        <p className="text-left">{props.reply.deleted ? '삭제된 리플입니다.' : content}</p>
+        <p className="text-left">{props.reply.deleted ? '삭제된 댓글입니다.' : content}</p>
         {!props.reply.deleted && props.reply.isMine ? (
           /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
 This is intentional*/

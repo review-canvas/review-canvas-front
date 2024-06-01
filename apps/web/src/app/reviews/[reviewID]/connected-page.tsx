@@ -9,7 +9,7 @@ import Reply from '@/components/reply/item';
 import { Star } from '@/components/review/star';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
-import type { CreateReplyItemRequest } from '@/services/api-types/review';
+import type { CreateReplyItemRequest, PathInfo } from '@/services/api-types/review';
 import { useDesignPropertyService } from '@/services/design-property';
 import { useReviewService } from '@/services/review.tsx';
 import useShop, { useConnectedShop } from '@/state/shop.ts';
@@ -41,8 +41,8 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
   });
 
   const reviewDetailQuery = useQuery({
-    queryKey: ['review-detail', { id: reviewID }],
-    queryFn: () => reviewService.get(reviewID, userID),
+    queryKey: ['review-detail', { requestId: reviewID, mallId: id, memberId: userID }],
+    queryFn: () => reviewService.get({ requestId: reviewID, mallId: id, memberId: userID ? userID : undefined }),
     enabled: Boolean(shop.connected && reviewID),
   });
 
@@ -80,9 +80,10 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
 
   const ReplyItemRequest: CreateReplyItemRequest = {
     mallId: id,
-    memberId: shop.userID,
+    memberId: userID,
     content,
   };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();

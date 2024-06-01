@@ -72,8 +72,10 @@ class ReviewService {
     await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.requestId}`);
   }
 
-  async get(id: string, memberId: string | number | undefined) {
-    const response = await API.get<TYPE.RetrieveReviewItemResponse>(`/api/v1/reviews/${id}?memberId=${memberId}`);
+  async get(id: TYPE.PathInfo) {
+    const response = await API.get<TYPE.RetrieveReviewItemResponse>(
+      `/api/v1/reviews/${id.requestId}?memberId=${id.memberId}&mallId=${id.mallId}`,
+    );
     return response.data;
   }
   async myReiveiwList({
@@ -99,7 +101,7 @@ class ReviewService {
   }
 
   async getReply(Id: string) {
-    const response = await API.post<TYPE.RetrieveReplyItemResponse>(`/api/v1/reviews/${Id}`);
+    const response = await API.get<TYPE.RetrieveReplyItemResponse>(`/api/v1/replies/${Id}`);
     return response.data;
   }
   async createReply(Id: string, request: TYPE.CreateReplyItemRequest) {

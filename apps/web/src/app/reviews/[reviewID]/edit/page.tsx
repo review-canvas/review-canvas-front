@@ -23,9 +23,8 @@ export default function ReviewEditPage() {
   const reviewService = useReviewService();
 
   const reviewDetailQuery = useQuery({
-    queryKey: ['review-detail', { id: params?.reviewID }],
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- controlled by react-query
-    queryFn: () => reviewService.get(params!.reviewID),
+    queryKey: ['review-detail', { id: params?.reviewID, mallId: shop.id }],
+    queryFn: () => reviewService.get({ requestId: params?.reviewID, mallId: shop.id }),
     enabled: Boolean(shop.connected && params?.reviewID),
   });
 
@@ -44,14 +43,14 @@ export default function ReviewEditPage() {
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
 
+  const reviewDetail = reviewDetailQuery.data.data;
+  if (reviewDetail.nickname !== shop.userID) notFound();
+
   const pathInfo: PathInfo = {
     requestId: params?.reviewID,
     mallId: shop.id,
     memberId: shop.userID,
   };
-
-  const reviewDetail = reviewDetailQuery.data.data;
-  if (reviewDetail.nickname !== shop.userID) notFound();
 
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);

@@ -72,7 +72,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
     };
   }, []);
 
-  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
+  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content.filter((review) => !review.deleted));
 
   return (
     <>
