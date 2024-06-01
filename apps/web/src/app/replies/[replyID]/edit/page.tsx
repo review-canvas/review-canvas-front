@@ -75,7 +75,7 @@ export default function ReplyEditPage() {
   };
   return (
     <div className="relative p-4 flex flex-col gap-8">
-      <CloseButton close={close} />
+      <CloseButton onClose={close} />
       <form
         className="relative p-4 flex flex-col gap-8"
         onSubmit={handleSubmit}

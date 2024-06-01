@@ -50,8 +50,8 @@ export default function ReplyDeletePage() {
 
   return (
     <DeleteConfirm
-      close={close}
       deleteItem={deleteReply}
+      onClose={close}
     />
   );
 }

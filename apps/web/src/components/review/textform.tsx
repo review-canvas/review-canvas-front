@@ -6,10 +6,10 @@ interface TextformProps {
   content: string;
   score?: number;
   nickname: string;
-  submit: (content: string, star: number) => void;
+  onSubmit: (content: string, star: number) => void;
 }
 
-export function Textform({ content, score, nickname, submit }: TextformProps) {
+export function Textform({ content, score, nickname, onSubmit }: TextformProps) {
   const [text, setText] = useState(content);
   const [star, setStar] = useState(score || 5);
 
@@ -26,7 +26,7 @@ export function Textform({ content, score, nickname, submit }: TextformProps) {
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    submit(text, star);
+    onSubmit(text, star);
   };
 
   return (

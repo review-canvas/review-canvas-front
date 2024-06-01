@@ -1,9 +1,9 @@
 interface ConfirmProps {
   deleteItem: () => void;
-  close: () => void;
+  onClose: () => void;
 }
 
-export default function DeleteConfirm({ deleteItem, close }: ConfirmProps) {
+export default function DeleteConfirm({ deleteItem, onClose }: ConfirmProps) {
   return (
     <main className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col items-center p-8">
@@ -20,7 +20,7 @@ export default function DeleteConfirm({ deleteItem, close }: ConfirmProps) {
             확인
           </button>
           <button
-            onClick={close}
+            onClick={onClose}
             type="button"
           >
             취소

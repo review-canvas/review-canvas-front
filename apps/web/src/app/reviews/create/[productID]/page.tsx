@@ -86,7 +86,7 @@ export default function MyReviewsPage() {
   return (
     <main className="relative">
       <div className="flex justify-center text-lg font-medium p-2">리뷰쓰기</div>
-      <CloseButton close={close} />
+      <CloseButton onClose={close} />
       <div className="border-y-2">
         <div className="flex justify-center text-lg font-medium pt-8">상품이 마음에 드셨나요?</div>
         <div className="flex flex-row justify-center p-6">

@@ -62,12 +62,12 @@ export default function ReviewEditPage() {
 
   return (
     <div className="relative p-4 flex flex-col gap-8">
-      <CloseButton close={close} />
+      <CloseButton onClose={close} />
       <Textform
         content={reviewDetail.content}
         nickname={reviewDetail.nickname}
+        onSubmit={submit}
         score={reviewDetail.score}
-        submit={submit}
       />
     </div>
   );

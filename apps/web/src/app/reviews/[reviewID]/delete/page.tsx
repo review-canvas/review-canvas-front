@@ -49,8 +49,8 @@ export default function ReviewDeletePage() {
   };
   return (
     <DeleteConfirm
-      close={close}
       deleteItem={deleteReview}
+      onClose={close}
     />
   );
 }

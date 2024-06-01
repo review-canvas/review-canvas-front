@@ -101,7 +101,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
 
   return (
     <main className="relative p-4 ">
-      <CloseButton close={close} />
+      <CloseButton onClose={close} />
       <div className="flex gap-0.5 m-2 items-center w-fit">
         <Star
           setStar={() => {}}
