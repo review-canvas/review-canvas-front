@@ -73,7 +73,7 @@ export default function ReviewItem(props: ReviewItemProps) {
       {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */}
       <div
         aria-haspopup
-        className= "relative"
+        className="relative"
         onClick={showReviewDetail}
         onKeyUp={(evt) => {
           if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
@@ -82,6 +82,7 @@ export default function ReviewItem(props: ReviewItemProps) {
         <div className="flex gap-0.5 items-center w-fit">
           <Star
             setStar={() => {}}
+            size="small"
             star={props.rate}
           />
         </div>

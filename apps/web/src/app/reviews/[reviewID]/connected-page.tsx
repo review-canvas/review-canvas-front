@@ -71,9 +71,9 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
     memberId: shop.userID,
     content,
   };
-  const handleKeyDown = (e: { key: string; shiftKey: any; preventDefault: () => void }) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); // 기본 Enter 키 이벤트를 막습니다.
+      e.preventDefault();
       if (content.length !== 0) submit();
     }
   };
@@ -95,6 +95,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
       <div className="flex gap-0.5 m-2 items-center w-fit">
         <Star
           setStar={() => {}}
+          size="small"
           star={reviewDetail.score}
         />
       </div>
@@ -116,12 +117,10 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
             rows={3}
             value={content}
           />
-          <div
-            className="absolute right-2 bottom-2 mr-4 border-2 border-gray-300/80 rounded-md z-10 items-center bg-violet-100/40"
-            hidden={content.length === 0}
-          >
+          <div className="absolute right-2 bottom-2 mr-4 border-2 border-gray-300/80 rounded-md z-10 items-center bg-violet-100/40">
             <button
               className="text-sm px-3 py-1"
+              disabled={content.length === 0}
               onClick={submit}
               type="button"
             >
