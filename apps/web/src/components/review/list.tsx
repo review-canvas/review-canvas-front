@@ -13,7 +13,6 @@ interface ReviewListProps {
 
 export default function ReviewList({ productID }: ReviewListProps) {
   const style = useReviewListStyle();
-
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
   const [sort, setSort] = useState<ReviewListSort>('LATEST');
 

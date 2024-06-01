@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import IntersectionBoundary from '@/components/intersection-boundary.tsx';
-import ReviewItem from '@/components/review/item.tsx';
+import { ReviewItem, ChatReviewItem } from '@/components/review/item.tsx';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review.tsx';
 import { useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
-import ChatReviewItem from '@/components/review/chat-item.tsx';
+import { useReviewListStyle } from '@/contexts/style/review-list.ts';
 
 interface InfiniteListProps {
   productID: string;
@@ -39,24 +39,22 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
     // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
   }, [reviewListQuery.status]);
 
-  const reviews = reviewListQuery.data.pages.flatMap((it) => 
-    it.data.content.filter(review => !review.deleted)
-  );
+  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content.filter((review) => !review.deleted));
 
   return (
     <>
       <ul>
-        {reviews.map((it) =>
-            <ChatReviewItem
-              content={it.content}
-              id={it.reviewId}
-              key={it.reviewId}
-              rate={it.score}
-              replies={it.replies}
-              reviewer={it.nickname}
-              reviewerID={it.nickname}
-            />
-        )}
+        {reviews.map((it) => (
+          <ChatReviewItem
+            content={it.content}
+            id={it.reviewId}
+            key={it.reviewId}
+            rate={it.score}
+            replies={it.replies}
+            reviewer={it.nickname}
+            reviewerID={it.nickname}
+          />
+        ))}
       </ul>
       <IntersectionBoundary loadMore={reviewListQuery.fetchNextPage} />
     </>
