@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import type { Border, BorderRadius, Font, Margin, Padding, Shadow , ReviewLikeButtonProps} from '@review-canvas/theme';
+import type { Border, BorderRadius, Font, Margin, Padding, Shadow, ReviewLikeButtonProps } from '@review-canvas/theme';
 
 export interface ReviewItemStyle {
   margin: Margin;

@@ -53,9 +53,9 @@ class DesignPropertyService {
         buttonBorderColor: reviewDesignView.reviewLike.buttonBorderColor,
         buttonRound: reviewDesignView.reviewLike.buttonRound,
         buttonType: reviewDesignView.reviewLike.buttonType,
-        iconColor:reviewDesignView.reviewLike.iconColor,
-        textColor: reviewDesignView.reviewLike.textColor
-      }
+        iconColor: reviewDesignView.reviewLike.iconColor,
+        textColor: reviewDesignView.reviewLike.textColor,
+      },
     };
   }
 }
