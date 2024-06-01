@@ -1,7 +1,5 @@
 import type { CommonResponse } from './api-common';
 
-import useTokenStore from '@/store/auth/token';
-
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
 interface FetchOptions {
@@ -13,10 +11,12 @@ interface FetchOptions {
 }
 
 interface HttpClientConfig {
-  baseUrl: string;
+  baseUrl?: string;
   accessToken?: string;
   onRequest?: (url: string, options: FetchOptions) => void;
   onResponse?: (response: Response) => void;
+  getToken?: () => string | undefined;
+  onUnauthorized?: () => void;
 }
 
 export class HttpClient {
@@ -28,6 +28,8 @@ export class HttpClient {
       baseUrl: config?.baseUrl || process.env.NEXT_PUBLIC_API_DOMAIN || '',
       onRequest: this.handleRequestInterceptor.bind(this),
       onResponse: this.handleResponseInterceptor.bind(this),
+      getToken: config?.getToken,
+      onUnauthorized: config?.onUnauthorized,
     };
 
     this.config = { ...defaultConfig, ...config };
@@ -42,19 +44,12 @@ export class HttpClient {
   }
 
   private handleRequestInterceptor(url: string, options: FetchOptions): void {
-    const { accessToken } = this.config;
+    const { accessToken, getToken } = this.config;
     const headers = new Headers(options.headers || {});
 
-    if (typeof window !== 'undefined') {
-      // Client Side
-      const clientAccessToken = useTokenStore.getState().accessToken;
-
-      if (clientAccessToken) {
-        headers.set('Authorization', `Bearer ${clientAccessToken}`);
-      }
-    } else if (accessToken) {
-      // Server Side
-      headers.set('Authorization', `Bearer ${accessToken}`);
+    const token = typeof window !== 'undefined' ? getToken?.() : accessToken;
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
     }
 
     options.headers = headers;
@@ -62,9 +57,7 @@ export class HttpClient {
 
   private handleResponseInterceptor(response: Response): void {
     if (response.status === 401 || response.status === 403) {
-      if (typeof window !== 'undefined') {
-        window.location.href = '/auth/login';
-      }
+      this.config.onUnauthorized?.();
     }
   }
 
@@ -78,9 +71,9 @@ export class HttpClient {
     const finalUrl = `${baseUrl}${url}`;
     const headers = new Headers(options.headers || {});
 
-    const accessToken = useTokenStore.getState().accessToken;
-    if (accessToken) {
-      headers.set('Authorization', `Bearer ${accessToken}`);
+    const token = this.config.getToken?.();
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
     }
 
     options.headers = headers;
@@ -92,7 +85,7 @@ export class HttpClient {
 
     const jsonResponse = (await response.json()) as CommonResponse<T>;
     if (!jsonResponse.success) {
-      // eslint-disable-next-line no-console -- check error response
+      // eslint-disable-next-line no-console -- trace stack
       console.error(jsonResponse);
       throw new Error('API Fail');
     }
@@ -106,28 +99,46 @@ export class HttpClient {
   }
 
   public async post<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    const headers: HeadersInit = {};
+
+    if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     return this.fetch(url, {
       method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+      body: body instanceof FormData ? body : JSON.stringify(body),
+      headers,
       cache,
     });
   }
 
   public async patch<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    const headers: HeadersInit = {};
+
+    if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     return this.fetch(url, {
       method: 'PATCH',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+      body: body instanceof FormData ? body : JSON.stringify(body),
+      headers,
       cache,
     });
   }
 
   public async put<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    const headers: HeadersInit = {};
+
+    if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     return this.fetch(url, {
       method: 'PUT',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+      body: body instanceof FormData ? body : JSON.stringify(body),
+      headers,
       cache,
     });
   }
