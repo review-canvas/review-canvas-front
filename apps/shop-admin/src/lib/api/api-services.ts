@@ -1,15 +1,14 @@
 import type { CommonResponse } from './api-common';
 import type * as API from './api-types';
+import type { HttpClient } from './http-client';
 
-import useTokenStore from '@/store/auth/token';
-
-import { HttpClient } from './http-client';
+import httpClient from './http-client-setup';
 
 class ApiService {
   private httpClient: HttpClient;
 
-  constructor(httpClient: HttpClient) {
-    this.httpClient = httpClient;
+  constructor(_httpClient: HttpClient) {
+    this.httpClient = _httpClient;
   }
 
   public async postAuthLogin(request: API.PostAuthLoginRequest): Promise<API.PostAuthLoginResponse> {
@@ -274,13 +273,6 @@ class ApiService {
 
     return response;
   }
-}
-
-const httpClient = HttpClient.getInstance();
-
-const { accessToken } = useTokenStore.getState();
-if (accessToken) {
-  httpClient.setAccessToken(accessToken);
 }
 
 export const apiService = new ApiService(httpClient);
