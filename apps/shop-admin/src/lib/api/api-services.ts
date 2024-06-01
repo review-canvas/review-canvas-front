@@ -1,6 +1,5 @@
-import type { CommonResponse } from './api-common';
 import type * as API from './api-types';
-import type { HttpClient } from './http-client';
+import { CommonResponse, HttpClient } from '@review-canvas/http-client';
 
 import httpClient from './http-client-setup';
 
