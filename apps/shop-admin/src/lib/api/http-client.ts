@@ -106,28 +106,46 @@ export class HttpClient {
   }
 
   public async post<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    const headers: HeadersInit = {};
+
+    if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     return this.fetch(url, {
       method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+      body: body instanceof FormData ? body : JSON.stringify(body),
+      headers,
       cache,
     });
   }
 
   public async patch<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    const headers: HeadersInit = {};
+
+    if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     return this.fetch(url, {
       method: 'PATCH',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+      body: body instanceof FormData ? body : JSON.stringify(body),
+      headers,
       cache,
     });
   }
 
   public async put<T>(url: string, body?: any, cache?: RequestCache): Promise<CommonResponse<T>> {
+    const headers: HeadersInit = {};
+
+    if (!(body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
     return this.fetch(url, {
       method: 'PUT',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
+      body: body instanceof FormData ? body : JSON.stringify(body),
+      headers,
       cache,
     });
   }
