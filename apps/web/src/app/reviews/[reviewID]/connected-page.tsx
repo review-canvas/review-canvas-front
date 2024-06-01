@@ -104,6 +104,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
       <div className="flex gap-0.5 m-2 items-center w-fit">
         <Star
           setStar={() => {}}
+          size="small"
           star={reviewDetail.score}
         />
       </div>

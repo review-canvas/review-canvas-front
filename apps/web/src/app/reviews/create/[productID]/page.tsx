@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
+import tw, { styled } from 'twin.macro';
 
 import CloseButton from '@/components/close-button';
 import type { UploadImagesState } from '@/components/review/image-uploder';
@@ -78,7 +79,7 @@ export default function MyReviewsPage() {
     if (content.length >= 10) {
       createReviewMutation.mutate();
     } else {
-      textareaRef.current ? textareaRef.current.focus() : null;
+      textareaRef.current?.focus();
     }
   };
 
@@ -113,8 +114,7 @@ export default function MyReviewsPage() {
         className="flex flex-row-reverse pr-4"
         hidden={content.length >= 10 || content.length === 0}
       >
-        <div className="text-gray-500"> 최소 10자 이상 입력해주세요!</div>
-        <div className="text-red-600/80">**</div>
+        <div className="text-gray-500">*10자 이상 입력하시면 댓글 등록이 가능합니다!</div>
       </div>
       <ImageUploader
         setUploadImages={setUploadImages}
@@ -128,18 +128,25 @@ export default function MyReviewsPage() {
         >
           취소
         </button>
-        <button
-          className="text-white bg-blue-500 m-2"
+        <SumitButton
+          isActive={content.length > 10}
           onClick={submit}
           type="button"
         >
-          {content.length <= 10 ? (
-            <div className="border-2 border-gray-400/85 bg-gray-400 p-2">등록하기</div>
-          ) : (
-            <div className="border-2 border-indigo-500/60 bg-blue-500 p-2">등록하기</div>
-          )}
-        </button>
+          등록하기
+        </SumitButton>
       </div>
     </main>
   );
 }
+
+export interface SubmitButtonProps {
+  isActive: boolean;
+}
+
+const SumitButton = styled.button<SubmitButtonProps>`
+  ${tw`m-2 p-2`}
+  border: 2px solid ${({ isActive }) => (isActive ? '#5C6BC0' : '#9E9E9E')};
+  background-color: ${({ isActive }) => (isActive ? '#1E88E5' : '#BEBEBE')};
+  color: white;
+`;

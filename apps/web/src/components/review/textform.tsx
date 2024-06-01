@@ -37,6 +37,7 @@ export function Textform({ content, score, nickname, submit }: TextformProps) {
       <div className="flex gap-0.5 items-center w-fit">
         <Star
           setStar={setStar}
+          size="small"
           star={star}
         />
       </div>

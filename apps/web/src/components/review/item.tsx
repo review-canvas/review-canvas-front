@@ -94,6 +94,7 @@ export default function ReviewItem(props: ReviewItemProps) {
           <div className="flex gap-0.5 items-center w-fit">
             <Star
               setStar={() => {}}
+              size="small"
               star={props.rate}
             />
           </div>
