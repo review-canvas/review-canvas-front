@@ -25,5 +25,6 @@ module.exports = {
     'arrow-parens': 'off',
     'no-useless-escape': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

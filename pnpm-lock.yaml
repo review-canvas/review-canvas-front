@@ -78,6 +78,9 @@ importers:
       '@review-canvas/admin-ui':
         specifier: workspace:*
         version: link:../../packages/admin-ui
+      '@review-canvas/http-client':
+        specifier: workspace:*
+        version: link:../../packages/http-client
       '@review-canvas/theme':
         specifier: workspace:*
         version: link:../../packages/theme

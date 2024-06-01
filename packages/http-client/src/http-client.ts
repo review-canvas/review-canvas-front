@@ -1,4 +1,4 @@
-import type { CommonResponse } from './api-common';
+import type { CommonResponse } from './types';
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 
@@ -7,11 +7,10 @@ interface FetchOptions {
   body?: BodyInit | null;
   headers?: HeadersInit;
   cache?: RequestCache;
-  next?: RequestInit['next'];
 }
 
 interface HttpClientConfig {
-  baseUrl?: string;
+  baseUrl: string;
   accessToken?: string;
   onRequest?: (url: string, options: FetchOptions) => void;
   onResponse?: (response: Response) => void;
@@ -25,7 +24,7 @@ export class HttpClient {
 
   constructor(config?: HttpClientConfig) {
     const defaultConfig: HttpClientConfig = {
-      baseUrl: config?.baseUrl || process.env.NEXT_PUBLIC_API_DOMAIN || '',
+      baseUrl: config?.baseUrl || '',
       onRequest: this.handleRequestInterceptor.bind(this),
       onResponse: this.handleResponseInterceptor.bind(this),
       getToken: config?.getToken,
