@@ -6,7 +6,7 @@ export interface PostAuthLoginRequest {
 }
 
 export interface PostAuthLoginResponse {
-  adminId: number;
+  shopAdminId: number;
   accessToken: string;
   refreshToken: string;
 }

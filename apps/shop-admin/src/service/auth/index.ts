@@ -9,7 +9,7 @@ async function login(email: string, password: string): Promise<void> {
     const response = await apiService.postAuthLogin({ email, password });
 
     useTokenStore.getState().setAccessToken(response.accessToken);
-    useShopAdminIdStore.getState().setShopAdminId(response.adminId);
+    useShopAdminIdStore.getState().setShopAdminId(response.shopAdminId);
   } catch (error) {
     throw new Error('로그인에 실패했습니다.', error as ErrorOptions);
   }
