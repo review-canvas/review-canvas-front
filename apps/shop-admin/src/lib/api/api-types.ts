@@ -585,3 +585,17 @@ export interface DeleteShopAdminReviewRequest {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface DeleteShopAdminReviewResponse {}
+
+export interface PostShopAdminReviewLikeRequest {
+  reviewId: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PostShopAdminReviewLikeResponse {}
+
+export interface DeleteShopAdminReviewLikeRequest {
+  reviewId: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminReviewLikeResponse {}
