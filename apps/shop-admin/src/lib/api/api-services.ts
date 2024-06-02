@@ -1,5 +1,6 @@
 import type * as API from './api-types';
-import { CommonResponse, HttpClient } from '@review-canvas/http-client';
+
+import type { CommonResponse, HttpClient } from '@review-canvas/http-client';
 
 import httpClient from './http-client-setup';
 
@@ -270,6 +271,88 @@ class ApiService {
       `/api/v1/shop-admin/reviews/${request.reviewId}`,
     );
 
+    return response;
+  }
+
+  public async postShopAdminReviewLike(
+    request: API.PostShopAdminReviewLikeRequest,
+  ): Promise<CommonResponse<API.PostShopAdminReviewLikeResponse>> {
+    const response = await this.httpClient.post<CommonResponse<API.PostShopAdminReviewLikeResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}/like`,
+    );
+
+    return response;
+  }
+
+  public async deleteShopAdminReviewLike(
+    request: API.DeleteShopAdminReviewLikeRequest,
+  ): Promise<CommonResponse<API.DeleteShopAdminReviewLikeResponse>> {
+    const response = await this.httpClient.delete<CommonResponse<API.PostShopAdminReviewLikeResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}/like`,
+    );
+
+    return response;
+  }
+
+  public async postShopAdminProductReview(
+    request: API.PostShopAdminProductReviewRequest,
+  ): Promise<CommonResponse<API.PostShopAdminProductReviewResponse>> {
+    const formData = new FormData();
+    formData.append(
+      'createReviewByShopAdminRequest',
+      new Blob(
+        [
+          JSON.stringify({
+            score: request.createReviewByShopAdminRequest.score,
+            content: request.createReviewByShopAdminRequest.content,
+          }),
+        ],
+        {
+          type: 'application/json',
+        },
+      ),
+    );
+
+    request.reviewFiles.forEach((file) => {
+      formData.append('reviewFiles', file);
+    });
+
+    const response = await this.httpClient.post<CommonResponse<API.PostShopAdminProductReviewResponse>>(
+      `/api/v1/shop-admin/products/${request.productId}/review`,
+      formData,
+    );
+    
+    return response;
+  }
+
+  public async patchShopAdminProductReview(
+    request: API.PatchShopAdminProductReviewRequest,
+  ): Promise<CommonResponse<API.PatchShopAdminProductReviewResponse>> {
+    const formData = new FormData();
+    formData.append(
+      'updateReviewRequest',
+      new Blob(
+        [
+          JSON.stringify({
+            score: request.updateReviewRequest.score,
+            content: request.updateReviewRequest.content,
+          }),
+        ],
+        {
+          type: 'application/json',
+        },
+      ),
+    );
+
+    request.reviewFiles.forEach((file) => {
+      formData.append('reviewFiles', file);
+    });
+
+    const response = await this.httpClient.patch<CommonResponse<API.PatchShopAdminProductReviewResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}`,
+      formData,
+    );
+    
     return response;
   }
 }
