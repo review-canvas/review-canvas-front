@@ -64,8 +64,34 @@ async function deleteReview(reviewId: number): Promise<boolean> {
   }
 }
 
+async function createReviewLike(reviewId: number): Promise<boolean> {
+  try {
+    const response = await apiService.postShopAdminReviewLike({
+      reviewId,
+    });
+
+    return response.success;
+  } catch (error) {
+    throw new Error('리뷰 좋아요에 실패했습니다.', error as ErrorOptions);
+  }
+}
+
+async function deleteReviewLike(reviewId: number): Promise<boolean> {
+  try {
+    const response = await apiService.deleteShopAdminReviewLike({
+      reviewId,
+    });
+
+    return response.success;
+  } catch (error) {
+    throw new Error('리뷰 좋아요 취소에 실패했습니다.', error as ErrorOptions);
+  }
+}
+
 export const ReviewService = {
   getProductReviewList,
   getShopProductList,
   deleteReview,
+  createReviewLike,
+  deleteReviewLike,
 };
