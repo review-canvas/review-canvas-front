@@ -102,7 +102,7 @@ export default function MyReviewsPage() {
           className="border-2 overflow-hidden resize-none"
           maxLength={2000}
           onChange={handleChange}
-          placeholder=" 리뷰를 작성해주세요. (최소 10자 이상)"
+          placeholder=" 리뷰를 작성해주세요. 10자 이상 작성해주세요!"
           ref={textareaRef}
           rows={6}
           value={content}
@@ -129,7 +129,7 @@ export default function MyReviewsPage() {
           취소
         </button>
         <SumitButton
-          isActive={content.length > 10}
+          isActive={content.length >= 10}
           onClick={submit}
           type="button"
         >

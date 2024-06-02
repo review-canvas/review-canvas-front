@@ -18,13 +18,12 @@ type PageParams = {
 export default function ReviewEditPage() {
   const params = useParams<PageParams>();
   const shop = useShop();
-
   useReviewCanvasReady('edit');
   const reviewService = useReviewService();
 
   const reviewDetailQuery = useQuery({
     queryKey: ['review-detail', { id: params?.reviewID, mallId: shop.id }],
-    queryFn: () => reviewService.get({ requestId: params?.reviewID, mallId: shop.id }),
+    queryFn: () => reviewService.get({ requestId: params?.reviewID, mallId: shop.id, memberId: shop.userID }),
     enabled: Boolean(shop.connected && params?.reviewID),
   });
 

@@ -74,7 +74,7 @@ class ReviewService {
 
   async get(id: TYPE.PathInfo) {
     const response = await API.get<TYPE.RetrieveReviewItemResponse>(
-      `/api/v1/reviews/${id.requestId}?memberId=${id.memberId}&mallId=${id.mallId}`,
+      `/api/v1/reviews/${id.requestId}?mallId=${id.mallId}&memberId=${id.memberId}`,
     );
     return response.data;
   }
