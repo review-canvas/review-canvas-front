@@ -28,6 +28,15 @@ export interface CreateShopProductReviewParam {
   reviewFiles: File[];
 }
 
+export interface UpdateShopProductReviewParam {
+  reviewId: number;
+  review: {
+    score: number;
+    content: string;
+  };
+  reviewFiles: File[];
+}
+
 async function getProductReviewList(param: GetProductReviewListParam): Promise<ReviewDataListType> {
   try {
     const _param: GetProductReviewRequest = {
@@ -64,7 +73,7 @@ async function getShopProductList(param: GetShopProductListParam): Promise<Produ
 async function createReview(param: CreateShopProductReviewParam): Promise<boolean> {
   try {
     if (!param.review.content) {
-      throw new Error('리뷰 내용이 존재하지 않습니다')
+      throw new Error('리뷰 내용이 존재하지 않습니다');
     }
 
     const _param = {
@@ -77,6 +86,25 @@ async function createReview(param: CreateShopProductReviewParam): Promise<boolea
     return response.success;
   } catch (error) {
     throw new Error('리뷰 생성에 실패했습니다.', error as ErrorOptions);
+  }
+}
+
+async function updateReview(param: UpdateShopProductReviewParam): Promise<boolean> {
+  try {
+    if (!param.review.content) {
+      throw new Error('리뷰 내용이 존재하지 않습니다');
+    }
+
+    const _param = {
+      reviewId: param.reviewId,
+      updateReviewRequest: param.review,
+      reviewFiles: param.reviewFiles,
+    };
+
+    const response = await apiService.patchShopAdminProductReview(_param);
+    return response.success;
+  } catch (error) {
+    throw new Error('리뷰 수정에 실패했습니다.', error as ErrorOptions);
   }
 }
 
@@ -120,6 +148,7 @@ export const ReviewService = {
   getProductReviewList,
   getShopProductList,
   createReview,
+  updateReview,
   deleteReview,
   createReviewLike,
   deleteReviewLike,
