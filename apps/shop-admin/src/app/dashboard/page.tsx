@@ -377,6 +377,7 @@ const TableContainer = styled.div`
 
     .table-cell[data-column-id='reviewId'],
     .table-cell[data-column-id='score'],
+    .table-cell[data-column-id='likeCount'],
     .table-cell[data-column-id='deleted'],
     .table-cell[data-column-id='replies'],
     .table-cell[data-column-id='createAt'],
@@ -420,6 +421,11 @@ const columns = [
     cell: ScoreCell,
   },
   {
+    accessorKey: 'likeCount',
+    header: '좋아요',
+    cell: LikeCountCell,
+  },
+  {
     accessorKey: 'replies',
     header: '답변 개수',
     cell: ReplyCell,
@@ -444,6 +450,11 @@ const columns = [
 function ScoreCell({ cell }: TableCellProps<ReviewDataType, number>) {
   const initialValue = cell.getValue();
   return initialValue ? <span>{initialValue} / 5</span> : null;
+}
+
+function LikeCountCell({ cell }: TableCellProps<ReviewDataType, number>) {
+  const initialValue = cell.getValue();
+  return initialValue ? <span>{initialValue}개</span> : null;
 }
 
 function ReplyCell({ cell }: TableCellProps<ReviewDataType, ReviewReplyDataType[] | undefined>) {
