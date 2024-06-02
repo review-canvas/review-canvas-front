@@ -272,16 +272,20 @@ function DashboardPage() {
               <div>Loading...</div>
             ) : (
               <TableContainer>
-                <Table
-                  activateSearchFilter
-                  columns={columns}
-                  data={data?.content || []}
-                  manualPagination
-                  onPageIndexChange={setPageIndex}
-                  pageCount={pageCount}
-                  pageIndex={pageIndex}
-                  pageSize={pageSize}
-                />
+                {data?.content && data.content.length > 0 ? (
+                  <Table
+                    activateSearchFilter
+                    columns={columns}
+                    data={data.content}
+                    manualPagination
+                    onPageIndexChange={setPageIndex}
+                    pageCount={pageCount}
+                    pageIndex={pageIndex}
+                    pageSize={pageSize}
+                  />
+                ) : (
+                  <div>조회되는 리뷰가 없습니다</div>
+                )}
               </TableContainer>
             )}
           </div>
