@@ -540,9 +540,16 @@ export interface GetProductReviewResponse {
     shopAdminId: number;
     nickname: string;
     isMine: boolean;
+    likeCount: number;
     createAt: string;
     updatedAt: string;
     deleted: boolean;
+    productId: number;
+    productName: string;
+    imageVideoUrls: {
+      reviewFileUrls: string[];
+      reviewResizeImageUrls: string[];
+    };
     replies: {
       replyId: number;
       content: string;
@@ -552,8 +559,6 @@ export interface GetProductReviewResponse {
       userId: number;
       nickname: string;
     }[];
-    productId: number;
-    productName: string;
   }[];
 }
 

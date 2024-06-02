@@ -25,11 +25,16 @@ export interface ReviewDataType {
   nickname: string;
   isMine: boolean;
   createAt: string;
+  likeCount: number;
   updatedAt: string;
   deleted: boolean;
-  replies: ReviewReplyDataType[];
   productId: number;
   productName: string;
+  imageVideoUrls: {
+    reviewFileUrls: string[];
+    reviewResizeImageUrls: string[];
+  };
+  replies: ReviewReplyDataType[];
 }
 
 export interface ReviewDataListType {
