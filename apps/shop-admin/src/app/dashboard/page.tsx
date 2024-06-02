@@ -542,7 +542,7 @@ function ReviewDetailCell({ cell }: TableCellProps<ReviewDataType, any>) {
 }
 
 function ReviewCreateButton() {
-  const { openOverlay } = useOverlayAction();
+  const { openOverlay, closeOverlay } = useOverlayAction();
 
   return (
     <SolidButton
@@ -553,9 +553,9 @@ function ReviewCreateButton() {
         openOverlay(
           'review-create',
           <ReviewCreateModal
-          // onClose={() => {
-          //   closeOverlay('review-create');
-          // }}
+            onClose={() => {
+              closeOverlay('review-create');
+            }}
           />,
         );
       }}
