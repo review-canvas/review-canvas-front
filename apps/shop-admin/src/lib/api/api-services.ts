@@ -273,6 +273,26 @@ class ApiService {
 
     return response;
   }
+
+  public async postShopAdminReviewLike(
+    request: API.PostShopAdminReviewLikeRequest,
+  ): Promise<CommonResponse<API.PostShopAdminReviewLikeResponse>> {
+    const response = await this.httpClient.post<CommonResponse<API.PostShopAdminReviewLikeResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}/like`,
+    );
+
+    return response;
+  }
+
+  public async deleteShopAdminReviewLike(
+    request: API.DeleteShopAdminReviewLikeRequest,
+  ): Promise<CommonResponse<API.DeleteShopAdminReviewLikeResponse>> {
+    const response = await this.httpClient.delete<CommonResponse<API.PostShopAdminReviewLikeResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}/like`,
+    );
+
+    return response;
+  }
 }
 
 export const apiService = new ApiService(httpClient);
