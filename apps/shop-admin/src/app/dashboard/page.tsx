@@ -19,6 +19,7 @@ import {
   REVIEW_SCORE_OPTIONS_MAP,
 } from '@/constants/review';
 import useAuthCheck from '@/hooks/use-auth-check';
+import { AuthService } from '@/service/auth';
 import { type GetProductReviewListParam, ReviewService } from '@/service/review';
 import { useOverlayAction } from '@/store/overlay';
 import type { ReviewDataType, ReviewPageSizeType, ReviewPeriodType, ReviewReplyDataType } from '@/types/review';
@@ -66,9 +67,13 @@ function DashboardPage() {
     } catch (error) {
       // eslint-disable-next-line no-console -- track error
       console.error('리뷰 리스트 데이터 조회에 실패했습니다 : ', error);
-      // eslint-disable-next-line no-alert -- required alert
-      alert('일시적으로 데이터를 조회하지 못하고 있습니다. 잠시 후 다시 시도해 주세요.');
-      router.push('/dashboard');
+
+      const isAuthExist = await AuthService.checkAuth();
+      if (isAuthExist) {
+        // eslint-disable-next-line no-alert -- required alert
+        alert('일시적으로 데이터를 조회하지 못하고 있습니다. 잠시 후 다시 시도해 주세요.');
+        router.push('/dashboard');
+      }
     }
   };
 
