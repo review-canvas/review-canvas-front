@@ -5,7 +5,7 @@ import type { TableCellProps } from '@ui/components/table';
 import { useState } from 'react';
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { Checkbox, RadioGroup, SolidButton, Table } from '@ui/components';
+import { Checkbox, RadioGroup, Select, SolidButton, Table } from '@ui/components';
 import CheckboxGroup from '@ui/components/checkbox-group';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ import tw, { styled } from 'twin.macro';
 
 import ReviewDetailModal from '@/components/dashboard/review-detail-modal';
 import {
+  REVIEW_DASHBOARD_PAGE_SIZE,
   REVIEW_FILTER_OPTIONS_MAP,
   REVIEW_PERIOD_OPTIONS_MAP,
   REVIEW_REPLY_FILTER_OPTIONS_MAP,
@@ -29,7 +30,7 @@ function DashboardPage() {
 
   const [productId] = useState<number>(0);
   const [pageIndex, setPageIndex] = useState<number>(0);
-  const [pageSize] = useState<ReviewPageSizeType>(10);
+  const [pageSize, setPageSize] = useState<ReviewPageSizeType>(REVIEW_DASHBOARD_PAGE_SIZE[0]);
   const [reviewPeriod, setReviewPeriod] = useState<ReviewPeriodType>('ALL');
   const [reviewFilters, setReviewFilters] = useState<string[]>(defaultReviewFilters);
   const [scores, setScores] = useState<string[]>(defaultScores);
@@ -273,16 +274,41 @@ function DashboardPage() {
             ) : (
               <TableContainer>
                 {data?.content && data.content.length > 0 ? (
-                  <Table
-                    activateSearchFilter
-                    columns={columns}
-                    data={data.content}
-                    manualPagination
-                    onPageIndexChange={setPageIndex}
-                    pageCount={pageCount}
-                    pageIndex={pageIndex}
-                    pageSize={pageSize}
-                  />
+                  <>
+                    <Table
+                      activateSearchFilter
+                      columns={columns}
+                      data={data.content}
+                      manualPagination
+                      onPageIndexChange={setPageIndex}
+                      pageCount={pageCount}
+                      pageIndex={pageIndex}
+                      pageSize={pageSize}
+                    />
+
+                    <div tw="flex justify-end items-center mt-4">
+                      <Select
+                        selectedKey={pageSize}
+                        defaultSelectedKey={pageSize}
+                        onSelectionChange={(key) => {
+                          setPageSize(key as ReviewPageSizeType);
+                        }}
+                        tw="min-w-[100px]"
+                      >
+                        {REVIEW_DASHBOARD_PAGE_SIZE.map((_size) => {
+                          return (
+                            <Select.Item
+                              key={_size}
+                              id={_size}
+                              style={SelectItemStyles}
+                            >
+                              {_size}개씩 보기
+                            </Select.Item>
+                          );
+                        })}
+                      </Select>
+                    </div>
+                  </>
                 ) : (
                   <div>조회되는 리뷰가 없습니다</div>
                 )}
@@ -460,3 +486,10 @@ function ReviewDetailCell({ cell }: TableCellProps<ReviewDataType, any>) {
     </SolidButton>
   );
 }
+
+const SelectItemStyles = {
+  fontSize: '0.875rem',
+  lineHeight: '1.25rem',
+  borderRadius: '0.375rem',
+  backgroundColor: '#FFFFFF',
+};
