@@ -1,5 +1,7 @@
 import type { ReviewModalProps } from './review-modal-layout';
 
+import { useState } from 'react';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { SolidButton } from '@ui/components';
 import dayjs from 'dayjs';
@@ -12,6 +14,7 @@ import ReviewLikeButton from '../review/review-like-button';
 import ReviewModal from './review-modal-layout';
 
 function ReviewDetailModal(props: ReviewModalProps) {
+  const [isLiked, setIsLiked] = useState<boolean>(props.isLiked);
   const queryClient = useQueryClient();
 
   const handlePressDeleteButton = async () => {
@@ -116,7 +119,13 @@ function ReviewDetailModal(props: ReviewModalProps) {
         <ReviewModal.FooterItem>
           <ReviewLikeButton
             reviewId={props.reviewId}
-            isActive={false}
+            isActive={isLiked}
+            onSuccess={() => {
+              setIsLiked(!isLiked);
+              void queryClient.invalidateQueries({
+                queryKey: ['review-list'],
+              });
+            }}
           />
         </ReviewModal.FooterItem>
 

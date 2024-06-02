@@ -7,15 +7,17 @@ import { ReviewService } from '@/service/review';
 interface ReviewLikeButtonProps {
   reviewId: number;
   isActive?: boolean;
+  onSuccess?: () => void;
 }
 
-function ReviewLikeButton({ reviewId, isActive = false, ...props }: ReviewLikeButtonProps) {
+function ReviewLikeButton({ reviewId, isActive = false, onSuccess, ...props }: ReviewLikeButtonProps) {
   const activeReviewLike = async () => {
     try {
       const isSuccess = await ReviewService.createReviewLike(reviewId);
       if (isSuccess) {
         // eslint-disable-next-line no-alert -- required
         alert('좋아요가 정상적으로 등록되었어요');
+        onSuccess?.();
       } else {
         throw new Error('좋아요 등록이 이루어지지 않았어요');
       }
@@ -31,6 +33,7 @@ function ReviewLikeButton({ reviewId, isActive = false, ...props }: ReviewLikeBu
       if (isSuccess) {
         // eslint-disable-next-line no-alert -- required
         alert('좋아요가 정상적으로 취소되었어요');
+        onSuccess?.();
       } else {
         throw new Error('좋아요 취소가 이루어지지 않았어요');
       }
