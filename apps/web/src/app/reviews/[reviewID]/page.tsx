@@ -17,7 +17,9 @@ type PageParams = {
 
 export default function Page() {
   const params = useParams<PageParams>();
-  if (!params?.reviewID) notFound();
+  const isCorrectPageParams = params?.reviewID;
+  if (!isCorrectPageParams) notFound();
+
   useReviewCanvasReady('detail');
   const shop = useShop();
   if (!shop.connected) return <DisconnectedPage />;

@@ -3,7 +3,6 @@
 import { Suspense } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { notFound } from 'next/navigation';
 
 import CloseButton from '@/components/close-button';
 import ReviewList from '@/components/review/list';
@@ -26,8 +25,6 @@ export default function MyReviewsPage({ productID }: ConnectedPageProps) {
     queryKey: ['design-property', id],
     queryFn: () => designPropertyService.get(id),
   });
-
-  if (!productID) notFound();
 
   const close = () => {
     sendMessageToShop(domain, 'close-modal');

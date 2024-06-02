@@ -9,9 +9,11 @@ export default function DeleteConfirm({ deleteItem, onClose }: ConfirmProps) {
       <div className="flex flex-col items-center p-8">
         <div className="relative text-center">
           <p>삭제된 정보는 다시 복구할 수 없습니다.</p>
-          정말 <span className="text-red-500">삭제</span>하시겠습니까?
+          <p>
+            정말 <span className="text-red-500">삭제</span>하시겠습니까?
+          </p>
         </div>
-        <div className="flex flex-row  p-4 gap-8 mt-4">
+        <div className="flex p-4 gap-8 mt-4">
           <button
             className="text-red-500"
             onClick={deleteItem}

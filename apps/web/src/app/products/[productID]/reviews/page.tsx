@@ -17,7 +17,9 @@ type PageParams = {
 
 export default function Page() {
   const params = useParams<PageParams>();
-  if (!params?.productID) notFound();
+  const isCorrectPageParams = params?.productID;
+  if (!isCorrectPageParams) notFound();
+
   const shop = useShop();
 
   useReviewCanvasReady('list');

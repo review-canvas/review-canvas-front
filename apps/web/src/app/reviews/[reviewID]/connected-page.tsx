@@ -9,10 +9,11 @@ import Reply from '@/components/reply/item';
 import { Star } from '@/components/review/star';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
-import type { CreateReplyItemRequest, PathInfo } from '@/services/api-types/review';
+import type { CreateReplyItemRequest } from '@/services/api-types/review';
 import { useDesignPropertyService } from '@/services/design-property';
 import { useReviewService } from '@/services/review.tsx';
 import useShop, { useConnectedShop } from '@/state/shop.ts';
+import { isEnterKeyPressedWithoutShift } from '@/utils/keyboard';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 
 interface ConnectedPageProps {
@@ -58,21 +59,21 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
     },
   });
   useEffect(() => {
-    const handleMessager = (event: { data: string }) => {
-      if (event.data === 'refresh') {
+    const handleMessage = (evt: { data: string }) => {
+      if (evt.data === 'refresh') {
         void reviewDetailQuery.refetch();
       }
     };
 
-    window.addEventListener('message', handleMessager);
+    window.addEventListener('message', handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleMessager);
+      window.removeEventListener('message', handleMessage);
     };
   }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(event.target.value);
+  const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(evt.target.value);
   };
 
   if (!shop.connected) return <div>connecting...</div>;
@@ -84,14 +85,14 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
     content,
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      if (content.length !== 0) submit();
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (isEnterKeyPressedWithoutShift(event)) {
+      event.preventDefault();
+      submit();
     }
   };
   const submit = () => {
-    createReplyMutation.mutate();
+    if (content.length !== 0) createReplyMutation.mutate();
   };
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);

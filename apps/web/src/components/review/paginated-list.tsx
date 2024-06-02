@@ -48,8 +48,8 @@ export default function PaginatedList({ productID, filter, sort }: PaginatedList
   }, [reviewListQuery.status]);
 
   useEffect(() => {
-    const handleMessage = (event: { data: string }) => {
-      if (event.data === 'refresh') {
+    const handleMessage = (evt: { data: string }) => {
+      if (evt.data === 'refresh') {
         void reviewListQuery.refetch();
       }
     };

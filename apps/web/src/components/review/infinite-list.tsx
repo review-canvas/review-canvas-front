@@ -59,8 +59,8 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
   }, [reviewListQuery.status]);
 
   useEffect(() => {
-    const handleMessage = (event: { data: string }) => {
-      if (event.data === 'refresh') {
+    const handleMessage = (evt: { data: string }) => {
+      if (evt.data === 'refresh') {
         void reviewListQuery.refetch();
       }
     };
@@ -72,7 +72,7 @@ export default function InfiniteList({ productID, filter, sort }: InfiniteListPr
     };
   }, []);
 
-  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content.filter((review) => !review.deleted));
+  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
 
   return (
     <>
