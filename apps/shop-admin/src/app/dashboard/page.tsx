@@ -20,6 +20,7 @@ import {
   REVIEW_SCORE_OPTIONS_MAP,
 } from '@/constants/review';
 import useAuthCheck from '@/hooks/use-auth-check';
+import { useProductList } from '@/hooks/use-product-list';
 import { AuthService } from '@/service/auth';
 import { type GetProductReviewListParam, ReviewService } from '@/service/review';
 import { useOverlayAction } from '@/store/overlay';
@@ -28,7 +29,7 @@ import type { ReviewDataType, ReviewPageSizeType, ReviewPeriodType, ReviewReplyD
 function DashboardPage() {
   const router = useRouter();
 
-  const [productId] = useState<number>(0);
+  const [productId, setProductId] = useState<number>(0);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [pageSize, setPageSize] = useState<ReviewPageSizeType>(REVIEW_DASHBOARD_PAGE_SIZE[0]);
   const [reviewPeriod, setReviewPeriod] = useState<ReviewPeriodType>('ALL');
@@ -99,6 +100,8 @@ function DashboardPage() {
 
   const pageCount = data?.total ? Math.ceil(data.total / pageSize) : 0;
 
+  const { data: productListData } = useProductList();
+
   return (
     <div tw="flex flex-col gap-4 p-3">
       <div tw="flex flex-col gap-8">
@@ -109,6 +112,39 @@ function DashboardPage() {
 
         <div tw="flex flex-col gap-4">
           <div tw="flex flex-col gap-4 px-8 py-6 bg-white rounded-md shadow-sm">
+            <FilterTableRow>
+              <FilterTableRowTitle>상품선택</FilterTableRowTitle>
+              <FilterTableRowContent>
+                <Select
+                  selectedKey={productId}
+                  defaultSelectedKey={productId}
+                  onSelectionChange={(key) => {
+                    setProductId(key as number);
+                  }}
+                  tw="min-w-[300px] [& .react-aria-Button]:py-2"
+                >
+                  <Select.Item
+                    key={0}
+                    id={0}
+                    style={SelectItemStyles}
+                  >
+                    전체 상품
+                  </Select.Item>
+                  {productListData?.content.map((_product) => {
+                    return (
+                      <Select.Item
+                        key={_product.productId}
+                        id={_product.productId}
+                        style={SelectItemStyles}
+                      >
+                        {_product.productName}
+                      </Select.Item>
+                    );
+                  })}
+                </Select>
+              </FilterTableRowContent>
+            </FilterTableRow>
+
             <FilterTableRow>
               <FilterTableRowTitle>조회기간</FilterTableRowTitle>
               <FilterTableRowContent>
@@ -293,7 +329,7 @@ function DashboardPage() {
                         onSelectionChange={(key) => {
                           setPageSize(key as ReviewPageSizeType);
                         }}
-                        tw="min-w-[100px]"
+                        tw="min-w-[110px]"
                       >
                         {REVIEW_DASHBOARD_PAGE_SIZE.map((_size) => {
                           return (
@@ -501,6 +537,5 @@ function ReviewDetailCell({ cell }: TableCellProps<ReviewDataType, any>) {
 const SelectItemStyles = {
   fontSize: '0.875rem',
   lineHeight: '1.25rem',
-  borderRadius: '0.375rem',
   backgroundColor: '#FFFFFF',
 };
