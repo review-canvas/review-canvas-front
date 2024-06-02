@@ -541,6 +541,7 @@ export interface GetProductReviewResponse {
     nickname: string;
     isMine: boolean;
     likeCount: number;
+    isLiked: boolean;
     createAt: string;
     updatedAt: string;
     deleted: boolean;

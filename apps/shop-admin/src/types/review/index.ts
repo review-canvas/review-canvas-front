@@ -26,6 +26,7 @@ export interface ReviewDataType {
   isMine: boolean;
   createAt: string;
   likeCount: number;
+  isLiked: boolean;
   updatedAt: string;
   deleted: boolean;
   productId: number;
