@@ -27,5 +27,6 @@ export function useProductList(param?: UseProductListParam) {
       return ReviewService.getShopProductList(queryKey[1] as GetShopProductListParam);
     },
     placeholderData: keepPreviousData,
+    retry: 3,
   });
 }
