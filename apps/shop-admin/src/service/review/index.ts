@@ -19,6 +19,15 @@ export interface GetShopProductListParam {
   size?: number;
 }
 
+export interface CreateShopProductReviewParam {
+  productId: number;
+  review: {
+    score: number;
+    content: string;
+  };
+  reviewFiles: File[];
+}
+
 async function getProductReviewList(param: GetProductReviewListParam): Promise<ReviewDataListType> {
   try {
     const _param: GetProductReviewRequest = {
@@ -49,6 +58,25 @@ async function getShopProductList(param: GetShopProductListParam): Promise<Produ
     return await apiService.getShopProducts(_param);
   } catch (error) {
     throw new Error('상품 목록 조회에 실패했습니다.', error as ErrorOptions);
+  }
+}
+
+async function createReview(param: CreateShopProductReviewParam): Promise<boolean> {
+  try {
+    if (!param.review.content) {
+      throw new Error('리뷰 내용이 존재하지 않습니다')
+    }
+
+    const _param = {
+      productId: param.productId,
+      createReviewByShopAdminRequest: param.review,
+      reviewFiles: param.reviewFiles,
+    };
+
+    const response = await apiService.postShopAdminProductReview(_param);
+    return response.success;
+  } catch (error) {
+    throw new Error('리뷰 생성에 실패했습니다.', error as ErrorOptions);
   }
 }
 
@@ -91,6 +119,7 @@ async function deleteReviewLike(reviewId: number): Promise<boolean> {
 export const ReviewService = {
   getProductReviewList,
   getShopProductList,
+  createReview,
   deleteReview,
   createReviewLike,
   deleteReviewLike,
