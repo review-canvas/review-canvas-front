@@ -82,8 +82,25 @@ const ReviewModal = createCompositeComponent(
         </div>
       );
     },
-    Footer: ({ children }: CommonProps) => {
-      return <div tw="flex items-center">{children}</div>;
+    Footer: ({ children, ...props }: CommonProps) => {
+      return (
+        <div
+          tw="flex justify-between items-center"
+          {...props}
+        >
+          {children}
+        </div>
+      );
+    },
+    FooterItem: ({ children, ...props }: CommonProps) => {
+      return (
+        <div
+          tw="inline-flex items-center"
+          {...props}
+        >
+          {children}
+        </div>
+      );
     },
   },
 );
