@@ -293,6 +293,37 @@ class ApiService {
 
     return response;
   }
+
+  public async postShopAdminProductReview(
+    request: API.PostShopAdminProductReviewRequest,
+  ): Promise<CommonResponse<API.PostShopAdminProductReviewResponse>> {
+    const formData = new FormData();
+    formData.append(
+      'createReviewByShopAdminRequest',
+      new Blob(
+        [
+          JSON.stringify({
+            score: request.createReviewByShopAdminRequest.score,
+            content: request.createReviewByShopAdminRequest.content,
+          }),
+        ],
+        {
+          type: 'application/json',
+        },
+      ),
+    );
+
+    request.reviewFiles.forEach((file) => {
+      formData.append('reviewFiles', file);
+    });
+
+    const response = await this.httpClient.post<CommonResponse<API.PostShopAdminProductReviewResponse>>(
+      `/api/v1/shop-admin/products/${request.productId}/review`,
+      formData,
+    );
+    
+    return response;
+  }
 }
 
 export const apiService = new ApiService(httpClient);
