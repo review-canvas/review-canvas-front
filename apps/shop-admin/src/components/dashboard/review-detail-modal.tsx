@@ -7,6 +7,8 @@ import { styled } from 'twin.macro';
 
 import { ReviewService } from '@/service/review';
 
+import ReviewLikeButton from '../review/review-like-button';
+
 import ReviewModal from './review-modal-layout';
 
 function ReviewDetailModal(props: ReviewModalProps) {
@@ -111,16 +113,25 @@ function ReviewDetailModal(props: ReviewModalProps) {
       </ReviewModal.Table>
 
       <ReviewModal.Footer>
-        <SolidButton
-          variant="primary"
-          size="sm"
-          tw="bg-red-600"
-          onPress={() => {
-            void handlePressDeleteButton();
-          }}
-        >
-          삭제
-        </SolidButton>
+        <ReviewModal.FooterItem>
+          <ReviewLikeButton
+            reviewId={props.reviewId}
+            isActive={false}
+          />
+        </ReviewModal.FooterItem>
+
+        <ReviewModal.FooterItem>
+          <SolidButton
+            variant="primary"
+            size="sm"
+            tw="bg-red-600"
+            onPress={() => {
+              void handlePressDeleteButton();
+            }}
+          >
+            삭제
+          </SolidButton>
+        </ReviewModal.FooterItem>
       </ReviewModal.Footer>
     </ReviewModal>
   );
