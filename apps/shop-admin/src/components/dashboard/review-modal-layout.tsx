@@ -14,7 +14,7 @@ const ReviewModal = createCompositeComponent(
   ({ children, ...props }: CommonProps) => {
     return (
       <div
-        tw="flex flex-col gap-8 w-[80vw] max-w-[800px] max-h-[90vh] p-10 bg-white rounded-md overflow-y-auto"
+        tw="flex flex-col gap-4 w-[80vw] max-w-[800px] max-h-[90vh] p-10 bg-white rounded-md overflow-y-auto"
         {...props}
       >
         {children}
@@ -35,7 +35,7 @@ const ReviewModal = createCompositeComponent(
     Caption: ({ children, ...props }: CommonProps) => {
       return (
         <div
-          tw="text-sm text-stone-400 font-medium break-keep mt-1"
+          tw="text-sm text-stone-400 font-medium break-keep"
           {...props}
         >
           {children}
