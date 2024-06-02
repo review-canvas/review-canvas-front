@@ -13,7 +13,7 @@ export interface GetProductReviewListParam {
   replyFilters?: string[];
 }
 
-interface GetShopProductListParam {
+export interface GetShopProductListParam {
   shopAdminId: number;
   page?: number;
   size?: number;
@@ -43,7 +43,7 @@ async function getShopProductList(param: GetShopProductListParam): Promise<Produ
     const _param = {
       ...param,
       page: param.page || 0,
-      size: param.size || 10,
+      size: param.size || 20,
     };
 
     return await apiService.getShopProducts(_param);
