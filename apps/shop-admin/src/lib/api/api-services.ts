@@ -324,6 +324,37 @@ class ApiService {
     
     return response;
   }
+
+  public async patchShopAdminProductReview(
+    request: API.PatchShopAdminProductReviewRequest,
+  ): Promise<CommonResponse<API.PatchShopAdminProductReviewResponse>> {
+    const formData = new FormData();
+    formData.append(
+      'updateReviewRequest',
+      new Blob(
+        [
+          JSON.stringify({
+            score: request.updateReviewRequest.score,
+            content: request.updateReviewRequest.content,
+          }),
+        ],
+        {
+          type: 'application/json',
+        },
+      ),
+    );
+
+    request.reviewFiles.forEach((file) => {
+      formData.append('reviewFiles', file);
+    });
+
+    const response = await this.httpClient.patch<CommonResponse<API.PatchShopAdminProductReviewResponse>>(
+      `/api/v1/shop-admin/reviews/${request.reviewId}`,
+      formData,
+    );
+    
+    return response;
+  }
 }
 
 export const apiService = new ApiService(httpClient);
