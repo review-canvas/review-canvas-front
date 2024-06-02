@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import tw, { styled } from 'twin.macro';
 
+import ReviewCreateModal from '@/components/dashboard/review-create-modal';
 import ReviewDetailModal from '@/components/dashboard/review-detail-modal';
 import {
   REVIEW_DASHBOARD_PAGE_SIZE,
@@ -322,27 +323,33 @@ function DashboardPage() {
                       pageSize={pageSize}
                     />
 
-                    <div tw="flex justify-end items-center mt-4">
-                      <Select
-                        selectedKey={pageSize}
-                        defaultSelectedKey={pageSize}
-                        onSelectionChange={(key) => {
-                          setPageSize(key as ReviewPageSizeType);
-                        }}
-                        tw="min-w-[110px]"
-                      >
-                        {REVIEW_DASHBOARD_PAGE_SIZE.map((_size) => {
-                          return (
-                            <Select.Item
-                              key={_size}
-                              id={_size}
-                              style={SelectItemStyles}
-                            >
-                              {_size}개씩 보기
-                            </Select.Item>
-                          );
-                        })}
-                      </Select>
+                    <div tw="flex justify-between items-center mt-4">
+                      <div>
+                        <ReviewCreateButton />
+                      </div>
+
+                      <div>
+                        <Select
+                          selectedKey={pageSize}
+                          defaultSelectedKey={pageSize}
+                          onSelectionChange={(key) => {
+                            setPageSize(key as ReviewPageSizeType);
+                          }}
+                          tw="min-w-[110px] [& .react-aria-Button]:py-[8px]"
+                        >
+                          {REVIEW_DASHBOARD_PAGE_SIZE.map((_size) => {
+                            return (
+                              <Select.Item
+                                key={_size}
+                                id={_size}
+                                style={SelectItemStyles}
+                              >
+                                {_size}개씩 보기
+                              </Select.Item>
+                            );
+                          })}
+                        </Select>
+                      </div>
                     </div>
                   </>
                 ) : (
@@ -530,6 +537,30 @@ function ReviewDetailCell({ cell }: TableCellProps<ReviewDataType, any>) {
       variant="primary"
     >
       상세
+    </SolidButton>
+  );
+}
+
+function ReviewCreateButton() {
+  const { openOverlay } = useOverlayAction();
+
+  return (
+    <SolidButton
+      size="sm"
+      variant="primary"
+      tw="bg-white text-main-primary border-main-primary border-[1px] rounded-md"
+      onPress={() => {
+        openOverlay(
+          'review-create',
+          <ReviewCreateModal
+          // onClose={() => {
+          //   closeOverlay('review-create');
+          // }}
+          />,
+        );
+      }}
+    >
+      리뷰 생성
     </SolidButton>
   );
 }
