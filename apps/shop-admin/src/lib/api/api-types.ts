@@ -6,7 +6,7 @@ export interface PostAuthLoginRequest {
 }
 
 export interface PostAuthLoginResponse {
-  adminId: number;
+  shopAdminId: number;
   accessToken: string;
   refreshToken: string;
 }
@@ -540,9 +540,17 @@ export interface GetProductReviewResponse {
     shopAdminId: number;
     nickname: string;
     isMine: boolean;
+    likeCount: number;
+    isLiked: boolean;
     createAt: string;
     updatedAt: string;
     deleted: boolean;
+    productId: number;
+    productName: string;
+    imageVideoUrls: {
+      reviewFileUrls: string[];
+      reviewResizeImageUrls: string[];
+    };
     replies: {
       replyId: number;
       content: string;
@@ -552,8 +560,6 @@ export interface GetProductReviewResponse {
       userId: number;
       nickname: string;
     }[];
-    productId: number;
-    productName: string;
   }[];
 }
 
@@ -580,3 +586,41 @@ export interface DeleteShopAdminReviewRequest {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface DeleteShopAdminReviewResponse {}
+
+export interface PostShopAdminReviewLikeRequest {
+  reviewId: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PostShopAdminReviewLikeResponse {}
+
+export interface DeleteShopAdminReviewLikeRequest {
+  reviewId: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface DeleteShopAdminReviewLikeResponse {}
+
+export interface PostShopAdminProductReviewRequest {
+  productId: number;
+  createReviewByShopAdminRequest: {
+    score: number;
+    content: string;
+  };
+  reviewFiles: File[];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PostShopAdminProductReviewResponse {}
+
+export interface PatchShopAdminProductReviewRequest {
+  reviewId: number;
+  updateReviewRequest: {
+    score: number;
+    content: string;
+  };
+  reviewFiles: File[];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchShopAdminProductReviewResponse {}

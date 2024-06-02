@@ -1,8 +1,10 @@
+import type { REVIEW_DASHBOARD_PAGE_SIZE } from '@/constants/review';
+
 export type ReviewSortingType = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 
 export type ReviewPeriodType = 'ALL' | 'TODAY' | 'ONE_MONTH' | 'THREE_MONTH' | 'SIX_MONTH' | 'CUSTOM';
 
-export type ReviewPageSizeType = 10 | 20 | 50 | 100;
+export type ReviewPageSizeType = (typeof REVIEW_DASHBOARD_PAGE_SIZE)[number];
 
 export interface ReviewReplyDataType {
   replyId: number;
@@ -23,11 +25,17 @@ export interface ReviewDataType {
   nickname: string;
   isMine: boolean;
   createAt: string;
+  likeCount: number;
+  isLiked: boolean;
   updatedAt: string;
   deleted: boolean;
-  replies: ReviewReplyDataType[];
   productId: number;
   productName: string;
+  imageVideoUrls: {
+    reviewFileUrls: string[];
+    reviewResizeImageUrls: string[];
+  };
+  replies: ReviewReplyDataType[];
 }
 
 export interface ReviewDataListType {

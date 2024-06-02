@@ -24,3 +24,5 @@ export const REVIEW_REPLY_FILTER_OPTIONS_MAP = [
   { value: 'REPLIED', label: '답글 등록' },
   { value: 'NOT_REPLIED', label: '답글 미등록' },
 ];
+
+export const REVIEW_DASHBOARD_PAGE_SIZE = [10, 20, 50, 100] as const;
