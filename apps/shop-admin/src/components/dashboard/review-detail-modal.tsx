@@ -8,14 +8,33 @@ import dayjs from 'dayjs';
 import { styled } from 'twin.macro';
 
 import { ReviewService } from '@/service/review';
+import { useOverlayAction } from '@/store/overlay';
 
 import ReviewLikeButton from '../review/review-like-button';
 
 import ReviewModal from './review-modal-layout';
+// eslint-disable-next-line import/no-cycle -- required
+import ReviewUpdateModal from './review-update-modal';
 
 function ReviewDetailModal(props: ReviewModalProps) {
   const [isLiked, setIsLiked] = useState<boolean>(props.isLiked);
+
   const queryClient = useQueryClient();
+  const { openOverlay, closeOverlay } = useOverlayAction();
+
+  const handlePressModifyButton = () => {
+    props.onClose();
+
+    openOverlay(
+      'review-update',
+      <ReviewUpdateModal
+        {...props}
+        onClose={() => {
+          closeOverlay('review-update');
+        }}
+      />,
+    );
+  };
 
   const handlePressDeleteButton = async () => {
     try {
@@ -129,7 +148,17 @@ function ReviewDetailModal(props: ReviewModalProps) {
           />
         </ReviewModal.FooterItem>
 
-        <ReviewModal.FooterItem>
+        <ReviewModal.FooterItem tw="gap-4">
+          <SolidButton
+            variant="primary"
+            size="sm"
+            onPress={() => {
+              handlePressModifyButton();
+            }}
+          >
+            수정
+          </SolidButton>
+
           <SolidButton
             variant="primary"
             size="sm"
