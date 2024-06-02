@@ -2,9 +2,11 @@ import type { ReviewModalProps } from './review-modal-layout';
 
 import { useEffect, useState } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { Select, SolidButton, TextArea } from '@ui/components';
 
 import { useProductList } from '@/hooks/use-product-list';
+import { ReviewService } from '@/service/review';
 
 import { Star } from '../review/star';
 
@@ -18,6 +20,7 @@ function ReviewCreateModal({ onClose }: ReviewCreateModalProps) {
   const [content, setContent] = useState<string>('');
 
   const { data: productListData, isLoading } = useProductList();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (productListData?.content && productListData.content.length > 0) {
@@ -28,6 +31,31 @@ function ReviewCreateModal({ onClose }: ReviewCreateModalProps) {
       onClose();
     }
   }, [productListData]);
+
+  const handleSubmitButton = async () => {
+    try {
+      const isSuccess = await ReviewService.createReview({
+        productId,
+        review: {
+          score,
+          content,
+        },
+        reviewFiles: [],
+      });
+
+      if (isSuccess) {
+        await queryClient.invalidateQueries({
+          queryKey: ['review-list'],
+        });
+        // eslint-disable-next-line no-alert -- required
+        alert('리뷰가 정상적으로 생성되었습니다');
+        onClose();
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-alert -- required
+      alert(error);
+    }
+  };
 
   return (
     <ReviewModal>
@@ -94,12 +122,18 @@ function ReviewCreateModal({ onClose }: ReviewCreateModalProps) {
                 <SolidButton
                   variant="gray"
                   size="sm"
+                  onPress={() => {
+                    onClose();
+                  }}
                 >
                   취소
                 </SolidButton>
                 <SolidButton
                   variant="primary"
                   size="sm"
+                  onPress={() => {
+                    void handleSubmitButton();
+                  }}
                 >
                   저장
                 </SolidButton>
