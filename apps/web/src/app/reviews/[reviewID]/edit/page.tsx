@@ -44,7 +44,9 @@ export default function ReviewEditPage() {
   if (!reviewDetailQuery.data) return <div>loading...</div>;
 
   const reviewDetail = reviewDetailQuery.data.data;
-  if (reviewDetail.nickname !== shop.userID) notFound();
+
+  const isReviewWrittenByLoginUser = typeof shop.userID === 'string' && reviewDetail.nickname === shop.userID;
+  if (!isReviewWrittenByLoginUser) notFound();
 
   const pathInfo: PathInfo = {
     requestId: params?.reviewID,

@@ -54,7 +54,8 @@ export default function ReplyEditPage() {
   if (!replyDetailQuery.data) return <div>loading...</div>;
 
   const replyDetail = replyDetailQuery.data.data;
-  if (replyDetail.memberId !== shop.userID) notFound();
+  const isReplyWrittenByLoginUser = typeof shop.userID === 'string' && replyDetail.memberId === shop.userID;
+  if (!isReplyWrittenByLoginUser) notFound();
 
   const requestInfo: CreateReplyItemRequest = {
     mallId: shop.id,
