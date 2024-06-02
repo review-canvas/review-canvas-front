@@ -612,3 +612,15 @@ export interface PostShopAdminProductReviewRequest {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface PostShopAdminProductReviewResponse {}
+
+export interface PatchShopAdminProductReviewRequest {
+  reviewId: number;
+  updateReviewRequest: {
+    score: number;
+    content: string;
+  };
+  reviewFiles: File[];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
+export interface PatchShopAdminProductReviewResponse {}
