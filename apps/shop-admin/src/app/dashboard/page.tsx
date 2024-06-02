@@ -357,6 +357,7 @@ const TableContainer = styled.div`
 
     .review-control-button {
       width: 50px;
+      margin: 0 auto;
     }
   }
 
