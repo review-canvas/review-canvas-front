@@ -9,6 +9,79 @@ class ReviewService {
   async list({
     mallId,
     productNo,
+    memberId,
+    sort = 'LATEST',
+    filter = 'ALL',
+    size = 10,
+    page = 0,
+  }: TYPE.RetrieveReviewListRequest): Promise<TYPE.RetrieveReviewListResponse> {
+    const search = memberId
+      ? new URLSearchParams({
+          memberId,
+          page: page.toString(),
+          size: size.toString(),
+          sort,
+          filter,
+        })
+      : new URLSearchParams({
+          page: page.toString(),
+          size: size.toString(),
+          sort,
+          filter,
+        });
+
+    const response = await API.get<TYPE.RetrieveReviewListResponse>(
+      `/api/v1/shop/${mallId}/products/${productNo}/reviews?${search.toString()}`,
+    );
+    return response.data;
+  }
+
+  async create(Id: TYPE.CreateReivewPathInfo, request: TYPE.CreateReviewItemRequest, reviewImages?: File[]) {
+    const formData = new FormData();
+    if (reviewImages) {
+      reviewImages.forEach((file) => {
+        formData.append('reviewFiles', file, file.name);
+      });
+    }
+
+    const jsonBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });
+    formData.append('createReviewRequest', jsonBlob, 'createReviewRequest.json');
+
+    await API.post<TYPE.CommonResponse>(`/api/v1/shop/${Id.mallId}/products/${Id.productId}/review`, formData);
+  }
+
+  async update(id: TYPE.PathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File[]) {
+    const formData = new FormData();
+
+    if (reviewImages) {
+      reviewImages.forEach((file) => {
+        formData.append('reviewImages', file, file.name);
+      });
+    }
+
+    const jsonBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });
+    formData.append('updateReviewRequest', jsonBlob, 'updateReviewRequest.json');
+
+    await API.patch<TYPE.CommonResponse>(
+      `/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.requestId}`,
+      formData,
+    );
+  }
+
+  async delete(id: TYPE.PathInfo) {
+    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.requestId}`);
+  }
+
+  async get(id: TYPE.PathInfo) {
+    const response = await API.get<TYPE.RetrieveReviewItemResponse>(
+      `/api/v1/reviews/${id.requestId}?mallId=${id.mallId}&memberId=${id.memberId}`,
+    );
+    return response.data;
+  }
+  async myReiveiwList({
+    mallId,
+    productNo,
+    memberId,
     sort = 'LATEST',
     filter = 'ALL',
     size = 10,
@@ -22,54 +95,23 @@ class ReviewService {
     });
 
     const response = await API.get<TYPE.RetrieveReviewListResponse>(
-      `/api/v1/shop/${mallId}/products/${productNo}/reviews?${search.toString()}`,
+      `/api/v1/shop/${mallId}/users/${memberId}/mypage/${productNo}/reviews?${search.toString()}`,
     );
     return response.data;
   }
 
-  async create(Id: TYPE.CreateReivewPathInfo, request: TYPE.CreateReviewItemRequest, reviewImages?: File[]) {
-    const formData = new FormData();
-    if (reviewImages) {
-      reviewImages.forEach((file) => {
-        formData.append('reviewImages', file, file.name);
-      });
-    }
-
-    const jsonBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });
-    formData.append('createReviewRequest', jsonBlob, 'createReviewRequest.json');
-
-    await API.post<TYPE.CommonResponse>(`/api/v1/shop/${Id.mallId}/products/${Id.productId}/review`, formData);
-  }
-
-  async update(id: TYPE.ReivewPathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File[]) {
-    const formData = new FormData();
-
-    if (reviewImages) {
-      reviewImages.forEach((file) => {
-        formData.append('reviewImages', file, file.name);
-      });
-    }
-
-    const jsonBlob = new Blob([JSON.stringify(request)], { type: 'application/json' });
-    formData.append('updateReviewRequest', jsonBlob, 'updateReviewRequest.json');
-
-    await API.patch<TYPE.CommonResponse>(
-      `/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.reviewId}`,
-      formData,
-    );
-  }
-
-  async delete(id: TYPE.ReivewPathInfo) {
-    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/reviews/${id.reviewId}`);
-  }
-
-  async get(id: string) {
-    const response = await API.get<TYPE.RetrieveReviewItemResponse>(`/api/v1/reviews/${id}`);
+  async getReply(Id: string) {
+    const response = await API.get<TYPE.RetrieveReplyItemResponse>(`/api/v1/replies/${Id}`);
     return response.data;
   }
-
   async createReply(Id: string, request: TYPE.CreateReplyItemRequest) {
     await API.post<TYPE.CommonResponse>(`/api/v1/reviews/${Id}/reply`, request);
+  }
+  async updateReply(Id: number | string, request: TYPE.CreateReplyItemRequest) {
+    await API.patch<TYPE.CommonResponse>(`/api/v1/replies/${Id}`, request);
+  }
+  async deleteReply(id: TYPE.PathInfo) {
+    await API.delete<TYPE.CommonResponse>(`/api/v1/shop/${id.mallId}/users/${id.memberId}/replies/${id.requestId}`);
   }
 }
 

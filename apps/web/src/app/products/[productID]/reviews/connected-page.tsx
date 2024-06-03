@@ -29,13 +29,13 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
   const openMyPage = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'mypage',
-      url: `/mypage/${userID}`,
+      url: `/mypage/${productID}`,
     });
   };
 
   const openCreateReviewPage = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'craete_review',
+      type: 'craete',
       url: `/reviews/create/${productID}`,
     });
   };

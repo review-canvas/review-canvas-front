@@ -22,7 +22,7 @@ export default function Page() {
 
   const shop = useShop();
 
-  useReviewCanvasReady('list');
+  useReviewCanvasReady('mypage');
 
   if (!shop.connected) return <DisconnectedPage />;
 

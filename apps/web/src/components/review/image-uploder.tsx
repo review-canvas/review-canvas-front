@@ -3,13 +3,11 @@ import { useRef } from 'react';
 
 import Image from 'next/image';
 
-export type UploadImagesState = {
-  imageFiles: File[];
-  imageUrls: string[];
-};
+import type { ImageVideoUrl } from '@/services/api-types/review';
+
 export interface ImageUploaderProps {
-  uploadImages: UploadImagesState;
-  setUploadImages: Dispatch<SetStateAction<UploadImagesState>>;
+  uploadImages: ImageVideoUrl;
+  setUploadImages: Dispatch<SetStateAction<ImageVideoUrl>>;
 }
 export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderProps) {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -23,38 +21,37 @@ export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderPr
 
     const newImages = Array.from(files, (file) => URL.createObjectURL(file));
     setUploadImages({
-      imageFiles: [...uploadImages.imageFiles, ...fileArray],
-      imageUrls: [...uploadImages.imageUrls, ...newImages],
+      reviewFileUrls: [...uploadImages.reviewFileUrls, ...fileArray],
+      reviewResizeImageUrls: [...uploadImages.reviewResizeImageUrls, ...newImages],
     });
   };
 
   const handleDeleteImage = (id: number) => {
     setUploadImages({
-      imageFiles: uploadImages.imageFiles.filter((_: any, index: number) => index !== id),
-      imageUrls: uploadImages.imageUrls.filter((_: any, index: number) => index !== id),
+      reviewFileUrls: uploadImages.reviewFileUrls.filter((_: any, index: number) => index !== id),
+      reviewResizeImageUrls: uploadImages.reviewResizeImageUrls.filter((_: any, index: number) => index !== id),
     });
   };
 
   return (
     <div>
       <div className="flex justify-center text-center text-lg font-medium pt-6">
-        사진 첨부하기 {uploadImages.imageUrls.length}/10
+        사진 첨부하기 {uploadImages.reviewResizeImageUrls.length}/10
       </div>
       <div className="flex flex-row flex-wrap m-4 px-10">
-        {uploadImages.imageUrls.map((imageUrl: string, index: number) => (
+        {uploadImages.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
           <div
             className="relative m-2"
             key={index}
           >
             <Image
               alt={`upload-img-${index}`}
-              className="basis-1/4"
-              height={110}
+              height={0}
               src={imageUrl}
               width={110}
             />
             <button
-              className="absolute right-0 bottom-0"
+              className="absolute right-0 top-0"
               onClick={() => {
                 handleDeleteImage(index);
               }}
@@ -87,7 +84,7 @@ export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderPr
           ref={fileRef}
           type="file"
         />
-        {uploadImages.imageFiles.length < 10 && (
+        {uploadImages.reviewFileUrls.length < 10 && (
           <button
             className="relative m-2"
             onClick={handleClick}

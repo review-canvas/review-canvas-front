@@ -11,19 +11,19 @@ import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 
 type PageParams = {
-  reviewID: string;
+  replyID: string;
 };
 
-export default function ReviewDeletePage() {
+export default function ReplyDeletePage() {
   const params = useParams<PageParams>();
   const shop = useShop();
 
   useReviewCanvasReady('delete');
   const reviewService = useReviewService();
 
-  const deleteReviewMutation = useMutation({
+  const deleteReplyMutation = useMutation({
     mutationFn: async () => {
-      await reviewService.delete(pathInfo);
+      await reviewService.deleteReply(pathInfo);
     },
     onSuccess: () => {
       close();
@@ -36,20 +36,21 @@ export default function ReviewDeletePage() {
   if (!shop.connected) return <div>connecting...</div>;
 
   const pathInfo: PathInfo = {
-    requestId: params?.reviewID,
+    requestId: params?.replyID,
     mallId: shop.id,
     memberId: shop.userID,
   };
 
-  const deleteReview = () => {
-    deleteReviewMutation.mutate();
+  const deleteReply = () => {
+    deleteReplyMutation.mutate();
   };
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);
   };
+
   return (
     <DeleteConfirm
-      deleteItem={deleteReview}
+      deleteItem={deleteReply}
       onClose={close}
     />
   );

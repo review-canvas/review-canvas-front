@@ -1,11 +1,11 @@
 interface CloseButtonProps {
-    close: () => void;
-  }
-export default function CloseButton({close}:CloseButtonProps) {
+  onClose: () => void;
+}
+export default function CloseButton({ onClose }: CloseButtonProps) {
   return (
     <button
       className="absolute top-3 right-3 z-10"
-      onClick={close}
+      onClick={onClose}
       type="button"
     >
       <svg

@@ -6,7 +6,7 @@ import { notFound, useParams } from 'next/navigation';
 import CloseButton from '@/components/close-button';
 import { Textform } from '@/components/review/textform.tsx';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { ReivewPathInfo, UpdateReviewItemRequest } from '@/services/api-types/review';
+import type { PathInfo, UpdateReviewItemRequest } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
@@ -18,14 +18,12 @@ type PageParams = {
 export default function ReviewEditPage() {
   const params = useParams<PageParams>();
   const shop = useShop();
-
-  useReviewCanvasReady('edit_review');
+  useReviewCanvasReady('edit');
   const reviewService = useReviewService();
 
   const reviewDetailQuery = useQuery({
-    queryKey: ['review-detail', { id: params?.reviewID }],
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- controlled by react-query
-    queryFn: () => reviewService.get(params!.reviewID),
+    queryKey: ['review-detail', { id: params?.reviewID, mallId: shop.id }],
+    queryFn: () => reviewService.get({ requestId: params?.reviewID, mallId: shop.id }),
     enabled: Boolean(shop.connected && params?.reviewID),
   });
 
@@ -34,33 +32,29 @@ export default function ReviewEditPage() {
       await reviewService.update(pathInfo, { content, score });
     },
     onSuccess: () => {
-      refresh();
+      close();
     },
     onError: () => {
       throw new Error('수정에 실패했습니다');
     },
   });
 
-
-
   if (!shop.connected) return <div>connecting...</div>;
   if (!reviewDetailQuery.data) return <div>loading...</div>;
 
-  const pathInfo: ReivewPathInfo = {
-    reviewId: params?.reviewID,
-    mallId: shop.id,
-    memberId: shop.userID, //reviewDetailQuery.data?.data.userId,
-  };
-  
   const reviewDetail = reviewDetailQuery.data.data;
-  if (reviewDetail.nickname !== shop.userID) notFound();
+
+  const isReviewWrittenByLoginUser = typeof shop.userID === 'string' && reviewDetail.nickname === shop.userID;
+  if (!isReviewWrittenByLoginUser) notFound();
+
+  const pathInfo: PathInfo = {
+    requestId: params?.reviewID,
+    mallId: shop.id,
+    memberId: shop.userID,
+  };
 
   const close = () => {
     sendMessageToShop(shop.domain, MESSAGE_TYPES.CLOSE_MODAL);
-  };
-
-  const refresh = () => {
-    sendMessageToShop(shop.domain, MESSAGE_TYPES.REFRESH_PAGE);
   };
 
   const submit = (content: string, star: number) => {
@@ -69,10 +63,12 @@ export default function ReviewEditPage() {
 
   return (
     <div className="relative p-4 flex flex-col gap-8">
-      <CloseButton close={close} />
+      <CloseButton onClose={close} />
       <Textform
-        reviewDetail={reviewDetail}
-        submit={submit}
+        content={reviewDetail.content}
+        nickname={reviewDetail.nickname}
+        onSubmit={submit}
+        score={reviewDetail.score}
       />
     </div>
   );
