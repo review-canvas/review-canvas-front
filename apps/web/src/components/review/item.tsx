@@ -18,7 +18,6 @@ import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 import Reply from '../reply/item';
-import { useEffect, useState } from 'react';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -125,10 +124,10 @@ export default function ReviewItem(props: ReviewItemProps) {
               </button>
             </div>
           ) : null}
-          <div className="flex flex-row justify-center gap-8 mx-10">
+          <div className="grid grid-cols-5 justify-center gap-8 mx-10 my-5">
             {props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
               <div
-                className="my-3"
+                className="h-1/2"
                 key={index}
               >
                 <Image

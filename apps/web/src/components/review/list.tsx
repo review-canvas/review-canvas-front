@@ -72,7 +72,7 @@ export default function ReviewList({ productID }: ReviewListProps) {
             generateShadowCSS(style.shadow, style.shadowColor),
           ]}
         >
-          {style.paginationStyle !== 'page' ? (
+          {style.paginationStyle === 'page' ? (
             <PaginatedList
               filter={filter}
               productID={productID}

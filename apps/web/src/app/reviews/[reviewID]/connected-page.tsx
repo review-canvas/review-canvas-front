@@ -6,7 +6,7 @@ import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import CloseButton from '@/components/close-button';
 import Reply from '@/components/reply/item';
-import ImagePresentation from '@/components/review/image-presentation';
+import ImageSlide from '@/components/review/image-slide';
 import { Star } from '@/components/review/star';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
@@ -105,7 +105,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
     <main>
       <CloseButton onClose={close} />
       <div className="relative justify-center bg-black/60">
-        <ImagePresentation reviewResizeImageUrls={reviewDetail.imageVideoUrls.reviewResizeImageUrls} />
+        <ImageSlide reviewResizeImageUrls={reviewDetail.imageVideoUrls.reviewResizeImageUrls} />
       </div>
 
       <div className="flex flex-col p-4">

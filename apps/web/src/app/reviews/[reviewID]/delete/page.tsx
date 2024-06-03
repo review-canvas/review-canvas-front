@@ -3,7 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
-import DeleteConfirm from '@/components/review/delete-confrim';
+import DeleteConfirm from '@/components/delete-confrim';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import type { PathInfo } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';

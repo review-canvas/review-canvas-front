@@ -6,7 +6,7 @@ interface ImageUrlsProps {
   reviewResizeImageUrls: string[];
 }
 
-export default function ImagePresentation(props: ImageUrlsProps) {
+export default function ImageSlide(props: ImageUrlsProps) {
   const { reviewResizeImageUrls } = props;
   const [currentIndex, setCurrentIndex] = useState(0);
 
