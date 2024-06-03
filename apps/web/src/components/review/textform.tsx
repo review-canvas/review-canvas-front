@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 
 import { Star } from '@/components/review/star.tsx';
-import type { ReviewItem } from '@/services/api-types/review.tsx';
 
 interface TextformProps {
-  reviewDetail: ReviewItem | null;
-  submit: (content: string, star: number) => void;
+  content: string;
+  score?: number;
+  nickname: string;
+  onSubmit: (content: string, star: number) => void;
 }
 
-export function Textform({ reviewDetail, submit }: TextformProps) {
-  const [content, setContent] = useState('');
-  const [star, setStar] = useState(0);
+export function Textform({ content, score, nickname, onSubmit }: TextformProps) {
+  const [text, setText] = useState(content);
+  const [star, setStar] = useState(score || 5);
 
   useEffect(() => {
     const textarea = document.querySelector('textarea');
@@ -18,22 +19,15 @@ export function Textform({ reviewDetail, submit }: TextformProps) {
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-  }, [content]);
+  }, [text]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(event.target.value);
+    setText(event.target.value);
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    submit(content, star);
+    onSubmit(text, star);
   };
-
-  useEffect(() => {
-    if (reviewDetail?.nickname) {
-      setStar(reviewDetail.score);
-      setContent(reviewDetail.content);
-    }
-  }, []);
 
   return (
     <form
@@ -43,17 +37,18 @@ export function Textform({ reviewDetail, submit }: TextformProps) {
       <div className="flex gap-0.5 items-center w-fit">
         <Star
           setStar={setStar}
+          size="small"
           star={star}
         />
       </div>
-      {reviewDetail?.nickname ? (
+      {nickname ? (
         <div>
-          작성자 <span>{reviewDetail.nickname}</span>
+          작성자 <span>{nickname}</span>
         </div>
       ) : null}
       <textarea
         className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
-        defaultValue={content}
+        defaultValue={text}
         onChange={handleChange}
         rows={3}
       />

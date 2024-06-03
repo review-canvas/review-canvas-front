@@ -16,14 +16,14 @@ interface MyReviewListProps {
   sort: ReviewListSort;
 }
 
-export default function InfiniteList({ productID, filter, sort }: MyReviewListProps) {
+export default function MyInfiniteList({ productID, filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
 
-  const reviewListQuery = useSuspenseInfiniteQuery({
-    queryKey: ['review-list', { id, productID, filter, sort }],
+  const myReviewListQuery = useSuspenseInfiniteQuery({
+    queryKey: ['my-list', { id, productID, filter, sort }],
     queryFn: ({ pageParam }) => {
-      return reviewService.list({
+      return reviewService.myReiveiwList({
         mallId: id,
         memberId: userID,
         productNo: Number(productID),
@@ -41,7 +41,7 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
   useEffect(() => {
     const handleMessage = (evt: { data: string }) => {
       if (evt.data === 'refresh') {
-        void reviewListQuery.refetch();
+        void myReviewListQuery.refetch();
       }
     };
 
@@ -52,7 +52,7 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
     };
   }, []);
 
-  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
+  const reviews = myReviewListQuery.data.pages.flatMap((it) => it.data.content);
 
   return (
     <>
@@ -64,7 +64,7 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
           />
         ))}
       </ul>
-      <IntersectionBoundary loadMore={reviewListQuery.fetchNextPage} />
+      <IntersectionBoundary loadMore={myReviewListQuery.fetchNextPage} />
     </>
   );
 }

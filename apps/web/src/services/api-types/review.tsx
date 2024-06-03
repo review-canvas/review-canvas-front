@@ -1,7 +1,7 @@
-export interface ReivewPathInfo {
-  mallId: string | undefined;
-  memberId: number | string | undefined;
-  reviewId: string | undefined;
+export interface PathInfo {
+  mallId?: string;
+  memberId?: number | string;
+  requestId?: string;
 }
 export interface CreateReivewPathInfo {
   mallId: string | undefined;
@@ -18,6 +18,9 @@ export interface ReviewItem {
   createAt: string;
   updatedAt: string;
   deleted: boolean;
+  productId: number;
+  productName: string;
+  imageVideoUrls: ImageVideoUrl;
   replies: ReplyItem[];
 }
 
@@ -30,27 +33,28 @@ export interface RetrieveReviewListResponse {
     content: ReviewItem[];
   };
 }
-export interface RetrieveReplyListResponse {
-  success: boolean;
-  data: ReplyItem[];
-}
-
 export interface ReplyItem {
   replyId: number;
   content: string;
+  isMine: boolean;
   createAt: string;
   updatedAt: string;
   deleted: boolean;
   userId: number;
+  mallId: string;
   nickname: string;
 }
-
+export interface RetrieveReplyListResponse {
+  success: boolean;
+  data: ReplyItem[];
+}
 export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
 
 export interface RetrieveReviewListRequest {
   mallId: string;
   productNo: number;
+  memberId: string | undefined;
   page?: number;
   size?: number;
   sort?: ReviewListSort;
@@ -60,6 +64,20 @@ export interface RetrieveReviewListRequest {
 export interface RetrieveReviewItemResponse {
   success: boolean;
   data: ReviewItem;
+}
+export interface ReplyItemforEdit {
+  replyId: number;
+  content: string;
+  createAt: string;
+  updatedAt: string;
+  deletedAt: boolean;
+  memberId: string;
+  nickName: string;
+  shopAdminId: number;
+}
+export interface RetrieveReplyItemResponse {
+  success: boolean;
+  data: ReplyItemforEdit;
 }
 
 export interface CreateReviewItemRequest {
@@ -78,5 +96,10 @@ export interface CreateReplyItemRequest {
   memberId: string | undefined;
   content: string;
 }
+export interface ImageVideoUrl {
+  reviewFileUrls: File[];
+  reviewResizeImageUrls: string[];
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface CommonResponse {}

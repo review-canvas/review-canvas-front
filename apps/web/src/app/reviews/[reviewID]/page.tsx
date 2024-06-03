@@ -5,11 +5,11 @@ import { Suspense } from 'react';
 import { notFound, useParams } from 'next/navigation';
 
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
+import DisconnectedPage from '@/pages/disconnected-page.tsx';
 import { ReviewServiceProvider } from '@/services/review.tsx';
 import useShop from '@/state/shop.ts';
 
 import ConnectedPage from './connected-page.tsx';
-import DisconnectedPage from './disconnected-page.tsx';
 
 type PageParams = {
   reviewID: string;
@@ -17,7 +17,9 @@ type PageParams = {
 
 export default function Page() {
   const params = useParams<PageParams>();
-  if (!params?.reviewID) notFound();
+  const isCorrectPageParams = params?.reviewID;
+  if (!isCorrectPageParams) notFound();
+
   useReviewCanvasReady('detail');
   const shop = useShop();
   if (!shop.connected) return <DisconnectedPage />;
