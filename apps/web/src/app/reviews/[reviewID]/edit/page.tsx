@@ -23,7 +23,7 @@ export default function ReviewEditPage() {
 
   const reviewDetailQuery = useQuery({
     queryKey: ['review-detail', { id: params?.reviewID, mallId: shop.id }],
-    queryFn: () => reviewService.get({ requestId: params?.reviewID, mallId: shop.id, memberId: shop.userID }),
+    queryFn: () => reviewService.get({ requestId: params?.reviewID, mallId: shop.id }),
     enabled: Boolean(shop.connected && params?.reviewID),
   });
 
