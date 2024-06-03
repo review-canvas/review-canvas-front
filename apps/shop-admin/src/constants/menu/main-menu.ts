@@ -2,7 +2,6 @@ import type { FunctionComponent, SVGProps } from 'react';
 
 import ColumnIcon from '@/assets/icon/icon-column.svg';
 import ContainerIcon from '@/assets/icon/icon-container.svg';
-import DashboardOptionIcon from '@/assets/icon/icon-dashboard-option.svg';
 import DashboardIcon from '@/assets/icon/icon-dashboard.svg';
 import LayoutIcon from '@/assets/icon/icon-layout.svg';
 import ReviewOptionIcon from '@/assets/icon/icon-review-option.svg';
@@ -23,12 +22,12 @@ export const ADMIN_MENU_MAP: AdminMenuItem[] = [
     pathname: '/dashboard',
     icon: DashboardIcon as SVGIcon,
   },
-  {
-    name: '대시보드 옵션',
-    pathname: '/dashboard/option',
-    caption: '대시보드 화면의 요소들을 활성화 또는 비활성화 할 수 있습니다.',
-    icon: DashboardOptionIcon as SVGIcon,
-  },
+  // {
+  //   name: '대시보드 옵션',
+  //   pathname: '/dashboard/option',
+  //   caption: '대시보드 화면의 요소들을 활성화 또는 비활성화 할 수 있습니다.',
+  //   icon: DashboardOptionIcon as SVGIcon,
+  // },
   {
     name: '레이아웃',
     pathname: '/setting/design/layout',

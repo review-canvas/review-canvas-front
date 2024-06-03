@@ -1,17 +1,40 @@
+import type { ReviewModalProps } from './review-modal-layout';
+
+import { useState } from 'react';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { SolidButton } from '@ui/components';
 import dayjs from 'dayjs';
-import tw, { styled } from 'twin.macro';
+import { styled } from 'twin.macro';
 
 import { ReviewService } from '@/service/review';
-import type { ReviewDataType } from '@/types/review';
+import { useOverlayAction } from '@/store/overlay';
 
-export interface ReviewDetailModalProps extends ReviewDataType {
-  onClose: () => void;
-}
+import ReviewLikeButton from '../review/review-like-button';
 
-function ReviewDetailModal(props: ReviewDetailModalProps) {
+import ReviewModal from './review-modal-layout';
+// eslint-disable-next-line import/no-cycle -- required
+import ReviewUpdateModal from './review-update-modal';
+
+function ReviewDetailModal(props: ReviewModalProps) {
+  const [isLiked, setIsLiked] = useState<boolean>(props.isLiked);
+
   const queryClient = useQueryClient();
+  const { openOverlay, closeOverlay } = useOverlayAction();
+
+  const handlePressModifyButton = () => {
+    props.onClose();
+
+    openOverlay(
+      'review-update',
+      <ReviewUpdateModal
+        {...props}
+        onClose={() => {
+          closeOverlay('review-update');
+        }}
+      />,
+    );
+  };
 
   const handlePressDeleteButton = async () => {
     try {
@@ -36,39 +59,37 @@ function ReviewDetailModal(props: ReviewDetailModalProps) {
   };
 
   return (
-    <div tw="flex flex-col gap-8 w-[80vw] max-w-[800px] max-h-[90vh] p-10 bg-white rounded-md overflow-y-auto">
-      <div tw="flex flex-col gap-1">
-        <Title>리뷰 상세 정보</Title>
-        <Caption>리뷰와 관련해 자세하게 확인하고 수정 혹은 삭제할 수 있어요</Caption>
-      </div>
+    <ReviewModal>
+      <ReviewModal.Title>리뷰 상세 정보</ReviewModal.Title>
+      <ReviewModal.Caption>리뷰와 관련해 자세하게 확인하고 수정 혹은 삭제할 수 있어요</ReviewModal.Caption>
 
-      <div tw="flex flex-col gap-2">
-        <Row>
-          <RowTitle>상품</RowTitle>
-          <RowContent>
+      <ReviewModal.Table>
+        <ReviewModal.Row>
+          <ReviewModal.RowTitle>상품</ReviewModal.RowTitle>
+          <ReviewModal.RowContent>
             <span>{props.productName}</span>
             <span tw="ml-2 text-sub-primary">(상품 ID: {props.productId})</span>
-          </RowContent>
-        </Row>
+          </ReviewModal.RowContent>
+        </ReviewModal.Row>
 
-        <Row>
-          <RowTitle>리뷰 내용</RowTitle>
-          <RowContent>{props.content}</RowContent>
-        </Row>
+        <ReviewModal.Row>
+          <ReviewModal.RowTitle>리뷰 내용</ReviewModal.RowTitle>
+          <ReviewModal.RowContent>{props.content}</ReviewModal.RowContent>
+        </ReviewModal.Row>
 
-        <Row>
-          <RowTitle>리뷰 별점</RowTitle>
-          <RowContent>{props.score}점</RowContent>
-        </Row>
+        <ReviewModal.Row>
+          <ReviewModal.RowTitle>리뷰 별점</ReviewModal.RowTitle>
+          <ReviewModal.RowContent>{props.score}점</ReviewModal.RowContent>
+        </ReviewModal.Row>
 
-        <Row>
-          <RowTitle>리뷰 작성자</RowTitle>
-          <RowContent>{props.nickname}</RowContent>
-        </Row>
+        <ReviewModal.Row>
+          <ReviewModal.RowTitle>리뷰 작성자</ReviewModal.RowTitle>
+          <ReviewModal.RowContent>{props.nickname}</ReviewModal.RowContent>
+        </ReviewModal.Row>
 
-        <Row>
-          <RowTitle>리뷰 댓글</RowTitle>
-          <RowContent tw="flex flex-col w-full overflow-y-auto max-h-[140px]">
+        <ReviewModal.Row>
+          <ReviewModal.RowTitle>리뷰 댓글</ReviewModal.RowTitle>
+          <ReplyContentContainer>
             {props.replies.length > 0
               ? props.replies.map((reply) => {
                   return (
@@ -99,54 +120,67 @@ function ReviewDetailModal(props: ReviewDetailModalProps) {
                   );
                 })
               : null}
-          </RowContent>
-        </Row>
+          </ReplyContentContainer>
+        </ReviewModal.Row>
 
-        <Row>
-          <RowTitle>리뷰 최초 작성 일시</RowTitle>
-          <RowContent>{dayjs(props.createAt).format('YYYY/MM/DD HH:mm:ss')}</RowContent>
-        </Row>
+        <ReviewModal.Row>
+          <ReviewModal.RowTitle>리뷰 최초 작성 일시</ReviewModal.RowTitle>
+          <ReviewModal.RowContent>{dayjs(props.createAt).format('YYYY/MM/DD HH:mm:ss')}</ReviewModal.RowContent>
+        </ReviewModal.Row>
 
-        <Row>
-          <RowTitle>리뷰 최종 수정 일시</RowTitle>
-          <RowContent>{dayjs(props.updatedAt).format('YYYY/MM/DD HH:mm:ss')}</RowContent>
-        </Row>
-      </div>
+        <ReviewModal.Row>
+          <ReviewModal.RowTitle>리뷰 최종 수정 일시</ReviewModal.RowTitle>
+          <ReviewModal.RowContent>{dayjs(props.updatedAt).format('YYYY/MM/DD HH:mm:ss')}</ReviewModal.RowContent>
+        </ReviewModal.Row>
+      </ReviewModal.Table>
 
-      <div tw="flex justify-end items-center">
-        <SolidButton
-          variant="primary"
-          size="sm"
-          tw="bg-red-600"
-          onPress={() => {
-            void handlePressDeleteButton();
-          }}
-        >
-          삭제
-        </SolidButton>
-      </div>
-    </div>
+      <ReviewModal.Footer>
+        <ReviewModal.FooterItem>
+          <ReviewLikeButton
+            reviewId={props.reviewId}
+            isActive={isLiked}
+            onSuccess={() => {
+              setIsLiked(!isLiked);
+              void queryClient.invalidateQueries({
+                queryKey: ['review-list'],
+              });
+            }}
+          />
+        </ReviewModal.FooterItem>
+
+        <ReviewModal.FooterItem tw="gap-4">
+          <SolidButton
+            variant="primary"
+            size="sm"
+            onPress={() => {
+              handlePressModifyButton();
+            }}
+          >
+            수정
+          </SolidButton>
+
+          <SolidButton
+            variant="primary"
+            size="sm"
+            tw="bg-red-600"
+            onPress={() => {
+              void handlePressDeleteButton();
+            }}
+          >
+            삭제
+          </SolidButton>
+        </ReviewModal.FooterItem>
+      </ReviewModal.Footer>
+    </ReviewModal>
   );
 }
 
 export default ReviewDetailModal;
 
-const Title = styled.div`
-  ${tw`text-xl font-normal break-keep`}
-`;
-
-const Caption = styled.div`
-  ${tw`text-sm text-stone-400 font-medium break-keep`}
-`;
-
-const Row = styled.div`
-  ${tw`flex gap-4 py-2 border-t-[1px] border-t-sub-primary`}
-`;
-
-const RowTitle = styled.div`
-  ${tw`inline-flex min-w-28 text-[#838383] text-base items-center`}
-`;
-
-const RowContent = styled.div`
-  ${tw`inline-flex`}
+const ReplyContentContainer = styled(ReviewModal.RowContent)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+  max-height: 140px;
 `;
