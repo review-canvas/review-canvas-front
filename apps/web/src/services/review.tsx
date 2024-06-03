@@ -6,6 +6,11 @@ import type * as TYPE from '@/services/api-types/review.tsx';
 import API from '@/utils/api.ts';
 
 class ReviewService {
+  async userReviewLike(reviewId: number): Promise<TYPE.UserReviewLikeResponse> {
+    const response = await API.get<TYPE.UserReviewLikeResponse>(`/api/v1/reviews/${reviewId}/like/count`);
+    return response.data;
+  }
+
   async list({
     mallId,
     productNo,

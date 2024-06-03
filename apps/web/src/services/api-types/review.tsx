@@ -30,6 +30,14 @@ export interface RetrieveReviewListResponse {
     content: ReviewItem[];
   };
 }
+
+export interface UserReviewLikeResponse {
+  success: boolean;
+  data: {
+    count: number;
+  };
+}
+
 export interface RetrieveReplyListResponse {
   success: boolean;
   data: ReplyItem[];
@@ -45,7 +53,7 @@ export interface ReplyItem {
   nickname: string;
 }
 
-export serinterface ReviewItemProps {
+export interface ReviewItemProps {
   id: number;
   rate: number;
   content: string;
@@ -64,6 +72,11 @@ export interface RetrieveReviewListRequest {
   size?: number;
   sort?: ReviewListSort;
   filter?: ReviewListFilter;
+}
+
+export interface CreateUserReviewLike {
+  mallId: string;
+  memberId: string;
 }
 
 export interface RetrieveReviewItemResponse {

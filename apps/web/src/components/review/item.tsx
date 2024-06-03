@@ -9,20 +9,33 @@ import {
   generateShadowCSS,
 } from '@review-canvas/theme';
 
+// import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import { Star } from '@/components/review/star.tsx';
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import type { ReviewItemProps } from '@/services/api-types/review';
+import { useReviewService } from '@/services/review.tsx';
 import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
-import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 
 import Reply from './reply';
+import { useEffect, useState } from 'react';
 
 export default function ReviewItem(props: ReviewItemProps) {
   const style = useReviewItemStyle();
   const { userID } = useConnectedShop();
+  const reviewService = useReviewService();
   const message = useMessageToShop();
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchData() {
+      return reviewService.userReviewLike(props.id);
+    }
+    void fetchData().then((response) => {
+      setCount(response.data.count);
+    });
+  }, [props.id, reviewService]);
 
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
@@ -42,6 +55,8 @@ export default function ReviewItem(props: ReviewItemProps) {
       url: `/reviews/${props.id}`,
     });
   };
+
+  const createLike = () => {};
 
   return (
     <li
@@ -79,42 +94,68 @@ export default function ReviewItem(props: ReviewItemProps) {
           작성자 <span>{props.reviewer}</span>
         </div>
         <p className="text-left">{props.content}</p>
-        {style.reviewLike.buttonType !== 'NONE' ? (
-          <button
-            onClick={(evt) => {
-              evt.stopPropagation();
-              if (userID === props.reviewerID) {
-                alert('자신의 리뷰에는 도움돼요 버튼을 누를 수 없어요!');
-                return;
-              }
-              alert('도움돼요!');
-            }}
-            css={[
-              generateBorderRadiusCSS(style.reviewLike.buttonRound),
-              css`
-                border-width: 1px;
-                padding: 2px 6px;
-                margin-top: 15px;
-                margin-bottom: 10px;
-                border-color: ${style.reviewLike.buttonBorderColor};
-                color: ${style.reviewLike.textColor};
-                transition:
-                  background-color 0.5s ease,
-                  color 0.5s ease;
-                display: flex;
+        {/*{style.reviewLike.buttonType !== 'NONE' ? (*/}
+        {/*  <button*/}
+        {/*    onClick={(evt) => {*/}
+        {/*      evt.stopPropagation();*/}
+        {/*      if (userID === props.reviewerID) {*/}
+        {/*        return;*/}
+        {/*      }*/}
+        {/*    }}*/}
+        {/*    css={[*/}
+        {/*      generateBorderRadiusCSS(style.reviewLike.buttonRound),*/}
+        {/*      css`*/}
+        {/*        border-width: 1px;*/}
+        {/*        padding: 2px 6px;*/}
+        {/*        margin-top: 15px;*/}
+        {/*        margin-bottom: 10px;*/}
+        {/*        border-color: ${style.reviewLike.buttonBorderColor};*/}
+        {/*        color: ${style.reviewLike.textColor};*/}
+        {/*        transition:*/}
+        {/*          background-color 0.5s ease,*/}
+        {/*          color 0.5s ease;*/}
+        {/*        display: flex;*/}
 
-                &:hover {
-                  background-color: ${style.reviewLike.textColor};
-                  color: white;
-                }
-              `,
-            ]}
-          >
-            <ThumbUpIcon />
-            {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' ? <div className="ml-1">도움돼요!</div> : null}
-            <div className="ml-1">0</div>
-          </button>
-        ) : null}
+        {/*        &:hover {*/}
+        {/*          background-color: ${style.reviewLike.textColor};*/}
+        {/*          color: white;*/}
+        {/*        }*/}
+        {/*      `,*/}
+        {/*    ]}*/}
+        {/*  >*/}
+        {/*    <ThumbUpIcon />*/}
+        {/*    {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' ? <div className="ml-1">도움돼요!</div> : null}*/}
+        {/*    <div className="ml-1">0</div>*/}
+        {/*  </button>*/}
+        {/*) : null}*/}
+        <button
+          css={[
+            generateBorderRadiusCSS(style.reviewLike.buttonRound),
+            css`
+              border-width: 1px;
+              padding: 2px 6px;
+              margin-top: 15px;
+              margin-bottom: 10px;
+              border-color: ${style.reviewLike.buttonBorderColor};
+              color: ${style.reviewLike.textColor};
+              transition:
+                background-color 0.5s ease,
+                color 0.5s ease;
+              display: flex;
+
+              &:hover {
+                background-color: ${style.reviewLike.textColor};
+                color: white;
+              }
+            `,
+          ]}
+          onClick={createLike}
+          type="button"
+        >
+          {/*<ThumbUpIcon />*/}
+          <div className="ml-1">도움돼요!</div>
+          <div className="ml-1">{count}</div>
+        </button>
         {userID === props.reviewerID ? (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions -- This is intentional
           <div
