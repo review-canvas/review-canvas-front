@@ -12,20 +12,12 @@ import {
 import { Star } from '@/components/review/star.tsx';
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import type { ReplyItem } from '@/services/api-types/review';
+import type { ReviewItemProps } from '@/services/api-types/review';
 import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
+import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 
 import Reply from './reply';
-
-interface ReviewItemProps {
-  id: number;
-  rate: number;
-  content: string;
-  reviewerID: string;
-  reviewer: string;
-  replies: ReplyItem[];
-}
 
 export default function ReviewItem(props: ReviewItemProps) {
   const style = useReviewItemStyle();
@@ -38,14 +30,12 @@ export default function ReviewItem(props: ReviewItemProps) {
       url: `/reviews/${props.id}/edit`,
     });
   };
-
   const deleteReview = () => {
     message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
       type: 'delete',
       url: `/reviews/${props.id}/delete`,
     });
   };
-
   const showReviewDetail = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'detail',
@@ -63,6 +53,7 @@ export default function ReviewItem(props: ReviewItemProps) {
         generateFontCSS(style.font),
         generateShadowCSS(style.shadow, style.shadowColor),
         css`
+          border-color: ${style.borderColor};
           background-color: ${style.backgroundColor};
           display: flex;
           flex-direction: column;
@@ -88,6 +79,42 @@ export default function ReviewItem(props: ReviewItemProps) {
           작성자 <span>{props.reviewer}</span>
         </div>
         <p className="text-left">{props.content}</p>
+        {style.reviewLike.buttonType !== 'NONE' ? (
+          <button
+            onClick={(evt) => {
+              evt.stopPropagation();
+              if (userID === props.reviewerID) {
+                alert('자신의 리뷰에는 도움돼요 버튼을 누를 수 없어요!');
+                return;
+              }
+              alert('도움돼요!');
+            }}
+            css={[
+              generateBorderRadiusCSS(style.reviewLike.buttonRound),
+              css`
+                border-width: 1px;
+                padding: 2px 6px;
+                margin-top: 15px;
+                margin-bottom: 10px;
+                border-color: ${style.reviewLike.buttonBorderColor};
+                color: ${style.reviewLike.textColor};
+                transition:
+                  background-color 0.5s ease,
+                  color 0.5s ease;
+                display: flex;
+
+                &:hover {
+                  background-color: ${style.reviewLike.textColor};
+                  color: white;
+                }
+              `,
+            ]}
+          >
+            <ThumbUpIcon />
+            {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' ? <div className="ml-1">도움돼요!</div> : null}
+            <div className="ml-1">0</div>
+          </button>
+        ) : null}
         {userID === props.reviewerID ? (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions -- This is intentional
           <div

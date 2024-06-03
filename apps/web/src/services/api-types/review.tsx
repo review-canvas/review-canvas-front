@@ -45,6 +45,15 @@ export interface ReplyItem {
   nickname: string;
 }
 
+export serinterface ReviewItemProps {
+  id: number;
+  rate: number;
+  content: string;
+  reviewerID: string;
+  reviewer: string;
+  replies: ReplyItem[];
+}
+
 export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
 

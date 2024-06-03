@@ -24,7 +24,7 @@ export default function Reply(props: ReplyItem) {
         generateFontCSS(style.font),
         generateShadowCSS(style.shadow, style.shadowColor),
         css`
-          background-color: ${style.backgroundColor};
+          background-color: ${style.replyBackgroundColor};
           display: flex;
           flex-direction: column;
           gap: 8px;
