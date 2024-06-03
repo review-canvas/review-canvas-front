@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { css } from 'twin.macro';
 
 import {
@@ -12,20 +13,15 @@ import {
 import { Star } from '@/components/review/star.tsx';
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import type { ReplyItem } from '@/services/api-types/review';
+import type { ReviewItem as ReviewType } from '@/services/api-types/review';
 import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 import Reply from '../reply/item';
+import { useEffect, useState } from 'react';
 
 interface ReviewItemProps {
-  id: number;
-  rate: number;
-  content: string;
-  deleted: boolean;
-  reviewerID: string;
-  reviewer: string;
-  replies: ReplyItem[];
+  review: ReviewType;
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
@@ -33,24 +29,26 @@ export default function ReviewItem(props: ReviewItemProps) {
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
 
+  const isReviewWrittenByLoginUser = userID === props.review.nickname;
+
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'edit',
-      url: `/reviews/${props.id}/edit`,
+      url: `/reviews/${props.review.reviewId}/edit`,
     });
   };
 
   const deleteReview = () => {
     message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
       type: 'delete',
-      url: `/reviews/${props.id}/delete`,
+      url: `/reviews/${props.review.reviewId}/delete`,
     });
   };
 
   const showReviewDetail = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'detail',
-      url: `/reviews/${props.id}`,
+      url: `/reviews/${props.review.reviewId}`,
     });
   };
 
@@ -71,13 +69,13 @@ export default function ReviewItem(props: ReviewItemProps) {
         `,
       ]}
     >
-      {props.deleted ? (
+      {props.review.deleted ? (
         <div
           aria-haspopup
           className="relative"
         >
           <div className="w-fit">
-            작성자 <span>{props.reviewer}</span>
+            작성자 <span>{props.review.nickname}</span>
           </div>
           <p className="text-left">삭제된 리뷰입니다.</p>
         </div>
@@ -95,14 +93,14 @@ export default function ReviewItem(props: ReviewItemProps) {
             <Star
               setStar={() => {}}
               size="small"
-              star={props.rate}
+              star={props.review.score}
             />
           </div>
           <div className="w-fit">
-            작성자 <span>{props.reviewer}</span>
+            작성자 <span>{props.review.nickname}</span>
           </div>
-          <p className="text-left">{props.content}</p>
-          {userID === props.reviewerID ? (
+          <p className="text-left">{props.review.content}</p>
+          {isReviewWrittenByLoginUser ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
       This is intentional*/
             <div
@@ -127,7 +125,22 @@ export default function ReviewItem(props: ReviewItemProps) {
               </button>
             </div>
           ) : null}
-          {props.replies.map((it) => (
+          <div className="flex flex-row justify-center gap-8 mx-10">
+            {props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
+              <div
+                className="my-3"
+                key={index}
+              >
+                <Image
+                  alt={`upload-img-${index}`}
+                  height={0}
+                  src={imageUrl}
+                  width={500}
+                />
+              </div>
+            ))}
+          </div>
+          {props.review.replies.map((it) => (
             <Reply
               key={it.replyId}
               reply={it}

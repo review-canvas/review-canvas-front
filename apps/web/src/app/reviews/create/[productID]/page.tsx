@@ -7,11 +7,10 @@ import { useParams } from 'next/navigation';
 import tw, { styled } from 'twin.macro';
 
 import CloseButton from '@/components/close-button';
-import type { UploadImagesState } from '@/components/review/image-uploder';
 import { ImageUploader } from '@/components/review/image-uploder';
 import { Star } from '@/components/review/star';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { CreateReivewPathInfo, CreateReviewItemRequest } from '@/services/api-types/review';
+import type { CreateReivewPathInfo, CreateReviewItemRequest, ImageVideoUrl } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review';
 import useShop from '@/state/shop.ts';
 import { sendMessageToShop } from '@/utils/message.ts';
@@ -21,9 +20,9 @@ type PageParams = {
 };
 
 export default function MyReviewsPage() {
-  const [uploadImages, setUploadImages] = useState<UploadImagesState>({
-    imageFiles: [],
-    imageUrls: [],
+  const [uploadImages, setUploadImages] = useState<ImageVideoUrl>({
+    reviewFileUrls: [],
+    reviewResizeImageUrls: [],
   });
   const [content, setContent] = useState('');
   const [score, setScore] = useState(5);
@@ -44,7 +43,7 @@ export default function MyReviewsPage() {
   const reviewService = useReviewService();
   const createReviewMutation = useMutation({
     mutationFn: async () => {
-      await reviewService.create(pathInfo, ReviewItemRequest, uploadImages.imageFiles);
+      await reviewService.create(pathInfo, ReviewItemRequest, uploadImages.reviewFileUrls);
     },
     onSuccess: () => {
       close();
@@ -99,10 +98,10 @@ export default function MyReviewsPage() {
       </div>
       <div className="relative flex flex-col gap-8 px-4 pt-4">
         <textarea
-          className="border-2 overflow-hidden resize-none"
+          className="border-2 overflow-hidden resize-none p-1"
           maxLength={2000}
           onChange={handleChange}
-          placeholder=" 리뷰를 작성해주세요. 10자 이상 작성해주세요!"
+          placeholder="리뷰를 작성해주세요. 10자 이상 작성해주세요!"
           ref={textareaRef}
           rows={6}
           value={content}

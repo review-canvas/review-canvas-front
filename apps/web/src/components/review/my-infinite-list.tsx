@@ -59,14 +59,8 @@ export default function MyInfiniteList({ productID, filter, sort }: MyReviewList
       <ul>
         {reviews.map((it) => (
           <ReviewItem
-            content={it.content}
-            deleted={it.deleted}
-            id={it.reviewId}
             key={it.reviewId}
-            rate={it.score}
-            replies={it.replies}
-            reviewer={it.nickname}
-            reviewerID={it.nickname}
+            review={it}
           />
         ))}
       </ul>

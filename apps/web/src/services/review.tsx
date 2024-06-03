@@ -40,7 +40,7 @@ class ReviewService {
     const formData = new FormData();
     if (reviewImages) {
       reviewImages.forEach((file) => {
-        formData.append('reviewImages', file, file.name);
+        formData.append('reviewFiles', file, file.name);
       });
     }
 

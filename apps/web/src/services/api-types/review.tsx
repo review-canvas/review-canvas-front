@@ -7,10 +7,6 @@ export interface CreateReivewPathInfo {
   mallId: string | undefined;
   productId: string | undefined;
 }
-export interface ImageVideoUrl {
-  reviewFileUrls: string[];
-  reviewResizeImageUrls: string[];
-}
 export interface ReviewItem {
   reviewId: number;
   content: string;
@@ -100,5 +96,10 @@ export interface CreateReplyItemRequest {
   memberId: string | undefined;
   content: string;
 }
+export interface ImageVideoUrl {
+  reviewFileUrls: File[];
+  reviewResizeImageUrls: string[];
+}
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface -- no data
 export interface CommonResponse {}
