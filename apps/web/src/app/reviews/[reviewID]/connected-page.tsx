@@ -6,10 +6,11 @@ import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import CloseButton from '@/components/close-button';
 import Reply from '@/components/reply/item';
+import ImagePresentation from '@/components/review/image-presentation';
 import { Star } from '@/components/review/star';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
-import type { CreateReplyItemRequest } from '@/services/api-types/review';
+import type { CreateReplyItemRequest, ReplyItem } from '@/services/api-types/review';
 import { useDesignPropertyService } from '@/services/design-property';
 import { useReviewService } from '@/services/review.tsx';
 import useShop, { useConnectedShop } from '@/state/shop.ts';
@@ -101,66 +102,73 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
   const reviewDetail = reviewDetailQuery.data.data;
 
   return (
-    <main className="relative p-4 ">
+    <main>
       <CloseButton onClose={close} />
-      <div className="flex gap-0.5 m-2 items-center w-fit">
-        <Star
-          setStar={() => {}}
-          size="small"
-          star={reviewDetail.score}
-        />
+      <div className="relative justify-center bg-black/60">
+        <ImagePresentation reviewResizeImageUrls={reviewDetail.imageVideoUrls.reviewResizeImageUrls} />
       </div>
-      <div className="flex flex-col gap-2 m-2">
-        <div>
-          작성자 <span>{reviewDetail.nickname}</span>
-        </div>
-        <p>{reviewDetail.content}</p>
-      </div>
-      {shop.userID ? (
-        <div className="relative flex flex-col gap-2 px-3 mt-8">
-          <div>댓글</div>
-          <textarea
-            className="border-2 border-gray-400/80 p-1 overflow-hidden resize-none"
-            maxLength={500}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            placeholder="댓글을 작성해주세요."
-            rows={3}
-            value={content}
-          />
-          <div className="absolute right-2 bottom-2 mr-4 border-2 border-gray-300/80 rounded-md z-10 items-center bg-violet-100/40">
-            <button
-              className="text-sm px-3 py-1"
-              disabled={content.length === 0}
-              onClick={submit}
-              type="button"
-            >
-              작성
-            </button>
-          </div>
-        </div>
-      ) : null}
 
-      <ReviewListStyleProvider
-        value={designPropertyService.convertDesignPropertyResponseToReviewListStyle(designPropertyQuery.data)}
-      >
-        <ReviewItemStyleProvider
-          value={designPropertyService.convertDesignPropertyToReviewItemStyle(designPropertyQuery.data)}
-        >
-          <Suspense fallback={<div>loading...</div>}>
-            <div className="mt-8">
-              {reviewDetail.replies.map((it) => (
-                <Reply
-                  isModal
-                  key={it.replyId}
-                  memberId={shop.userID}
-                  reply={it}
-                />
-              ))}
+      <div className="flex flex-col p-4">
+        <CloseButton onClose={close} />
+        <div className="flex gap-0.5 m-2 items-center w-fit">
+          <Star
+            setStar={() => {}}
+            size="small"
+            star={reviewDetail.score}
+          />
+        </div>
+        <div className="flex flex-col gap-2 m-2">
+          <div>
+            작성자 <span>{reviewDetail.nickname}</span>
+          </div>
+          <p>{reviewDetail.content}</p>
+        </div>
+        {shop.userID ? (
+          <div className="relative flex flex-col gap-2 px-3 mt-8">
+            <div>댓글</div>
+            <textarea
+              className="border-2 border-gray-400/80 p-1 overflow-hidden resize-none"
+              maxLength={500}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              placeholder="댓글을 작성해주세요."
+              rows={3}
+              value={content}
+            />
+            <div className="absolute right-2 bottom-2 mr-4 border-2 border-gray-300/80 rounded-md z-10 items-center bg-violet-100/40">
+              <button
+                className="text-sm px-3 py-1"
+                disabled={content.length === 0}
+                onClick={submit}
+                type="button"
+              >
+                작성
+              </button>
             </div>
-          </Suspense>
-        </ReviewItemStyleProvider>
-      </ReviewListStyleProvider>
+          </div>
+        ) : null}
+
+        <ReviewListStyleProvider
+          value={designPropertyService.convertDesignPropertyResponseToReviewListStyle(designPropertyQuery.data)}
+        >
+          <ReviewItemStyleProvider
+            value={designPropertyService.convertDesignPropertyToReviewItemStyle(designPropertyQuery.data)}
+          >
+            <Suspense fallback={<div>loading...</div>}>
+              <div className="mt-8">
+                {reviewDetail.replies.map((it: ReplyItem) => (
+                  <Reply
+                    isModal
+                    key={it.replyId}
+                    memberId={shop.userID}
+                    reply={it}
+                  />
+                ))}
+              </div>
+            </Suspense>
+          </ReviewItemStyleProvider>
+        </ReviewListStyleProvider>
+      </div>
     </main>
   );
 }
