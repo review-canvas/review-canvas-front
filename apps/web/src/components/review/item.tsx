@@ -124,10 +124,10 @@ export default function ReviewItem(props: ReviewItemProps) {
               </button>
             </div>
           ) : null}
-          <div className="grid grid-cols-5 justify-center gap-8 mx-10 my-5">
+          <div className="grid grid-cols-5 justify-center gap-8 mx-10">
             {props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
               <div
-                className="h-1/2"
+                className="my-5"
                 key={index}
               >
                 <Image
