@@ -1,12 +1,16 @@
 const reviewCanvasURL = 'https://web.review-canvas.com';
-let $reviewCanvasContainer = null;
+let $reviewCanvasContainer;
+const URL_VARIABLES = {
+  userID: null,
+  productID: null,
+};
 
 const initializeReviewCanvas = () => {
-  const productID = document.querySelector('meta[property="product:productId"]')?.content;
-  if (!$reviewCanvasContainer || !productID) return;
+  if (!$reviewCanvasContainer) return;
+  const url = replacePlaceholders($reviewCanvasContainer.dataset.url, URL_VARIABLES);
 
   const $iframe = document.createElement('iframe');
-  $iframe.src = new URL(`/products/${productID}/reviews`, reviewCanvasURL).toString();
+  $iframe.src = new URL(url, reviewCanvasURL).toString();
   $iframe.dataset.reviewCanvas = 'list';
   $iframe.dataset.connected = 'false';
   $iframe.style.width = '100%';
@@ -40,6 +44,8 @@ const initializeDiv = (evt) => {
 
 window.addEventListener('load', () => {
   $reviewCanvasContainer = document.querySelector('#rvcv-container');
+  URL_VARIABLES.productID = document.querySelector('meta[property="product:productId"]')?.content;
+  URL_VARIABLES.userID = document.querySelector('.xans-layout-statelogon.userId > span')?.textContent;
   initializeReviewCanvas();
 });
 
@@ -55,9 +61,11 @@ window.addEventListener('message', (evt) => {
   const $element = document.querySelector(`iframe[data-review-canvas="${evt.data.payload}"][data-connected="false"]`);
   const mallID = CAFE24?.SHOP?.getMallID();
   if (!$element || !($element instanceof HTMLIFrameElement) || !mallID) return;
-  const userID = document.querySelector('.xans-layout-statelogon.userId > span')?.textContent;
   $element.dataset.connected = 'true';
-  $element.contentWindow.postMessage({ type: 'connect', payload: { mallID, userID } }, evt.origin);
+  $element.contentWindow.postMessage(
+    { type: 'connect', payload: { mallID, userID: URL_VARIABLES.userID } },
+    evt.origin,
+  );
 });
 
 window.addEventListener('message', (evt) => {
@@ -117,3 +125,9 @@ const refreshItems = (evt) => {
     modalDim.querySelector('iframe')?.contentWindow.postMessage('refresh', evt.origin);
   });
 };
+
+function replacePlaceholders(str, data) {
+  return str.replace(/\{([^}]+)}/g, (match, key) => {
+    return data.hasOwnProperty(key) && Boolean(data[key]) ? data[key] : match;
+  });
+}
