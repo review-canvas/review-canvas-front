@@ -10,6 +10,7 @@ import {
   generateShadowCSS,
 } from '@review-canvas/theme';
 
+import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import { Star } from '@/components/review/star.tsx';
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
@@ -30,7 +31,6 @@ export default function ReviewItem(props: ReviewItemProps) {
   const message = useMessageToShop();
 
   const isReviewWrittenByLoginUser = userID === props.review.nickname;
-
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'edit',
@@ -115,11 +115,13 @@ export default function ReviewItem(props: ReviewItemProps) {
                 margin-bottom: 10px;
                 border-color: ${style.reviewLike.buttonBorderColor};
                 color: ${style.reviewLike.textColor};
+
                 transition:
                   background-color 0.5s ease,
                   color 0.5s ease;
                 display: flex;
-                &hover {
+
+                &:hover {
                   background-color: ${style.reviewLike.textColor};
                   color: white;
                 }
@@ -128,7 +130,9 @@ export default function ReviewItem(props: ReviewItemProps) {
             onClick={createLike}
             type="button"
           >
-            좋아요
+            {/*<ThumbUpIcon />*/}
+            <div className="ml-1">좋아요</div>
+            <div className="ml-1">0</div>
           </button>
           {isReviewWrittenByLoginUser ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
