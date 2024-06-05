@@ -18,6 +18,7 @@ import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 import Reply from '../reply/item';
+import { SyntheticEvent } from 'react';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -51,6 +52,10 @@ export default function ReviewItem(props: ReviewItemProps) {
     });
   };
 
+  const createLike = (event: SyntheticEvent) => {
+    event.stopPropagation();
+  };
+
   return (
     <li
       css={[
@@ -61,6 +66,7 @@ export default function ReviewItem(props: ReviewItemProps) {
         generateFontCSS(style.font),
         generateShadowCSS(style.shadow, style.shadowColor),
         css`
+          border-color: ${style.borderColor};
           background-color: ${style.backgroundColor};
           display: flex;
           flex-direction: column;
@@ -99,6 +105,31 @@ export default function ReviewItem(props: ReviewItemProps) {
             작성자 <span>{props.review.nickname}</span>
           </div>
           <p className="text-left">{props.review.content}</p>
+          <button
+            css={[
+              generateBorderRadiusCSS(style.reviewLike.buttonRound),
+              css`
+                border-width: 1px;
+                padding: 2px 6px;
+                margin-top: 15px;
+                margin-bottom: 10px;
+                border-color: ${style.reviewLike.buttonBorderColor};
+                color: ${style.reviewLike.textColor};
+                transition:
+                  background-color 0.5s ease,
+                  color 0.5s ease;
+                display: flex;
+                &hover {
+                  background-color: ${style.reviewLike.textColor};
+                  color: white;
+                }
+              `,
+            ]}
+            onClick={createLike}
+            type="button"
+          >
+            좋아요
+          </button>
           {isReviewWrittenByLoginUser ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
       This is intentional*/
