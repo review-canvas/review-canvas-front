@@ -53,6 +53,17 @@ export interface RetrieveReplyListResponse {
 export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
 
+export interface RetrieveReviewLikeCountRequest {
+  reviewId: number;
+}
+
+export interface RetrieveReviewLikeCountResponse {
+  success: boolean;
+  data: {
+    count: number;
+  };
+}
+
 export interface CreateUserReviewLikeRequest {
   reviewId: number;
   mallId: string;

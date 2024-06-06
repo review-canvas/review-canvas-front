@@ -19,8 +19,9 @@ import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 import Reply from '../reply/item';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { useReviewService } from '@/services/review.tsx';
+import { QueryClient, useQuery } from '@tanstack/react-query';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -31,8 +32,44 @@ export default function ReviewItem(props: ReviewItemProps) {
   const { id, userID } = useConnectedShop();
   const message = useMessageToShop();
   const reviewService = useReviewService();
+  const [likeCount, setLikeCount] = useState(0);
+  const [isLiked, setLiked] = useState(false);
+
+  const baseButtonStyle = css`
+    border-width: 1px;
+    padding: 2px 6px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    border-color: ${style.reviewLike.buttonBorderColor};
+    color: ${style.reviewLike.textColor};
+    transition:
+      background-color 0.5s ease,
+      color 0.5s ease;
+    display: flex;
+    &:hover {
+      background-color: ${style.reviewLike.textColor};
+      color: white;
+    }
+  `;
+
+  const LikedButtonStyle = css`
+    background-color: ${style.reviewLike.textColor};
+    color: white;
+    &:hover {
+      background-color: white;
+      color: ${style.reviewLike.textColor};
+    }
+  `;
+
+  useEffect(() => {
+    reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {
+      setLikeCount(response.data.count);
+    });
+    setLiked(props.review.isLiked);
+  }, [props.review.reviewId, props.review.isLiked]);
 
   const isReviewWrittenByLoginUser = userID === props.review.nickname;
+
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'edit',
@@ -54,34 +91,38 @@ export default function ReviewItem(props: ReviewItemProps) {
     });
   };
 
-  const onClickLikeButton = (event: SyntheticEvent) => {
+  const onClickLikeButton = async (event: SyntheticEvent) => {
     event.stopPropagation();
     if (props.review.isMine) {
       alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
       return;
     }
     let bSuccess = false;
-    if (props.review.isLiked) {
-      reviewService
-        .deleteUserLike({
-          reviewId: props.review.reviewId,
-          mallId: id,
-          memberId: userID,
-        })
-        .then((response) => (bSuccess = response.success));
+    if (isLiked) {
+      const response = await reviewService.deleteUserLike({
+        reviewId: props.review.reviewId,
+        mallId: id,
+        memberId: userID,
+      });
+      bSuccess = response.success;
     } else {
-      reviewService
-        .createUserLike({
-          reviewId: props.review.reviewId,
-          mallId: id,
-          memberId: userID,
-        })
-        .then((response) => (bSuccess = response.success));
+      const response = await reviewService.createUserLike({
+        reviewId: props.review.reviewId,
+        mallId: id,
+        memberId: userID,
+      });
+      bSuccess = response.success;
     }
     if (!bSuccess) {
       alert('다음에 다시 시도해주세요!');
     }
+    reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {
+      setLikeCount(response.data.count);
+      setLiked(!isLiked);
+    });
   };
+
+  style.reviewLike.buttonType = 'THUMB_UP';
 
   return (
     <li
@@ -136,22 +177,8 @@ export default function ReviewItem(props: ReviewItemProps) {
             <button
               css={[
                 generateBorderRadiusCSS(style.reviewLike.buttonRound),
-                css`
-                  border-width: 1px;
-                  padding: 2px 6px;
-                  margin-top: 15px;
-                  margin-bottom: 10px;
-                  border-color: ${style.reviewLike.buttonBorderColor};
-                  color: ${style.reviewLike.textColor};
-                  transition:
-                    background-color 0.5s ease,
-                    color 0.5s ease;
-                  display: flex;
-                  &:hover {
-                    background-color: ${style.reviewLike.textColor};
-                    color: white;
-                  }
-                `,
+                baseButtonStyle,
+                isLiked && LikedButtonStyle,
               ]}
               onClick={onClickLikeButton}
               type="button"
@@ -161,7 +188,7 @@ export default function ReviewItem(props: ReviewItemProps) {
                 stroke={style.reviewLike.iconColor}
               />
               {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' && <div className="ml-1">좋아요</div>}
-              <div className="ml-1">{props.review.likeCount}</div>
+              <div className="ml-1">{likeCount}</div>
             </button>
           )}
           {isReviewWrittenByLoginUser ? (

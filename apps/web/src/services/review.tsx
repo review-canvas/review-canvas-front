@@ -7,6 +7,10 @@ import API from '@/utils/api.ts';
 import { CreateUserReviewLikeRequest, CreateUserReviewLikeResponse } from '@/services/api-types/review.tsx';
 
 class ReviewService {
+  async retrieveReviewLikeCount(reviewId: number): Promise<TYPE.RetrieveReviewLikeCountResponse> {
+    const response = await API.get<TYPE.RetrieveReviewLikeCountResponse>(`/api/v1/reviews/${reviewId}/like/count`);
+    return response.data;
+  }
   async createUserLike({
     reviewId,
     mallId,

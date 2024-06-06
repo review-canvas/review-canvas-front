@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review';
@@ -19,7 +19,6 @@ interface MyReviewListProps {
 export default function InfiniteList({ productID, filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
-
   const reviewListQuery = useSuspenseInfiniteQuery({
     queryKey: ['review-list', { id, productID, filter, sort }],
     queryFn: ({ pageParam }) => {
