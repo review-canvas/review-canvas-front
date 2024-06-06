@@ -54,8 +54,6 @@ export default function ReviewItem(props: ReviewItemProps) {
     });
   };
 
-  style.reviewLike.buttonType = 'THUMB_UP';
-
   const onClickLikeButton = (event: SyntheticEvent) => {
     event.stopPropagation();
     if (props.review.isMine) {
