@@ -105,35 +105,38 @@ export default function ReviewItem(props: ReviewItemProps) {
             작성자 <span>{props.review.nickname}</span>
           </div>
           <p className="text-left">{props.review.content}</p>
-          <button
-            css={[
-              generateBorderRadiusCSS(style.reviewLike.buttonRound),
-              css`
-                border-width: 1px;
-                padding: 2px 6px;
-                margin-top: 15px;
-                margin-bottom: 10px;
-                border-color: ${style.reviewLike.buttonBorderColor};
-                color: ${style.reviewLike.textColor};
-
-                transition:
-                  background-color 0.5s ease,
-                  color 0.5s ease;
-                display: flex;
-
-                &:hover {
-                  background-color: ${style.reviewLike.textColor};
-                  color: white;
-                }
-              `,
-            ]}
-            onClick={createLike}
-            type="button"
-          >
-            {/*<ThumbUpIcon />*/}
-            <div className="ml-1">좋아요</div>
-            <div className="ml-1">0</div>
-          </button>
+          {style.reviewLike.buttonType !== 'NONE' && (
+            <button
+              css={[
+                generateBorderRadiusCSS(style.reviewLike.buttonRound),
+                css`
+                  border-width: 1px;
+                  padding: 2px 6px;
+                  margin-top: 15px;
+                  margin-bottom: 10px;
+                  border-color: ${style.reviewLike.buttonBorderColor};
+                  color: ${style.reviewLike.textColor};
+                  transition:
+                    background-color 0.5s ease,
+                    color 0.5s ease;
+                  display: flex;
+                  &:hover {
+                    background-color: ${style.reviewLike.textColor};
+                    color: white;
+                  }
+                `,
+              ]}
+              onClick={createLike}
+              type="button"
+            >
+              <ThumbUpIcon
+                className="mt-1 mr-0.5"
+                stroke={style.reviewLike.iconColor}
+              />
+              {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' && <div className="ml-1">좋아요</div>}
+              <div className="ml-1">0</div>
+            </button>
+          )}
           {isReviewWrittenByLoginUser ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
       This is intentional*/
