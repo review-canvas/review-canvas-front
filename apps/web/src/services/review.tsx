@@ -4,8 +4,32 @@ import { createStore, useStore } from 'zustand';
 
 import type * as TYPE from '@/services/api-types/review.tsx';
 import API from '@/utils/api.ts';
+import { CreateUserReviewLikeRequest, CreateUserReviewLikeResponse } from '@/services/api-types/review.tsx';
 
 class ReviewService {
+  async createUserLike({
+    reviewId,
+    mallId,
+    memberId,
+  }: TYPE.CreateUserReviewLikeRequest): Promise<TYPE.CreateUserReviewLikeResponse> {
+    const response = await API.post<TYPE.CreateUserReviewLikeResponse>(`/api/v1/reviews/${reviewId}/like/`, {
+      mallId: mallId,
+      memberId: memberId,
+    });
+    return response.data;
+  }
+
+  async deleteUserLike({
+    reviewId,
+    mallId,
+    memberId,
+  }: TYPE.DeleteUserReviewLikeRequest): Promise<TYPE.DeleteUserReviewLikeResponse> {
+    const response = await API.delete<TYPE.DeleteUserReviewLikeResponse>(
+      `/api/v1/shop/${mallId}/users/${memberId}/reviews/${reviewId}/like`,
+    );
+    return response.data;
+  }
+
   async list({
     mallId,
     productNo,
