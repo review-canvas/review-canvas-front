@@ -10,7 +10,8 @@ import { MESSAGE_TYPES } from '@/utils/message';
 
 import Pagination from '../pagination';
 
-import ReviewItem from './item';
+import ChatStyleReviewItem from './chat-style-item.tsx';
+import DialogStyleReview from './dialog-style-item.tsx';
 
 interface ReviewListProps {
   productID: string;
@@ -57,7 +58,7 @@ export default function ReviewList({ productID, filter, sort }: ReviewListProps)
     <>
       <ul>
         {reviews.map((it) => (
-          <ReviewItem
+          <ChatStyleReviewItem
             key={it.reviewId}
             review={it}
           />

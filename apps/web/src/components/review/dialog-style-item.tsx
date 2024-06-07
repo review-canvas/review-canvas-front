@@ -12,7 +12,7 @@ import {
 
 import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import { Star } from '@/components/review/star.tsx';
-import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
+import { useReviewItemStyle, useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import type { ReviewItem as ReviewType } from '@/services/api-types/review';
 import { useConnectedShop } from '@/state/shop.ts';
@@ -21,13 +21,13 @@ import { MESSAGE_TYPES } from '@/utils/message';
 import Reply from '../reply/item';
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useReviewService } from '@/services/review.tsx';
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useReviewItem } from '@/contexts/function/review-item.ts';
 
 interface ReviewItemProps {
   review: ReviewType;
 }
 
-export default function ReviewItem(props: ReviewItemProps) {
+export default function DialogStyleReview(props: ReviewItemProps) {
   const style = useReviewItemStyle();
   const { id, userID } = useConnectedShop();
   const message = useMessageToShop();

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { css } from 'twin.macro';
@@ -24,7 +24,7 @@ interface ReplyItemProps {
   memberId?: string;
 }
 
-export default function Reply(props: ReplyItemProps) {
+export default function ChatStyleReply(props: ReplyItemProps) {
   const [editText, setEditText] = useState(false);
   const [content, setContent] = useState(props.reply.content);
   const style = useReviewItemStyle();
@@ -150,26 +150,36 @@ This is intentional*/
 
   return (
     <ul>
-      <li
-        css={[
-          generateMarginCSS(style.margin),
-          generatePaddingCSS(style.padding),
-          generateBorderCSS(style.border, style.borderColor),
-          generateBorderRadiusCSS(style.borderRadius),
-          generateFontCSS(style.font),
-          generateShadowCSS(style.shadow, style.shadowColor),
-          css`
-            background-color: ${style.backgroundColor};
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-          `,
-        ]}
-      >
-        <div className="relative">
-          <div className="w-fit mb-1">
-            작성자 <span>{props.reply.nickname}</span>
-          </div>
+      <li>
+        <div
+          className="w-fit mb-1 text-gray-500 text-xs"
+          css={[
+            css`
+              margin-left: auto;
+            `,
+          ]}
+        >
+          작성자 <span>{props.reply.nickname}</span>
+        </div>
+        <div
+          className="relative"
+          css={[
+            generateMarginCSS(style.margin),
+            generatePaddingCSS(style.padding),
+            generateBorderCSS(style.border, style.borderColor),
+            generateBorderRadiusCSS(style.borderRadius),
+            generateFontCSS(style.font),
+            generateShadowCSS(style.shadow, style.shadowColor),
+            css`
+              background-color: ${style.backgroundColor};
+              display: flex;
+              flex-direction: column;
+              gap: 8px;
+              width: 40%;
+              margin-left: auto;
+            `,
+          ]}
+        >
           <div>{editText ? editingText() : showingText()}</div>
         </div>
       </li>

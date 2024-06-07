@@ -8,7 +8,7 @@ import { useConnectedShop } from '@/state/shop';
 
 import IntersectionBoundary from '../intersection-boundary';
 
-import ReviewItem from './item';
+import ChatStyleReviewItem from './chat-style-item.tsx';
 
 interface MyReviewListProps {
   productID: string;
@@ -57,7 +57,7 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
     <>
       <ul>
         {reviews.map((it) => (
-          <ReviewItem
+          <ChatStyleReviewItem
             key={it.reviewId}
             review={it}
           />
