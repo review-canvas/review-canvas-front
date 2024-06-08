@@ -10,16 +10,18 @@ import { MESSAGE_TYPES } from '@/utils/message';
 
 import Pagination from '../pagination';
 
-import ChatStyleReviewItem from './chat-style-item.tsx';
-import DialogStyleReview from './dialog-style-item.tsx';
+import TalkStyleReviewItem from './talk-style-item.tsx';
+import BoardStyleReviewItem from './board-style-item.tsx';
+import { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 interface ReviewListProps {
+  layoutDesign: ReviewLayoutDesign;
   productID: string;
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function ReviewList({ productID, filter, sort }: ReviewListProps) {
+export default function ReviewList({ layoutDesign, productID, filter, sort }: ReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
   const message = useMessageToShop();
@@ -57,14 +59,33 @@ export default function ReviewList({ productID, filter, sort }: ReviewListProps)
   return (
     <>
       <ul>
-        {reviews.map((it) => (
-          <ChatStyleReviewItem
-            key={it.reviewId}
-            review={it}
-          />
-        ))}
+        {reviews.map((it) => {
+          if (layoutDesign === 'BOARD') {
+            return (
+              <BoardStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'TALK') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'CARD') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
       </ul>
-
       <Pagination
         onPage={setPage}
         page={page}

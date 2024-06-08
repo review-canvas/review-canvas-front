@@ -15,19 +15,16 @@ import { Star } from '@/components/review/star.tsx';
 import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
 import type { ReviewItem as ReviewType } from '@/services/api-types/review';
 
-import Reply from '../reply/item';
 import { useReviewItem } from '@/contexts/function/review-item.ts';
-import ChatStyleReply from '@/components/reply/chat-style-item.tsx';
+import TalkStyleItem from '@/components/reply/talk-style-item.tsx';
 
 interface ReviewItemProps {
   review: ReviewType;
 }
 
-export default function ChatStyleReviewItem(props: ReviewItemProps) {
+export default function TalkStyleReviewItem(props: ReviewItemProps) {
   const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
   const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
-
-  style.reviewLike.buttonType = 'THUMB_UP';
 
   return (
     <li>
@@ -36,10 +33,29 @@ export default function ChatStyleReviewItem(props: ReviewItemProps) {
           aria-haspopup
           className="relative"
         >
-          <div className="w-fit">
+          <div className="w-fit text-xs text-gray-500">
             작성자 <span>{props.review.nickname}</span>
           </div>
-          <p className="text-left">삭제된 리뷰입니다.</p>
+          <div
+            css={[
+              generateMarginCSS(style.margin),
+              generatePaddingCSS(style.padding),
+              generateBorderCSS(style.border, style.borderColor),
+              generateBorderRadiusCSS(style.borderRadius),
+              generateFontCSS(style.font),
+              generateShadowCSS(style.shadow, style.shadowColor),
+              css`
+                border-color: ${style.borderColor};
+                background-color: ${style.backgroundColor};
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                width: 40%;
+              `,
+            ]}
+          >
+            <p className="text-left">삭제된 리뷰입니다.</p>
+          </div>
         </div>
       ) : (
         /* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */
@@ -105,7 +121,7 @@ export default function ChatStyleReviewItem(props: ReviewItemProps) {
                   </button>
                 </div>
               ) : null}
-              <div className="grid grid-cols-5 justify-center gap-8 mx-10">
+              <div className="grid grid-cols-1 justify-center gap-8 mx-10">
                 {props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
                   <div
                     className="my-5"
@@ -148,7 +164,7 @@ export default function ChatStyleReviewItem(props: ReviewItemProps) {
             </div>
           </div>
           {props.review.replies.map((it) => (
-            <ChatStyleReply
+            <TalkStyleItem
               key={it.replyId}
               reply={it}
             />

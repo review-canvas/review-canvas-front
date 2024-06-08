@@ -9,6 +9,7 @@ import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/revi
 import { Filter } from './filter';
 import InfiniteList from './infinite-list';
 import { OrderSelector } from './order-selector';
+import { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 interface ReviewListProps {
   productID: string;
@@ -16,7 +17,8 @@ interface ReviewListProps {
 
 export default function ReviewList({ productID }: ReviewListProps) {
   const style = useReviewListStyle();
-
+  style.reviewLayoutDesign = 'BOARD';
+  const [layoutDesign, setLayoutDesign] = useState<ReviewLayoutDesign>(style.reviewLayoutDesign);
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
   const [sort, setSort] = useState<ReviewListSort>('LATEST');
 
@@ -74,12 +76,14 @@ export default function ReviewList({ productID }: ReviewListProps) {
         >
           {style.paginationStyle === 'page' ? (
             <PaginatedList
+              layoutDesign={layoutDesign}
               filter={filter}
               productID={productID}
               sort={sort}
             />
           ) : (
             <InfiniteList
+              layoutDesign={layoutDesign}
               filter={filter}
               productID={productID}
               sort={sort}

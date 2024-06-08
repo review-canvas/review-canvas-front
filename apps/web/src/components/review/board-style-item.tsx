@@ -12,117 +12,19 @@ import {
 
 import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import { Star } from '@/components/review/star.tsx';
-import { useReviewItemStyle, useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
-import useMessageToShop from '@/hooks/use-message-to-shop.ts';
+import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
 import type { ReviewItem as ReviewType } from '@/services/api-types/review';
-import { useConnectedShop } from '@/state/shop.ts';
-import { MESSAGE_TYPES } from '@/utils/message';
 
-import Reply from '../reply/item';
-import { SyntheticEvent, useEffect, useState } from 'react';
-import { useReviewService } from '@/services/review.tsx';
+import Reply from '../reply/board-style-item.tsx';
 import { useReviewItem } from '@/contexts/function/review-item.ts';
 
 interface ReviewItemProps {
   review: ReviewType;
 }
 
-export default function DialogStyleReview(props: ReviewItemProps) {
-  const style = useReviewItemStyle();
-  const { id, userID } = useConnectedShop();
-  const message = useMessageToShop();
-  const reviewService = useReviewService();
-  const [likeCount, setLikeCount] = useState(0);
-  const [isLiked, setLiked] = useState(false);
-
-  const baseButtonStyle = css`
-    border-width: 1px;
-    padding: 2px 6px;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    border-color: ${style.reviewLike.buttonBorderColor};
-    color: ${style.reviewLike.textColor};
-    transition:
-      background-color 0.5s ease,
-      color 0.5s ease;
-    display: flex;
-    &:hover {
-      background-color: ${style.reviewLike.textColor};
-      color: white;
-    }
-  `;
-
-  const LikedButtonStyle = css`
-    background-color: ${style.reviewLike.textColor};
-    color: white;
-    &:hover {
-      background-color: white;
-      color: ${style.reviewLike.textColor};
-    }
-  `;
-
-  useEffect(() => {
-    reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {
-      setLikeCount(response.data.count);
-    });
-    setLiked(props.review.isLiked);
-  }, [props.review.reviewId, props.review.isLiked]);
-
-  const isReviewWrittenByLoginUser = userID === props.review.nickname;
-
-  const edit = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'edit',
-      url: `/reviews/${props.review.reviewId}/edit`,
-    });
-  };
-
-  const deleteReview = () => {
-    message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
-      type: 'delete',
-      url: `/reviews/${props.review.reviewId}/delete`,
-    });
-  };
-
-  const showReviewDetail = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'detail',
-      url: `/reviews/${props.review.reviewId}`,
-    });
-  };
-
-  const onClickLikeButton = async (event: SyntheticEvent) => {
-    event.stopPropagation();
-    if (props.review.isMine) {
-      alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
-      return;
-    }
-    let bSuccess = false;
-    if (isLiked) {
-      const response = await reviewService.deleteUserLike({
-        reviewId: props.review.reviewId,
-        mallId: id,
-        memberId: userID,
-      });
-      bSuccess = response.success;
-    } else {
-      const response = await reviewService.createUserLike({
-        reviewId: props.review.reviewId,
-        mallId: id,
-        memberId: userID,
-      });
-      bSuccess = response.success;
-    }
-    if (!bSuccess) {
-      alert('다음에 다시 시도해주세요!');
-    }
-    reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {
-      setLikeCount(response.data.count);
-      setLiked(!isLiked);
-    });
-  };
-
-  style.reviewLike.buttonType = 'THUMB_UP';
+export default function BoardStyleReview(props: ReviewItemProps) {
+  const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
+  const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
 
   return (
     <li
@@ -178,7 +80,7 @@ export default function DialogStyleReview(props: ReviewItemProps) {
               css={[
                 generateBorderRadiusCSS(style.reviewLike.buttonRound),
                 baseButtonStyle,
-                isLiked && LikedButtonStyle,
+                isLiked && likedButtonStyle,
               ]}
               onClick={onClickLikeButton}
               type="button"
@@ -191,7 +93,7 @@ export default function DialogStyleReview(props: ReviewItemProps) {
               <div className="ml-1">{likeCount}</div>
             </button>
           )}
-          {isReviewWrittenByLoginUser ? (
+          {props.review.isMine ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
       This is intentional*/
             <div

@@ -4,9 +4,14 @@ import { createContext, type PropsWithChildren, useContext } from 'react';
 
 import { createStore, useStore } from 'zustand';
 
-import type { ReviewItemStyle } from '@/contexts/style/review-item.ts';
-import type { ReviewListStyle } from '@/contexts/style/review-list.ts';
-import type { DesignPropertyResponse } from '@/models/design-property.ts';
+import type { ReviewItemStyle } from '@/contexts/style/review-item-style.ts';
+import type { ReviewListStyle } from '@/contexts/style/review-list-style.ts';
+import {
+  DesignPropertyResponse,
+  FocusAreaLayout,
+  ReviewAreaLayout,
+  ReviewLayoutDesign,
+} from '@/models/design-property.ts';
 import API from '@/utils/api.ts';
 
 class DesignPropertyService {
@@ -16,9 +21,15 @@ class DesignPropertyService {
   }
 
   convertDesignPropertyResponseToReviewListStyle({
-    data: { reviewDesignView, reviewContainer },
+    data: { reviewLayout, reviewDesignView, reviewContainer },
   }: DesignPropertyResponse): ReviewListStyle {
     return {
+      bestReviewAreaActivation: reviewLayout.bestReviewAreaActivation,
+      reviewStatisticsAreaActivation: reviewLayout.reviewStatisticsAreaActivation,
+      imageReviewAreaActivation: reviewLayout.imageReviewAreaActivation,
+      focusAreaLayout: reviewLayout.focusAreaLayout,
+      imageReviewAreaLayout: reviewLayout.imageReviewAreaLayout,
+      reviewLayoutDesign: reviewLayout.reviewLayoutDesign,
       paginationStyle: reviewDesignView.pagingType === 'PAGE_NUMBER' ? 'page' : 'scroll',
       orderSelectorStyle: reviewDesignView.filterType === 'DROPDOWN' ? 'dropdown' : 'radio',
       selectedOrderColor: reviewDesignView.filterActiveTextColor,

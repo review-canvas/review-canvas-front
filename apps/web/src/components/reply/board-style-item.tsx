@@ -24,7 +24,7 @@ interface ReplyItemProps {
   memberId?: string;
 }
 
-export default function Reply(props: ReplyItemProps) {
+export default function BoardStyleReply(props: ReplyItemProps) {
   const [editText, setEditText] = useState(false);
   const [content, setContent] = useState(props.reply.content);
   const style = useReviewItemStyle();

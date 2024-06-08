@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react';
 
 import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@review-canvas/theme';
 
-import { useReviewListStyle } from '@/contexts/style/review-list.ts';
+import { useReviewListStyle } from '@/contexts/style/review-list-style.ts';
 import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review.tsx';
 
 import { Filter } from './filter';
@@ -16,7 +16,6 @@ interface ReviewListProps {
 
 export default function MyReviewList({ productID }: ReviewListProps) {
   const style = useReviewListStyle();
-
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
   const [sort, setSort] = useState<ReviewListSort>('LATEST');
 
