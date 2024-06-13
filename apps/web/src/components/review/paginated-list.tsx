@@ -12,7 +12,9 @@ import Pagination from '../pagination';
 
 import TalkStyleReviewItem from './talk-style-item.tsx';
 import BoardStyleReviewItem from './board-style-item.tsx';
+import CardStyleReviewItem from './card-style-item.tsx';
 import { ReviewLayoutDesign } from '@/models/design-property.ts';
+import {css} from "twin.macro";
 
 interface ReviewListProps {
   layoutDesign: ReviewLayoutDesign;
@@ -55,10 +57,20 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
   }, []);
 
   const reviews = reviewListQuery.data.data.content;
-
+  layoutDesign = 'CARD';
   return (
     <>
-      <ul>
+      <ul
+          css={
+            layoutDesign === 'CARD'
+                ? css`
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              grid-auto-rows: auto;
+              gap: 16px;
+            `
+                : null
+          }>
         {reviews.map((it) => {
           if (layoutDesign === 'BOARD') {
             return (
@@ -76,7 +88,7 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
             );
           } else if (layoutDesign === 'CARD') {
             return (
-              <TalkStyleReviewItem
+              <CardStyleReviewItem
                 key={it.reviewId}
                 review={it}
               />

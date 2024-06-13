@@ -21,7 +21,7 @@ export default function ReviewList({ productID }: ReviewListProps) {
   const [layoutDesign, setLayoutDesign] = useState<ReviewLayoutDesign>(style.reviewLayoutDesign);
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
   const [sort, setSort] = useState<ReviewListSort>('LATEST');
-
+  
   return (
     <section>
       <div className="m-2 flex justify-between">
@@ -65,7 +65,7 @@ export default function ReviewList({ productID }: ReviewListProps) {
       </div>
 
       <hr />
-
+        
       <Suspense fallback={<div>loading reviews...</div>}>
         <div
           css={[
