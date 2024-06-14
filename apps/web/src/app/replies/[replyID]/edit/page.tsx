@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { notFound, useParams } from 'next/navigation';
 
-import CloseButton from '@/components/close-button';
+import CloseButton from '@/components/custom-button';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import type { CreateReplyItemRequest } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review.tsx';

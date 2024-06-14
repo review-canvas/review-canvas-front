@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import tw, { styled } from 'twin.macro';
 
-import CloseButton from '@/components/close-button';
+import CloseButton, { SumitButton } from '@/components/custom-button';
 import { ImageUploader } from '@/components/review/image-uploder';
 import { Star } from '@/components/review/star';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
@@ -143,9 +142,9 @@ export interface SubmitButtonProps {
   isActive: boolean;
 }
 
-const SumitButton = styled.button<SubmitButtonProps>`
-  ${tw`m-2 p-2`}
-  border: 2px solid ${({ isActive }) => (isActive ? '#5C6BC0' : '#9E9E9E')};
-  background-color: ${({ isActive }) => (isActive ? '#1E88E5' : '#BEBEBE')};
-  color: white;
-`;
+// export const SumitButton = styled.button<SubmitButtonProps>`
+//   ${tw`m-2 p-2`}
+//   border: 2px solid ${({ isActive }) => (isActive ? '#5C6BC0' : '#9E9E9E')};
+//   background-color: ${({ isActive }) => (isActive ? '#1E88E5' : '#BEBEBE')};
+//   color: white;
+// `;

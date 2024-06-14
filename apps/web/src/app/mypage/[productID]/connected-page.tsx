@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import CloseButton from '@/components/close-button';
+import CloseButton from '@/components/custom-button';
 import MyReviewList from '@/components/review/my-list';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
