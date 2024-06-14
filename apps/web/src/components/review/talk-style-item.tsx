@@ -95,10 +95,10 @@ export default function TalkStyleReviewItem(props: ReviewItemProps) {
                 if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
               }}
             >
-              <p className="text-left">{props.review.content}</p>
+              <p className={`text-left ${props.review.isMine ? 'mt-7' : ''}`}>{props.review.content}</p>
               {props.review.isMine ? (
                 /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-                          This is intentional*/
+                            This is intentional*/
                 <div
                   className="absolute top-1 right-1 z-5"
                   onClick={(evt) => {

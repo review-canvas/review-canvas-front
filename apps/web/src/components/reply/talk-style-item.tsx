@@ -131,10 +131,12 @@ export default function ChatStyleReply(props: ReplyItemProps) {
   const showingText = () => {
     return (
       <div>
-        <p className="text-left">{props.reply.deleted ? '삭제된 댓글입니다.' : content}</p>
+        <p className={`text-left ${props.reply.isMine ? 'mt-7' : ''}`}>
+          {props.reply.deleted ? '삭제된 댓글입니다.' : content}
+        </p>
         {!props.reply.deleted && props.reply.isMine ? (
           /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-This is intentional*/
+    This is intentional*/
           <div
             className="absolute top-2 right-1 text-gray-700/90 mt-1 z-5"
             onClick={(evt) => {

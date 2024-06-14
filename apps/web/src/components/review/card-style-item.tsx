@@ -25,6 +25,7 @@ interface ReviewItemProps {
 export default function CardStyleReview(props: ReviewItemProps) {
   const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
   const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
+
   return (
     <li
       css={[
@@ -41,6 +42,8 @@ export default function CardStyleReview(props: ReviewItemProps) {
           flex-direction: column;
           gap: 8px;
           height: auto;
+          position: relative;
+          padding-bottom: 40px;
         `,
       ]}
     >
@@ -58,13 +61,13 @@ export default function CardStyleReview(props: ReviewItemProps) {
         /* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */
         <div
           aria-haspopup
-          className="relative"
+          className="relative mb-10"
           onClick={showReviewDetail}
           onKeyUp={(evt) => {
             if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
           }}
         >
-          <div className="flex gap-0.5 items-center w-fit">
+          <div className="flex gap-0.5 items-center w-fit flex-grow">
             <Star
               setStar={() => {}}
               size="small"
@@ -75,29 +78,11 @@ export default function CardStyleReview(props: ReviewItemProps) {
             작성자 <span>{props.review.nickname}</span>
           </div>
           <p className="text-left">{props.review.content}</p>
-          {style.reviewLike.buttonType !== 'NONE' && (
-            <button
-              css={[
-                generateBorderRadiusCSS(style.reviewLike.buttonRound),
-                baseButtonStyle,
-                isLiked && likedButtonStyle,
-              ]}
-              onClick={onClickLikeButton}
-              type="button"
-            >
-              <ThumbUpIcon
-                className="mt-1 mr-0.5"
-                stroke={style.reviewLike.iconColor}
-              />
-              {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' && <div className="ml-1">좋아요</div>}
-              <div className="ml-1">{likeCount}</div>
-            </button>
-          )}
           {props.review.isMine ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-      This is intentional*/
+            This is intentional*/
             <div
-              className="absolute top-1 right-1 z-5"
+              className="absolute top-1 right-1 z-5 flex-grow"
               onClick={(evt) => {
                 evt.stopPropagation();
               }}
@@ -134,6 +119,29 @@ export default function CardStyleReview(props: ReviewItemProps) {
             ))}
           </div>
         </div>
+      )}
+      {style.reviewLike.buttonType !== 'NONE' && (
+        <button
+          css={[
+            generateBorderRadiusCSS(style.reviewLike.buttonRound),
+            baseButtonStyle,
+            isLiked && likedButtonStyle,
+            css`
+              position: absolute;
+              bottom: 5px;
+              left: 10px;
+            `,
+          ]}
+          onClick={onClickLikeButton}
+          type="button"
+        >
+          <ThumbUpIcon
+            className="mt-1 mr-0.5"
+            stroke={style.reviewLike.iconColor}
+          />
+          {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' && <div className="ml-1">좋아요</div>}
+          <div className="ml-1">{likeCount}</div>
+        </button>
       )}
     </li>
   );

@@ -78,7 +78,6 @@ export const useReviewItem = (props: ReviewItemProps) => {
       setLiked(!isLiked);
     });
   };
-
   return {
     style,
     id,
