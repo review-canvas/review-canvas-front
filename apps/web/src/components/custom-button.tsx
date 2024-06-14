@@ -1,7 +1,5 @@
 import tw, { styled } from 'twin.macro';
 
-import type { SubmitButtonProps } from '@/app/reviews/create/[productID]/page';
-
 interface CloseButtonProps {
   onClose: () => void;
 }
@@ -25,7 +23,9 @@ export default function CloseButton({ onClose }: CloseButtonProps) {
     </button>
   );
 }
-
+interface SubmitButtonProps {
+  isActive: boolean;
+}
 export const SumitButton = styled.button<SubmitButtonProps>`
   ${tw`m-2 p-2`}
   border: 2px solid ${({ isActive }) => (isActive ? '#5C6BC0' : '#9E9E9E')};
