@@ -101,7 +101,7 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
 
   const reviewDetail = reviewDetailQuery.data.data;
   const isImage = reviewDetail.imageVideoUrls.reviewResizeImageUrls.length > 0;
-  const layoutStyle = isImage ? 'grid grid-cols-2 h-full' : 'flex h-full';
+  const layoutStyle = isImage ? 'grid grid-cols-2 h-full' : '';
 
   return (
     <main className="absolute top-0 left-0 w-full h-full">

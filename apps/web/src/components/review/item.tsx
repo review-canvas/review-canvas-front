@@ -124,7 +124,7 @@ export default function ReviewItem(props: ReviewItemProps) {
               </button>
             </div>
           ) : null}
-          <div className="grid grid-cols-5 justify-center gap-8 mx-10">
+          <div className="grid grid-cols-5 justify-center mx-10 items-center">
             {props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
               <div
                 className="my-5"
@@ -132,6 +132,7 @@ export default function ReviewItem(props: ReviewItemProps) {
               >
                 <Image
                   alt={`upload-img-${index}`}
+                  className="max-w-[60%] max-h-[60%] object-contain border-2 border-gray-400/30"
                   height={0}
                   src={imageUrl}
                   width={500}
