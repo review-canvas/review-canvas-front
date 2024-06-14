@@ -136,7 +136,7 @@ export default function Reply(props: ReplyItemProps) {
           /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
 This is intentional*/
           <div
-            className="absolute top-2 right-1 text-gray-700/90 mt-1 z-5"
+            className="absolute top-0 right-1 text-gray-700/90 mt-1 z-5"
             onClick={(evt) => {
               evt.stopPropagation();
             }}
