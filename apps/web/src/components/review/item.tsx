@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Image from 'next/image';
 import { css } from 'twin.macro';
 
@@ -10,6 +12,7 @@ import {
   generateShadowCSS,
 } from '@review-canvas/theme';
 
+import LoadingSvg from '@/assests/icon/fade-stagger-circles.svg';
 import { Star } from '@/components/review/star.tsx';
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
@@ -28,6 +31,20 @@ export default function ReviewItem(props: ReviewItemProps) {
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
 
+  const [isImageValid, setIsImageValid] = useState(true);
+  const [retryCount, setRetryCount] = useState(0);
+  const maxRetries = 6;
+
+  const handleImageError = () => {
+    setRetryCount(retryCount + 1);
+    if (retryCount < maxRetries) {
+      setTimeout(() => {
+        setIsImageValid(true);
+      }, 6000);
+    } else {
+      setIsImageValid(false);
+    }
+  };
   const isReviewWrittenByLoginUser = userID === props.review.nickname;
 
   const edit = () => {
@@ -130,13 +147,18 @@ export default function ReviewItem(props: ReviewItemProps) {
                 className="my-5"
                 key={index}
               >
-                <Image
-                  alt={`upload-img-${index}`}
-                  className="max-w-[60%] max-h-[60%] object-contain border-2 border-gray-400/30"
-                  height={0}
-                  src={imageUrl}
-                  width={500}
-                />
+                {isImageValid ? (
+                  <Image
+                    alt={`upload-img-${index}`}
+                    className="max-w-[60%] max-h-[60%] object-contain"
+                    height={0}
+                    onError={handleImageError}
+                    src={imageUrl}
+                    width={500}
+                  />
+                ) : (
+                  <LoadingSvg />
+                )}
               </div>
             ))}
           </div>
