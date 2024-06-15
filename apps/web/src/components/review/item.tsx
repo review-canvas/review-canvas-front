@@ -33,14 +33,14 @@ export default function ReviewItem(props: ReviewItemProps) {
 
   const [isImageValid, setIsImageValid] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
-  const maxRetries = 6;
+  const maxRetries = 10;
 
   const handleImageError = () => {
     setRetryCount(retryCount + 1);
     if (retryCount < maxRetries) {
       setTimeout(() => {
         setIsImageValid(true);
-      }, 6000);
+      }, 4000);
     } else {
       setIsImageValid(false);
     }
