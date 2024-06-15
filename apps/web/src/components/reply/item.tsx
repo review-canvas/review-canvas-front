@@ -30,6 +30,7 @@ export default function Reply(props: ReplyItemProps) {
   const style = useReviewItemStyle();
   const message = useMessageToShop();
   const reviewService = useReviewService();
+
   useEffect(() => {
     setContent(props.reply.content);
   }, [props.reply.content]);

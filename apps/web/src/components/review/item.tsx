@@ -12,7 +12,7 @@ import {
   generateShadowCSS,
 } from '@review-canvas/theme';
 
-import LoadingSvg from '@/assests/icon/fade-stagger-circles.svg';
+import LoadingSvg from '@/assests/icon/icon-loading.svg';
 import { Star } from '@/components/review/star.tsx';
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
