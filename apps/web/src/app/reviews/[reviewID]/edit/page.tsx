@@ -17,18 +17,20 @@ import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 type PageParams = {
   reviewID: string;
 };
-
 export default function ReviewEditPage() {
   const params = useParams<PageParams>();
   const shop = useShop();
+
+  const [content, setContent] = useState('');
+  const [score, setScore] = useState(5);
   const [uploadImages, setUploadImages] = useState<ImageVideoUrl>({
     reviewFileUrls: [],
     reviewResizeImageUrls: [],
   });
-  const [content, setContent] = useState('');
-  const [score, setScore] = useState(5);
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
   useReviewCanvasReady('edit');
+
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const reviewService = useReviewService();
 
   const reviewDetailQuery = useQuery({
@@ -39,7 +41,8 @@ export default function ReviewEditPage() {
 
   const updateReviewMutation = useMutation({
     mutationFn: async () => {
-      await reviewService.update(pathInfo, { content, score });
+      const request = { content, score };
+      await reviewService.update(pathInfo, request, uploadImages.reviewFileUrls);
     },
     onSuccess: () => {
       close();
@@ -48,6 +51,13 @@ export default function ReviewEditPage() {
       throw new Error('수정에 실패했습니다');
     },
   });
+
+  useEffect(() => {
+    if (reviewDetailQuery.data) {
+      setContent(reviewDetailQuery.data.data.content);
+      setScore(reviewDetailQuery.data.data.score);
+    }
+  }, [reviewDetailQuery.data]);
 
   useEffect(() => {
     const textarea = document.querySelector('textarea');
@@ -63,6 +73,7 @@ export default function ReviewEditPage() {
   const reviewDetail = reviewDetailQuery.data.data;
 
   const isReviewWrittenByLoginUser = typeof shop.userID === 'string' && reviewDetail.nickname === shop.userID;
+
   if (!isReviewWrittenByLoginUser) notFound();
 
   const pathInfo: PathInfo = {
@@ -70,6 +81,7 @@ export default function ReviewEditPage() {
     mallId: shop.id,
     memberId: shop.userID,
   };
+
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(event.target.value);
   };
@@ -82,9 +94,9 @@ export default function ReviewEditPage() {
   };
 
   return (
-    <div className="relative p-4 flex flex-col">
+    <div className="relative p-3 flex flex-col">
       <CloseButton onClose={close} />
-      <div className="flex gap-0.5 items-center w-fit">
+      <div className="flex gap-0.5 items-center w-fit px-4">
         <Star
           setStar={setScore}
           size="small"
@@ -126,7 +138,7 @@ export default function ReviewEditPage() {
           onClick={submit}
           type="button"
         >
-          등록하기
+          수정하기
         </SumitButton>
       </div>
     </div>

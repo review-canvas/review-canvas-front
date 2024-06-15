@@ -45,7 +45,6 @@ export default function ReviewDetailPage({ reviewID }: ConnectedPageProps) {
   const reviewDetailQuery = useQuery({
     queryKey: ['review-detail', { requestId: reviewID, mallId: id, memberId: userID }],
     queryFn: () => reviewService.get({ requestId: reviewID, mallId: id, memberId: userID ? userID : undefined }),
-    enabled: Boolean(shop.connected && reviewID),
   });
 
   const createReplyMutation = useMutation({

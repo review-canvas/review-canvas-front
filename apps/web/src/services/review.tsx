@@ -52,10 +52,9 @@ class ReviewService {
 
   async update(id: TYPE.PathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File[]) {
     const formData = new FormData();
-
     if (reviewImages) {
       reviewImages.forEach((file) => {
-        formData.append('reviewImages', file, file.name);
+        formData.append('reviewFiles', file, file.name);
       });
     }
 
