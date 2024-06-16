@@ -181,6 +181,12 @@ importers:
       '@review-canvas/admin-ui':
         specifier: workspace:*
         version: link:../../packages/admin-ui
+      '@review-canvas/http-client':
+        specifier: workspace:*
+        version: link:../../packages/http-client
+      '@review-canvas/theme':
+        specifier: workspace:*
+        version: link:../../packages/theme
       '@tanstack/react-query':
         specifier: ^5.28.8
         version: 5.28.8(react@18.2.0)
