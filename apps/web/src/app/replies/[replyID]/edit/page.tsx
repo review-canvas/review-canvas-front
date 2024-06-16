@@ -78,7 +78,7 @@ export default function ReplyEditPage() {
     <div className="relative p-4 flex flex-col gap-8">
       <CloseButton onClose={close} />
       <form
-        className="relative p-4 flex flex-col gap-8"
+        className="relative p-4 flex flex-col gap-3"
         onSubmit={handleSubmit}
       >
         {replyDetail.nickName ? (
@@ -87,17 +87,14 @@ export default function ReplyEditPage() {
           </div>
         ) : null}
         <textarea
-          className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
+          className="relative p-2 flex flex-col gap-8 border-2 overflow-hidden resize-none"
           defaultValue={replyDetail.content}
           onChange={handleChange}
-          rows={3}
+          rows={4}
         />
-        <button
-          className="self-end"
-          type="submit"
-        >
-          저장
-        </button>
+        <div className="self-end rounded-lg border-2 border-indigo-500/20 text-white bg-gray-800/70 px-8 py-1">
+          <button type="submit">수정</button>
+        </div>
       </form>
     </div>
   );
