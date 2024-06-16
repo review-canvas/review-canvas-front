@@ -12,7 +12,7 @@ import ConnectedPage from './connected-page';
 export default function Page() {
   const shop = useShop();
 
-  useReviewCanvasReady('mypage');
+  useReviewCanvasReady('list');
 
   if (!shop.connected) return <DisconnectedPage />;
 
