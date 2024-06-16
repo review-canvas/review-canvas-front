@@ -142,12 +142,12 @@ export default function ReviewItem(props: ReviewItemProps) {
             </div>
           ) : null}
           <div className="grid grid-cols-5 justify-center mx-10 items-center">
-            {props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
-              <div
-                className="my-5"
-                key={index}
-              >
-                {isImageValid ? (
+            {isImageValid ? (
+              props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
+                <div
+                  className="my-5"
+                  key={index}
+                >
                   <Image
                     alt={`upload-img-${index}`}
                     className="max-w-[60%] max-h-[60%] object-contain"
@@ -156,12 +156,13 @@ export default function ReviewItem(props: ReviewItemProps) {
                     src={imageUrl}
                     width={500}
                   />
-                ) : (
-                  <LoadingSvg />
-                )}
-              </div>
-            ))}
+                </div>
+              ))
+            ) : (
+              <LoadingSvg />
+            )}
           </div>
+
           {props.review.replies.map((it) => (
             <Reply
               key={it.replyId}
