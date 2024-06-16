@@ -21,7 +21,7 @@ export default function MyInfiniteListOnProduct({ productID, filter, sort }: MyR
   const myReviewListQuery = useSuspenseInfiniteQuery({
     queryKey: ['my-list-on-product', { id, productID, filter, sort }],
     queryFn: ({ pageParam }) => {
-      return reviewService.myReiveiwList({
+      return reviewService.myReiveiwListOnProduct({
         mallId: id,
         memberId: userID,
         productNo: Number(productID),

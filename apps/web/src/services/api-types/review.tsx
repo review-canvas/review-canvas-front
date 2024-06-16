@@ -61,6 +61,15 @@ export interface RetrieveReviewListRequest {
   filter?: ReviewListFilter;
 }
 
+export interface RetrieveMyReviewListRequest {
+  mallId: string;
+  memberId: string | undefined;
+  page?: number;
+  size?: number;
+  sort?: ReviewListSort;
+  filter?: ReviewListFilter;
+}
+
 export interface RetrieveReviewItemResponse {
   success: boolean;
   data: ReviewItem;

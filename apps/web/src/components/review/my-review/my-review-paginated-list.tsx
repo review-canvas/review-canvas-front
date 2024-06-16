@@ -26,7 +26,7 @@ export default function MyPaginatedListOnProduct({ productID, filter, sort }: My
   const myReviewListQuery = useSuspenseQuery({
     queryKey: ['my-list-on-product', { id, productID, filter, sort, page }],
     queryFn: () =>
-      reviewService.myReiveiwList({
+      reviewService.myReiveiwListOnProduct({
         mallId: id,
         memberId: userID,
         productNo: Number(productID),

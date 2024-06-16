@@ -80,6 +80,27 @@ class ReviewService {
   }
   async myReiveiwList({
     mallId,
+    memberId,
+    sort = 'LATEST',
+    filter = 'ALL',
+    size = 10,
+    page = 0,
+  }: TYPE.RetrieveMyReviewListRequest): Promise<TYPE.RetrieveReviewListResponse> {
+    const search = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      sort,
+      filter,
+    });
+
+    const response = await API.get<TYPE.RetrieveReviewListResponse>(
+      `/api/v1/shop/${mallId}/users/${memberId}/mypage/reviews?${search.toString()}`,
+    );
+    return response.data;
+  }
+
+  async myReiveiwListOnProduct({
+    mallId,
     productNo,
     memberId,
     sort = 'LATEST',
