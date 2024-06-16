@@ -14,6 +14,7 @@ const ReadOnlyTextarea = styled.textarea`
   font-family: var(--roboto);
   resize: none;
   cursor: pointer;
+  white-space: pre-wrap;
   background-color: transparent;
 `;
 
