@@ -33,7 +33,7 @@ export default function MyReviewsPage({ productID }: ConnectedPageProps) {
   return (
     <main className="relative">
       <CloseButton onClose={close} />
-      <div className="py-2 pl-4 border-b font-medium text-lg">My Reviews</div>
+      <div className="p-2 pl-4 border-b font-medium text-lg">My Reviews</div>
       <div className="p-2">
         <ReviewListStyleProvider
           value={designPropertyService.convertDesignPropertyResponseToReviewListStyle(designPropertyQuery.data)}

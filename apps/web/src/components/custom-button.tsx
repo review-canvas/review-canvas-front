@@ -1,6 +1,6 @@
 import tw, { styled } from 'twin.macro';
 
-import ClosingSvg from '@/assests/icon/icon-close.svg';
+import ClosingSvg from '@/assests/icon/icon-closing.svg';
 
 interface CloseButtonProps {
   onClose: () => void;
