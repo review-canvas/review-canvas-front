@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
+import Pagination from '@/components/pagination';
+import ReviewItem from '@/components/review/item';
 import useMessageToShop from '@/hooks/use-message-to-shop';
 import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
-
-import Pagination from '../pagination';
-
-import ReviewItem from './item';
 
 interface MyReviewListProps {
   productID: string;

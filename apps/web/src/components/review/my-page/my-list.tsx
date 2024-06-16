@@ -2,13 +2,13 @@ import { Suspense, useState } from 'react';
 
 import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@review-canvas/theme';
 
+import { Filter } from '@/components/review/filter';
+import { OrderSelector } from '@/components/review/order-selector';
 import { useReviewListStyle } from '@/contexts/style/review-list.ts';
 import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review.tsx';
 
-import { Filter } from './filter';
 import MyInfiniteList from './my-infinite-list';
 import MyPaginatedList from './my-paginated-list';
-import { OrderSelector } from './order-selector';
 
 interface ReviewListProps {
   productID: string;
