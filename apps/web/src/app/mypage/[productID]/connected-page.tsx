@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import CloseButton from '@/components/custom-button';
-import MyReviewList from '@/components/review/my-list';
+import MyReviewListOnProduct from '@/components/review/my-review/my-review-list';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
@@ -42,7 +42,7 @@ export default function MyReviewsPage({ productID }: ConnectedPageProps) {
             value={designPropertyService.convertDesignPropertyToReviewItemStyle(designPropertyQuery.data)}
           >
             <Suspense fallback={<div>loading...</div>}>
-              <MyReviewList productID={productID} />
+              <MyReviewListOnProduct productID={productID} />
             </Suspense>
           </ReviewItemStyleProvider>
         </ReviewListStyleProvider>
