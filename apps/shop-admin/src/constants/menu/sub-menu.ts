@@ -20,13 +20,11 @@ export const ADMIN_SUB_MENU_MAP: AdminSubMenuItem[] = [
     name: '마이페이지',
     pathname: '/mypage',
   },
-  //   {
-  //     key: 'serviceGuide',
-  //     name: '서비스 가이드',
-  //     action: () => {
-  //       return false;
-  //     },
-  //   },
+  {
+    key: 'serviceGuide',
+    name: '서비스 가이드',
+    pathname: '/guide',
+  },
   {
     key: 'qna',
     name: '1:1 문의',
