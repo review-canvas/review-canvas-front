@@ -21,6 +21,8 @@ COPY ./packages/admin-ui/package.json ./packages/admin-ui/
 COPY ./packages/config-eslint/package.json ./packages/config-eslint/
 COPY ./packages/config-tailwind/package.json ./packages/config-tailwind/
 COPY ./packages/config-typescript/package.json ./packages/config-typescript/
+COPY ./packages/theme/package.json ./packages/theme/
+COPY ./packages/http-client/package.json ./packages/http-client/
 
 # 모노레포 구조에서 필요한 패키지를 설치합니다.
 RUN pnpm install --frozen-lockfile
@@ -33,6 +35,8 @@ COPY --from=deps /app/apps/super-admin/node_modules ./apps/super-admin/node_modu
 COPY --from=deps /app/packages/admin-ui/node_modules ./packages/admin-ui/node_modules
 COPY --from=deps /app/packages/config-eslint/node_modules ./packages/config-eslint/node_modules
 COPY --from=deps /app/packages/config-tailwind/node_modules ./packages/config-tailwind/node_modules
+COPY --from=deps /app/packages/theme/node_modules ./packages/theme/node_modules
+COPY --from=deps /app/packages/http-client/node_modules ./packages/http-client/node_modules
 
 WORKDIR /app
 
