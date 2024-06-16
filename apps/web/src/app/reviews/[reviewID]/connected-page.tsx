@@ -10,12 +10,12 @@ import ImageSlide from '@/components/review/image-slide';
 import { Star } from '@/components/review/star';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
-import type { CreateReplyItemRequest, ReplyItem } from '@/services/api-types/review';
+import type { CreateReplyItemRequest, ReplyItem } from '@/models/api-type';
 import { useDesignPropertyService } from '@/services/design-property';
-import { useReviewService } from '@/services/review.tsx';
-import useShop, { useConnectedShop } from '@/state/shop.ts';
+import { useReviewService } from '@/services/review';
+import useShop, { useConnectedShop } from '@/state/shop';
 import { isEnterKeyPressedWithoutShift } from '@/utils/keyboard';
-import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
+import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message';
 
 interface ConnectedPageProps {
   reviewID: string;

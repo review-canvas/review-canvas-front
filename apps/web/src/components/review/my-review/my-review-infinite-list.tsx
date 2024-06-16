@@ -4,7 +4,7 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import IntersectionBoundary from '@/components/intersection-boundary';
 import ReviewItem from '@/components/review/item';
-import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review';
+import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 

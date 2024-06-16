@@ -9,7 +9,7 @@ import CloseButton, { SumitButton } from '@/components/custom-button';
 import { ImageUploader } from '@/components/review/image-uploder';
 import { Star } from '@/components/review/star';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { CreateReivewPathInfo, CreateReviewItemRequest, ImageVideoUrl } from '@/services/api-types/review';
+import type { CreateReivewPathInfo, CreateReviewItemRequest, ImageVideoUrl } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import useShop from '@/state/shop.ts';
 import { sendMessageToShop } from '@/utils/message.ts';

@@ -2,9 +2,9 @@ import { Suspense, useState } from 'react';
 
 import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@review-canvas/theme';
 
-import PaginatedList from '@/components/review/paginated-list.tsx';
-import { useReviewListStyle } from '@/contexts/style/review-list.ts';
-import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review.tsx';
+import PaginatedList from '@/components/review/paginated-list';
+import { useReviewListStyle } from '@/contexts/style/review-list';
+import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 
 import { Filter } from './filter';
 import InfiniteList from './infinite-list';

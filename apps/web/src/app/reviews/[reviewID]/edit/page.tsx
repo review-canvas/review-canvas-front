@@ -8,11 +8,11 @@ import { notFound, useParams } from 'next/navigation';
 import CloseButton, { SumitButton } from '@/components/custom-button';
 import { ImageUploader } from '@/components/review/image-uploder';
 import { Star } from '@/components/review/star';
-import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { ImageVideoUrl, PathInfo } from '@/services/api-types/review';
-import { useReviewService } from '@/services/review.tsx';
-import useShop from '@/state/shop.ts';
-import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
+import useReviewCanvasReady from '@/hooks/use-review-canvas-ready';
+import type { ImageVideoUrl, PathInfo } from '@/models/api-type';
+import { useReviewService } from '@/services/review';
+import useShop from '@/state/shop';
+import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message';
 
 type PageParams = {
   reviewID: string;

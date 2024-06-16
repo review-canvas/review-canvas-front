@@ -14,7 +14,7 @@ import {
 
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop';
-import type { CreateReplyItemRequest, ReplyItem } from '@/services/api-types/review';
+import type { CreateReplyItemRequest, ReplyItem } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import { MESSAGE_TYPES } from '@/utils/message';
 

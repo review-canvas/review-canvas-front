@@ -13,14 +13,13 @@ import {
 } from '@review-canvas/theme';
 
 import LoadingSvg from '@/assests/icon/icon-loading.svg';
-import { Star } from '@/components/review/star.tsx';
-import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
+import Reply from '@/components/reply/item';
+import { Star } from '@/components/review/star';
+import { useReviewItemStyle } from '@/contexts/style/review-item';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import type { ReviewItem as ReviewType } from '@/services/api-types/review';
-import { useConnectedShop } from '@/state/shop.ts';
+import type { ReviewItem as ReviewType } from '@/models/api-type';
+import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
-
-import Reply from '../reply/item';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -34,6 +33,9 @@ export default function ReviewItem(props: ReviewItemProps) {
 
   const [isImageValid, setIsImageValid] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
+
+  const ImageUrls = props.review.imageVideoUrls.reviewResizeImageUrls;
+  const isReviewWrittenByLoginUser = userID === props.review.nickname;
   const maxRetries = 10;
 
   const handleImageError = () => {
@@ -46,7 +48,6 @@ export default function ReviewItem(props: ReviewItemProps) {
       setIsImageValid(false);
     }
   };
-  const isReviewWrittenByLoginUser = userID === props.review.nickname;
 
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
@@ -146,7 +147,7 @@ export default function ReviewItem(props: ReviewItemProps) {
           ) : null}
           <div className="grid grid-cols-5 justify-center mx-10 items-center">
             {isImageValid ? (
-              props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
+              ImageUrls.map((imageUrl: string, index: number) => (
                 <div
                   className="my-5"
                   key={index}
@@ -165,7 +166,6 @@ export default function ReviewItem(props: ReviewItemProps) {
               <LoadingSvg />
             )}
           </div>
-
           {props.review.replies.map((it) => (
             <Reply
               key={it.replyId}

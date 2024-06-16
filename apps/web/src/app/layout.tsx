@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import GlobalStyles from '@/components/global-styles.tsx';
-import { DesignPropertyServiceProvider } from '@/services/design-property.tsx';
-import useShop from '@/state/shop.ts';
-import { notoSansKR } from '@/theme/font.ts';
+import GlobalStyles from '@/components/global-styles';
+import { DesignPropertyServiceProvider } from '@/services/design-property';
+import useShop from '@/state/shop';
+import { notoSansKR } from '@/theme/font';
 
 import './globals.css';
 

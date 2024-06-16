@@ -2,7 +2,7 @@ import { createContext, type PropsWithChildren, useContext } from 'react';
 
 import { createStore, useStore } from 'zustand';
 
-import type * as TYPE from '@/services/api-types/review.tsx';
+import type * as TYPE from '@/models/api-type';
 import API from '@/utils/api.ts';
 
 class ReviewService {

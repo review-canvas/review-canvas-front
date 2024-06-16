@@ -4,12 +4,12 @@ import { Suspense } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import ReviewList from '@/components/review/list.tsx';
-import { ReviewItemStyleProvider } from '@/contexts/style/review-item.ts';
-import { ReviewListStyleProvider } from '@/contexts/style/review-list.ts';
-import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import { useDesignPropertyService } from '@/services/design-property.tsx';
-import { useConnectedShop } from '@/state/shop.ts';
+import ReviewList from '@/components/review/list';
+import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
+import { ReviewListStyleProvider } from '@/contexts/style/review-list';
+import useMessageToShop from '@/hooks/use-message-to-shop';
+import { useDesignPropertyService } from '@/services/design-property';
+import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 interface ConnectedPageProps {
