@@ -1,5 +1,4 @@
 import WaringSvg from '@/assests/icon/icon-waring.svg';
-import { styled } from 'twin.macro';
 
 interface ConfirmProps {
   deleteItem: () => void;
