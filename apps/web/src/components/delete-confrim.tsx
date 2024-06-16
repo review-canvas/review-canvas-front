@@ -11,7 +11,7 @@ export default function DeleteConfirm({ deleteItem, onClose }: ConfirmProps) {
       <div className="flex flex-col items-center">
         <WaringSvg />
         <div className="relative text-center">
-          <p>삭제된 정보는 다시 복구할 수 없습니다.</p>
+          <p>정말 삭제하시겠습니까?</p>
         </div>
         <div className="flex p-4 gap-8">
           <div className="rounded-lg border-2 border-indigo-500/20 bg-gray-900/70 text-white  px-4 py-1">

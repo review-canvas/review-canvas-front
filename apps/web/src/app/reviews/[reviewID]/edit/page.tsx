@@ -94,16 +94,16 @@ export default function ReviewEditPage() {
   };
 
   return (
-    <div className="relative p-3 flex flex-col">
+    <div className="relative p-2 flex flex-col">
       <CloseButton onClose={close} />
-      <div className="flex gap-0.5 items-center w-fit px-4">
+      <div className="flex gap-0.5 items-center w-fit px-4 pt-2">
         <Star
           setStar={setScore}
           size="small"
           star={score}
         />
       </div>
-      <div className="relative flex flex-col gap-8 px-4 pt-4">
+      <div className="relative flex flex-col gap-8 px-4 pt-2">
         <textarea
           className="border-2 overflow-hidden resize-none p-1"
           maxLength={2000}
