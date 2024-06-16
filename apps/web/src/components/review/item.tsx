@@ -24,6 +24,7 @@ import Reply from '../reply/item';
 
 interface ReviewItemProps {
   review: ReviewType;
+  productName?: string;
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
@@ -90,6 +91,7 @@ export default function ReviewItem(props: ReviewItemProps) {
           aria-haspopup
           className="relative"
         >
+          {props.productName ? <div className="pb-2">상품명 : {props.productName}</div> : null}
           <div className="w-fit">
             작성자 <span>{props.review.nickname}</span>
           </div>
@@ -105,6 +107,7 @@ export default function ReviewItem(props: ReviewItemProps) {
             if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
           }}
         >
+          {props.productName ? <div className="pb-2">상품명 : {props.productName}</div> : null}
           <div className="flex gap-0.5 items-center w-fit">
             <Star
               setStar={() => {}}

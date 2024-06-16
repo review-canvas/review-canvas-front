@@ -10,11 +10,7 @@ import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/revi
 import MyInfiniteList from './my-infinite-list';
 import MyPaginatedList from './my-paginated-list';
 
-interface ReviewListProps {
-  productID: string;
-}
-
-export default function MyReviewList({ productID }: ReviewListProps) {
+export default function MyReviewList() {
   const style = useReviewListStyle();
 
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
@@ -75,13 +71,11 @@ export default function MyReviewList({ productID }: ReviewListProps) {
           {style.paginationStyle === 'page' ? (
             <MyPaginatedList
               filter={filter}
-              productID={productID}
               sort={sort}
             />
           ) : (
             <MyInfiniteList
               filter={filter}
-              productID={productID}
               sort={sort}
             />
           )}

@@ -11,12 +11,11 @@ import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 interface MyReviewListProps {
-  productID: string;
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function MyPaginatedList({ productID, filter, sort }: MyReviewListProps) {
+export default function MyPaginatedList({ filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
   const message = useMessageToShop();
@@ -24,12 +23,11 @@ export default function MyPaginatedList({ productID, filter, sort }: MyReviewLis
   const [page, setPage] = useState(0);
 
   const myReviewListQuery = useSuspenseQuery({
-    queryKey: ['my-list', { id, productID, filter, sort, page }],
+    queryKey: ['my-list', { id, filter, sort, page }],
     queryFn: () =>
       reviewService.myReiveiwList({
         mallId: id,
         memberId: userID,
-        productNo: Number(productID),
         sort,
         filter,
         page,
@@ -64,6 +62,7 @@ export default function MyPaginatedList({ productID, filter, sort }: MyReviewLis
         {reviews.map((it) => (
           <ReviewItem
             key={it.reviewId}
+            productName={it.productName}
             review={it}
           />
         ))}
