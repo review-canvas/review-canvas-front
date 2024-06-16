@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import tw, { styled } from 'twin.macro';
@@ -13,6 +13,7 @@ const ReadOnlyTextarea = styled.textarea`
   ${tw`w-full p-2 border border-gray-300 text-sm rounded-5`}
   font-family: var(--roboto);
   resize: none;
+  cursor: pointer;
   background-color: transparent;
 `;
 
@@ -31,22 +32,40 @@ const CopyButton = styled.button`
 function CodeClipboard({ contentToCopy, label, rows = 4 }: CodeClipboardProps) {
   const [copied, setCopied] = useState(false);
 
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => {
+        setCopied(false);
+      }, 1500);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [copied]);
+
+  const handleCopy = () => {
+    setCopied(true);
+  };
+
   return (
     <div tw="flex flex-col">
       {label ? <label tw="text-[#9692A7] text-sm mb-2">{label}</label> : null}
-
       <div tw="relative">
-        <ReadOnlyTextarea
-          readOnly
-          value={contentToCopy}
-          rows={rows}
-        />
+        <CopyToClipboard
+          text={contentToCopy}
+          onCopy={handleCopy}
+        >
+          <ReadOnlyTextarea
+            readOnly
+            value={contentToCopy}
+            rows={rows}
+            onClick={handleCopy}
+          />
+        </CopyToClipboard>
 
         <CopyToClipboard
           text={contentToCopy}
-          onCopy={() => {
-            setCopied(true);
-          }}
+          onCopy={handleCopy}
         >
           <CopyButton>{copied ? '복사 완료' : '복사'}</CopyButton>
         </CopyToClipboard>
