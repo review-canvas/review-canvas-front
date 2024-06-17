@@ -80,6 +80,7 @@ export default function MyReviewListOnProduct({ productID }: ReviewListProps) {
           ) : (
             <MyInfiniteListOnProduct
               filter={filter}
+              layoutDesign={'BOARD'}
               productID={productID}
               sort={sort}
             />

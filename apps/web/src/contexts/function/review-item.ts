@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+﻿import { MouseEventHandler, useEffect, useState } from 'react';
 
 import { useReviewItemStyle } from '@/contexts/style/review-item-style.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
@@ -46,35 +46,39 @@ export const useReviewItem = (props: ReviewItemProps) => {
       url: `/reviews/${props.review.reviewId}`,
     });
   };
-
-  const onClickLikeButton = async (event: MouseEvent) => {
+  const onClickLikeButton: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     if (props.review.isMine) {
       alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
       return;
     }
-    let response;
-    if (isLiked) {
-      response = await reviewService.deleteUserLike({
-        reviewId: props.review.reviewId,
-        mallId: id,
-        memberId: userID,
-      });
-    } else {
-      response = await reviewService.createUserLike({
-        reviewId: props.review.reviewId,
-        mallId: id,
-        memberId: userID,
-      });
-    }
-    if (!response.success) {
-      alert('다음에 다시 시도해주세요!');
-    }
-    reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {
-      setLikeCount(response.data.count);
+
+    const toggleLike = async () => {
+      let response;
+      if (isLiked) {
+        response = await reviewService.deleteUserLike({
+          reviewId: props.review.reviewId,
+          mallId: id,
+          memberId: userID,
+        });
+      } else {
+        response = await reviewService.createUserLike({
+          reviewId: props.review.reviewId,
+          mallId: id,
+          memberId: userID,
+        });
+      }
+      if (!response.success) {
+        alert('다음에 다시 시도해주세요!');
+      }
+      const likeCountResponse = await reviewService.retrieveReviewLikeCount(props.review.reviewId);
+      setLikeCount(likeCountResponse.data.count);
       setLiked(!isLiked);
-    });
+    };
+
+    void toggleLike();
   };
+
   style.reviewLike.buttonType = 'THUMB_UP_WITH_TEXT';
   return {
     style,
