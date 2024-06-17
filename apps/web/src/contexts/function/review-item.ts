@@ -76,6 +76,7 @@ export const useReviewItem = (props: ReviewItemProps) => {
       setLiked(!isLiked);
     });
   };
+  style.reviewLike.buttonType = 'THUMB_UP_WITH_TEXT';
   return {
     style,
     id,

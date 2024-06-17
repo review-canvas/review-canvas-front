@@ -57,7 +57,7 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
   }, []);
 
   const reviews = reviewListQuery.data.data.content;
-
+  layoutDesign = 'CARD';
   return (
     <>
       <ul

@@ -53,7 +53,6 @@ export default function InfiniteList({ layoutDesign, productID, filter, sort }: 
       window.removeEventListener('message', handleMessage);
     };
   }, []);
-
   const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
   return (
     <>
