@@ -55,7 +55,6 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
       window.removeEventListener('message', handleMessage);
     };
   }, []);
-  layoutDesign = 'CARD';
   const reviews = reviewListQuery.data.data.content;
   return (
     <>
@@ -98,6 +97,7 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
           }
         })}
       </ul>
+
       <Pagination
         onPage={setPage}
         page={page}

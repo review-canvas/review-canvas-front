@@ -27,7 +27,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["uglify-script"]
+      "dependsOn": []
     },
     "clean": {
       "cache": false
