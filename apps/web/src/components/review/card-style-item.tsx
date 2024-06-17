@@ -10,46 +10,21 @@ import {
   generateShadowCSS,
 } from '@review-canvas/theme';
 
+import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import { Star } from '@/components/review/star.tsx';
-import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
-import useMessageToShop from '@/hooks/use-message-to-shop.ts';
+import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
 import type { ReviewItem as ReviewType } from '@/services/api-types/review';
-import { useConnectedShop } from '@/state/shop.ts';
-import { MESSAGE_TYPES } from '@/utils/message';
 
-import Reply from '../reply/item';
+import Reply from '../reply/board-style-item.tsx';
+import { useReviewItem } from '@/contexts/function/review-item.ts';
 
 interface ReviewItemProps {
   review: ReviewType;
 }
 
-export default function ReviewItem(props: ReviewItemProps) {
-  const style = useReviewItemStyle();
-  const { userID } = useConnectedShop();
-  const message = useMessageToShop();
-
-  const isReviewWrittenByLoginUser = userID === props.review.nickname;
-
-  const edit = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'edit',
-      url: `/reviews/${props.review.reviewId}/edit`,
-    });
-  };
-
-  const deleteReview = () => {
-    message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
-      type: 'delete',
-      url: `/reviews/${props.review.reviewId}/delete`,
-    });
-  };
-
-  const showReviewDetail = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'detail',
-      url: `/reviews/${props.review.reviewId}`,
-    });
-  };
+export default function CardStyleReview(props: ReviewItemProps) {
+  const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
+  const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
 
   return (
     <li
@@ -61,17 +36,21 @@ export default function ReviewItem(props: ReviewItemProps) {
         generateFontCSS(style.font),
         generateShadowCSS(style.shadow, style.shadowColor),
         css`
+          border-color: ${style.borderColor};
           background-color: ${style.backgroundColor};
           display: flex;
           flex-direction: column;
           gap: 8px;
+          height: auto;
+          position: relative;
+          padding-bottom: 40px;
         `,
       ]}
     >
       {props.review.deleted ? (
         <div
           aria-haspopup
-          className="relative"
+          className="relative mb-5"
         >
           <div className="w-fit">
             작성자 <span>{props.review.nickname}</span>
@@ -82,13 +61,13 @@ export default function ReviewItem(props: ReviewItemProps) {
         /* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- require */
         <div
           aria-haspopup
-          className="relative"
+          className="relative mb-10"
           onClick={showReviewDetail}
           onKeyUp={(evt) => {
             if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
           }}
         >
-          <div className="flex gap-0.5 items-center w-fit">
+          <div className="flex gap-0.5 items-center w-fit flex-grow">
             <Star
               setStar={() => {}}
               size="small"
@@ -99,11 +78,11 @@ export default function ReviewItem(props: ReviewItemProps) {
             작성자 <span>{props.review.nickname}</span>
           </div>
           <p className="text-left">{props.review.content}</p>
-          {isReviewWrittenByLoginUser ? (
+          {props.review.isMine ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
-      This is intentional*/
+            This is intentional*/
             <div
-              className="absolute top-1 right-1 z-5"
+              className="absolute top-1 right-1 z-5 flex-grow"
               onClick={(evt) => {
                 evt.stopPropagation();
               }}
@@ -139,13 +118,30 @@ export default function ReviewItem(props: ReviewItemProps) {
               </div>
             ))}
           </div>
-          {props.review.replies.map((it) => (
-            <Reply
-              key={it.replyId}
-              reply={it}
-            />
-          ))}
         </div>
+      )}
+      {style.reviewLike.buttonType !== 'NONE' && (
+        <button
+          css={[
+            generateBorderRadiusCSS(style.reviewLike.buttonRound),
+            baseButtonStyle,
+            isLiked && likedButtonStyle,
+            css`
+              position: absolute;
+              bottom: 5px;
+              left: 10px;
+            `,
+          ]}
+          onClick={onClickLikeButton}
+          type="button"
+        >
+          <ThumbUpIcon
+            className="mt-1 mr-0.5"
+            stroke={style.reviewLike.iconColor}
+          />
+          {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' && <div className="ml-1">좋아요</div>}
+          <div className="ml-1">{likeCount}</div>
+        </button>
       )}
     </li>
   );
