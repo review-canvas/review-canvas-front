@@ -3,8 +3,8 @@ import { useRef } from 'react';
 
 import Image from 'next/image';
 
-import CameraSvg from '@/assests/icon/icon-camera.svg';
-import DeleteImageSvg from '@/assests/icon/icon-deleting-image.svg';
+import CameraIcon from '@/assests/icon/icon-camera.svg';
+import DeleteImageIcon from '@/assests/icon/icon-deleting-image.svg';
 import type { ImageVideoUrl } from '@/models/api-type';
 
 export interface ImageUploaderProps {
@@ -59,7 +59,7 @@ export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderPr
               }}
               type="button"
             >
-              <DeleteImageSvg />
+              <DeleteImageIcon />
             </button>
           </div>
         ))}
@@ -77,7 +77,7 @@ export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderPr
             onClick={handleClick}
             type="button"
           >
-            <CameraSvg />
+            <CameraIcon />
           </button>
         )}
       </div>

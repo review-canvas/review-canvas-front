@@ -12,7 +12,7 @@ import {
   generateShadowCSS,
 } from '@review-canvas/theme';
 
-import LoadingSvg from '@/assests/icon/icon-loading.svg';
+import LoadingIcon from '@/assests/icon/icon-loading.svg';
 import Reply from '@/components/reply/item';
 import { Star } from '@/components/review/star';
 import { useReviewItemStyle } from '@/contexts/style/review-item';
@@ -163,7 +163,7 @@ export default function ReviewItem(props: ReviewItemProps) {
                 </div>
               ))
             ) : (
-              <LoadingSvg />
+              <LoadingIcon />
             )}
           </div>
           {props.review.replies.map((it) => (

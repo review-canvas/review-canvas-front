@@ -1,4 +1,4 @@
-import WaringSvg from '@/assests/icon/icon-waring.svg';
+import WaringIcon from '@/assests/icon/icon-waring.svg';
 
 interface ConfirmProps {
   deleteItem: () => void;
@@ -9,7 +9,7 @@ export default function DeleteConfirm({ deleteItem, onClose }: ConfirmProps) {
   return (
     <main className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col items-center">
-        <WaringSvg />
+        <WaringIcon />
         <div className="relative text-center">
           <p>정말 삭제하시겠습니까?</p>
         </div>

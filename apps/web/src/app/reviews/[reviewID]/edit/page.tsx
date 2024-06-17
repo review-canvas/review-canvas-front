@@ -6,7 +6,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { notFound, useParams } from 'next/navigation';
 
 import CloseButton from '@/components/button/close';
-import { SumitButton } from '@/components/button/sumit';
+import { SubmitButton } from '@/components/button/submit';
 import { ImageUploader } from '@/components/review/image-uploder';
 import { Star } from '@/components/review/star';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready';
@@ -120,7 +120,7 @@ export default function ReviewEditPage() {
         className="flex flex-row-reverse pr-4"
         hidden={content.length >= 10 || content.length === 0}
       >
-        <div className="text-gray-500">*10자 이상 입력하시면 댓글 등록이 가능합니다!</div>
+        <div className="text-gray-500">*10자 이상 입력하시면 댓글 등록이 가능합니다.</div>
       </div>
       <ImageUploader
         setUploadImages={setUploadImages}
@@ -134,13 +134,13 @@ export default function ReviewEditPage() {
         >
           취소
         </button>
-        <SumitButton
+        <SubmitButton
           isActive={content.length >= 10}
           onClick={submit}
           type="button"
         >
           수정하기
-        </SumitButton>
+        </SubmitButton>
       </div>
     </div>
   );
