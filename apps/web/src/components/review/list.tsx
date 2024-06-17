@@ -1,11 +1,10 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useMemo } from 'react';
 
 import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@review-canvas/theme';
 
 import PaginatedList from '@/components/review/paginated-list';
 import { useReviewListStyle } from '@/contexts/style/review-list-style';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
-import type { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 import { Filter } from './filter';
 import InfiniteList from './infinite-list';
@@ -18,7 +17,7 @@ interface ReviewListProps {
 export default function ReviewList({ productID }: ReviewListProps) {
   const style = useReviewListStyle();
   style.reviewLayoutDesign = 'BOARD';
-  const [layoutDesign, setLayoutDesign] = useState<ReviewLayoutDesign>(style.reviewLayoutDesign);
+  const layoutDesign = useMemo(() => style.reviewLayoutDesign, []);
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
   const [sort, setSort] = useState<ReviewListSort>('LATEST');
 

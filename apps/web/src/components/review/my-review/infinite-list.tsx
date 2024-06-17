@@ -10,6 +10,8 @@ import type { ReviewLayoutDesign } from '@/models/design-property.ts';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 
+import CardStyleReview from '../card-style-item';
+
 interface MyReviewListProps {
   layoutDesign: ReviewLayoutDesign;
   productID: string;
@@ -59,9 +61,9 @@ export default function MyInfiniteListOnProduct({ layoutDesign, productID, filte
     <>
       <ul>
         {reviews.map((it) => {
-          if (layoutDesign === 'BOARD') {
+          if (layoutDesign === 'CARD') {
             return (
-              <BoardStyleReviewItem
+              <CardStyleReview
                 key={it.reviewId}
                 review={it}
               />
@@ -73,14 +75,13 @@ export default function MyInfiniteListOnProduct({ layoutDesign, productID, filte
                 review={it}
               />
             );
-          } else if (layoutDesign === 'CARD') {
-            return (
-              <TalkStyleReviewItem
-                key={it.reviewId}
-                review={it}
-              />
-            );
           }
+          return (
+            <BoardStyleReviewItem
+              key={it.reviewId}
+              review={it}
+            />
+          );
         })}
       </ul>
       <IntersectionBoundary loadMore={myReviewListQuery.fetchNextPage} />

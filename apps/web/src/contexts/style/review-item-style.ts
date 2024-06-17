@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
 
-import type { Border, BorderRadius, Font, Margin, Padding, ReviewLikeButtonProps, Shadow } from '@review-canvas/theme';
-import { ReviewLike } from '@/models/design-property.ts';
 import { css } from 'twin.macro';
+
+import type { Border, BorderRadius, Font, Margin, Padding, ReviewLikeButtonProps, Shadow } from '@review-canvas/theme';
 
 export interface ReviewItemStyle {
   margin: Margin;

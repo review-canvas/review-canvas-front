@@ -9,6 +9,7 @@ import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 
 import BoardStyleReviewItem from './board-style-item.tsx';
+import CardStyleReview from './card-style-item.tsx';
 import TalkStyleReviewItem from './talk-style-item.tsx';
 
 interface MyReviewListProps {
@@ -57,9 +58,9 @@ export default function InfiniteList({ layoutDesign, productID, filter, sort }: 
     <>
       <ul>
         {reviews.map((it) => {
-          if (layoutDesign === 'BOARD') {
+          if (layoutDesign === 'CARD') {
             return (
-              <BoardStyleReviewItem
+              <CardStyleReview
                 key={it.reviewId}
                 review={it}
               />
@@ -71,14 +72,13 @@ export default function InfiniteList({ layoutDesign, productID, filter, sort }: 
                 review={it}
               />
             );
-          } else if (layoutDesign === 'CARD') {
-            return (
-              <TalkStyleReviewItem
-                key={it.reviewId}
-                review={it}
-              />
-            );
           }
+          return (
+            <BoardStyleReviewItem
+              key={it.reviewId}
+              review={it}
+            />
+          );
         })}
       </ul>
       <IntersectionBoundary loadMore={reviewListQuery.fetchNextPage} />

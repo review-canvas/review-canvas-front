@@ -1,4 +1,4 @@
-import { ReviewLikeButtonType } from '@review-canvas/theme';
+import type { ReviewLikeButtonType } from '@review-canvas/theme';
 
 export type Shadow = 'NONE' | 'SMALL' | 'MEDIUM' | 'LARGE';
 export type FocusAreaLayout = 'BEST_REVIEW_TOP' | 'BEST_REVIEW_BOTTOM' | 'BEST_REVIEW_LEFT' | 'BEST_REVIEW_RIGHT';

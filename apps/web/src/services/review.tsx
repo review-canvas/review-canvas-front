@@ -16,8 +16,8 @@ class ReviewService {
     memberId,
   }: TYPE.CreateUserReviewLikeRequest): Promise<TYPE.CreateUserReviewLikeResponse> {
     const response = await API.post<TYPE.CreateUserReviewLikeResponse>(`/api/v1/reviews/${reviewId}/like/`, {
-      mallId: mallId,
-      memberId: memberId,
+      mallId,
+      memberId,
     });
     return response.data;
   }

@@ -6,13 +6,13 @@ import { css } from 'twin.macro';
 import Pagination from '@/components/pagination.tsx';
 import useMessageToShop from '@/hooks/use-message-to-shop';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
-import type { ReviewLayoutDesign } from '@/models/design-property.ts';
+import type { ReviewLayoutDesign } from '@/models/design-property';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
 
 import BoardStyleReviewItem from './board-style-item.tsx';
-import CardStyleReviewItem from './card-style-item.tsx';
+import CardStyleReview from './card-style-item.tsx';
 import TalkStyleReviewItem from './talk-style-item.tsx';
 
 interface ReviewListProps {
@@ -70,9 +70,9 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
         }
       >
         {reviews.map((it) => {
-          if (layoutDesign === 'BOARD') {
+          if (layoutDesign === 'CARD') {
             return (
-              <BoardStyleReviewItem
+              <CardStyleReview
                 key={it.reviewId}
                 review={it}
               />
@@ -84,14 +84,13 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
                 review={it}
               />
             );
-          } else if (layoutDesign === 'CARD') {
-            return (
-              <CardStyleReviewItem
-                key={it.reviewId}
-                review={it}
-              />
-            );
           }
+          return (
+            <BoardStyleReviewItem
+              key={it.reviewId}
+              review={it}
+            />
+          );
         })}
       </ul>
       <Pagination

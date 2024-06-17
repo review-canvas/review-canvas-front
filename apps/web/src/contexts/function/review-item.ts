@@ -1,4 +1,5 @@
-﻿import { MouseEventHandler, useEffect, useState } from 'react';
+﻿import type { MouseEventHandler } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useReviewItemStyle } from '@/contexts/style/review-item-style.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
@@ -17,14 +18,14 @@ export const useReviewItem = (props: ReviewItemProps) => {
   const message = useMessageToShop();
   const reviewService = useReviewService();
   const [likeCount, setLikeCount] = useState(0);
-  const [isLiked, setLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
-    reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {
+    void reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {
       setLikeCount(response.data.count);
     });
-    setLiked(props.review.isLiked);
-  }, [props.review.reviewId, props.review.isLiked]);
+    setIsLiked(props.review.isLiked);
+  }, [props.review.reviewId, props.review.isLiked, reviewService]);
 
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
@@ -49,7 +50,7 @@ export const useReviewItem = (props: ReviewItemProps) => {
   const onClickLikeButton: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     if (props.review.isMine) {
-      alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
+      // alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
       return;
     }
 
@@ -69,11 +70,11 @@ export const useReviewItem = (props: ReviewItemProps) => {
         });
       }
       if (!response.success) {
-        alert('다음에 다시 시도해주세요!');
+        // alert('다음에 다시 시도해주세요!');
       }
       const likeCountResponse = await reviewService.retrieveReviewLikeCount(props.review.reviewId);
       setLikeCount(likeCountResponse.data.count);
-      setLiked(!isLiked);
+      setIsLiked(!isLiked);
     };
 
     void toggleLike();
@@ -89,7 +90,7 @@ export const useReviewItem = (props: ReviewItemProps) => {
     likeCount,
     setLikeCount,
     isLiked,
-    setLiked,
+    setIsLiked,
     edit,
     deleteReview,
     showReviewDetail,
