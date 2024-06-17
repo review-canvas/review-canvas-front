@@ -1,8 +1,15 @@
 import { createContext, useContext } from 'react';
 
 import type { Border, Padding, Shadow } from '@review-canvas/theme';
+import { FocusAreaLayout, ReviewAreaLayout, ReviewLayoutDesign } from '@/models/design-property.ts';
 
 export interface ReviewListStyle {
+  bestReviewAreaActivation: boolean;
+  reviewStatisticsAreaActivation: boolean;
+  imageReviewAreaActivation: boolean;
+  focusAreaLayout: FocusAreaLayout;
+  imageReviewAreaLayout: ReviewAreaLayout;
+  reviewLayoutDesign: ReviewLayoutDesign;
   orderSelectorStyle: 'dropdown' | 'radio';
   paginationStyle: 'page' | 'scroll';
   selectedOrderColor: string;
