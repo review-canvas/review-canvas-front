@@ -50,7 +50,8 @@ export const useReviewItem = (props: ReviewItemProps) => {
   const onClickLikeButton: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     if (props.review.isMine) {
-      // alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
+      // eslint-disable-next-line no-alert -- isMine is required
+      alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
       return;
     }
 
@@ -70,7 +71,8 @@ export const useReviewItem = (props: ReviewItemProps) => {
         });
       }
       if (!response.success) {
-        // alert('다음에 다시 시도해주세요!');
+        // eslint-disable-next-line no-alert -- success is required
+        alert('다음에 다시 시도해주세요!');
       }
       const likeCountResponse = await reviewService.retrieveReviewLikeCount(props.review.reviewId);
       setLikeCount(likeCountResponse.data.count);
