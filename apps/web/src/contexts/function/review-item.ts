@@ -35,7 +35,7 @@ export const useReviewItem = (props: ReviewItemProps) => {
   };
 
   const deleteReview = () => {
-    message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
+    message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'delete',
       url: `/reviews/${props.review.reviewId}/delete`,
     });

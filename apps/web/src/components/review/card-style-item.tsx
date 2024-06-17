@@ -50,7 +50,7 @@ export default function CardStyleReview(props: ReviewItemProps) {
       {props.review.deleted ? (
         <div
           aria-haspopup
-          className="relative"
+          className="relative mb-5"
         >
           <div className="w-fit">
             작성자 <span>{props.review.nickname}</span>

@@ -79,7 +79,7 @@ export default function BoardStyleReply(props: ReplyItemProps) {
   };
 
   const deleteReply = () => {
-    message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
+    message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'delete',
       url: `/replies/${props.reply.replyId}/delete`,
     });
