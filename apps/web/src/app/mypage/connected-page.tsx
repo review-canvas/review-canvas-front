@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
-import MyReviewList from '@/components/review/my-page/list.tsx';
+import MyReviewList from '@/components/review/my-page/list';
 import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
 import { ReviewListStyleProvider } from '@/contexts/style/review-list';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';

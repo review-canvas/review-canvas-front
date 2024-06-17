@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { notFound, useParams } from 'next/navigation';
 
-import CloseButton, { SumitButton } from '@/components/custom-button';
+import CloseButton from '@/components/button/close';
+import { SumitButton } from '@/components/button/sumit';
 import { ImageUploader } from '@/components/review/image-uploder';
 import { Star } from '@/components/review/star';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready';

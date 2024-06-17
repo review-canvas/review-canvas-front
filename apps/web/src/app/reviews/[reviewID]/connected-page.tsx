@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
-import CloseButton from '@/components/custom-button';
+import CloseButton from '@/components/button/close';
 import Reply from '@/components/reply/item';
 import ImageSlide from '@/components/review/image-slide';
 import { Star } from '@/components/review/star';
