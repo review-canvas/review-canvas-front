@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Image from 'next/image';
 import { css } from 'twin.macro';
 
@@ -10,17 +12,18 @@ import {
   generateShadowCSS,
 } from '@review-canvas/theme';
 
-import { Star } from '@/components/review/star.tsx';
-import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
+import LoadingIcon from '@/assests/icon/icon-loading.svg';
+import Reply from '@/components/reply/item';
+import { Star } from '@/components/review/star';
+import { useReviewItemStyle } from '@/contexts/style/review-item';
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import type { ReviewItem as ReviewType } from '@/services/api-types/review';
-import { useConnectedShop } from '@/state/shop.ts';
+import type { ReviewItem as ReviewType } from '@/models/api-type';
+import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
-
-import Reply from '../reply/item';
 
 interface ReviewItemProps {
   review: ReviewType;
+  productName?: string;
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
@@ -28,7 +31,23 @@ export default function ReviewItem(props: ReviewItemProps) {
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
 
+  const [isImageValid, setIsImageValid] = useState(true);
+  const [retryCount, setRetryCount] = useState(0);
+
+  const ImageUrls = props.review.imageVideoUrls.reviewResizeImageUrls;
   const isReviewWrittenByLoginUser = userID === props.review.nickname;
+  const maxRetries = 10;
+
+  const handleImageError = () => {
+    setRetryCount(retryCount + 1);
+    if (retryCount < maxRetries) {
+      setTimeout(() => {
+        setIsImageValid(true);
+      }, 4000);
+    } else {
+      setIsImageValid(false);
+    }
+  };
 
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
@@ -73,6 +92,7 @@ export default function ReviewItem(props: ReviewItemProps) {
           aria-haspopup
           className="relative"
         >
+          {props.productName ? <div className="pb-2">상품명 : {props.productName}</div> : null}
           <div className="w-fit">
             작성자 <span>{props.review.nickname}</span>
           </div>
@@ -88,6 +108,7 @@ export default function ReviewItem(props: ReviewItemProps) {
             if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
           }}
         >
+          {props.productName ? <div className="pb-2">상품명 : {props.productName}</div> : null}
           <div className="flex gap-0.5 items-center w-fit">
             <Star
               setStar={() => {}}
@@ -124,20 +145,26 @@ export default function ReviewItem(props: ReviewItemProps) {
               </button>
             </div>
           ) : null}
-          <div className="grid grid-cols-5 justify-center gap-8 mx-10">
-            {props.review.imageVideoUrls.reviewResizeImageUrls.map((imageUrl: string, index: number) => (
-              <div
-                className="my-5"
-                key={index}
-              >
-                <Image
-                  alt={`upload-img-${index}`}
-                  height={0}
-                  src={imageUrl}
-                  width={500}
-                />
-              </div>
-            ))}
+          <div className="grid grid-cols-5 justify-center mx-10 items-center">
+            {isImageValid ? (
+              ImageUrls.map((imageUrl: string, index: number) => (
+                <div
+                  className="my-5"
+                  key={index}
+                >
+                  <Image
+                    alt={`upload-img-${index}`}
+                    className="max-w-[60%] max-h-[60%] object-contain"
+                    height={0}
+                    onError={handleImageError}
+                    src={imageUrl}
+                    width={500}
+                  />
+                </div>
+              ))
+            ) : (
+              <LoadingIcon />
+            )}
           </div>
           {props.review.replies.map((it) => (
             <Reply

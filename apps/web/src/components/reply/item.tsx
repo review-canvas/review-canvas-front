@@ -14,7 +14,7 @@ import {
 
 import { useReviewItemStyle } from '@/contexts/style/review-item.ts';
 import useMessageToShop from '@/hooks/use-message-to-shop';
-import type { CreateReplyItemRequest, ReplyItem } from '@/services/api-types/review';
+import type { CreateReplyItemRequest, ReplyItem } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import { MESSAGE_TYPES } from '@/utils/message';
 
@@ -30,6 +30,7 @@ export default function Reply(props: ReplyItemProps) {
   const style = useReviewItemStyle();
   const message = useMessageToShop();
   const reviewService = useReviewService();
+
   useEffect(() => {
     setContent(props.reply.content);
   }, [props.reply.content]);
@@ -136,7 +137,7 @@ export default function Reply(props: ReplyItemProps) {
           /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
 This is intentional*/
           <div
-            className="absolute top-2 right-1 text-gray-700/90 mt-1 z-5"
+            className="absolute top-0 right-1 text-gray-700/90 mt-1 z-5"
             onClick={(evt) => {
               evt.stopPropagation();
             }}

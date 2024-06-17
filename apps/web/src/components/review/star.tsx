@@ -1,7 +1,7 @@
 interface StarProps {
   size: SizeType;
   star: number;
-  setStar: (star: number) => void;
+  setStar?: (star: number) => void;
 }
 
 type SizeType = 'small' | 'big';
@@ -19,7 +19,9 @@ export function Star({ size, star, setStar }: StarProps) {
     <div key={it}>
       <button
         onClick={() => {
-          setStar(it);
+          if (setStar) {
+            setStar(it);
+          }
         }}
         type="button"
       >

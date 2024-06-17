@@ -3,7 +3,9 @@ import { useRef } from 'react';
 
 import Image from 'next/image';
 
-import type { ImageVideoUrl } from '@/services/api-types/review';
+import CameraIcon from '@/assests/icon/icon-camera.svg';
+import DeleteImageIcon from '@/assests/icon/icon-deleting-image.svg';
+import type { ImageVideoUrl } from '@/models/api-type';
 
 export interface ImageUploaderProps {
   uploadImages: ImageVideoUrl;
@@ -57,22 +59,7 @@ export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderPr
               }}
               type="button"
             >
-              <svg
-                className="bi bi-x-lg"
-                fill="white"
-                height="27"
-                viewBox="0 0 16 16"
-                width="27"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  className="p-3"
-                  fill="rgba(0,0,0,0.6)"
-                  height="100%"
-                  width="100%"
-                />
-                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-              </svg>
+              <DeleteImageIcon />
             </button>
           </div>
         ))}
@@ -90,25 +77,7 @@ export function ImageUploader({ uploadImages, setUploadImages }: ImageUploaderPr
             onClick={handleClick}
             type="button"
           >
-            <svg
-              className="bi bi-camera"
-              fill="rgba(0,0,0,0.4)"
-              height="110"
-              viewBox="0 0 20 20"
-              width="110"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                fill="none"
-                height="100%"
-                stroke="rgba(0,0,0,0.3)"
-                width="100%"
-              />
-              <g transform="scale(0.5) translate(12.5, 11.5)">
-                <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z" />
-                <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1" />
-              </g>
-            </svg>
+            <CameraIcon />
           </button>
         )}
       </div>

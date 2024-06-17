@@ -2,31 +2,27 @@ import { useEffect } from 'react';
 
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review';
+import IntersectionBoundary from '@/components/intersection-boundary';
+import ReviewItem from '@/components/review/item';
+import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 
-import IntersectionBoundary from '../intersection-boundary';
-
-import ReviewItem from './item';
-
 interface MyReviewListProps {
-  productID: string;
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function MyInfiniteList({ productID, filter, sort }: MyReviewListProps) {
+export default function InfiniteList({ filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
 
   const myReviewListQuery = useSuspenseInfiniteQuery({
-    queryKey: ['my-list', { id, productID, filter, sort }],
+    queryKey: ['my-list', { id, filter, sort }],
     queryFn: ({ pageParam }) => {
       return reviewService.myReiveiwList({
         mallId: id,
         memberId: userID,
-        productNo: Number(productID),
         sort,
         filter,
         page: pageParam,
@@ -58,10 +54,13 @@ export default function MyInfiniteList({ productID, filter, sort }: MyReviewList
     <>
       <ul>
         {reviews.map((it) => (
-          <ReviewItem
-            key={it.reviewId}
-            review={it}
-          />
+          <div key={it.reviewId}>
+            <ReviewItem
+              key={it.reviewId}
+              productName={it.productName}
+              review={it}
+            />
+          </div>
         ))}
       </ul>
       <IntersectionBoundary loadMore={myReviewListQuery.fetchNextPage} />

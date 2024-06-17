@@ -4,8 +4,8 @@ export interface PathInfo {
   requestId?: string;
 }
 export interface CreateReivewPathInfo {
-  mallId: string | undefined;
-  productId: string | undefined;
+  mallId?: string;
+  productId?: string;
 }
 export interface ReviewItem {
   reviewId: number;
@@ -54,7 +54,16 @@ export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
 export interface RetrieveReviewListRequest {
   mallId: string;
   productNo: number;
-  memberId: string | undefined;
+  memberId?: string;
+  page?: number;
+  size?: number;
+  sort?: ReviewListSort;
+  filter?: ReviewListFilter;
+}
+
+export interface RetrieveMyReviewListRequest {
+  mallId: string;
+  memberId?: string;
   page?: number;
   size?: number;
   sort?: ReviewListSort;
@@ -81,7 +90,7 @@ export interface RetrieveReplyItemResponse {
 }
 
 export interface CreateReviewItemRequest {
-  memberId: string | undefined;
+  memberId?: string;
   content: string;
   score: number;
 }
@@ -92,8 +101,8 @@ export interface UpdateReviewItemRequest {
 }
 
 export interface CreateReplyItemRequest {
-  mallId: string | undefined;
-  memberId: string | undefined;
+  mallId?: string;
+  memberId?: string;
   content: string;
 }
 export interface ImageVideoUrl {

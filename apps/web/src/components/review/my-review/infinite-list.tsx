@@ -2,13 +2,11 @@ import { useEffect } from 'react';
 
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
+import IntersectionBoundary from '@/components/intersection-boundary';
+import ReviewItem from '@/components/review/item';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
-
-import IntersectionBoundary from '../intersection-boundary';
-
-import ReviewItem from './item';
 
 interface MyReviewListProps {
   productID: string;
@@ -16,14 +14,14 @@ interface MyReviewListProps {
   sort: ReviewListSort;
 }
 
-export default function InfiniteList({ productID, filter, sort }: MyReviewListProps) {
+export default function MyInfiniteListOnProduct({ productID, filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
 
-  const reviewListQuery = useSuspenseInfiniteQuery({
-    queryKey: ['review-list', { id, productID, filter, sort }],
+  const myReviewListQuery = useSuspenseInfiniteQuery({
+    queryKey: ['my-list-on-product', { id, productID, filter, sort }],
     queryFn: ({ pageParam }) => {
-      return reviewService.list({
+      return reviewService.myReiveiwListOnProduct({
         mallId: id,
         memberId: userID,
         productNo: Number(productID),
@@ -41,7 +39,7 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
   useEffect(() => {
     const handleMessage = (evt: { data: string }) => {
       if (evt.data === 'refresh') {
-        void reviewListQuery.refetch();
+        void myReviewListQuery.refetch();
       }
     };
 
@@ -52,7 +50,7 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
     };
   }, []);
 
-  const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
+  const reviews = myReviewListQuery.data.pages.flatMap((it) => it.data.content);
 
   return (
     <>
@@ -64,7 +62,7 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
           />
         ))}
       </ul>
-      <IntersectionBoundary loadMore={reviewListQuery.fetchNextPage} />
+      <IntersectionBoundary loadMore={myReviewListQuery.fetchNextPage} />
     </>
   );
 }

@@ -2,7 +2,7 @@ import { createContext, type PropsWithChildren, useContext } from 'react';
 
 import { createStore, useStore } from 'zustand';
 
-import type * as TYPE from '@/services/api-types/review.tsx';
+import type * as TYPE from '@/models/api-type';
 import API from '@/utils/api.ts';
 
 class ReviewService {
@@ -52,10 +52,9 @@ class ReviewService {
 
   async update(id: TYPE.PathInfo, request: TYPE.UpdateReviewItemRequest, reviewImages?: File[]) {
     const formData = new FormData();
-
     if (reviewImages) {
       reviewImages.forEach((file) => {
-        formData.append('reviewImages', file, file.name);
+        formData.append('reviewFiles', file, file.name);
       });
     }
 
@@ -80,6 +79,27 @@ class ReviewService {
     return response.data;
   }
   async myReiveiwList({
+    mallId,
+    memberId,
+    sort = 'LATEST',
+    filter = 'ALL',
+    size = 10,
+    page = 0,
+  }: TYPE.RetrieveMyReviewListRequest): Promise<TYPE.RetrieveReviewListResponse> {
+    const search = new URLSearchParams({
+      page: page.toString(),
+      size: size.toString(),
+      sort,
+      filter,
+    });
+
+    const response = await API.get<TYPE.RetrieveReviewListResponse>(
+      `/api/v1/shop/${mallId}/users/${memberId}/mypage/reviews?${search.toString()}`,
+    );
+    return response.data;
+  }
+
+  async myReiveiwListOnProduct({
     mallId,
     productNo,
     memberId,

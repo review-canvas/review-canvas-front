@@ -5,7 +5,6 @@ import babelPluginTypescript from '@babel/plugin-syntax-typescript';
 import babelPluginMacros from 'babel-plugin-macros';
 import babelPluginTwin from 'babel-plugin-twin';
 
-
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 // The folders containing files importing twin.macro
@@ -25,6 +24,15 @@ export default function withTwin(
     ) {
       config.module = config.module || {};
       config.module.rules = config.module.rules || [];
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        use: [
+          {
+            loader: '@svgr/webpack',
+          },
+        ],
+      });
 
       config.module.rules.push({
         test: /\.tsx?$/,

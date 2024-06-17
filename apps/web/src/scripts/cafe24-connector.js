@@ -79,6 +79,7 @@ window.addEventListener('message', (evt) => {
   $iframe.src = new URL(evt.data.payload.url, reviewCanvasURL).toString();
   $iframe.style.width = '80%';
   $iframe.style.height = '80%';
+  $iframe.style.borderRadius = '8px';
   $iframe.style.border = 'none';
   $iframe.style.background = 'white';
 
@@ -99,6 +100,7 @@ window.addEventListener('message', (evt) => {
   $iframe.src = new URL(evt.data.payload.url, reviewCanvasURL).toString();
   $iframe.style.width = '40%';
   $iframe.style.height = '30%';
+  $iframe.style.borderRadius = '8px';
   $iframe.style.border = 'none';
   $iframe.style.background = 'white';
 

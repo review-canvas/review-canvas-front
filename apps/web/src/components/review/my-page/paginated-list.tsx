@@ -2,45 +2,48 @@ import { useEffect, useState } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 
+import Pagination from '@/components/pagination';
+import ReviewItem from '@/components/review/item';
 import useMessageToShop from '@/hooks/use-message-to-shop';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
 
-import Pagination from '../pagination';
-
-import ReviewItem from './item';
-
-interface ReviewListProps {
-  productID: string;
+interface MyReviewListProps {
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function ReviewList({ productID, filter, sort }: ReviewListProps) {
+export default function PaginatedList({ filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
   const message = useMessageToShop();
 
   const [page, setPage] = useState(0);
 
-  const reviewListQuery = useSuspenseQuery({
-    queryKey: ['review-list', { id, productID, filter, sort, page }],
+  const myReviewListQuery = useSuspenseQuery({
+    queryKey: ['my-list', { id, filter, sort, page }],
     queryFn: () =>
-      reviewService.list({ mallId: id, memberId: userID, productNo: Number(productID), page, sort, filter }),
+      reviewService.myReiveiwList({
+        mallId: id,
+        memberId: userID,
+        sort,
+        filter,
+        page,
+      }),
   });
 
   useEffect(() => {
-    if (reviewListQuery.status !== 'success') return;
+    if (myReviewListQuery.status !== 'success') return;
     message(MESSAGE_TYPES.ADJUST_HEIGHT, window.getComputedStyle(document.body).height);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- This is intentional
-  }, [reviewListQuery.status]);
+  }, [myReviewListQuery.status]);
 
   useEffect(() => {
     const handleMessage = (evt: { data: string }) => {
       if (evt.data === 'refresh') {
-        void reviewListQuery.refetch();
+        void myReviewListQuery.refetch();
       }
     };
 
@@ -51,7 +54,7 @@ export default function ReviewList({ productID, filter, sort }: ReviewListProps)
     };
   }, []);
 
-  const reviews = reviewListQuery.data.data.content;
+  const reviews = myReviewListQuery.data.data.content;
 
   return (
     <>
@@ -59,6 +62,7 @@ export default function ReviewList({ productID, filter, sort }: ReviewListProps)
         {reviews.map((it) => (
           <ReviewItem
             key={it.reviewId}
+            productName={it.productName}
             review={it}
           />
         ))}
@@ -67,7 +71,7 @@ export default function ReviewList({ productID, filter, sort }: ReviewListProps)
       <Pagination
         onPage={setPage}
         page={page}
-        totalPages={Math.ceil(reviewListQuery.data.data.total / reviewListQuery.data.data.size)}
+        totalPages={Math.ceil(myReviewListQuery.data.data.total / myReviewListQuery.data.data.size)}
       />
     </>
   );

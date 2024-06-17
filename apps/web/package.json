@@ -32,6 +32,7 @@
     "@review-canvas/eslint-config": "workspace:*",
     "@review-canvas/tailwind-config": "workspace:*",
     "@review-canvas/typescript-config": "workspace:*",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",

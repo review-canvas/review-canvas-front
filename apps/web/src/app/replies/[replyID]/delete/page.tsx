@@ -5,8 +5,8 @@ import { useParams } from 'next/navigation';
 
 import DeleteConfirm from '@/components/delete-confrim';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { PathInfo } from '@/services/api-types/review';
-import { useReviewService } from '@/services/review.tsx';
+import type { PathInfo } from '@/models/api-type';
+import { useReviewService } from '@/services/review';
 import useShop from '@/state/shop.ts';
 import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
 

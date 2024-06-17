@@ -4,13 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import tw, { styled } from 'twin.macro';
 
-import CloseButton from '@/components/close-button';
+import CloseButton from '@/components/button/close';
+import { SubmitButton } from '@/components/button/submit';
 import { ImageUploader } from '@/components/review/image-uploder';
 import { Star } from '@/components/review/star';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { CreateReivewPathInfo, CreateReviewItemRequest, ImageVideoUrl } from '@/services/api-types/review';
+import type { CreateReivewPathInfo, CreateReviewItemRequest, ImageVideoUrl } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import useShop from '@/state/shop.ts';
 import { sendMessageToShop } from '@/utils/message.ts';
@@ -113,7 +113,7 @@ export default function MyReviewsPage() {
         className="flex flex-row-reverse pr-4"
         hidden={content.length >= 10 || content.length === 0}
       >
-        <div className="text-gray-500">*10자 이상 입력하시면 댓글 등록이 가능합니다!</div>
+        <div className="text-gray-500">*10자 이상 입력하시면 댓글 등록이 가능합니다.</div>
       </div>
       <ImageUploader
         setUploadImages={setUploadImages}
@@ -127,25 +127,14 @@ export default function MyReviewsPage() {
         >
           취소
         </button>
-        <SumitButton
+        <SubmitButton
           isActive={content.length >= 10}
           onClick={submit}
           type="button"
         >
           등록하기
-        </SumitButton>
+        </SubmitButton>
       </div>
     </main>
   );
 }
-
-export interface SubmitButtonProps {
-  isActive: boolean;
-}
-
-const SumitButton = styled.button<SubmitButtonProps>`
-  ${tw`m-2 p-2`}
-  border: 2px solid ${({ isActive }) => (isActive ? '#5C6BC0' : '#9E9E9E')};
-  background-color: ${({ isActive }) => (isActive ? '#1E88E5' : '#BEBEBE')};
-  color: white;
-`;

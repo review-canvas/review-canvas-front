@@ -2,19 +2,15 @@ import { Suspense, useState } from 'react';
 
 import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@review-canvas/theme';
 
-import PaginatedList from '@/components/review/paginated-list';
+import { Filter } from '@/components/review/filter';
+import { OrderSelector } from '@/components/review/order-selector';
 import { useReviewListStyle } from '@/contexts/style/review-list';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 
-import { Filter } from './filter';
-import InfiniteList from './infinite-list';
-import { OrderSelector } from './order-selector';
+import InfiniteList from './infinite-list.tsx';
+import PaginatedList from './paginated-list.tsx';
 
-interface ReviewListProps {
-  productID: string;
-}
-
-export default function ReviewList({ productID }: ReviewListProps) {
+export default function MyReviewList() {
   const style = useReviewListStyle();
 
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
@@ -75,13 +71,11 @@ export default function ReviewList({ productID }: ReviewListProps) {
           {style.paginationStyle === 'page' ? (
             <PaginatedList
               filter={filter}
-              productID={productID}
               sort={sort}
             />
           ) : (
             <InfiniteList
               filter={filter}
-              productID={productID}
               sort={sort}
             />
           )}

@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { notFound, useParams } from 'next/navigation';
 
-import CloseButton from '@/components/close-button';
-import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
-import type { CreateReplyItemRequest } from '@/services/api-types/review';
-import { useReviewService } from '@/services/review.tsx';
-import useShop from '@/state/shop.ts';
-import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message.ts';
+import CloseButton from '@/components/button/close';
+import useReviewCanvasReady from '@/hooks/use-review-canvas-ready';
+import type { CreateReplyItemRequest } from '@/models/api-type';
+import { useReviewService } from '@/services/review';
+import useShop from '@/state/shop';
+import { MESSAGE_TYPES, sendMessageToShop } from '@/utils/message';
 
 type PageParams = {
   replyID: string;
@@ -78,7 +78,7 @@ export default function ReplyEditPage() {
     <div className="relative p-4 flex flex-col gap-8">
       <CloseButton onClose={close} />
       <form
-        className="relative p-4 flex flex-col gap-8"
+        className="relative p-4 flex flex-col gap-3"
         onSubmit={handleSubmit}
       >
         {replyDetail.nickName ? (
@@ -87,17 +87,14 @@ export default function ReplyEditPage() {
           </div>
         ) : null}
         <textarea
-          className="relative p-4 flex flex-col gap-8 border-2 overflow-hidden resize-none"
+          className="relative p-2 flex flex-col gap-8 border-2 overflow-hidden resize-none"
           defaultValue={replyDetail.content}
           onChange={handleChange}
-          rows={3}
+          rows={4}
         />
-        <button
-          className="self-end"
-          type="submit"
-        >
-          저장
-        </button>
+        <div className="self-end rounded-lg border-2 border-indigo-500/20 text-white bg-gray-800/70 px-8 py-1">
+          <button type="submit">수정</button>
+        </div>
       </form>
     </div>
   );
