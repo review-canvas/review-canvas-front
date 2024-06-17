@@ -8,15 +8,18 @@ import { useConnectedShop } from '@/state/shop';
 
 import IntersectionBoundary from '../intersection-boundary';
 
-import ReviewItem from './item';
+import BoardStyleReviewItem from '@/components/review/board-style-item.tsx';
+import TalkStyleReviewItem from '@/components/review/talk-style-item.tsx';
+import { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 interface MyReviewListProps {
+  layoutDesign: ReviewLayoutDesign;
   productID: string;
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function MyInfiniteList({ productID, filter, sort }: MyReviewListProps) {
+export default function MyInfiniteList({ layoutDesign, productID, filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
 
@@ -57,12 +60,32 @@ export default function MyInfiniteList({ productID, filter, sort }: MyReviewList
   return (
     <>
       <ul>
-        {reviews.map((it) => (
-          <ReviewItem
-            key={it.reviewId}
-            review={it}
-          />
-        ))}
+        {reviews.map((it) => {
+          if (layoutDesign === 'BOARD') {
+            return (
+              <BoardStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'TALK') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'CARD') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
       </ul>
       <IntersectionBoundary loadMore={myReviewListQuery.fetchNextPage} />
     </>

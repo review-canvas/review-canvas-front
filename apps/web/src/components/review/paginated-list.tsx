@@ -10,15 +10,20 @@ import { MESSAGE_TYPES } from '@/utils/message';
 
 import Pagination from '../pagination';
 
-import ReviewItem from './item';
+import TalkStyleReviewItem from './talk-style-item.tsx';
+import BoardStyleReviewItem from './board-style-item.tsx';
+import CardStyleReviewItem from './card-style-item.tsx';
+import { ReviewLayoutDesign } from '@/models/design-property.ts';
+import { css } from 'twin.macro';
 
 interface ReviewListProps {
+  layoutDesign: ReviewLayoutDesign;
   productID: string;
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function ReviewList({ productID, filter, sort }: ReviewListProps) {
+export default function ReviewList({ layoutDesign, productID, filter, sort }: ReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
   const message = useMessageToShop();
@@ -50,18 +55,47 @@ export default function ReviewList({ productID, filter, sort }: ReviewListProps)
       window.removeEventListener('message', handleMessage);
     };
   }, []);
-
   const reviews = reviewListQuery.data.data.content;
-
   return (
     <>
-      <ul>
-        {reviews.map((it) => (
-          <ReviewItem
-            key={it.reviewId}
-            review={it}
-          />
-        ))}
+      <ul
+        css={
+          layoutDesign === 'CARD'
+            ? css`
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: auto;
+                gap: 16px;
+              `
+            : null
+        }
+      >
+        {reviews.map((it) => {
+          if (layoutDesign === 'BOARD') {
+            return (
+              <BoardStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'TALK') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'CARD') {
+            return (
+              <CardStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
       </ul>
 
       <Pagination

@@ -1,3 +1,5 @@
+import { ReviewLikeButtonType } from '@review-canvas/theme';
+
 export type Shadow = 'NONE' | 'SMALL' | 'MEDIUM' | 'LARGE';
 export type FocusAreaLayout = 'BEST_REVIEW_TOP' | 'BEST_REVIEW_BOTTOM' | 'BEST_REVIEW_LEFT' | 'BEST_REVIEW_RIGHT';
 export type ReviewAreaLayout = 'REVIEW_TOP' | 'REVIEW_BOTTOM' | 'REVIEW_LEFT' | 'REVIEW_RIGHT';
@@ -43,7 +45,7 @@ export interface Round {
 }
 
 export interface ReviewLike {
-  buttonType: string;
+  buttonType: ReviewLikeButtonType;
   iconColor: string;
   textColor: string;
   buttonBorderColor: string;

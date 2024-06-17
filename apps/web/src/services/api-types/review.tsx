@@ -15,6 +15,8 @@ export interface ReviewItem {
   shopAdminId: number;
   nickname: string;
   isMine: boolean;
+  likeCount: number;
+  isLiked: boolean;
   createAt: string;
   updatedAt: string;
   deleted: boolean;
@@ -50,6 +52,37 @@ export interface RetrieveReplyListResponse {
 }
 export type ReviewListSort = 'LATEST' | 'HIGH_SCORE' | 'LOW_SCORE';
 export type ReviewListFilter = 'ALL' | 'IMAGE_VIDEO' | 'GENERAL';
+
+export interface RetrieveReviewLikeCountRequest {
+  reviewId: number;
+}
+
+export interface RetrieveReviewLikeCountResponse {
+  success: boolean;
+  data: {
+    count: number;
+  };
+}
+
+export interface CreateUserReviewLikeRequest {
+  reviewId: number;
+  mallId: string;
+  memberId?: string
+}
+
+export interface CreateUserReviewLikeResponse {
+  success: boolean;
+}
+
+export interface DeleteUserReviewLikeRequest {
+  reviewId: number;
+  mallId: string;
+  memberId: string | undefined;
+}
+
+export interface DeleteUserReviewLikeResponse {
+  success: boolean;
+}
 
 export interface RetrieveReviewListRequest {
   mallId: string;

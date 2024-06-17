@@ -3,12 +3,13 @@ import { Suspense, useState } from 'react';
 import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@review-canvas/theme';
 
 import PaginatedList from '@/components/review/paginated-list.tsx';
-import { useReviewListStyle } from '@/contexts/style/review-list.ts';
+import { useReviewListStyle } from '@/contexts/style/review-list-style.ts';
 import type { ReviewListFilter, ReviewListSort } from '@/services/api-types/review.tsx';
 
 import { Filter } from './filter';
 import InfiniteList from './infinite-list';
 import { OrderSelector } from './order-selector';
+import { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 interface ReviewListProps {
   productID: string;
@@ -16,10 +17,11 @@ interface ReviewListProps {
 
 export default function ReviewList({ productID }: ReviewListProps) {
   const style = useReviewListStyle();
-
+  style.reviewLayoutDesign = 'BOARD';
+  const [layoutDesign, setLayoutDesign] = useState<ReviewLayoutDesign>(style.reviewLayoutDesign);
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
   const [sort, setSort] = useState<ReviewListSort>('LATEST');
-
+  
   return (
     <section>
       <div className="m-2 flex justify-between">
@@ -63,7 +65,7 @@ export default function ReviewList({ productID }: ReviewListProps) {
       </div>
 
       <hr />
-
+        
       <Suspense fallback={<div>loading reviews...</div>}>
         <div
           css={[
@@ -74,12 +76,14 @@ export default function ReviewList({ productID }: ReviewListProps) {
         >
           {style.paginationStyle === 'page' ? (
             <PaginatedList
+              layoutDesign={layoutDesign}
               filter={filter}
               productID={productID}
               sort={sort}
             />
           ) : (
             <InfiniteList
+              layoutDesign={layoutDesign}
               filter={filter}
               productID={productID}
               sort={sort}

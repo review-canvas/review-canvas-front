@@ -59,7 +59,6 @@ export default function MyPaginatedList({ productID, filter, sort }: MyReviewLis
   }, []);
 
   const reviews = myReviewListQuery.data.data.content;
-
   return (
     <>
       <ul>
