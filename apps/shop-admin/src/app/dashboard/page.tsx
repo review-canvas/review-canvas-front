@@ -418,6 +418,11 @@ const TableContainer = styled.div`
       padding: 10px 0;
     }
 
+    .table-cell {
+      padding-left: 3px;
+      padding-right: 3px;
+    }
+
     .table-cell[data-column-id='reviewId'],
     .table-cell[data-column-id='score'],
     .table-cell[data-column-id='likeCount'],
@@ -427,6 +432,10 @@ const TableContainer = styled.div`
     .table-cell[data-column-id='updatedAt'],
     .table-cell[data-column-id='control'] {
       text-align: center;
+    }
+
+    .table-cell[data-column-id='content'] {
+      max-width: 25vw;
     }
 
     .review-control-button {
