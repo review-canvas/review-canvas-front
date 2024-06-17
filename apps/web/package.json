@@ -11,10 +11,10 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@review-canvas/theme": "workspace:*",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@react-hookz/web": "^24.0.4",
+    "@review-canvas/theme": "workspace:*",
     "@tanstack/react-query": "^5.28.8",
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",

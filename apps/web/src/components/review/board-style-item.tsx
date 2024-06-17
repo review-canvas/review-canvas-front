@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import Image from 'next/image';
 import { css } from 'twin.macro';
 
@@ -11,15 +9,19 @@ import {
   generatePaddingCSS,
   generateShadowCSS,
 } from '@review-canvas/theme';
+import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 
 import LoadingIcon from '@/assests/icon/icon-loading.svg';
 import Reply from '@/components/reply/item';
 import { Star } from '@/components/review/star';
 import { useReviewItemStyle } from '@/contexts/style/review-item';
+import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
+
 import useMessageToShop from '@/hooks/use-message-to-shop.ts';
 import type { ReviewItem as ReviewType } from '@/models/api-type';
 import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
+import { useReviewItem } from '@/contexts/function/review-item.ts';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -27,7 +29,8 @@ interface ReviewItemProps {
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
-  const style = useReviewItemStyle();
+    const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
+    const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
   const { userID } = useConnectedShop();
   const message = useMessageToShop();
 
@@ -49,27 +52,6 @@ export default function ReviewItem(props: ReviewItemProps) {
     }
   };
 
-  const edit = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'edit',
-      url: `/reviews/${props.review.reviewId}/edit`,
-    });
-  };
-
-  const deleteReview = () => {
-    message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
-      type: 'delete',
-      url: `/reviews/${props.review.reviewId}/delete`,
-    });
-  };
-
-  const showReviewDetail = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
-      type: 'detail',
-      url: `/reviews/${props.review.reviewId}`,
-    });
-  };
-
   return (
     <li
       css={[
@@ -80,6 +62,7 @@ export default function ReviewItem(props: ReviewItemProps) {
         generateFontCSS(style.font),
         generateShadowCSS(style.shadow, style.shadowColor),
         css`
+          border-color: ${style.borderColor};
           background-color: ${style.backgroundColor};
           display: flex;
           flex-direction: column;
@@ -120,7 +103,25 @@ export default function ReviewItem(props: ReviewItemProps) {
             작성자 <span>{props.review.nickname}</span>
           </div>
           <p className="text-left">{props.review.content}</p>
-          {isReviewWrittenByLoginUser ? (
+          {style.reviewLike.buttonType !== 'NONE' && (
+            <button
+              css={[
+                generateBorderRadiusCSS(style.reviewLike.buttonRound),
+                baseButtonStyle,
+                isLiked && likedButtonStyle,
+              ]}
+              onClick={onClickLikeButton}
+              type="button"
+            >
+              <ThumbUpIcon
+                className="mt-1 mr-0.5"
+                stroke={style.reviewLike.iconColor}
+              />
+              {style.reviewLike.buttonType === 'THUMB_UP_WITH_TEXT' && <div className="ml-1">좋아요</div>}
+              <div className="ml-1">{likeCount}</div>
+            </button>
+          )}
+          {props.review.isMine ? (
             /*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
       This is intentional*/
             <div

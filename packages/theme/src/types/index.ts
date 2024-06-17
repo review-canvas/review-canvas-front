@@ -1,3 +1,5 @@
+import { BorderRadius } from '../border.ts';
+
 export type Shadow = 'NONE' | 'SMALL' | 'MEDIUM' | 'LARGE';
 export type Alignment = 'LEFT' | 'CENTER' | 'RIGHT';
 
@@ -55,7 +57,7 @@ export interface ReviewLikeButtonProps {
   iconColor: string;
   textColor: string;
   buttonBorderColor: string;
-  buttonRound: ButtonRoundProps;
+  buttonRound: BorderRadius;
 }
 
 export interface ReviewLayoutProperty {

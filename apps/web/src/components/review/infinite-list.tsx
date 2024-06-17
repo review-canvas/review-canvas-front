@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
@@ -8,18 +8,20 @@ import { useConnectedShop } from '@/state/shop';
 
 import IntersectionBoundary from '../intersection-boundary';
 
-import ReviewItem from './item';
+import TalkStyleReviewItem from './talk-style-item.tsx';
+import BoardStyleReviewItem from './board-style-item.tsx';
+import { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 interface MyReviewListProps {
+  layoutDesign: ReviewLayoutDesign;
   productID: string;
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function InfiniteList({ productID, filter, sort }: MyReviewListProps) {
+export default function InfiniteList({ layoutDesign, productID, filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
-
   const reviewListQuery = useSuspenseInfiniteQuery({
     queryKey: ['review-list', { id, productID, filter, sort }],
     queryFn: ({ pageParam }) => {
@@ -51,18 +53,36 @@ export default function InfiniteList({ productID, filter, sort }: MyReviewListPr
       window.removeEventListener('message', handleMessage);
     };
   }, []);
-
   const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
-
   return (
     <>
       <ul>
-        {reviews.map((it) => (
-          <ReviewItem
-            key={it.reviewId}
-            review={it}
-          />
-        ))}
+        {reviews.map((it) => {
+          if (layoutDesign === 'BOARD') {
+            return (
+              <BoardStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'TALK') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'CARD') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
       </ul>
       <IntersectionBoundary loadMore={reviewListQuery.fetchNextPage} />
     </>

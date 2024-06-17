@@ -4,7 +4,7 @@ import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@revie
 
 import { Filter } from '@/components/review/filter';
 import { OrderSelector } from '@/components/review/order-selector';
-import { useReviewListStyle } from '@/contexts/style/review-list';
+import { useReviewListStyle } from '@/contexts/style/review-list-style';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 
 import MyInfiniteListOnProduct from './infinite-list.tsx';
@@ -16,7 +16,6 @@ interface ReviewListProps {
 
 export default function MyReviewListOnProduct({ productID }: ReviewListProps) {
   const style = useReviewListStyle();
-
   const [filter, setFilter] = useState<ReviewListFilter>('ALL');
   const [sort, setSort] = useState<ReviewListSort>('LATEST');
 

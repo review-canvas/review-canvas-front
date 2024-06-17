@@ -6,8 +6,8 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 
 import CloseButton from '@/components/button/close';
 import MyReviewListOnProduct from '@/components/review/my-review/list';
-import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
-import { ReviewListStyleProvider } from '@/contexts/style/review-list';
+import { ReviewItemStyleProvider } from '@/contexts/style/review-item-style';
+import { ReviewListStyleProvider } from '@/contexts/style/review-list-style';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import { useDesignPropertyService } from '@/services/design-property';
 import { useConnectedShop } from '@/state/shop.ts';
@@ -33,7 +33,7 @@ export default function MyReviewsPage({ productID }: ConnectedPageProps) {
   return (
     <main className="relative">
       <CloseButton onClose={close} />
-      <div className="p-2 pl-4 border-b font-medium text-lg">My Reviews</div>
+      <div className="py-2 pl-4 border-b font-medium text-lg">My Reviews</div>
       <div className="p-2">
         <ReviewListStyleProvider
           value={designPropertyService.convertDesignPropertyResponseToReviewListStyle(designPropertyQuery.data)}
@@ -42,7 +42,7 @@ export default function MyReviewsPage({ productID }: ConnectedPageProps) {
             value={designPropertyService.convertDesignPropertyToReviewItemStyle(designPropertyQuery.data)}
           >
             <Suspense fallback={<div>loading...</div>}>
-              <MyReviewListOnProduct productID={productID} />
+              <MyReviewList productID={productID} />
             </Suspense>
           </ReviewItemStyleProvider>
         </ReviewListStyleProvider>

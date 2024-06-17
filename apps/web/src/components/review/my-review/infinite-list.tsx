@@ -8,13 +8,18 @@ import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 
+import BoardStyleReviewItem from '@/components/review/board-style-item.tsx';
+import TalkStyleReviewItem from '@/components/review/talk-style-item.tsx';
+import { ReviewLayoutDesign } from '@/models/design-property.ts';
+
 interface MyReviewListProps {
+  layoutDesign: ReviewLayoutDesign;
   productID: string;
   filter: ReviewListFilter;
   sort: ReviewListSort;
 }
 
-export default function MyInfiniteListOnProduct({ productID, filter, sort }: MyReviewListProps) {
+export default function MyInfiniteListOnProduct({ layoutDesign, productID, filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
 
@@ -55,12 +60,32 @@ export default function MyInfiniteListOnProduct({ productID, filter, sort }: MyR
   return (
     <>
       <ul>
-        {reviews.map((it) => (
-          <ReviewItem
-            key={it.reviewId}
-            review={it}
-          />
-        ))}
+        {reviews.map((it) => {
+          if (layoutDesign === 'BOARD') {
+            return (
+              <BoardStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'TALK') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else if (layoutDesign === 'CARD') {
+            return (
+              <TalkStyleReviewItem
+                key={it.reviewId}
+                review={it}
+              />
+            );
+          } else {
+            return null;
+          }
+        })}
       </ul>
       <IntersectionBoundary loadMore={myReviewListQuery.fetchNextPage} />
     </>
