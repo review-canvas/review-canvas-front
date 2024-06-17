@@ -55,7 +55,6 @@ export default function InfiniteList({ layoutDesign, productID, filter, sort }: 
   }, []);
 
   const reviews = reviewListQuery.data.pages.flatMap((it) => it.data.content);
- 
   return (
     <>
       <ul>

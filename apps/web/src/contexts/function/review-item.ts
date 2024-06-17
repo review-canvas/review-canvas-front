@@ -48,29 +48,27 @@ export const useReviewItem = (props: ReviewItemProps) => {
     });
   };
 
-  const onClickLikeButton = async (event: SyntheticEvent) => {
+  const onClickLikeButton = async (event: MouseEvent) => {
     event.stopPropagation();
     if (props.review.isMine) {
       alert('자신의 리뷰에는 좋아요를 누를 수 없어요!');
       return;
     }
-    let bSuccess = false;
+    let response;
     if (isLiked) {
-      const response = await reviewService.deleteUserLike({
+      response = await reviewService.deleteUserLike({
         reviewId: props.review.reviewId,
         mallId: id,
         memberId: userID,
       });
-      bSuccess = response.success;
     } else {
-      const response = await reviewService.createUserLike({
+      response = await reviewService.createUserLike({
         reviewId: props.review.reviewId,
         mallId: id,
         memberId: userID,
       });
-      bSuccess = response.success;
     }
-    if (!bSuccess) {
+    if (!response.success) {
       alert('다음에 다시 시도해주세요!');
     }
     reviewService.retrieveReviewLikeCount(props.review.reviewId).then((response) => {

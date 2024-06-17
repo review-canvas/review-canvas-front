@@ -25,7 +25,6 @@ interface ReviewItemProps {
 export default function BoardStyleReview(props: ReviewItemProps) {
   const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
   const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
-
   return (
     <li
       css={[

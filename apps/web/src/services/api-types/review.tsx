@@ -67,7 +67,7 @@ export interface RetrieveReviewLikeCountResponse {
 export interface CreateUserReviewLikeRequest {
   reviewId: number;
   mallId: string;
-  memberId: string | undefined;
+  memberId?: string
 }
 
 export interface CreateUserReviewLikeResponse {
