@@ -7,8 +7,8 @@ import { OrderSelector } from '@/components/review/order-selector';
 import { useReviewListStyle } from '@/contexts/style/review-list';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 
-import MyInfiniteList from './my-infinite-list';
-import MyPaginatedList from './my-paginated-list';
+import InfiniteList from './infinite-list.tsx';
+import PaginatedList from './paginated-list.tsx';
 
 export default function MyReviewList() {
   const style = useReviewListStyle();
@@ -69,12 +69,12 @@ export default function MyReviewList() {
           ]}
         >
           {style.paginationStyle === 'page' ? (
-            <MyPaginatedList
+            <PaginatedList
               filter={filter}
               sort={sort}
             />
           ) : (
-            <MyInfiniteList
+            <InfiniteList
               filter={filter}
               sort={sort}
             />

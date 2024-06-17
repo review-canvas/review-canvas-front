@@ -7,8 +7,8 @@ import { OrderSelector } from '@/components/review/order-selector';
 import { useReviewListStyle } from '@/contexts/style/review-list';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 
-import MyInfiniteListOnProduct from './my-review-infinite-list';
-import MyPaginatedListOnProduct from './my-review-paginated-list';
+import MyInfiniteListOnProduct from './infinite-list.tsx';
+import MyPaginatedListOnProduct from './paginated-list.tsx';
 
 interface ReviewListProps {
   productID: string;

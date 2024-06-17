@@ -13,7 +13,7 @@ interface MyReviewListProps {
   sort: ReviewListSort;
 }
 
-export default function MyInfiniteList({ filter, sort }: MyReviewListProps) {
+export default function InfiniteList({ filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
 

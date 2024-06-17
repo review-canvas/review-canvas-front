@@ -15,7 +15,7 @@ interface MyReviewListProps {
   sort: ReviewListSort;
 }
 
-export default function MyPaginatedList({ filter, sort }: MyReviewListProps) {
+export default function PaginatedList({ filter, sort }: MyReviewListProps) {
   const { id, userID } = useConnectedShop();
   const reviewService = useReviewService();
   const message = useMessageToShop();
