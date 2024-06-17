@@ -3,14 +3,12 @@ import { useEffect } from 'react';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import IntersectionBoundary from '@/components/intersection-boundary';
-import ReviewItem from '@/components/review/item';
-import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
-import { useReviewService } from '@/services/review';
-import { useConnectedShop } from '@/state/shop';
-
 import BoardStyleReviewItem from '@/components/review/board-style-item.tsx';
 import TalkStyleReviewItem from '@/components/review/talk-style-item.tsx';
-import { ReviewLayoutDesign } from '@/models/design-property.ts';
+import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
+import type { ReviewLayoutDesign } from '@/models/design-property.ts';
+import { useReviewService } from '@/services/review';
+import { useConnectedShop } from '@/state/shop';
 
 interface MyReviewListProps {
   layoutDesign: ReviewLayoutDesign;
@@ -82,8 +80,6 @@ export default function MyInfiniteListOnProduct({ layoutDesign, productID, filte
                 review={it}
               />
             );
-          } else {
-            return null;
           }
         })}
       </ul>

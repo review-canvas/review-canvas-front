@@ -1,4 +1,4 @@
-import ClosingIcon from '@/assests/icon/icon-closing.svg';
+import ClosingIcon from '@/assets/icon/icon-closing.svg';
 
 interface CloseButtonProps {
   onClose: () => void;

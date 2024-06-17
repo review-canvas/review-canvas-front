@@ -4,7 +4,7 @@ import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@revie
 
 import { Filter } from '@/components/review/filter';
 import { OrderSelector } from '@/components/review/order-selector';
-import { useReviewListStyle } from '@/contexts/style/review-list';
+import { useReviewListStyle } from '@/contexts/style/review-list-style.ts';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 
 import InfiniteList from './infinite-list.tsx';

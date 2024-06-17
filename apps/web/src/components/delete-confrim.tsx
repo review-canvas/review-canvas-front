@@ -1,4 +1,4 @@
-import WaringIcon from '@/assests/icon/icon-waring.svg';
+import WaringIcon from '@/assets/icon/icon-waring.svg';
 
 interface ConfirmProps {
   deleteItem: () => void;

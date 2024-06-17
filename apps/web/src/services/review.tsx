@@ -4,7 +4,6 @@ import { createStore, useStore } from 'zustand';
 
 import type * as TYPE from '@/models/api-type';
 import API from '@/utils/api.ts';
-import { CreateUserReviewLikeRequest, CreateUserReviewLikeResponse } from '@/services/api-types/review.tsx';
 
 class ReviewService {
   async retrieveReviewLikeCount(reviewId: number): Promise<TYPE.RetrieveReviewLikeCountResponse> {

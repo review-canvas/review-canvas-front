@@ -49,7 +49,7 @@ export default function ConnectedPage({ productID }: ConnectedPageProps) {
             onClick={openMyPage}
             type="button"
           >
-            My Page
+            My Review
           </button>
           <button
             className="border-2 border-indigo-500/60 text-white bg-blue-500 m-2"

@@ -6,12 +6,7 @@ import { createStore, useStore } from 'zustand';
 
 import type { ReviewItemStyle } from '@/contexts/style/review-item-style.ts';
 import type { ReviewListStyle } from '@/contexts/style/review-list-style.ts';
-import {
-  DesignPropertyResponse,
-  FocusAreaLayout,
-  ReviewAreaLayout,
-  ReviewLayoutDesign,
-} from '@/models/design-property.ts';
+import type { DesignPropertyResponse } from '@/models/design-property.ts';
 import API from '@/utils/api.ts';
 
 class DesignPropertyService {

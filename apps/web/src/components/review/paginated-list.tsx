@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { css } from 'twin.macro';
 
+import Pagination from '@/components/pagination.tsx';
 import useMessageToShop from '@/hooks/use-message-to-shop';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
+import type { ReviewLayoutDesign } from '@/models/design-property.ts';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 import { MESSAGE_TYPES } from '@/utils/message';
 
-import Pagination from '../pagination';
-
-import TalkStyleReviewItem from './talk-style-item.tsx';
 import BoardStyleReviewItem from './board-style-item.tsx';
 import CardStyleReviewItem from './card-style-item.tsx';
-import { ReviewLayoutDesign } from '@/models/design-property.ts';
-import { css } from 'twin.macro';
+import TalkStyleReviewItem from './talk-style-item.tsx';
 
 interface ReviewListProps {
   layoutDesign: ReviewLayoutDesign;
@@ -55,7 +54,6 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
       window.removeEventListener('message', handleMessage);
     };
   }, []);
-  layoutDesign = 'CARD';
   const reviews = reviewListQuery.data.data.content;
   return (
     <>
@@ -93,8 +91,6 @@ export default function ReviewList({ layoutDesign, productID, filter, sort }: Re
                 review={it}
               />
             );
-          } else {
-            return null;
           }
         })}
       </ul>

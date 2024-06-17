@@ -1,10 +1,11 @@
-﻿import { SyntheticEvent, useEffect, useState } from 'react';
-import { useConnectedShop } from '@/state/shop.ts';
-import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import { useReviewService } from '@/services/review.tsx';
+﻿import { useEffect, useState } from 'react';
+
 import { useReviewItemStyle } from '@/contexts/style/review-item-style.ts';
+import useMessageToShop from '@/hooks/use-message-to-shop.ts';
+import type { ReviewItem as ReviewType } from '@/models/api-type';
+import { useReviewService } from '@/services/review.tsx';
+import { useConnectedShop } from '@/state/shop.ts';
 import { MESSAGE_TYPES } from '@/utils/message.ts';
-import type { ReviewItem as ReviewType } from '@/services/api-types/review.tsx';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -25,8 +26,6 @@ export const useReviewItem = (props: ReviewItemProps) => {
     setLiked(props.review.isLiked);
   }, [props.review.reviewId, props.review.isLiked]);
 
-  const isReviewWrittenByLoginUser = userID === props.review.nickname;
-
   const edit = () => {
     message(MESSAGE_TYPES.OPEN_MODAL, {
       type: 'edit',
@@ -35,7 +34,7 @@ export const useReviewItem = (props: ReviewItemProps) => {
   };
 
   const deleteReview = () => {
-    message(MESSAGE_TYPES.OPEN_MODAL, {
+    message(MESSAGE_TYPES.OPEN_SELECTING_MODAL, {
       type: 'delete',
       url: `/reviews/${props.review.reviewId}/delete`,
     });

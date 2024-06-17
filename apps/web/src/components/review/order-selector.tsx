@@ -1,4 +1,4 @@
-import type { ReviewListStyle } from '@/contexts/style/review-list';
+import type { ReviewListStyle } from '@/contexts/style/review-list-style';
 
 interface OrderSelectorProps<T extends string> {
   orders: {

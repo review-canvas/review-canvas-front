@@ -11,12 +11,11 @@ import {
 } from '@review-canvas/theme';
 
 import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
-import { Star } from '@/components/review/star.tsx';
-import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
-import type { ReviewItem as ReviewType } from '@/services/api-types/review';
-
-import { useReviewItem } from '@/contexts/function/review-item.ts';
 import TalkStyleItem from '@/components/reply/talk-style-item.tsx';
+import { Star } from '@/components/review/star.tsx';
+import { useReviewItem } from '@/contexts/function/review-item.ts';
+import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
+import type { ReviewItem as ReviewType } from '@/models/api-type';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -71,7 +70,11 @@ export default function TalkStyleReviewItem(props: ReviewItemProps) {
             <div className="w-fit text-xs text-gray-500">
               작성자 <span>{props.review.nickname}</span>
             </div>
+            {/*eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions --
+                            This is intentional*/}
             <div
+              aria-haspopup
+              className="relative"
               css={[
                 generateMarginCSS(style.margin),
                 generatePaddingCSS(style.padding),
@@ -88,8 +91,6 @@ export default function TalkStyleReviewItem(props: ReviewItemProps) {
                   width: 40%;
                 `,
               ]}
-              aria-haspopup
-              className="relative"
               onClick={showReviewDetail}
               onKeyUp={(evt) => {
                 if (evt.key === 'Enter' || evt.key === 'Spacebar') showReviewDetail();
@@ -140,6 +141,7 @@ export default function TalkStyleReviewItem(props: ReviewItemProps) {
             <div>
               {style.reviewLike.buttonType !== 'NONE' && (
                 <button
+                  className="ml-2"
                   css={[
                     generateBorderRadiusCSS(style.reviewLike.buttonRound),
                     generateFontCSS(style.font),
@@ -149,7 +151,6 @@ export default function TalkStyleReviewItem(props: ReviewItemProps) {
                       margin-bottom: 15px;
                     `,
                   ]}
-                  className="ml-2"
                   onClick={onClickLikeButton}
                   type="button"
                 >

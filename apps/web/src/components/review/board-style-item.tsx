@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Image from 'next/image';
 import { css } from 'twin.macro';
 
@@ -9,19 +11,14 @@ import {
   generatePaddingCSS,
   generateShadowCSS,
 } from '@review-canvas/theme';
+
+import LoadingIcon from '@/assets/icon/icon-loading.svg';
 import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
-
-import LoadingIcon from '@/assests/icon/icon-loading.svg';
-import Reply from '@/components/reply/item';
+import Reply from '@/components/reply/board-style-item';
 import { Star } from '@/components/review/star';
-import { useReviewItemStyle } from '@/contexts/style/review-item';
-import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
-
-import useMessageToShop from '@/hooks/use-message-to-shop.ts';
-import type { ReviewItem as ReviewType } from '@/models/api-type';
-import { useConnectedShop } from '@/state/shop';
-import { MESSAGE_TYPES } from '@/utils/message';
 import { useReviewItem } from '@/contexts/function/review-item.ts';
+import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
+import type { ReviewItem as ReviewType } from '@/models/api-type';
 
 interface ReviewItemProps {
   review: ReviewType;
@@ -29,16 +26,13 @@ interface ReviewItemProps {
 }
 
 export default function ReviewItem(props: ReviewItemProps) {
-    const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
-    const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
-  const { userID } = useConnectedShop();
-  const message = useMessageToShop();
+  const { style, likeCount, isLiked, edit, deleteReview, showReviewDetail, onClickLikeButton } = useReviewItem(props);
+  const { baseButtonStyle, likedButtonStyle } = useReviewLikeButtonStyle();
 
   const [isImageValid, setIsImageValid] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
 
   const ImageUrls = props.review.imageVideoUrls.reviewResizeImageUrls;
-  const isReviewWrittenByLoginUser = userID === props.review.nickname;
   const maxRetries = 10;
 
   const handleImageError = () => {

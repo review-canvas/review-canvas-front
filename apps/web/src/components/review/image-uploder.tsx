@@ -3,8 +3,8 @@ import { useRef } from 'react';
 
 import Image from 'next/image';
 
-import CameraIcon from '@/assests/icon/icon-camera.svg';
-import DeleteImageIcon from '@/assests/icon/icon-deleting-image.svg';
+import CameraIcon from '@/assets/icon/icon-camera.svg';
+import DeleteImageIcon from '@/assets/icon/icon-deleting-image.svg';
 import type { ImageVideoUrl } from '@/models/api-type';
 
 export interface ImageUploaderProps {

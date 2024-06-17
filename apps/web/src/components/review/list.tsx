@@ -5,11 +5,11 @@ import { generateBorderCSS, generatePaddingCSS, generateShadowCSS } from '@revie
 import PaginatedList from '@/components/review/paginated-list';
 import { useReviewListStyle } from '@/contexts/style/review-list-style';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
+import type { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 import { Filter } from './filter';
 import InfiniteList from './infinite-list';
 import { OrderSelector } from './order-selector';
-import { ReviewLayoutDesign } from '@/models/design-property.ts';
 
 interface ReviewListProps {
   productID: string;
@@ -76,15 +76,15 @@ export default function ReviewList({ productID }: ReviewListProps) {
         >
           {style.paginationStyle === 'page' ? (
             <PaginatedList
-              layoutDesign={layoutDesign}
               filter={filter}
+              layoutDesign={layoutDesign}
               productID={productID}
               sort={sort}
             />
           ) : (
             <InfiniteList
-              layoutDesign={layoutDesign}
               filter={filter}
+              layoutDesign={layoutDesign}
               productID={productID}
               sort={sort}
             />

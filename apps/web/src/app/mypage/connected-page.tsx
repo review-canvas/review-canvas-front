@@ -5,8 +5,8 @@ import { Suspense } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import MyReviewList from '@/components/review/my-page/list';
-import { ReviewItemStyleProvider } from '@/contexts/style/review-item';
-import { ReviewListStyleProvider } from '@/contexts/style/review-list';
+import { ReviewItemStyleProvider } from '@/contexts/style/review-item-style';
+import { ReviewListStyleProvider } from '@/contexts/style/review-list-style';
 import useReviewCanvasReady from '@/hooks/use-review-canvas-ready.ts';
 import { useDesignPropertyService } from '@/services/design-property';
 import { useConnectedShop } from '@/state/shop.ts';

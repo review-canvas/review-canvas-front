@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
 
-import { QueryClient, QueryClientProvider, useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
+import IntersectionBoundary from '@/components/intersection-boundary.tsx';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
+import type { ReviewLayoutDesign } from '@/models/design-property.ts';
 import { useReviewService } from '@/services/review';
 import { useConnectedShop } from '@/state/shop';
 
-import IntersectionBoundary from '../intersection-boundary';
-
-import TalkStyleReviewItem from './talk-style-item.tsx';
 import BoardStyleReviewItem from './board-style-item.tsx';
-import { ReviewLayoutDesign } from '@/models/design-property.ts';
+import TalkStyleReviewItem from './talk-style-item.tsx';
 
 interface MyReviewListProps {
   layoutDesign: ReviewLayoutDesign;
@@ -79,8 +78,6 @@ export default function InfiniteList({ layoutDesign, productID, filter, sort }: 
                 review={it}
               />
             );
-          } else {
-            return null;
           }
         })}
       </ul>

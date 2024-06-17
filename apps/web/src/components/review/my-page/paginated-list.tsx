@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import Pagination from '@/components/pagination';
-import ReviewItem from '@/components/review/item';
+import ReviewItem from '@/components/review/board-style-item';
 import useMessageToShop from '@/hooks/use-message-to-shop';
 import type { ReviewListFilter, ReviewListSort } from '@/models/api-type';
 import { useReviewService } from '@/services/review';

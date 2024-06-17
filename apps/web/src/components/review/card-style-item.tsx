@@ -12,11 +12,9 @@ import {
 
 import ThumbUpIcon from '@/assets/icon/icon-thumb-up.svg';
 import { Star } from '@/components/review/star.tsx';
-import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
-import type { ReviewItem as ReviewType } from '@/services/api-types/review';
-
-import Reply from '../reply/board-style-item.tsx';
 import { useReviewItem } from '@/contexts/function/review-item.ts';
+import { useReviewLikeButtonStyle } from '@/contexts/style/review-item-style.ts';
+import type { ReviewItem as ReviewType } from '@/models/api-type';
 
 interface ReviewItemProps {
   review: ReviewType;

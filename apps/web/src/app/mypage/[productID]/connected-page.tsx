@@ -42,7 +42,7 @@ export default function MyReviewsPage({ productID }: ConnectedPageProps) {
             value={designPropertyService.convertDesignPropertyToReviewItemStyle(designPropertyQuery.data)}
           >
             <Suspense fallback={<div>loading...</div>}>
-              <MyReviewList productID={productID} />
+              <MyReviewListOnProduct productID={productID} />
             </Suspense>
           </ReviewItemStyleProvider>
         </ReviewListStyleProvider>
